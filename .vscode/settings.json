@@ -1,0 +1,9 @@
+{
+    "editor.formatOnSave": true,
+    "[svelte]": {
+        "editor.defaultFormatter": "svelte.svelte-vscode"
+    },
+    "editor.tokenColorCustomizations": {
+        "comments": "#6ea3589d"
+    },
+}
