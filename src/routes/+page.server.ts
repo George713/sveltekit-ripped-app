@@ -1,23 +1,56 @@
-// import { fail, redirect } from '@sveltejs/kit'
+import { fail, redirect } from '@sveltejs/kit'
 import type { Action, Actions } from './$types';
 
 import { db } from '$lib/database.server';
 
-const logWeight: Action = async ({ request }) => {
-    // const data = await request.formData();
-    // const weight = data.get('weight');
+const logWeight: Action = async ({ locals, request }) => {
+    const data = await request.formData();
+    let weight: any = data.get('weight');
 
-    // if (typeof weight !== 'number') {
-    // 	return fail(400, { invalid: true });
-    // }
+    // Check if 'weight' is a number
+    if (isNaN(weight)) {
+        return fail(400);
+    }
+    else {
+        weight = parseFloat(weight)
+    }
 
-
-    console.log('weight');
-    // get user
-
-    // save weight to db
-
-    // throw closing of modal
+    // Create weight entry for current user
+    await db.user.update({
+        where: {
+            username: locals.user.name
+        },
+        data: {
+            weights: {
+                create: [{ weight }]
+            }
+        }
+    });
 };
 
-export const actions: Actions = { logWeight }
+const logBodyFat: Action = async ({ locals, request }) => {
+    const data = await request.formData();
+    let bodyfat: any = data.get('bodyfat');
+
+    // Check if 'weight' is a number
+    if (isNaN(bodyfat)) {
+        return fail(400);
+    }
+    else {
+        bodyfat = parseFloat(bodyfat)
+    }
+
+    // Create weight entry for current user
+    await db.user.update({
+        where: {
+            username: locals.user.name
+        },
+        data: {
+            bodyfats: {
+                create: [{ bodyfat }]
+            }
+        }
+    });
+};
+
+export const actions: Actions = { logWeight, logBodyFat }

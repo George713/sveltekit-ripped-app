@@ -1,8 +1,10 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	import { modalWeight, modalBodyFat } from './stores';
 
-	const dispatch = createEventDispatcher();
-	export const close = () => dispatch('close');
+	const close = () => {
+		modalWeight.set(false);
+		modalBodyFat.set(false);
+	};
 </script>
 
 <div

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { modalWeight } from './stores';
+	import { modalBodyFat } from './stores';
 
 	import ModalSkeleton from './ModalSkeleton.svelte';
 
@@ -11,19 +11,19 @@
 
 <ModalSkeleton>
 	<form
-		action="?/logWeight"
+		action="?/logBodyFat"
 		method="post"
 		use:enhance={() => {
 			return async ({ result }) => {
 				if (result.type === 'success') {
-					modalWeight.set(false);
+					modalBodyFat.set(false);
 				}
 			};
 		}}
 	>
-		<label for="weight">Current Weight</label>
+		<label for="bodyfat">Current Body Fat Percentage</label>
 
-		<input id="weight" name="weight" type="float" required use:init />
-		<button type="submit">Log Weight</button>
+		<input id="bodyfat" name="bodyfat" type="float" required use:init />
+		<button type="submit">Log BF%</button>
 	</form>
 </ModalSkeleton>

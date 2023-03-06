@@ -1,8 +1,19 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { modalWeight, modalBodyFat } from './stores';
 	import ModalWeight from './ModalWeight.svelte';
+	import ModalBodyFat from './ModalBodyFat.svelte';
 
-	export let showModalWeight = false;
+	let showModalWeight: boolean;
+	let showModalBodyFat: boolean;
+
+	modalWeight.subscribe((value) => {
+		showModalWeight = value;
+	});
+
+	modalBodyFat.subscribe((value) => {
+		showModalBodyFat = value;
+	});
 </script>
 
 <h1 class="flex py-3 justify-center text-2xl font-black">/home</h1>
@@ -79,21 +90,23 @@
 						result="effect2_innerShadow_170_147"
 					/>
 				</filter>
-			</defs>
+			</defs>modalWeight
 		</svg>
 
 		<!-- Desired Action Buttons -->
 		<div class="flex justify-center">
-			<button on:click={() => (showModalWeight = true)} class="px-2 py-1 bg-gray-300 m-1"
+			<button on:click={() => modalWeight.set(true)} class="px-2 py-1 bg-gray-300 m-1"
 				>Weight</button
 			>
 			<button class="px-2 py-1 bg-gray-300 m-1">Photo</button>
-			<button class="px-2 py-1 bg-gray-300 m-1">BF%</button>
+			<button on:click={() => modalBodyFat.set(true)} class="px-2 py-1 bg-gray-300 m-1">BF%</button>
 		</div>
 	</div>
 
 	{#if showModalWeight}
-		<ModalWeight on:close={() => (showModalWeight = false)} />
+		<ModalWeight />
+	{:else if showModalBodyFat}
+		<ModalBodyFat />
 	{/if}
 {:else}
 	<p class="m-3 px-5 flex justify-center">No one here yet...</p>

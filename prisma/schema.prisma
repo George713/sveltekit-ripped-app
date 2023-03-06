@@ -22,7 +22,8 @@ model User {
   role   Roles @relation(fields: [roleId], references: [id])
   roleId Int
 
-  weights Weight[]
+  weights  Weight[]
+  bodyfats BodyFat[]
 }
 
 model Roles {
@@ -34,6 +35,15 @@ model Roles {
 model Weight {
   id        Int      @id @default(autoincrement())
   weight    Float
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+}
+
+model BodyFat {
+  id        Int      @id @default(autoincrement())
+  bodyfat   Float
   createdAt DateTime @default(now())
 
   user   User   @relation(fields: [userId], references: [id])
