@@ -6,7 +6,7 @@
 
 	let showModalWeight: boolean;
 	let showModalBodyFat: boolean;
-	let fileinput;
+	let fileinput: any;
 
 	modalWeight.subscribe((value) => {
 		showModalWeight = value;
@@ -18,11 +18,11 @@
 
 	const uploadToS3 = async (e: any) => {
 		// Get picture
-		const progressPicture = e.target.files[0]
+		const progressPicture = e.target.files[0];
 
 		// catch if no image is in formData
 		if (progressPicture.name == '') {
-			return null
+			return null;
 		}
 
 		// Get presigned URL
@@ -122,8 +122,14 @@
 				>Weight</button
 			>
 			<!-- Photo input -->
-			<input type="file" bind:this={fileinput} style="display:none" accept=".jpg, .jpeg, .png" on:change={(e) => uploadToS3(e)}/>
-			<button on:click={()=>fileinput.click()} class="px-2 py-1 bg-gray-300 m-1">Photo</button>
+			<input
+				type="file"
+				bind:this={fileinput}
+				style="display:none"
+				accept=".jpg, .jpeg, .png"
+				on:change={(e) => uploadToS3(e)}
+			/>
+			<button on:click={() => fileinput.click()} class="px-2 py-1 bg-gray-300 m-1">Photo</button>
 			<!-- BodyFat input -->
 			<button on:click={() => modalBodyFat.set(true)} class="px-2 py-1 bg-gray-300 m-1">BF%</button>
 		</div>
