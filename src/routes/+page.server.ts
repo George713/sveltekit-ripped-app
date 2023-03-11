@@ -1,4 +1,4 @@
-import { fail, redirect } from '@sveltejs/kit'
+import { fail } from '@sveltejs/kit'
 import type { Action, Actions } from './$types';
 
 import { db } from '$lib/database.server';
@@ -26,6 +26,7 @@ const logWeight: Action = async ({ locals, request }) => {
             }
         }
     });
+
 };
 
 const logBodyFat: Action = async ({ locals, request }) => {
