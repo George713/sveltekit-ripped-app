@@ -1,11 +1,13 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { enhance } from '$app/forms';
 	import { modalWeight, modalBodyFat } from './stores';
 	import ModalWeight from './ModalWeight.svelte';
 	import ModalBodyFat from './ModalBodyFat.svelte';
 
 	let showModalWeight: boolean;
 	let showModalBodyFat: boolean;
+	let fileinput;
 
 	modalWeight.subscribe((value) => {
 		showModalWeight = value;
@@ -14,6 +16,27 @@
 	modalBodyFat.subscribe((value) => {
 		showModalBodyFat = value;
 	});
+
+	const uploadToS3 = async (e: any) => {
+		// Get picture
+		const progressPicture = e.target.files[0]
+
+		// catch if no image is in formData
+		if (progressPicture.name == '') {
+			return null
+		}
+
+		// Get presigned URL
+		const response = await fetch('/api/getPresignedURL', {
+			method: 'POST',
+			body: new FormData()
+		});
+		const presignedURL = (await response.json()).url;
+		await fetch(presignedURL, {
+			method: 'PUT',
+			body: progressPicture
+		});
+	};
 </script>
 
 <h1 class="flex py-3 justify-center text-2xl font-black">/home</h1>
@@ -95,10 +118,14 @@
 
 		<!-- Desired Action Buttons -->
 		<div class="flex justify-center">
+			<!-- Weight input -->
 			<button on:click={() => modalWeight.set(true)} class="px-2 py-1 bg-gray-300 m-1"
 				>Weight</button
 			>
-			<button class="px-2 py-1 bg-gray-300 m-1">Photo</button>
+			<!-- Photo input -->
+			<input type="file" bind:this={fileinput} style="display:none" accept=".jpg, .jpeg, .png" on:change={(e) => uploadToS3(e)}/>
+			<button on:click={()=>fileinput.click()} class="px-2 py-1 bg-gray-300 m-1">Photo</button>
+			<!-- BodyFat input -->
 			<button on:click={() => modalBodyFat.set(true)} class="px-2 py-1 bg-gray-300 m-1">BF%</button>
 		</div>
 	</div>
