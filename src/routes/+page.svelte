@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { enhance } from '$app/forms';
 	import { modalWeight, modalBodyFat } from './stores';
 	import ModalWeight from './ModalWeight.svelte';
 	import ModalBodyFat from './ModalBodyFat.svelte';
