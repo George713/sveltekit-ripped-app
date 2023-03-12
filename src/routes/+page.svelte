@@ -1,3 +1,23 @@
+<!-- 
+	=========
+	Main Page
+	=========
+
+	Displays status badge and controls for daily desired actions, i.e.
+		- input weight measurement,
+		- plan meals for the day,
+		- track meals,
+		- eat target calories,
+		- eat target protein or more.
+	Once a week the desired action of taking a photo is possible.
+	Once a month the desired action of entering a body fat measurement is possible.
+	
+	During onboarding the design differs and 3 desired actions are given:
+		- enter current weight
+		- enter current body fat percentage
+		- upload progress picture
+
+ -->
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { invalidateAll } from '$app/navigation';
