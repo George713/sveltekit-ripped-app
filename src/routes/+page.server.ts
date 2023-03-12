@@ -23,10 +23,10 @@ const logWeight: Action = async ({ locals, request }) => {
         data: {
             weights: {
                 create: [{ weight }]
-            }
+            },
+            initWeight: true,
         }
     });
-
 };
 
 const logBodyFat: Action = async ({ locals, request }) => {
@@ -49,7 +49,8 @@ const logBodyFat: Action = async ({ locals, request }) => {
         data: {
             bodyfats: {
                 create: [{ bodyfat }]
-            }
+            },
+            initBF: true,
         }
     });
 };

@@ -23,7 +23,8 @@ export const POST: RequestHandler = async ({ locals }) => {
         data: {
             progressPictures: {
                 create: [{}]
-            }
+            },
+            initPhoto: true,
         }
     });
     // Get id of reference (for usage in filename)
