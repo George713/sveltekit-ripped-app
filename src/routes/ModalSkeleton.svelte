@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { modalWeight, modalBodyFat } from './stores';
+	import { modalWeight, modalBodyFat } from '$lib/stores';
 
 	const close = () => {
 		modalWeight.set(false);

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { modalBodyFat } from './stores';
+	import { invalidateAll } from '$app/navigation';
+	import { modalBodyFat } from '$lib/stores';
 
 	import ModalSkeleton from './ModalSkeleton.svelte';
 
@@ -17,6 +18,7 @@
 			return async ({ result }) => {
 				if (result.type === 'success') {
 					modalBodyFat.set(false);
+					invalidateAll();
 				}
 			};
 		}}

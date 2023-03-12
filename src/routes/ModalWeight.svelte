@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { modalWeight } from './stores';
+	import { invalidateAll } from '$app/navigation';
+	import { modalWeight } from '$lib/stores';
 
 	import ModalSkeleton from './ModalSkeleton.svelte';
 
@@ -17,6 +18,7 @@
 			return async ({ result }) => {
 				if (result.type === 'success') {
 					modalWeight.set(false);
+					invalidateAll();
 				}
 			};
 		}}
