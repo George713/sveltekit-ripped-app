@@ -7,9 +7,9 @@ declare global {
 			user: {
 				name: string
 				role: string
-			},
-			modals: {
-				weight: boolean
+				initWeight: boolean
+				initBF: boolean
+				initPhoto: boolean
 			},
 		}
 		// interface PageData {}

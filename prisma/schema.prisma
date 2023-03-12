@@ -25,6 +25,11 @@ model User {
   weights          Weight[]
   bodyfats         BodyFat[]
   progressPictures ProgressPicture[]
+
+  // Progress
+  initWeight Boolean @default(false)
+  initBF     Boolean @default(false)
+  initPhoto  Boolean @default(false)
 }
 
 model Roles {
