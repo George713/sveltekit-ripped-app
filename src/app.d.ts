@@ -10,6 +10,7 @@ declare global {
 				initWeight: boolean
 				initBF: boolean
 				initPhoto: boolean
+				currentBF: number
 			},
 		}
 		// interface PageData {}

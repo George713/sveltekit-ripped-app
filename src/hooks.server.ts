@@ -12,7 +12,17 @@ export const handle: Handle = async ({ event, resolve }) => {
 
     const user = await db.user.findUnique({
         where: { userAuthToken: session },
-        select: { username: true, role: true, initWeight: true, initBF: true, initPhoto: true },
+        select: {
+            username: true, role: true, initWeight: true, initBF: true, initPhoto: true, bodyfats: {
+                orderBy: {
+                    createdAt: 'desc',
+                },
+                select: {
+                    bodyfat: true,
+                },
+                take: 1,
+            }
+        }
     })
 
     if (user) {
@@ -22,6 +32,7 @@ export const handle: Handle = async ({ event, resolve }) => {
             initWeight: user.initWeight,
             initBF: user.initBF,
             initPhoto: user.initPhoto,
+            currentBF: user.bodyfats[0].bodyfat,
         }
     }
 
