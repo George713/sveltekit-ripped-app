@@ -22,11 +22,16 @@ model User {
   role   Roles @relation(fields: [roleId], references: [id])
   roleId Int
 
+  // Measurements
   weights          Weight[]
   bodyfats         BodyFat[]
   progressPictures ProgressPicture[]
 
-  // Progress
+  // Points
+  pointBalance      Int @default(0)
+  pointBalanceDaily Int @default(0)
+
+  // Progress Player Journey
   initWeight Boolean @default(false)
   initBF     Boolean @default(false)
   initPhoto  Boolean @default(false)

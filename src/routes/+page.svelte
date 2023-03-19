@@ -712,6 +712,9 @@
 					</linearGradient>
 				</defs>
 			</svg>
+			<p class="flex justify-end mr-4">
+				Points: {$page.data.user.pointBalance}
+			</p>
 		{/if}
 	</div>
 

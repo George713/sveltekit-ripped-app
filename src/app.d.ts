@@ -7,10 +7,12 @@ declare global {
 			user: {
 				name: string
 				role: string
+				pointBalance: number
+				pointBalanceDaily: number
+				currentBF: number
 				initWeight: boolean
 				initBF: boolean
 				initPhoto: boolean
-				currentBF: number
 			},
 		}
 		// interface PageData {}
