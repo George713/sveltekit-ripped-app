@@ -29,6 +29,15 @@ export const handle: Handle = async ({ event, resolve }) => {
 				},
 				take: 1
 			},
+			// weight measurements of the last 5 days
+			weights: {
+				where: {
+					createdAt: {
+						lte: getDateFromXDaysAgo(1),
+						gte: getDateFromXDaysAgo(6)
+					}
+				}
+			},
 			initWeight: true,
 			initBF: true,
 			initPhoto: true
@@ -41,6 +50,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			role: user.role.name,
 			pointBalance: user.pointBalance,
 			pointBalanceDaily: user.pointBalanceDaily,
+			streakMeter: user.weights.length,
 			currentBF: user.bodyfats[0].bodyfat,
 			initWeight: user.initWeight,
 			initBF: user.initBF,
@@ -49,4 +59,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 	}
 
 	return await resolve(event);
+};
+
+const getDateFromXDaysAgo = (days: number) => {
+	let date = new Date();
+	date.setDate(date.getDate() - days);
+	return date;
 };

@@ -5,19 +5,20 @@ declare global {
 		// interface Error {}
 		interface Locals {
 			user: {
-				name: string
-				role: string
-				pointBalance: number
-				pointBalanceDaily: number
-				currentBF: number
-				initWeight: boolean
-				initBF: boolean
-				initPhoto: boolean
-			},
+				name: string;
+				role: string;
+				pointBalance: number;
+				pointBalanceDaily: number;
+				streakMeter: number;
+				currentBF: number;
+				initWeight: boolean;
+				initBF: boolean;
+				initPhoto: boolean;
+			};
 		}
 		// interface PageData {}
 		// interface Platform {}
 	}
 }
 
-export { };
+export {};
