@@ -10,9 +10,11 @@ declare global {
 				pointBalance: number;
 				streakMeter: number;
 				currentBF: number;
+				currentCalorieTarget: number;
 				initWeight: boolean;
 				initBF: boolean;
 				initPhoto: boolean;
+				initCalories: boolean;
 			};
 			dailyProgress: {
 				weighIn: boolean;

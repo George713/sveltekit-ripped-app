@@ -18,6 +18,16 @@ export const handle: Handle = async ({ event, resolve }) => {
 			username: true,
 			role: true,
 			pointBalance: true,
+			// current calorie target
+			calorieTargets: {
+				orderBy: {
+					createdAt: 'desc'
+				},
+				select: {
+					calories: true
+				},
+				take: 1
+			},
 			// current bodyfat
 			bodyfats: {
 				orderBy: {
@@ -42,7 +52,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 			},
 			initWeight: true,
 			initBF: true,
-			initPhoto: true
+			initPhoto: true,
+			initCalories: true
 		}
 	});
 
@@ -52,10 +63,12 @@ export const handle: Handle = async ({ event, resolve }) => {
 			role: user.role.name,
 			pointBalance: user.pointBalance,
 			streakMeter: user.weights.length,
+			currentCalorieTarget: user.calorieTargets[0].calories,
 			currentBF: user.bodyfats[0].bodyfat,
 			initWeight: user.initWeight,
 			initBF: user.initBF,
-			initPhoto: user.initPhoto
+			initPhoto: user.initPhoto,
+			initCalories: user.initCalories
 		};
 		event.locals.dailyProgress = {
 			weighIn: didWeightoday(user.weights)

@@ -22,18 +22,19 @@ model User {
   role   Roles @relation(fields: [roleId], references: [id])
   roleId Int
 
+  pointBalance   Int             @default(0)
+  calorieTargets CalorieTarget[]
+
   // Measurements
   weights          Weight[]
   bodyfats         BodyFat[]
   progressPictures ProgressPicture[]
 
-  // Points
-  pointBalance      Int @default(0)
-
   // Progress Player Journey
-  initWeight Boolean @default(false)
-  initBF     Boolean @default(false)
-  initPhoto  Boolean @default(false)
+  initWeight   Boolean @default(false)
+  initBF       Boolean @default(false)
+  initPhoto    Boolean @default(false)
+  initCalories Boolean @default(false)
 }
 
 model Roles {
@@ -62,6 +63,15 @@ model BodyFat {
 
 model ProgressPicture {
   id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+}
+
+model CalorieTarget {
+  id        Int      @id @default(autoincrement())
+  calories  Int
   createdAt DateTime @default(now())
 
   user   User   @relation(fields: [userId], references: [id])

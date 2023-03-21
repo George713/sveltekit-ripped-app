@@ -21,12 +21,14 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { invalidateAll } from '$app/navigation';
-	import { modalWeight, modalBodyFat } from '$lib/stores';
+	import { modalWeight, modalBodyFat, modalCalories } from '$lib/stores';
 	import ModalWeight from './ModalWeight.svelte';
 	import ModalBodyFat from './ModalBodyFat.svelte';
+	import ModalCalories from './ModalCalories.svelte';
 
 	let showModalWeight: boolean;
 	let showModalBodyFat: boolean;
+	let showModalCalories: boolean;
 	let fileinput: any;
 	let audioWeighIn: any;
 
@@ -36,6 +38,10 @@
 
 	modalBodyFat.subscribe((value) => {
 		showModalBodyFat = value;
+	});
+
+	modalCalories.subscribe((value) => {
+		showModalCalories = value;
 	});
 
 	const uploadToS3 = async (e: any) => {
@@ -77,7 +83,7 @@
 {#if $page.data.user}
 	<div class="border border-gray-500 shadow-md">
 		<!-- ONBOARDING -->
-		{#if !$page.data.user.initWeight || !$page.data.user.initBF || !$page.data.user.initPhoto}
+		{#if !$page.data.user.initWeight || !$page.data.user.initBF || !$page.data.user.initPhoto || !$page.data.user.initCalories}
 			<!-- Badge symbol -->
 			<svg
 				class="block m-auto my-2 fill-stone-200"
@@ -160,6 +166,14 @@
 					}}
 					disabled={$page.data.user.initWeight}
 					class="px-2 py-1 bg-gray-300 m-1 disabled:bg-slate-600">Weight</button
+				>
+				<!-- Target calorie input -->
+				<button
+					on:click={() => {
+						modalCalories.set(true);
+					}}
+					disabled={$page.data.user.initCalories}
+					class="px-2 py-1 bg-gray-300 m-1 disabled:bg-slate-600">Calories</button
 				>
 				<!-- Photo input -->
 				<input
@@ -778,6 +792,8 @@
 		<ModalWeight on:playSound={handlePlaySound} />
 	{:else if showModalBodyFat}
 		<ModalBodyFat />
+	{:else if showModalCalories}
+		<ModalCalories />
 	{/if}
 {:else}
 	<p class="m-3 px-5 flex justify-center">No one here yet...</p>
