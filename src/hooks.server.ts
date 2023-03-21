@@ -33,9 +33,12 @@ export const handle: Handle = async ({ event, resolve }) => {
 			weights: {
 				where: {
 					createdAt: {
-						lte: getDateFromXDaysAgo(1),
-						gte: getDateFromXDaysAgo(6)
+						lte: getDateFromXDaysAgo(0),
+						gte: getDateFromXDaysAgo(5)
 					}
+				},
+				select: {
+					createdAt: true
 				}
 			},
 			initWeight: true,
@@ -56,6 +59,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 			initBF: user.initBF,
 			initPhoto: user.initPhoto
 		};
+		event.locals.dailyProgress = {
+			weighIn: didWeightoday(user.weights)
+		};
 	}
 
 	return await resolve(event);
@@ -65,4 +71,12 @@ const getDateFromXDaysAgo = (days: number) => {
 	let date = new Date();
 	date.setDate(date.getDate() - days);
 	return date;
+};
+
+// @ts-ignore
+const didWeightoday = (weights) => {
+	const date = new Date().toLocaleDateString();
+	// @ts-ignore
+	const weightDateStrings = weights.map((weight) => weight.createdAt.toLocaleDateString());
+	return weightDateStrings.includes(date);
 };

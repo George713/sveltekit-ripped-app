@@ -15,6 +15,9 @@ declare global {
 				initBF: boolean;
 				initPhoto: boolean;
 			};
+			dailyProgress: {
+				weighIn: boolean;
+			};
 		}
 		// interface PageData {}
 		// interface Platform {}

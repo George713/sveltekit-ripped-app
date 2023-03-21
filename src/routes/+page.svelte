@@ -747,6 +747,20 @@
 					fill={$page.data.user.streakMeter >= 5 ? '#0254c7' : '#bdbdbd'}
 				/>
 			</svg>
+
+			<!-- Desired Action Buttons -->
+			<div class="flex justify-center">
+				<!-- Weight input -->
+				<button
+					on:click={() => {
+						modalWeight.set(true);
+					}}
+					class="px-2 py-1 bg-gray-300 m-1 disabled:bg-slate-600"
+					disabled={$page.data.dailyProgress.weighIn}
+				>
+					Weight
+				</button>
+			</div>
 		{/if}
 	</div>
 
