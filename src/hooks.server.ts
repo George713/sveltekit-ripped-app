@@ -50,7 +50,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 					createdAt: true
 				}
 			},
-			initWeight: true,
 			initBF: true,
 			initPhoto: true,
 			initCalories: true
@@ -63,9 +62,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 			role: user.role.name,
 			pointBalance: user.pointBalance,
 			streakMeter: user.weights.length,
-			currentCalorieTarget: user.calorieTargets[0].calories,
-			currentBF: user.bodyfats[0].bodyfat,
-			initWeight: user.initWeight,
+			currentCalorieTarget: user.calorieTargets.length > 0 ? user.calorieTargets[0].calories : 9999,
+			currentBF: user.bodyfats.length > 0 ? user.bodyfats[0].bodyfat : 999,
 			initBF: user.initBF,
 			initPhoto: user.initPhoto,
 			initCalories: user.initCalories

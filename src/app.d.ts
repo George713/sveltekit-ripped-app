@@ -11,7 +11,6 @@ declare global {
 				streakMeter: number;
 				currentBF: number;
 				currentCalorieTarget: number;
-				initWeight: boolean;
 				initBF: boolean;
 				initPhoto: boolean;
 				initCalories: boolean;

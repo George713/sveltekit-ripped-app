@@ -22,8 +22,7 @@ const logWeight: Action = async ({ locals, request }) => {
 		data: {
 			weights: {
 				create: [{ weight }]
-			},
-			initWeight: true
+			}
 		}
 	});
 };

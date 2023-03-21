@@ -83,7 +83,7 @@
 {#if $page.data.user}
 	<div class="border border-gray-500 shadow-md">
 		<!-- ONBOARDING -->
-		{#if !$page.data.user.initWeight || !$page.data.user.initBF || !$page.data.user.initPhoto || !$page.data.user.initCalories}
+		{#if !$page.data.user.initCalories || !$page.data.user.initPhoto || !$page.data.user.initBF}
 			<!-- Badge symbol -->
 			<svg
 				class="block m-auto my-2 fill-stone-200"
@@ -159,14 +159,6 @@
 
 			<!-- Desired Action Buttons -->
 			<div class="flex justify-center">
-				<!-- Weight input -->
-				<button
-					on:click={() => {
-						modalWeight.set(true);
-					}}
-					disabled={$page.data.user.initWeight}
-					class="px-2 py-1 bg-gray-300 m-1 disabled:bg-slate-600">Weight</button
-				>
 				<!-- Target calorie input -->
 				<button
 					on:click={() => {

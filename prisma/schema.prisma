@@ -31,7 +31,6 @@ model User {
   progressPictures ProgressPicture[]
 
   // Progress Player Journey
-  initWeight   Boolean @default(false)
   initBF       Boolean @default(false)
   initPhoto    Boolean @default(false)
   initCalories Boolean @default(false)
