@@ -18,7 +18,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 			username: true,
 			role: true,
 			pointBalance: true,
-			pointBalanceDaily: true,
 			// current bodyfat
 			bodyfats: {
 				orderBy: {
@@ -52,7 +51,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 			name: user.username,
 			role: user.role.name,
 			pointBalance: user.pointBalance,
-			pointBalanceDaily: user.pointBalanceDaily,
 			streakMeter: user.weights.length,
 			currentBF: user.bodyfats[0].bodyfat,
 			initWeight: user.initWeight,

@@ -29,7 +29,6 @@ model User {
 
   // Points
   pointBalance      Int @default(0)
-  pointBalanceDaily Int @default(0)
 
   // Progress Player Journey
   initWeight Boolean @default(false)

@@ -8,7 +8,6 @@ declare global {
 				name: string;
 				role: string;
 				pointBalance: number;
-				pointBalanceDaily: number;
 				streakMeter: number;
 				currentBF: number;
 				initWeight: boolean;
