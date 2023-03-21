@@ -763,6 +763,21 @@
 					fill={$page.data.user.streakMeter >= 5 ? '#0254c7' : '#bdbdbd'}
 				/>
 			</svg>
+			<!-- Progress Bars -->
+			<img src="/pizza.svg" alt="pizza.svg" class="bg-black mt-1.5 ml-2" style="float:left;" />
+			<div class="mt-2 ml-7 mr-5 rounded-full bg-gray-700 h-4">
+				<div
+					class=" rounded-full bg-yellow-400 h-4"
+					style="width: {($page.data.dailyProgress.calories / 2200) * 100}%"
+				/>
+			</div>
+			<img src="/eggs.svg" alt="eggs.svg" class="bg-black mt-1.5 ml-[0.3rem]" style="float:left;" />
+			<div class="mt-2 ml-7 mr-5 rounded-full bg-gray-700 h-4">
+				<div
+					class=" rounded-full bg-blue-300 h-4"
+					style="width: {($page.data.dailyProgress.protein / 180) * 100}%"
+				/>
+			</div>
 
 			<!-- Desired Action Buttons -->
 			<div class="flex justify-center">

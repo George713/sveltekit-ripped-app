@@ -69,7 +69,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 			initCalories: user.initCalories
 		};
 		event.locals.dailyProgress = {
-			weighIn: didWeightoday(user.weights)
+			weighIn: didWeightoday(user.weights),
+			calories: 500,
+			protein: 120
 		};
 	}
 
