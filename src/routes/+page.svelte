@@ -28,6 +28,7 @@
 	let showModalWeight: boolean;
 	let showModalBodyFat: boolean;
 	let fileinput: any;
+	let audioWeighIn: any;
 
 	modalWeight.subscribe((value) => {
 		showModalWeight = value;
@@ -59,6 +60,15 @@
 
 		// Reload page data (so photo button is disabled)
 		invalidateAll();
+	};
+
+	// EventHandler for playing sounds
+	// @ts-ignore
+	const handlePlaySound = (event) => {
+		switch (event.detail.text) {
+			case 'weighIn':
+				audioWeighIn.play();
+		}
 	};
 </script>
 
@@ -765,10 +775,13 @@
 	</div>
 
 	{#if showModalWeight}
-		<ModalWeight />
+		<ModalWeight on:playSound={handlePlaySound} />
 	{:else if showModalBodyFat}
 		<ModalBodyFat />
 	{/if}
 {:else}
 	<p class="m-3 px-5 flex justify-center">No one here yet...</p>
 {/if}
+
+<!-- AUDIO -->
+<audio src="/audio/successBell.mp3" bind:this={audioWeighIn} />
