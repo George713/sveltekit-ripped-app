@@ -791,6 +791,8 @@
 				>
 					Weight
 				</button>
+				<!-- Plan/Add food -->
+				<button class="px-2 py-1 bg-gray-300 m-1 disabled:bg-slate-600">Plan</button>
 			</div>
 		{/if}
 	</div>
