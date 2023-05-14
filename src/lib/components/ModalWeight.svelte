@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
-	import { modalWeight } from '$lib/stores';
 	import { createEventDispatcher } from 'svelte';
 
 	import ModalSkeleton from './ModalSkeleton.svelte';
+
+	export let toggleModal: (modal: string) => void;
 
 	// For putting the focus automatically on input field
 	const init = (el: HTMLElement) => {
@@ -20,7 +21,7 @@
 	};
 </script>
 
-<ModalSkeleton>
+<ModalSkeleton {toggleModal}>
 	<form
 		action="?/logWeight"
 		method="post"
@@ -28,7 +29,7 @@
 			return async ({ result }) => {
 				if (result.type === 'success') {
 					playSound();
-					modalWeight.set(false);
+					toggleModal('none');
 					invalidateAll();
 				}
 			};

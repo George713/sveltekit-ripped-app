@@ -21,31 +21,19 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { invalidateAll } from '$app/navigation';
-	import { modalWeight, modalBodyFat, modalCalories } from '$lib/stores';
 	import ModalWeight from '$lib/components/ModalWeight.svelte';
 	import ModalBodyFat from '$lib/components/ModalBodyFat.svelte';
 	import ModalCalories from '$lib/components/ModalCalories.svelte';
 	import ModalPlanner from '$lib/components/ModalPlanner.svelte';
+	import ModalNewItem from '$lib/components/ModalNewItem.svelte';
 
-	let showModalWeight: boolean;
-	let showModalBodyFat: boolean;
-	let showModalCalories: boolean;
 	let fileinput: any;
 	let audioWeighIn: any;
 
-	let showModalPlanner: boolean = false;
-
-	modalWeight.subscribe((value) => {
-		showModalWeight = value;
-	});
-
-	modalBodyFat.subscribe((value) => {
-		showModalBodyFat = value;
-	});
-
-	modalCalories.subscribe((value) => {
-		showModalCalories = value;
-	});
+	let visibleModal = 'none';
+	const toggleModal = (modal: string) => {
+		visibleModal = modal;
+	};
 
 	const uploadToS3 = async (e: any) => {
 		// Get picture
@@ -165,7 +153,7 @@
 				<!-- Target calorie input -->
 				<button
 					on:click={() => {
-						modalCalories.set(true);
+						toggleModal('calories');
 					}}
 					disabled={$page.data.user.initCalories}
 					class="px-2 py-1 bg-gray-300 m-1 disabled:bg-slate-600">Calories</button
@@ -185,7 +173,7 @@
 				>
 				<!-- BodyFat input -->
 				<button
-					on:click={() => modalBodyFat.set(true)}
+					on:click={() => toggleModal('bodyFat')}
 					disabled={$page.data.user.initBF}
 					class="px-2 py-1 bg-gray-300 m-1 disabled:bg-slate-600">BF%</button
 				>
@@ -787,7 +775,7 @@
 				<!-- Weight input -->
 				<button
 					on:click={() => {
-						modalWeight.set(true);
+						toggleModal('weight');
 					}}
 					class="px-2 py-1 bg-gray-300 m-1 disabled:bg-slate-600"
 					disabled={$page.data.dailyProgress.weighIn}
@@ -797,7 +785,7 @@
 				<!-- Plan/Add food -->
 				<button
 					on:click={() => {
-						showModalPlanner = true;
+						toggleModal('planner');
 					}}
 					class="px-2 py-1 bg-gray-300 m-1 disabled:bg-slate-600">Plan</button
 				>
@@ -805,14 +793,16 @@
 		{/if}
 	</div>
 
-	{#if showModalWeight}
-		<ModalWeight on:playSound={handlePlaySound} />
-	{:else if showModalBodyFat}
-		<ModalBodyFat />
-	{:else if showModalCalories}
-		<ModalCalories />
-	{:else if showModalPlanner}
-		<ModalPlanner bind:showModalPlanner />
+	{#if visibleModal == 'weight'}
+		<ModalWeight {toggleModal} on:playSound={handlePlaySound} />
+	{:else if visibleModal == 'bodyFat'}
+		<ModalBodyFat {toggleModal} />
+	{:else if visibleModal == 'calories'}
+		<ModalCalories {toggleModal} />
+	{:else if visibleModal == 'planner'}
+		<ModalPlanner {toggleModal} />
+	{:else if visibleModal == 'newItem'}
+		<ModalNewItem {toggleModal} />
 	{/if}
 {:else}
 	<p class="m-3 px-5 flex justify-center">No one here yet...</p>

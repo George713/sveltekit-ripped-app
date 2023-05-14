@@ -1,23 +1,24 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
-	import { modalBodyFat } from '$lib/stores';
 
 	import ModalSkeleton from './ModalSkeleton.svelte';
+
+	export let toggleModal: (modal: string) => void;
 
 	const init = (el: HTMLElement) => {
 		el.focus();
 	};
 </script>
 
-<ModalSkeleton>
+<ModalSkeleton {toggleModal}>
 	<form
 		action="?/logBodyFat"
 		method="post"
 		use:enhance={() => {
 			return async ({ result }) => {
 				if (result.type === 'success') {
-					modalBodyFat.set(false);
+					toggleModal('none');
 					invalidateAll();
 				}
 			};

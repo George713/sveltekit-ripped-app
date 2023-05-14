@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
-	import { modalCalories } from '$lib/stores';
 
 	import ModalSkeleton from './ModalSkeleton.svelte';
+
+	export let toggleModal: (modal: string) => void;
 
 	// For putting the focus automatically on input field
 	const init = (el: HTMLElement) => {
@@ -11,14 +12,14 @@
 	};
 </script>
 
-<ModalSkeleton>
+<ModalSkeleton {toggleModal}>
 	<form
 		action="?/logCalories"
 		method="post"
 		use:enhance={() => {
 			return async ({ result }) => {
 				if (result.type === 'success') {
-					modalCalories.set(false);
+					toggleModal('none');
 					invalidateAll();
 				}
 			};

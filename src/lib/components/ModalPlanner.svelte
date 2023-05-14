@@ -3,7 +3,7 @@
 	import ItemCard from '$lib/components/ItemCard.svelte';
 	import TargetTracker from '$lib/components/TargetTracker.svelte';
 
-	export let showModalPlanner;
+	export let toggleModal: (modal: string) => void;
 </script>
 
 <div class="absolute inset-0 w-full h-full bg-black bg-opacity-70">
@@ -127,6 +127,9 @@
 					>Search</button
 				>
 				<button
+					on:click={() => {
+						toggleModal('newItem');
+					}}
 					class="bg-neutral-700 rounded-[4px] mx-2 flex items-center shadow-[inset_2px_2px_3px_rgba(161,161,161,0.05),inset_-2px_-2px_3px_rgba(0,0,0,0.05)]"
 				>
 					<svg class="h-[18px] ml-1 px-1 stroke-zinc-300 fill-none" viewBox="0 0 24 24"
@@ -147,12 +150,7 @@
 		</div>
 
 		<!-- Minimize Symbol -->
-		<button
-			on:click={() => {
-				showModalPlanner = false;
-			}}
-			class="absolute bottom-3"
-		>
+		<button on:click={() => toggleModal('none')} class="absolute bottom-3">
 			<svg width="31" height="18" class=" fill-none stroke-gray-400"
 				><path
 					stroke-linecap="round"
