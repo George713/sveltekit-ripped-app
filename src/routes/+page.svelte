@@ -22,15 +22,18 @@
 	import { page } from '$app/stores';
 	import { invalidateAll } from '$app/navigation';
 	import { modalWeight, modalBodyFat, modalCalories } from '$lib/stores';
-	import ModalWeight from './ModalWeight.svelte';
-	import ModalBodyFat from './ModalBodyFat.svelte';
-	import ModalCalories from './ModalCalories.svelte';
+	import ModalWeight from '$lib/components/ModalWeight.svelte';
+	import ModalBodyFat from '$lib/components/ModalBodyFat.svelte';
+	import ModalCalories from '$lib/components/ModalCalories.svelte';
+	import ModalPlanner from '$lib/components/ModalPlanner.svelte';
 
 	let showModalWeight: boolean;
 	let showModalBodyFat: boolean;
 	let showModalCalories: boolean;
 	let fileinput: any;
 	let audioWeighIn: any;
+
+	let showModalPlanner: boolean = false;
 
 	modalWeight.subscribe((value) => {
 		showModalWeight = value;
@@ -792,7 +795,12 @@
 					Weight
 				</button>
 				<!-- Plan/Add food -->
-				<button class="px-2 py-1 bg-gray-300 m-1 disabled:bg-slate-600">Plan</button>
+				<button
+					on:click={() => {
+						showModalPlanner = true;
+					}}
+					class="px-2 py-1 bg-gray-300 m-1 disabled:bg-slate-600">Plan</button
+				>
 			</div>
 		{/if}
 	</div>
@@ -803,6 +811,8 @@
 		<ModalBodyFat />
 	{:else if showModalCalories}
 		<ModalCalories />
+	{:else if showModalPlanner}
+		<ModalPlanner bind:showModalPlanner />
 	{/if}
 {:else}
 	<p class="m-3 px-5 flex justify-center">No one here yet...</p>
