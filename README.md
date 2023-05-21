@@ -1,38 +1,18 @@
-# create-svelte
+# Developer Setup
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+## Prerequisits
 
-## Creating a project
+- Install node.js (64-bit version) from https://nodejs.org/en/download
+- Install pnpm using `npm install -g pnpm`
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Installation
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+- Use `pnpm install` to install from package.json
+- Setup a new database using `npx prisma db push`
+- Update `.env` file for access to s3-bucket (ask someone for the credentials)
+- Add roles `ADMIN` & `USER` to DB (run `npx prisma studio` and do it manually)
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+## Running the project
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+- The app: `pnpm run dev`
+- Database viewer: `npx prisma studio`
