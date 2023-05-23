@@ -3,20 +3,20 @@
 
 	export let toggleModal: (modal: string) => void;
 
-	let avatar = '';
+	let image = '';
 	let fileinput: HTMLInputElement;
 
 	const onFileSelected = (e: any) => {
-		let image = e.target.files[0];
+		let file = e.target.files[0];
 		let reader = new FileReader();
-		reader.readAsDataURL(image);
+		reader.readAsDataURL(file);
 		reader.onload = (e: any) => {
-			avatar = e.target.result;
+			image = e.target.result;
 		};
 	};
 </script>
 
-<div class="absolute inset-0 w-full h-full bg-black bg-opacity-70">
+<div class="absolute inset-0 w-full h-full bg-black/70">
 	<div
 		class="absolute bottom-1 left-0.5 w-[calc(100%-4px)] h-[calc(96%)] rounded-lg bg-neutral-600 border-[1px] border-neutral-500 flex flex-col items-center"
 	>
@@ -24,17 +24,33 @@
 		<p class="relative top-2 text-2xl font-semibold text-gray-200">New Item</p>
 
 		<!-- Card -->
-		<form action="?/newItem" method="POST" use:enhance>
+		<form
+			action="?/newItem"
+			method="POST"
+			use:enhance={() => {
+				return async ({ result }) => {
+					if (result.type === 'success') {
+						// Upload image to s3 using presignURL
+						// @ts-ignore
+						console.log(result.data.presignedURL);
+						// await fetch(result.data.presignedURL, {
+						// 	method: 'PUT',
+						// 	body: image
+						// });
+					}
+				};
+			}}
+		>
 			<div
 				class="relative top-12 w-[234px] h-[260px] border border-neutral-500
 		shadow-[0.5px_0.5px_1.5px_rgba(0,0,0,0.1)] rounded-md overflow-hidden"
 			>
 				<!-- Image Overlay -->
-				{#if avatar}
-					<div class="absolute w-full h-[156px] bg-black opacity-70 rounded-b">
+				{#if image}
+					<div class="absolute w-full h-[156px] bg-black/70 rounded-b">
 						<img
 							class="absolute object-cover w-full h-[156px] rounded-b"
-							src={avatar}
+							src={image}
 							alt="uploadedImage"
 						/>
 					</div>
@@ -56,12 +72,9 @@
 					on:change={(e) => onFileSelected(e)}
 					bind:this={fileinput}
 				/>
-
-				<!-- Image Overlay -->
-				<!-- <div class="absolute w-full h-[156px] bg-black opacity-30 rounded-b" /> -->
 				<!-- Image -->
 				<div class="w-full h-[calc(60%)] rounded-b" />
-				{#if !avatar}
+				{#if !image}
 					<!-- Image Icon: Plus -->
 					<svg
 						class="absolute top-16 left-[105px] h-7 w-7 stroke-neutral-200/80 fill-none"
@@ -110,9 +123,9 @@
 				/>
 				<div class="flex mt-3 px-1 text-neutral-200">
 					<!-- Portion -->
-					<label class="flex flex-auto items-center px-4">
+					<label class="flex flex-auto items-center">
 						<input
-							class="pr-1 text-right font-light w-[20px] bg-transparent focus:outline-none"
+							class="ml-2 pr-1 text-right font-light w-[30px] bg-transparent focus:outline-none"
 							name="portionSize"
 							value="1"
 							type="text"
