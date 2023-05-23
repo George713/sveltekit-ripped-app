@@ -17,7 +17,7 @@
 		- enter current body fat percentage
 		- upload progress picture
 
- -->
+-->
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { invalidateAll } from '$app/navigation';
@@ -38,10 +38,10 @@
 
 	const uploadToS3 = async (e: any) => {
 		// Get picture
-		const progressPicture = e.target.files[0];
+		const picture = e.target.files[0];
 
 		// catch if no image is in formData
-		if (progressPicture.name == '') {
+		if (picture.name == '') {
 			return null;
 		}
 
@@ -53,7 +53,7 @@
 		const presignedURL = (await response.json()).url;
 		await fetch(presignedURL, {
 			method: 'PUT',
-			body: progressPicture
+			body: picture
 		});
 
 		// Reload page data (so photo button is disabled)
@@ -61,8 +61,7 @@
 	};
 
 	// EventHandler for playing sounds
-	// @ts-ignore
-	const handlePlaySound = (event) => {
+	const handlePlaySound = (event: CustomEvent) => {
 		switch (event.detail.text) {
 			case 'weighIn':
 				audioWeighIn.play();
