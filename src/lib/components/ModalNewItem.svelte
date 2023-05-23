@@ -1,15 +1,19 @@
 <script lang="ts">
-	import { items } from '$lib/utils/dummyItems.js';
-	import ItemCard from '$lib/components/ItemCard.svelte';
-	import TargetTracker from '$lib/components/TargetTracker.svelte';
+	import { enhance } from '$app/forms';
 
 	export let toggleModal: (modal: string) => void;
 
-	const name = 'Banana';
-	const calories = 123;
-	const protein = 5;
-	const portionUnit = 'ptn';
-	const portionSize = 1;
+	let avatar = '';
+	let fileinput: HTMLInputElement;
+
+	const onFileSelected = (e: any) => {
+		let image = e.target.files[0];
+		let reader = new FileReader();
+		reader.readAsDataURL(image);
+		reader.onload = (e: any) => {
+			avatar = e.target.result;
+		};
+	};
 </script>
 
 <div class="absolute inset-0 w-full h-full bg-black bg-opacity-70">
@@ -20,52 +24,147 @@
 		<p class="relative top-2 text-2xl font-semibold text-gray-200">New Item</p>
 
 		<!-- Card -->
-		<div
-			class="relative top-12 w-[180px] h-[200px] border border-neutral-500
-				 shadow-[0.5px_0.5px_1.5px_rgba(0,0,0,0.1)] rounded-md overflow-hidden"
-		>
-			<!-- Image Overlay -->
-			<div class="absolute w-full h-[120px] bg-black opacity-30 rounded-b" />
-			<!-- Image -->
-			<div class="w-full h-[calc(60%)] rounded-b" />
-			<!-- Image Icon: Plus -->
-			<svg
-				class="absolute top-0 right-0 h-5 w-5 stroke-neutral-200/80 fill-none"
-				viewBox="0 0 24 24"
+		<form action="?/newItem" method="POST" use:enhance>
+			<div
+				class="relative top-12 w-[234px] h-[260px] border border-neutral-500
+		shadow-[0.5px_0.5px_1.5px_rgba(0,0,0,0.1)] rounded-md overflow-hidden"
 			>
-				<path
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					stroke-width="1"
-					d="M12 8v8m-4-4h2m6 0h-4m-8 4a4 4 0 0 0 4 4h8a4 4 0 0 0 4-4V8a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v4"
+				<!-- Image Overlay -->
+				{#if avatar}
+					<div class="absolute w-full h-[156px] bg-black opacity-70 rounded-b">
+						<img
+							class="absolute object-cover w-full h-[156px] rounded-b"
+							src={avatar}
+							alt="uploadedImage"
+						/>
+					</div>
+				{:else}
+					<div
+						class="absolute w-full h-[156px] bg-black opacity-30 rounded-b"
+						on:click={() => {
+							fileinput.click();
+						}}
+						on:keydown={() => {
+							fileinput.click();
+						}}
+					/>
+				{/if}
+				<input
+					style="display:none"
+					type="file"
+					accept=".jpg, .jpeg, .png"
+					on:change={(e) => onFileSelected(e)}
+					bind:this={fileinput}
 				/>
-			</svg>
-			<!-- Image Icon: Edit -->
-			<svg
-				class="absolute bottom-[calc(80px)] left-[calc(4px)] h-4 w-4 stroke-neutral-200/70 fill-none"
-				viewBox="0 0 24 24"
-			>
-				<path
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					stroke-width="1"
-					d="M12 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6M9 15v-2.5l8.75-8.75c.69-.69 1.81-.69 2.5 0v0c.69.69.69 1.81 0 2.5L15.5 11l-4 4H9Z"
+
+				<!-- Image Overlay -->
+				<!-- <div class="absolute w-full h-[156px] bg-black opacity-30 rounded-b" /> -->
+				<!-- Image -->
+				<div class="w-full h-[calc(60%)] rounded-b" />
+				{#if !avatar}
+					<!-- Image Icon: Plus -->
+					<svg
+						class="absolute top-16 left-[105px] h-7 w-7 stroke-neutral-200/80 fill-none"
+						viewBox="0 0 24 24"
+						on:click={() => {
+							fileinput.click();
+						}}
+						on:keydown={() => {
+							fileinput.click();
+						}}
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="1"
+							d="M12 8v8m-4-4h2m6 0h-4m-8 4a4 4 0 0 0 4 4h8a4 4 0 0 0 4-4V8a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v4"
+						/>
+					</svg>
+				{:else}
+					<!-- Image Icon: Edit -->
+					<svg
+						class="absolute bottom-[calc(104px)] left-[calc(4px)] h-7 w-7 stroke-neutral-200/70 fill-none"
+						viewBox="0 0 24 24"
+						on:click={() => {
+							fileinput.click();
+						}}
+						on:keydown={() => {
+							fileinput.click();
+						}}
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="1"
+							d="M12 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6M9 15v-2.5l8.75-8.75c.69-.69 1.81-.69 2.5 0v0c.69.69.69 1.81 0 2.5L15.5 11l-4 4H9Z"
+						/>
+					</svg>
+				{/if}
+				<!-- Item Name -->
+				<input
+					class="text-[18px] font-medium mx-3 w-[calc(90%)] mt-2 text-neutral-200 bg-transparent focus:outline-none"
+					name="itemName"
+					type="text"
+					placeholder="Item Name..."
+					required
 				/>
-			</svg>
-			<!-- Item Name -->
-			<p class="text-[18px] font-medium pl-1 pt-1 text-neutral-200">
-				{name}
-			</p>
-			<div class="flex text-neutral-200">
-				<!-- Portion -->
-				<p class="px-2 mt-[10px] text-[16px] flex-auto  ">{portionSize} {portionUnit}</p>
-				<!-- Calories & Protein-->
-				<div class="flex flex-col pr-1 text-right font-light">
-					<p class="text-[16px] ">kcal: {calories}</p>
-					<p class="text-[16px] mt-[-3px] ">protein: {protein}g</p>
+				<div class="flex mt-3 px-1 text-neutral-200">
+					<!-- Portion -->
+					<label class="flex flex-auto items-center px-4">
+						<input
+							class="pr-1 text-right font-light w-[20px] bg-transparent focus:outline-none"
+							name="portionSize"
+							value="1"
+							type="text"
+						/>
+						ptn
+					</label>
+
+					<!-- Calories & Protein-->
+					<div class="flex flex-col pr-1 text-right font-light">
+						<label class="flex justify-end">
+							kcal:
+							<input
+								class="flex flex-col pr-[1px]  text-right font-light w-[50px] bg-transparent focus:outline-none"
+								name="kcal"
+								placeholder="...  "
+								type="text"
+								required
+							/>
+						</label>
+						<label class="flex">
+							protein:
+							<input
+								class="flex flex-col pr-1 text-right font-light w-10 bg-transparent focus:outline-none"
+								name="protein"
+								placeholder="... "
+								type="text"
+								required
+							/>
+							g
+						</label>
+					</div>
 				</div>
 			</div>
-		</div>
+			<button
+				class="relative top-14 bg-neutral-700 rounded-[4px] mx-auto flex items-center shadow-[inset_2px_2px_3px_rgba(161,161,161,0.05),inset_-2px_-2px_3px_rgba(0,0,0,0.05)]"
+				type="submit"
+			>
+				<svg class="h-[18px] ml-1 px-1 stroke-zinc-300 fill-none" viewBox="0 0 24 24">
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="1.5"
+						d="M12 7v10m0-5h5M7 12h2.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+					/>
+				</svg>
+				<p
+					class="flex flex-col text-[8px] font-medium text-zinc-300 leading-none tracking-tight py-[6px] pr-2"
+				>
+					Add Item
+				</p>
+			</button>
+		</form>
 
 		<!-- Minimize Symbol -->
 		<button

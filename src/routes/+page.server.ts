@@ -77,4 +77,17 @@ const logBodyFat: Action = async ({ locals, request }) => {
 	});
 };
 
-export const actions: Actions = { logWeight, logCalories, logBodyFat };
+const newItem: Action = async ({ request }) => {
+	const data = await request.formData()
+	const itemName = data.get('itemName')
+	const kcal = data.get('kcal')
+	const protein = data.get('protein')
+	const portionSize = data.get('portionSize')
+	console.log(itemName)
+	console.log(kcal)
+	console.log(protein)
+	console.log(portionSize)
+	console.log()
+}
+
+export const actions: Actions = { logWeight, logCalories, logBodyFat, newItem };
