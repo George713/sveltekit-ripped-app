@@ -25,6 +25,8 @@ model User {
   pointBalance   Int             @default(0)
   calorieTargets CalorieTarget[]
 
+  foodItems FoodItem[]
+
   // Measurements
   weights          Weight[]
   bodyfats         BodyFat[]
@@ -72,6 +74,17 @@ model CalorieTarget {
   id        Int      @id @default(autoincrement())
   calories  Int
   createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+}
+
+model FoodItem {
+  id          Int    @id @default(autoincrement())
+  itemName    String
+  kcal        Int
+  protein     Int
+  portionSize Float
 
   user   User   @relation(fields: [userId], references: [id])
   userId String
