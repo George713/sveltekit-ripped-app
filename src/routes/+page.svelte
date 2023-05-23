@@ -30,6 +30,7 @@
 	let fileinput: any;
 	let audioWeighIn: any;
 
+	// Handler for visibility state of components
 	let visibleModal = 'none';
 	const toggleModal = (modal: string) => {
 		visibleModal = modal;
