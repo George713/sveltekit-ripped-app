@@ -800,7 +800,7 @@
 	{:else if visibleModal == 'calories'}
 		<ModalCalories {toggleModal} />
 	{:else if visibleModal == 'planner'}
-		<ModalPlanner {toggleModal} />
+		<ModalPlanner {toggleModal} foodItems={$page.data.foodItems} />
 	{:else if visibleModal == 'newItem'}
 		<ModalNewItem {toggleModal} />
 	{/if}

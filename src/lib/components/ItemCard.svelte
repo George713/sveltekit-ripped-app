@@ -1,23 +1,28 @@
 <script lang="ts">
 	export let type: string = 'bright';
-	export let name: string;
-	export let calories: number;
+	export let id: number;
+	export let itemName: string;
+	export let kcal: number;
 	export let protein: number;
 	export let portionUnit: string;
 	export let portionSize: number;
-	export let imgUrl: string;
 </script>
 
 <!-- Outer Frame -->
 <div
-	class="relative w-[90px] h-[100px] border  {type === 'dark'
+	class="relative w-[90px] h-[100px] border {type === 'dark'
 		? 'border-neutral-500'
 		: 'border-neutral-200'} shadow-[0.5px_0.5px_1.5px_rgba(0,0,0,0.1)] rounded-md overflow-hidden"
 >
 	<!-- Image Overlay -->
 	<div class="absolute w-full h-[60px] bg-black opacity-30 rounded-b" />
 	<!-- Image -->
-	<img src={imgUrl} alt="imgUrl" style="width:100%;height:60px;" class="rounded-b" />
+	<img
+		src={`https://ripped-images-bucket.s3.eu-central-1.amazonaws.com/foodItem_${id}`}
+		alt="imgUrl"
+		style="width:100%;height:60px;"
+		class="rounded-b"
+	/>
 	<!-- Image Icon: Plus -->
 	{#if type === 'dark'}
 		<svg class="absolute top-0 right-0 h-5 w-5 stroke-neutral-200/80 fill-none" viewBox="0 0 24 24">
@@ -54,15 +59,15 @@
 			? 'text-neutral-200'
 			: 'text-neutral-500'}"
 	>
-		{name}
+		{itemName}
 	</p>
 	<div class="flex {type === 'dark' ? 'text-neutral-200' : 'text-neutral-500'}">
 		<!-- Portion -->
-		<p class="px-2 mt-[3px] text-[8px] flex-auto  ">{portionSize} {portionUnit}</p>
+		<p class="px-2 mt-[3px] text-[8px] flex-auto">{portionSize} {portionUnit}</p>
 		<!-- Calories & Protein-->
 		<div class="flex flex-col pr-1 mt-[-2px] text-right font-light">
-			<p class="text-[8px] ">kcal: {calories}</p>
-			<p class="text-[8px] mt-[-3px] ">protein: {protein}g</p>
+			<p class="text-[8px]">kcal: {kcal}</p>
+			<p class="text-[8px] mt-[-3px]">protein: {protein}g</p>
 		</div>
 	</div>
 </div>

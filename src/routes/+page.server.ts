@@ -1,5 +1,5 @@
 import { fail } from '@sveltejs/kit';
-import type { Action, Actions } from './$types';
+import type { Action, Actions, PageServerLoad } from './$types';
 
 import {
 	AWS_BUCKET_REGION,
@@ -101,7 +101,7 @@ const newItem: Action = async ({ locals, request }) => {
 	// Create entry in db
 	const { id } = await db.foodItem.create({
 		data: {
-			itemName,
+			itemName: (itemName as string),
 			kcal: parseInt(kcal as string),
 			protein: parseInt(protein as string),
 			portionSize: parseFloat(portionSize as string),
@@ -125,6 +125,27 @@ const newItem: Action = async ({ locals, request }) => {
 
 	// return URL to user for upload
 	return { presignedURL: presignedURL }
+}
+
+export const load: PageServerLoad = async ({ locals }) => {
+	// Get user which include user.id
+	const user = await db.user.findUnique({
+		where: { username: locals.user.name },
+	})
+
+	// Check that user was found
+	if (!user) {
+		return [] // Return an empty array if user is null  
+	}
+
+	// Get items of that user
+	let foodItems = await db.foodItem.findMany({
+		where: { userId: user.id },
+	})
+
+	return {
+		foodItems
+	};
 }
 
 export const actions: Actions = { logWeight, logCalories, logBodyFat, newItem };

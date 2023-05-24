@@ -1,9 +1,17 @@
 <script lang="ts">
-	import { items } from '$lib/utils/dummyItems.js';
 	import ItemCard from '$lib/components/ItemCard.svelte';
 	import TargetTracker from '$lib/components/TargetTracker.svelte';
 
+	interface FoodItem {
+		id: number;
+		itemName: string;
+		kcal: number;
+		protein: number;
+		portionSize: number;
+	}
+
 	export let toggleModal: (modal: string) => void;
+	export let foodItems: [FoodItem];
 </script>
 
 <div class="absolute inset-0 w-full h-full bg-black bg-opacity-70">
@@ -35,17 +43,8 @@
 			<div
 				class="h-[210px] mt-1 px-1.5 flex flex-col flex-wrap gap-1 overflow-x-auto scrollbar-hide"
 			>
-				{#each items as { name, calories, protein, portionUnit, portionSize, imgUrl }}
-					<ItemCard {name} {calories} {protein} {portionUnit} {portionSize} {imgUrl} />
-				{/each}
-				{#each items as { name, calories, protein, portionUnit, portionSize, imgUrl }}
-					<ItemCard {name} {calories} {protein} {portionUnit} {portionSize} {imgUrl} />
-				{/each}
-				{#each items as { name, calories, protein, portionUnit, portionSize, imgUrl }}
-					<ItemCard {name} {calories} {protein} {portionUnit} {portionSize} {imgUrl} />
-				{/each}
-				{#each items as { name, calories, protein, portionUnit, portionSize, imgUrl }}
-					<ItemCard {name} {calories} {protein} {portionUnit} {portionSize} {imgUrl} />
+				{#each foodItems as { id, itemName, kcal, protein, portionSize }}
+					<ItemCard {id} {itemName} {kcal} {protein} portionUnit="ptn" {portionSize} />
 				{/each}
 			</div>
 		</div>
@@ -91,17 +90,8 @@
 			</div>
 			<!-- Library Items -->
 			<div class="h-52 mt-2 px-1.5 flex flex-col flex-wrap gap-1 overflow-x-auto scrollbar-hide">
-				{#each items as { name, calories, protein, portionUnit, portionSize, imgUrl }}
-					<ItemCard type="dark" {name} {calories} {protein} {portionUnit} {portionSize} {imgUrl} />
-				{/each}
-				{#each items as { name, calories, protein, portionUnit, portionSize, imgUrl }}
-					<ItemCard type="dark" {name} {calories} {protein} {portionUnit} {portionSize} {imgUrl} />
-				{/each}
-				{#each items as { name, calories, protein, portionUnit, portionSize, imgUrl }}
-					<ItemCard type="dark" {name} {calories} {protein} {portionUnit} {portionSize} {imgUrl} />
-				{/each}
-				{#each items as { name, calories, protein, portionUnit, portionSize, imgUrl }}
-					<ItemCard type="dark" {name} {calories} {protein} {portionUnit} {portionSize} {imgUrl} />
+				{#each foodItems as { id, itemName, kcal, protein, portionSize }}
+					<ItemCard {id} {itemName} {kcal} {protein} portionUnit="ptn" {portionSize} />
 				{/each}
 			</div>
 			<div class="flex justify-center mt-2">
