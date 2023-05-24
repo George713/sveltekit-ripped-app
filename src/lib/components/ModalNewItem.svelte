@@ -1,18 +1,40 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
+	import { applyAction, deserialize, enhance } from '$app/forms';
 
 	export let toggleModal: (modal: string) => void;
 
 	let image = '';
+	let imageString: any;
 	let fileinput: HTMLInputElement;
 
 	const onFileSelected = (e: any) => {
-		let file = e.target.files[0];
+		imageString = e.target.files[0];
 		let reader = new FileReader();
-		reader.readAsDataURL(file);
+		reader.readAsDataURL(imageString);
 		reader.onload = (e: any) => {
 			image = e.target.result;
 		};
+	};
+
+	const handleSubmit = async (event: Event) => {
+		const response = await fetch('?/newItem', {
+			method: 'POST',
+			body: new FormData(event.target as HTMLFormElement)
+		});
+
+		const result = deserialize(await response.text());
+
+		if (result.type === 'success') {
+			// Upload image to s3 using presignURL
+			// @ts-ignore
+			await fetch(result.data.presignedURL, {
+				method: 'PUT',
+				body: imageString
+			});
+		}
+
+		// Return to planner modal
+		toggleModal('planner');
 	};
 </script>
 
@@ -24,23 +46,7 @@
 		<p class="relative top-2 text-2xl font-semibold text-gray-200">New Item</p>
 
 		<!-- Card -->
-		<form
-			action="?/newItem"
-			method="POST"
-			use:enhance={() => {
-				return async ({ result }) => {
-					if (result.type === 'success') {
-						// Upload image to s3 using presignURL
-						// @ts-ignore
-						console.log(result.data.presignedURL);
-						// await fetch(result.data.presignedURL, {
-						// 	method: 'PUT',
-						// 	body: image
-						// });
-					}
-				};
-			}}
-		>
+		<form method="POST" on:submit|preventDefault={handleSubmit}>
 			<div
 				class="relative top-12 w-[234px] h-[260px] border border-neutral-500
 		shadow-[0.5px_0.5px_1.5px_rgba(0,0,0,0.1)] rounded-md overflow-hidden"
@@ -71,6 +77,7 @@
 					accept=".jpg, .jpeg, .png"
 					on:change={(e) => onFileSelected(e)}
 					bind:this={fileinput}
+					required
 				/>
 				<!-- Image -->
 				<div class="w-full h-[calc(60%)] rounded-b" />
