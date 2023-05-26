@@ -25,6 +25,7 @@ model User {
   pointBalance   Int             @default(0)
   calorieTargets CalorieTarget[]
 
+  // Foods
   foodItems FoodItem[]
 
   // Measurements
@@ -85,6 +86,9 @@ model FoodItem {
   kcal        Int
   protein     Int
   portionSize Float
+
+  intendedToEat  Boolean @default(false)
+  intendedAmount Float?
 
   user   User   @relation(fields: [userId], references: [id])
   userId String
