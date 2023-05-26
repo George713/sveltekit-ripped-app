@@ -87,7 +87,6 @@ model FoodItem {
   protein     Int
   portionSize Float
 
-  intendedToEat  Boolean @default(false)
   intendedAmount Float?
 
   user   User   @relation(fields: [userId], references: [id])

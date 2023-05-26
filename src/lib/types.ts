@@ -4,6 +4,5 @@ export interface FoodItem {
     kcal: number;
     protein: number;
     portionSize: number;
-    intendedToEat: boolean;
     intendedAmount: number;
 }  
