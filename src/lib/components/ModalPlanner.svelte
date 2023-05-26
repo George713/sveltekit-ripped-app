@@ -1,17 +1,34 @@
 <script lang="ts">
+	import { foodLibrary } from '$lib/stores';
+	import type { FoodItem } from '$lib/types';
 	import ItemCard from '$lib/components/ItemCard.svelte';
 	import TargetTracker from '$lib/components/TargetTracker.svelte';
 
-	interface FoodItem {
-		id: number;
-		itemName: string;
-		kcal: number;
-		protein: number;
-		portionSize: number;
-	}
-
 	export let toggleModal: (modal: string) => void;
-	export let foodItems: [FoodItem];
+
+	// Preparing content for Food Library and 'Selectd for today'
+	let foodItems: FoodItem[] = [];
+	foodLibrary.subscribe((items) => {
+		foodItems = items;
+	});
+	$: dailySelection = foodItems.filter((item) => item.intendedAmount > 0);
+
+	// Functions for manipulating daily selection
+	const addRemoveItem = (id: number, method: string) => {
+		foodLibrary.update((items) => {
+			const index = items.findIndex((item) => item.id === id);
+			if (index !== -1) {
+				let updatedItem = items[index];
+				if (method === 'add') {
+					updatedItem = { ...updatedItem, intendedAmount: updatedItem.intendedAmount + 1 };
+				} else if (method === 'remove') {
+					updatedItem = { ...updatedItem, intendedAmount: updatedItem.intendedAmount - 1 };
+				}
+				return [...items.slice(0, index), updatedItem, ...items.slice(index + 1)];
+			}
+			return items;
+		});
+	};
 </script>
 
 <div class="absolute inset-0 w-full h-full bg-black bg-opacity-70">
@@ -43,8 +60,19 @@
 			<div
 				class="h-[210px] mt-1 px-1.5 flex flex-col flex-wrap gap-1 overflow-x-auto scrollbar-hide"
 			>
-				{#each foodItems as { id, itemName, kcal, protein, portionSize }}
-					<ItemCard {id} {itemName} {kcal} {protein} portionUnit="ptn" {portionSize} />
+				{#each dailySelection as { id, itemName, kcal, protein, portionSize, intendedAmount }}
+					{#each Array(intendedAmount) as _, index (index)}
+						<ItemCard
+							type="bright"
+							{id}
+							{itemName}
+							{kcal}
+							{protein}
+							portionUnit="ptn"
+							{portionSize}
+							{addRemoveItem}
+						/>
+					{/each}
 				{/each}
 			</div>
 		</div>
@@ -91,7 +119,16 @@
 			<!-- Library Items -->
 			<div class="h-52 mt-2 px-1.5 flex flex-col flex-wrap gap-1 overflow-x-auto scrollbar-hide">
 				{#each foodItems as { id, itemName, kcal, protein, portionSize }}
-					<ItemCard {id} {itemName} {kcal} {protein} portionUnit="ptn" {portionSize} />
+					<ItemCard
+						type="dark"
+						{id}
+						{itemName}
+						{kcal}
+						{protein}
+						portionUnit="ptn"
+						{portionSize}
+						{addRemoveItem}
+					/>
 				{/each}
 			</div>
 			<div class="flex justify-center mt-2">

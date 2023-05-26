@@ -21,11 +21,16 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { invalidateAll } from '$app/navigation';
+	import { foodLibrary } from '$lib/stores';
+	import type { FoodItem } from '$lib/types';
 	import ModalWeight from '$lib/components/ModalWeight.svelte';
 	import ModalBodyFat from '$lib/components/ModalBodyFat.svelte';
 	import ModalCalories from '$lib/components/ModalCalories.svelte';
 	import ModalPlanner from '$lib/components/ModalPlanner.svelte';
 	import ModalNewItem from '$lib/components/ModalNewItem.svelte';
+
+	export let data: { foodItems: FoodItem[] };
+	foodLibrary.set(data.foodItems);
 
 	let fileinput: any;
 	let audioWeighIn: any;
@@ -800,7 +805,7 @@
 	{:else if visibleModal == 'calories'}
 		<ModalCalories {toggleModal} />
 	{:else if visibleModal == 'planner'}
-		<ModalPlanner {toggleModal} foodItems={$page.data.foodItems} />
+		<ModalPlanner {toggleModal} />
 	{:else if visibleModal == 'newItem'}
 		<ModalNewItem {toggleModal} />
 	{/if}
