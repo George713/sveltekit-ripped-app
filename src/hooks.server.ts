@@ -15,6 +15,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			userAuthToken: session
 		},
 		select: {
+			id: true,
 			username: true,
 			role: true,
 			pointBalance: true,
@@ -50,6 +51,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 					createdAt: true
 				}
 			},
+			// Progess Player Journey
 			initBF: true,
 			initPhoto: true,
 			initCalories: true
@@ -57,6 +59,16 @@ export const handle: Handle = async ({ event, resolve }) => {
 	});
 
 	if (user) {
+
+		const userWeight = await db.weight.findFirst({
+			where: {
+				userId: user.id
+			},
+			orderBy: {
+				createdAt: 'desc'
+			}
+		});
+
 		event.locals.user = {
 			name: user.username,
 			role: user.role.name,
@@ -64,6 +76,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			streakMeter: user.weights.length,
 			currentCalorieTarget: user.calorieTargets.length > 0 ? user.calorieTargets[0].calories : 9999,
 			currentBF: user.bodyfats.length > 0 ? user.bodyfats[0].bodyfat : 999,
+			currentWeight: userWeight ? userWeight.weight : 999,
 			initBF: user.initBF,
 			initPhoto: user.initPhoto,
 			initCalories: user.initCalories

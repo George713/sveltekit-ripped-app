@@ -10,6 +10,7 @@ declare global {
 				pointBalance: number;
 				streakMeter: number;
 				currentBF: number;
+				currentWeight: number;
 				currentCalorieTarget: number;
 				initBF: boolean;
 				initPhoto: boolean;
@@ -26,4 +27,4 @@ declare global {
 	}
 }
 
-export {};
+export { };

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { foodLibrary, dailySelection, plannedKcal, plannedProtein } from '$lib/stores';
 	import ItemCard from '$lib/components/ItemCard.svelte';
 	import TargetTracker from '$lib/components/TargetTracker.svelte';
@@ -49,9 +50,9 @@
 				<!-- Target tracker -->
 				<TargetTracker
 					plannedKcal={$plannedKcal}
-					calTarget={2100}
+					calTarget={$page.data.user.currentCalorieTarget}
 					plannedProtein={$plannedProtein}
-					proteinTarget={185}
+					proteinTarget={Math.round($page.data.user.currentWeight * 2)}
 				/>
 			</div>
 			<div
