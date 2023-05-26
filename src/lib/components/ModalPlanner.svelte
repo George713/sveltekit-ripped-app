@@ -1,17 +1,9 @@
 <script lang="ts">
-	import { foodLibrary } from '$lib/stores';
-	import type { FoodItem } from '$lib/types';
+	import { foodLibrary, dailySelection, plannedKcal, plannedProtein } from '$lib/stores';
 	import ItemCard from '$lib/components/ItemCard.svelte';
 	import TargetTracker from '$lib/components/TargetTracker.svelte';
 
 	export let toggleModal: (modal: string) => void;
-
-	// Preparing content for Food Library and 'Selectd for today'
-	let foodItems: FoodItem[] = [];
-	foodLibrary.subscribe((items) => {
-		foodItems = items;
-	});
-	$: dailySelection = foodItems.filter((item) => item.intendedAmount > 0);
 
 	// Functions for manipulating daily selection
 	const addRemoveItem = (id: number, method: string) => {
@@ -55,12 +47,17 @@
 				</svg>
 				<div class="mt-2 px-1.5 text-zinc-500 text-[12px] font-medium">Selected for today</div>
 				<!-- Target tracker -->
-				<TargetTracker calCurrent={780} calTarget={2100} proteinCurrent={81} proteinTarget={185} />
+				<TargetTracker
+					plannedKcal={$plannedKcal}
+					calTarget={2100}
+					plannedProtein={$plannedProtein}
+					proteinTarget={185}
+				/>
 			</div>
 			<div
 				class="h-[210px] mt-1 px-1.5 flex flex-col flex-wrap gap-1 overflow-x-auto scrollbar-hide"
 			>
-				{#each dailySelection as { id, itemName, kcal, protein, portionSize, intendedAmount }}
+				{#each $dailySelection as { id, itemName, kcal, protein, portionSize, intendedAmount }}
 					{#each Array(intendedAmount) as _, index (index)}
 						<ItemCard
 							type="bright"
@@ -118,7 +115,7 @@
 			</div>
 			<!-- Library Items -->
 			<div class="h-52 mt-2 px-1.5 flex flex-col flex-wrap gap-1 overflow-x-auto scrollbar-hide">
-				{#each foodItems as { id, itemName, kcal, protein, portionSize }}
+				{#each $foodLibrary as { id, itemName, kcal, protein, portionSize }}
 					<ItemCard
 						type="dark"
 						{id}
