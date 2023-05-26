@@ -61,12 +61,9 @@
 						/>
 					</div>
 				{:else}
-					<div
+					<button
 						class="absolute w-full h-[156px] bg-black opacity-30 rounded-b"
 						on:click={() => {
-							fileinput.click();
-						}}
-						on:keydown={() => {
 							fileinput.click();
 						}}
 					/>
@@ -83,42 +80,38 @@
 				<div class="w-full h-[calc(60%)] rounded-b" />
 				{#if !image}
 					<!-- Image Icon: Plus -->
-					<svg
-						class="absolute top-16 left-[105px] h-7 w-7 stroke-neutral-200/80 fill-none"
-						viewBox="0 0 24 24"
+					<button
+						class="absolute top-16 left-[105px]"
 						on:click={() => {
 							fileinput.click();
 						}}
-						on:keydown={() => {
-							fileinput.click();
-						}}
 					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="1"
-							d="M12 8v8m-4-4h2m6 0h-4m-8 4a4 4 0 0 0 4 4h8a4 4 0 0 0 4-4V8a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v4"
-						/>
-					</svg>
+						<svg class="h-7 w-7 stroke-neutral-200/80 fill-none" viewBox="0 0 24 24">
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="1"
+								d="M12 8v8m-4-4h2m6 0h-4m-8 4a4 4 0 0 0 4 4h8a4 4 0 0 0 4-4V8a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v4"
+							/>
+						</svg>
+					</button>
 				{:else}
 					<!-- Image Icon: Edit -->
-					<svg
-						class="absolute bottom-[calc(104px)] left-[calc(4px)] h-7 w-7 stroke-neutral-200/70 fill-none"
-						viewBox="0 0 24 24"
+					<button
+						class="absolute bottom-[calc(104px)] left-[calc(4px)]"
 						on:click={() => {
 							fileinput.click();
 						}}
-						on:keydown={() => {
-							fileinput.click();
-						}}
 					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="1"
-							d="M12 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6M9 15v-2.5l8.75-8.75c.69-.69 1.81-.69 2.5 0v0c.69.69.69 1.81 0 2.5L15.5 11l-4 4H9Z"
-						/>
-					</svg>
+						<svg class=" h-7 w-7 stroke-neutral-200/70 fill-none" viewBox="0 0 24 24">
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="1"
+								d="M12 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6M9 15v-2.5l8.75-8.75c.69-.69 1.81-.69 2.5 0v0c.69.69.69 1.81 0 2.5L15.5 11l-4 4H9Z"
+							/>
+						</svg>
+					</button>
 				{/if}
 				<!-- Item Name -->
 				<input
@@ -145,7 +138,7 @@
 						<label class="flex justify-end">
 							kcal:
 							<input
-								class="flex flex-col pr-[1px]  text-right font-light w-[50px] bg-transparent focus:outline-none"
+								class="flex flex-col pr-[1px] text-right font-light w-[50px] bg-transparent focus:outline-none"
 								name="kcal"
 								placeholder="...  "
 								type="text"
