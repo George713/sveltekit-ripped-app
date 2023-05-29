@@ -20,6 +20,7 @@ declare global {
 				weighIn: boolean;
 				calories: number;
 				protein: number;
+				planned: boolean;
 			};
 		}
 		// interface PageData {}

@@ -33,6 +33,9 @@ model User {
   bodyfats         BodyFat[]
   progressPictures ProgressPicture[]
 
+  // Daily progress
+  dailyPlanned Boolean @default(false)
+
   // Progress Player Journey
   initBF       Boolean @default(false)
   initPhoto    Boolean @default(false)

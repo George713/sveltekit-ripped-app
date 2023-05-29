@@ -51,6 +51,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 					createdAt: true
 				}
 			},
+			// Daily progress
+			dailyPlanned: true,
 			// Progess Player Journey
 			initBF: true,
 			initPhoto: true,
@@ -84,7 +86,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 		event.locals.dailyProgress = {
 			weighIn: didWeightoday(user.weights),
 			calories: 500,
-			protein: 120
+			protein: 120,
+			planned: user.dailyPlanned,
 		};
 	}
 
