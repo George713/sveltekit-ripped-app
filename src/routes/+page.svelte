@@ -65,6 +65,18 @@
 		invalidateAll();
 	};
 
+	const reset = async () => {
+		const formData = new FormData();
+		formData.append('username', JSON.stringify($page.data.user.name));
+		const response = await fetch('?/reset', {
+			method: 'POST',
+			body: formData
+		});
+
+		// Reload page data (so plan button is enabled again)
+		invalidateAll();
+	};
+
 	// EventHandler for playing sounds
 	const handlePlaySound = (event: CustomEvent) => {
 		switch (event.detail.text) {
@@ -792,11 +804,14 @@
 					on:click={() => {
 						toggleModal('planner');
 					}}
-					class="px-2 py-1 bg-gray-300 m-1 disabled:bg-slate-600">Plan</button
+					class="px-2 py-1 bg-gray-300 m-1 disabled:bg-slate-600"
+					disabled={$page.data.dailyProgress.planned}>Plan</button
 				>
 			</div>
 		{/if}
 	</div>
+	<!-- Reset plan -->
+	<button class="px-2 py-1 bg-gray-300 m-1 disabled:bg-slate-600" on:click={reset}>Reset</button>
 
 	{#if visibleModal == 'weight'}
 		<ModalWeight {toggleModal} on:playSound={handlePlaySound} />

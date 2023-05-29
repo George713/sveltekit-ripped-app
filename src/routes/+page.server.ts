@@ -127,6 +127,48 @@ const newItem: Action = async ({ locals, request }) => {
 	return { presignedURL: presignedURL }
 }
 
+const finishPlanning: Action = async ({ request }) => {
+	const formData = await request.formData()
+	const dailySelection = formData.get('dailySelection');
+
+	if (dailySelection) {
+		const parsedDailySelection = JSON.parse(dailySelection as string)
+
+		for (const item of parsedDailySelection) {
+			const { id, intendedAmount } = item;
+
+			await db.foodItem.update({
+
+				where: { id },
+				data: { intendedAmount }
+			})
+		}
+
+		const userId = parsedDailySelection[0].userId
+
+		await db.user.update({
+			where: { id: userId },
+			data: { dailyPlanned: true }
+		})
+	}
+	return
+}
+
+const reset: Action = async ({ request }) => {
+	const formData = await request.formData()
+	const username = formData.get('username');
+
+	const user = await db.user.update({
+		where: { username: JSON.parse(username as string) },
+		data: { dailyPlanned: false }
+	})
+
+	await db.foodItem.updateMany({
+		where: { user },
+		data: { intendedAmount: 0 }
+	})
+}
+
 export const load: PageServerLoad = async ({ locals }) => {
 	// Get user which include user.id
 	const user = await db.user.findUnique({
@@ -148,4 +190,4 @@ export const load: PageServerLoad = async ({ locals }) => {
 	};
 }
 
-export const actions: Actions = { logWeight, logCalories, logBodyFat, newItem };
+export const actions: Actions = { logWeight, logCalories, logBodyFat, newItem, finishPlanning, reset };

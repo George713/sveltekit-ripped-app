@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { deserialize } from '$app/forms';
+	import { invalidateAll } from '$app/navigation';
 	import { foodLibrary, dailySelection, plannedKcal, plannedProtein } from '$lib/stores';
 	import ItemCard from '$lib/components/ItemCard.svelte';
 	import TargetTracker from '$lib/components/TargetTracker.svelte';
@@ -21,6 +23,28 @@
 			}
 			return items;
 		});
+	};
+
+	const finishPlanning = async () => {
+		if ($dailySelection.length > 0) {
+			const formData = new FormData();
+			formData.append('dailySelection', JSON.stringify($dailySelection));
+			const response = await fetch('?/finishPlanning', {
+				method: 'POST',
+				body: formData
+			});
+
+			const result = deserialize(await response.text());
+
+			if (result.type === 'success') {
+			}
+
+			// Return to planner modal
+			toggleModal('');
+
+			// Reload page data (so plan button is disabled)
+			invalidateAll();
+		}
 	};
 </script>
 
@@ -132,6 +156,7 @@
 			<div class="flex justify-center mt-2">
 				<button
 					class="bg-neutral-700 rounded-[4px] mx-2 flex items-center shadow-[inset_2px_2px_3px_rgba(161,161,161,0.05),inset_-2px_-2px_3px_rgba(0,0,0,0.05)]"
+					on:click={finishPlanning}
 				>
 					<svg class="h-4 ml-1 px-1 fill-zinc-300" viewBox="0 0 56 56">
 						<path
