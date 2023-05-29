@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { applyAction, deserialize, enhance } from '$app/forms';
+	import { deserialize } from '$app/forms';
 
 	export let toggleModal: (modal: string) => void;
 
