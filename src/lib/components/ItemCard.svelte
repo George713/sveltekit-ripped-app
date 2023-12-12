@@ -6,10 +6,13 @@
 	export let protein: number;
 	export let portionUnit: string;
 	export let portionSize: number;
-	export let addRemoveItem: (id: number, method: string) => void;
+	export let addRemoveItem: (id: number, method: string) => void = () => {};
 	export let deleteItem: (id: number) => void = () => {
 		console.log('deleteItem not defined');
 	};
+	export let eatable: boolean = false;
+	export let eaten: boolean = false;
+	export let eatItem: (id: number) => void = () => {};
 </script>
 
 <!-- Outer Frame -->
@@ -18,6 +21,30 @@
 		? 'border-neutral-500'
 		: 'border-neutral-200'} shadow-[0.5px_0.5px_1.5px_rgba(0,0,0,0.1)] rounded-md overflow-hidden"
 >
+	<!-- Overlay -->
+	{#if eatable}
+		<div
+			class="absolute w-[90px] h-[100px] z-10 {eaten
+				? 'bg-black opacity-60'
+				: ''} flex justify-center"
+			on:click={() => {
+				if (!eaten) {
+					eatItem(id);
+					// eaten = true;
+				}
+			}}
+			on:keydown={() => {
+				if (!eaten) {
+					eatItem(id);
+					// eaten = true;
+				}
+			}}
+		>
+			{#if eaten}
+				<span class="text-white mt-5">Eaten</span>
+			{/if}
+		</div>
+	{/if}
 	<!-- Image Overlay -->
 	<div class="absolute w-full h-[60px] bg-black opacity-30 rounded-b" />
 	<!-- Image -->

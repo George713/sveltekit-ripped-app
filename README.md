@@ -16,3 +16,7 @@
 
 - The app: `pnpm run dev`
 - Database viewer: `npx prisma studio`
+
+## Working with prisma
+
+- To setup new db from scratch, run `npx prisma migrate dev --name init`

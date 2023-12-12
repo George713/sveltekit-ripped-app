@@ -18,9 +18,9 @@ declare global {
 			};
 			dailyProgress: {
 				weighIn: boolean;
-				calories: number;
-				protein: number;
+				targetProtein: number;
 				planned: boolean;
+				eaten: boolean;
 			};
 		}
 		// interface PageData {}

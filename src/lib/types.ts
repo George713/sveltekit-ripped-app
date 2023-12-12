@@ -5,4 +5,5 @@ export interface FoodItem {
     protein: number;
     portionSize: number;
     intendedAmount: number;
+    eatenAmount: number;
 }  

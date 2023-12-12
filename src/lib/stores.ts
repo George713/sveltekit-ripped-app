@@ -16,4 +16,14 @@ export const plannedKcal = derived(
 export const plannedProtein = derived(
     dailySelection,
     ($dailySelection) => $dailySelection.reduce((sum, item) => sum + item.protein * item.intendedAmount, 0)
+);
+
+export const eatenKcal = derived(
+    dailySelection,
+    ($dailySelection) => $dailySelection.reduce((sum, item) => sum + item.kcal * item.eatenAmount, 0)
+);
+
+export const eatenProtein = derived(
+    dailySelection,
+    ($dailySelection) => $dailySelection.reduce((sum, item) => sum + item.protein * item.eatenAmount, 0)
 );  

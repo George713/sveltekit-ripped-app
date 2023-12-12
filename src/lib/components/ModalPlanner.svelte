@@ -125,7 +125,7 @@
 					plannedKcal={$plannedKcal}
 					calTarget={$page.data.user.currentCalorieTarget}
 					plannedProtein={$plannedProtein}
-					proteinTarget={Math.round($page.data.user.currentWeight * 2)}
+					proteinTarget={$page.data.dailyProgress.targetProtein}
 				/>
 			</div>
 			<div

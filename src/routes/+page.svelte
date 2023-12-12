@@ -21,13 +21,14 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { invalidateAll } from '$app/navigation';
-	import { foodLibrary } from '$lib/stores';
+	import { foodLibrary, eatenKcal, eatenProtein } from '$lib/stores';
 	import type { FoodItem } from '$lib/types';
 	import ModalWeight from '$lib/components/ModalWeight.svelte';
 	import ModalBodyFat from '$lib/components/ModalBodyFat.svelte';
 	import ModalCalories from '$lib/components/ModalCalories.svelte';
 	import ModalPlanner from '$lib/components/ModalPlanner.svelte';
 	import ModalNewItem from '$lib/components/ModalNewItem.svelte';
+	import ModalEatingLog from '$lib/components/ModalEatingLog.svelte';
 
 	export let data: { foodItems: FoodItem[] };
 	foodLibrary.set(data.foodItems);
@@ -776,14 +777,17 @@
 			<div class="mt-2 ml-7 mr-5 rounded-full bg-gray-700 h-4">
 				<div
 					class=" rounded-full bg-yellow-400 h-4"
-					style="width: {($page.data.dailyProgress.calories / 2200) * 100}%"
+					style="width: {Math.min(($eatenKcal / $page.data.user.currentCalorieTarget) * 100, 100)}%"
 				/>
 			</div>
 			<img src="/eggs.svg" alt="eggs.svg" class="bg-black mt-1.5 ml-[0.3rem]" style="float:left;" />
 			<div class="mt-2 ml-7 mr-5 rounded-full bg-gray-700 h-4">
 				<div
 					class=" rounded-full bg-blue-300 h-4"
-					style="width: {($page.data.dailyProgress.protein / 180) * 100}%"
+					style="width: {Math.min(
+						($eatenProtein / $page.data.dailyProgress.targetProtein) * 100,
+						100
+					)}%"
 				/>
 			</div>
 
@@ -807,6 +811,14 @@
 					class="px-2 py-1 bg-gray-300 m-1 disabled:bg-slate-600"
 					disabled={$page.data.dailyProgress.planned}>Plan</button
 				>
+				<!-- Eat -->
+				<button
+					on:click={() => {
+						toggleModal('eat');
+					}}
+					class="px-2 py-1 bg-gray-300 m-1 disabled:bg-slate-600"
+					disabled={!$page.data.dailyProgress.planned || $page.data.dailyProgress.eaten}>Eat</button
+				>
 			</div>
 		{/if}
 	</div>
@@ -823,6 +835,8 @@
 		<ModalPlanner {toggleModal} />
 	{:else if visibleModal == 'newItem'}
 		<ModalNewItem {toggleModal} />
+	{:else if visibleModal == 'eat'}
+		<ModalEatingLog {toggleModal} />
 	{/if}
 {:else}
 	<p class="m-3 px-5 flex justify-center">No one here yet...</p>

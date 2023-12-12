@@ -150,9 +150,11 @@ const finishPlanning: Action = async ({ request }) => {
 			const { id, intendedAmount } = item;
 
 			await db.foodItem.update({
-
 				where: { id },
-				data: { intendedAmount }
+				data: {
+					intendedAmount,
+					eatenAmount: 0
+				}
 			})
 		}
 
@@ -166,18 +168,38 @@ const finishPlanning: Action = async ({ request }) => {
 	return
 }
 
+const eatItem: Action = async ({ request }) => {
+	const formData = await request.formData()
+	const { id } = Object.fromEntries(formData.entries());
+
+	await db.foodItem.update({
+		where: { id: parseInt(id as string) },
+		data: { eatenAmount: { increment: 1 } }
+	})
+}
+
+const finishEating: Action = async ({ request }) => {
+	const formData = await request.formData()
+	const username = formData.get('username');
+
+	const user = await db.user.update({
+		where: { username: JSON.parse(username as string) },
+		data: { dailyEaten: true }
+	})
+}
+
 const reset: Action = async ({ request }) => {
 	const formData = await request.formData()
 	const username = formData.get('username');
 
 	const user = await db.user.update({
 		where: { username: JSON.parse(username as string) },
-		data: { dailyPlanned: false }
+		data: { dailyPlanned: false, dailyEaten: false }
 	})
 
 	await db.foodItem.updateMany({
 		where: { user },
-		data: { intendedAmount: 0 }
+		data: { intendedAmount: 0, eatenAmount: 0 }
 	})
 }
 
@@ -202,4 +224,14 @@ export const load: PageServerLoad = async ({ locals }) => {
 	};
 }
 
-export const actions: Actions = { logWeight, logCalories, logBodyFat, newItem, deleteItem, finishPlanning, reset };
+export const actions: Actions = {
+	logWeight,
+	logCalories,
+	logBodyFat,
+	newItem,
+	deleteItem,
+	finishPlanning,
+	eatItem,
+	finishEating,
+	reset,
+};
