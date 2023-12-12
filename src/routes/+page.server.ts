@@ -9,7 +9,7 @@ import {
 } from '$env/static/private';
 
 import { db } from '$lib/database.server';
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 const s3 = new S3Client({
@@ -124,6 +124,21 @@ const newItem: Action = async ({ locals, request }) => {
 	return { presignedURL: presignedURL, newItem: newItem }
 }
 
+const deleteItem: Action = async ({ request }) => {
+	const data = await request.formData();
+	const { id } = Object.fromEntries(data.entries());
+
+	// Delete item from db
+	await db.foodItem.delete({
+		where: { id: parseInt(id as string) }
+	})
+
+	// Delete image from S3
+	const filename = 'foodItem_' + id;
+	const command = new DeleteObjectCommand({ Bucket: AWS_BUCKET_NAME, Key: filename });
+	await s3.send(command);
+}
+
 const finishPlanning: Action = async ({ request }) => {
 	const formData = await request.formData()
 	const dailySelection = formData.get('dailySelection');
@@ -187,4 +202,4 @@ export const load: PageServerLoad = async ({ locals }) => {
 	};
 }
 
-export const actions: Actions = { logWeight, logCalories, logBodyFat, newItem, finishPlanning, reset };
+export const actions: Actions = { logWeight, logCalories, logBodyFat, newItem, deleteItem, finishPlanning, reset };

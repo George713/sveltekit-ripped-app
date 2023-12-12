@@ -8,7 +8,15 @@
 
 	export let toggleModal: (modal: string) => void;
 
-	// Functions for manipulating daily selection
+	/**
+	 * Updates the intended amount of a food item in the food library.
+	 *
+	 * @param {number} id - The ID of the food item to update.
+	 * @param {string} method - The method to use ('add' to increase the intended amount, 'remove' to decrease it).
+	 * If the method is 'add', it increases the intended amount of the food item by 1.
+	 * If the method is 'remove', it decreases the intended amount of the food item by 1.
+	 * If the food item is not found in the food library, it does nothing.
+	 */
 	const addRemoveItem = (id: number, method: string) => {
 		foodLibrary.update((items) => {
 			const index = items.findIndex((item) => item.id === id);
@@ -22,6 +30,32 @@
 				return [...items.slice(0, index), updatedItem, ...items.slice(index + 1)];
 			}
 			return items;
+		});
+	};
+
+	/**
+	 * Deletes a food item from the food library and sends a request to the server to delete the item.
+	 *
+	 * @param {number} id - The ID of the food item to delete.
+	 * First, it updates the food library by removing the item with the given ID.
+	 * Then, it sends a POST request to the '?/deleteItem' endpoint with the ID of the item to delete.
+	 * If the item is not found in the food library, it does nothing.
+	 */
+	const deleteItem = async (id: number) => {
+		// Remove item from store foodLibrary
+		foodLibrary.update((items) => {
+			const index = items.findIndex((item) => item.id === id);
+			if (index !== -1) {
+				return [...items.slice(0, index), ...items.slice(index + 1)];
+			}
+			return items;
+		});
+
+		const formData = new FormData();
+		formData.append('id', id.toString());
+		const response = await fetch('?/deleteItem', {
+			method: 'POST',
+			body: formData
 		});
 	};
 
@@ -150,6 +184,7 @@
 						portionUnit="ptn"
 						{portionSize}
 						{addRemoveItem}
+						{deleteItem}
 					/>
 				{/each}
 			</div>

@@ -7,6 +7,9 @@
 	export let portionUnit: string;
 	export let portionSize: number;
 	export let addRemoveItem: (id: number, method: string) => void;
+	export let deleteItem: (id: number) => void = () => {
+		console.log('deleteItem not defined');
+	};
 </script>
 
 <!-- Outer Frame -->
@@ -49,17 +52,16 @@
 		</button>
 	{/if}
 	<!-- Image Icon: Edit -->
-	<svg
-		class="absolute bottom-[calc(40px)] left-[calc(2px)] h-4 w-4 stroke-neutral-200/70 fill-none"
-		viewBox="0 0 24 24"
-	>
-		<path
-			stroke-linecap="round"
-			stroke-linejoin="round"
-			stroke-width="1"
-			d="M12 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6M9 15v-2.5l8.75-8.75c.69-.69 1.81-.69 2.5 0v0c.69.69.69 1.81 0 2.5L15.5 11l-4 4H9Z"
-		/>
-	</svg>
+	<button class="absolute bottom-[calc(40px)] left-[calc(2px)]" on:click={() => deleteItem(id)}>
+		<svg class="h-4 w-4 stroke-neutral-200/70 fill-none" viewBox="0 0 24 24">
+			<path
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				stroke-width="1"
+				d="M12 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6M9 15v-2.5l8.75-8.75c.69-.69 1.81-.69 2.5 0v0c.69.69.69 1.81 0 2.5L15.5 11l-4 4H9Z"
+			/>
+		</svg>
+	</button>
 	<!-- Item Name -->
 	<p
 		class="text-[9px] font-medium pl-1 pt-1 {type === 'dark'
