@@ -99,7 +99,7 @@ const newItem: Action = async ({ locals, request }) => {
 	const { itemName, kcal, protein, portionSize } = Object.fromEntries(data.entries());
 
 	// Create entry in db
-	const { id } = await db.foodItem.create({
+	const newItem = await db.foodItem.create({
 		data: {
 			itemName: (itemName as string),
 			kcal: parseInt(kcal as string),
@@ -110,21 +110,18 @@ const newItem: Action = async ({ locals, request }) => {
 					username: locals.user.name,
 				},
 			},
-		},
-		select: {
-			id: true,
 		}
 	});
 
 	// Make unique filename
-	const filename = 'foodItem_' + id;
+	const filename = 'foodItem_' + newItem.id;
 
 	// Make presignedURL
 	const command = new PutObjectCommand({ Bucket: AWS_BUCKET_NAME, Key: filename });
 	const presignedURL = await getSignedUrl(s3, command, { expiresIn: 60 * 5 });
 
 	// return URL to user for upload
-	return { presignedURL: presignedURL }
+	return { presignedURL: presignedURL, newItem: newItem }
 }
 
 const finishPlanning: Action = async ({ request }) => {

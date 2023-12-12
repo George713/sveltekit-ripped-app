@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { deserialize } from '$app/forms';
+	import { foodLibrary } from '$lib/stores';
 
 	export let toggleModal: (modal: string) => void;
 
@@ -32,6 +33,12 @@
 				body: imageString
 			});
 		}
+
+		// Update foodLibrary
+		foodLibrary.update((items) => {
+			// @ts-ignore
+			return [...items, result.data.newItem];
+		});
 
 		// Return to planner modal
 		toggleModal('planner');
