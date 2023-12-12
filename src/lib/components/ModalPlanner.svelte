@@ -60,25 +60,40 @@
 	};
 
 	const finishPlanning = async () => {
-		if ($dailySelection.length > 0) {
-			const formData = new FormData();
-			formData.append('dailySelection', JSON.stringify($dailySelection));
-			const response = await fetch('?/finishPlanning', {
-				method: 'POST',
-				body: formData
-			});
-
-			const result = deserialize(await response.text());
-
-			if (result.type === 'success') {
-			}
-
-			// Return to main view
-			toggleModal('');
-
-			// Reload page data (so plan button is disabled)
-			invalidateAll();
+		// Check daily selection
+		if ($dailySelection.length === 0) {
+			alert("You haven't selected any items for today.");
+			return;
+		} else if ($plannedKcal > $page.data.user.currentCalorieTarget + 50) {
+			alert(
+				`You have exceeded your calorie target for today. Try to select in the range of +-50 kcal of your target (${$page.data.user.currentCalorieTarget} kcal).`
+			);
+			return;
+		} else if ($plannedKcal < $page.data.user.currentCalorieTarget - 50) {
+			alert(
+				`You have not reached your calorie target for today. Try to select in the range of +-50 kcal of your target (${$page.data.user.currentCalorieTarget} kcal).`
+			);
+			return;
 		}
+
+		// Submit daily selection to server
+		const formData = new FormData();
+		formData.append('dailySelection', JSON.stringify($dailySelection));
+		const response = await fetch('?/finishPlanning', {
+			method: 'POST',
+			body: formData
+		});
+
+		const result = deserialize(await response.text());
+
+		if (result.type === 'success') {
+		}
+
+		// Return to main view
+		toggleModal('');
+
+		// Reload page data (so plan button is disabled)
+		invalidateAll();
 	};
 </script>
 
