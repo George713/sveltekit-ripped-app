@@ -73,7 +73,7 @@
 			if (result.type === 'success') {
 			}
 
-			// Return to planner modal
+			// Return to main view
 			toggleModal('');
 
 			// Reload page data (so plan button is disabled)
