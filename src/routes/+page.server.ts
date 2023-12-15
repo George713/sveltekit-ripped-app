@@ -204,24 +204,26 @@ const reset: Action = async ({ request }) => {
 }
 
 export const load: PageServerLoad = async ({ locals }) => {
-	// Get user which include user.id
-	const user = await db.user.findUnique({
-		where: { username: locals.user.name },
-	})
+	if (locals.user) {
+		// Get user which include user.id
+		const user = await db.user.findUnique({
+			where: { username: locals.user.name },
+		})
 
-	// Check that user was found
-	if (!user) {
-		return [] // Return an empty array if user is null  
+		// Check that user was found
+		if (!user) {
+			return [] // Return an empty array if user is null  
+		}
+
+		// Get items of that user
+		let foodItems = await db.foodItem.findMany({
+			where: { userId: user.id },
+		})
+
+		return {
+			foodItems
+		};
 	}
-
-	// Get items of that user
-	let foodItems = await db.foodItem.findMany({
-		where: { userId: user.id },
-	})
-
-	return {
-		foodItems
-	};
 }
 
 export const actions: Actions = {
