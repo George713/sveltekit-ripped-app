@@ -33,6 +33,7 @@
 	import ModalPlanner from '$lib/components/ModalPlanner.svelte';
 	import ModalNewItem from '$lib/components/ModalNewItem.svelte';
 	import ModalEatingLog from '$lib/components/ModalEatingLog.svelte';
+	import ModalFinishEating from '$lib/components/ModalFinishEating.svelte';
 
 	export let data: { foodItems: FoodItem[] };
 	if (data.foodItems) {
@@ -287,6 +288,8 @@
 			<!-- Finish Eating -->
 			<button
 				class="h-14 w-14 bg-gray-300 mx-4 rounded shadow text-[20px] font-bold text-neutral-600 border border-gray-400/10 disabled:bg-gray-200 disabled:text-neutral-400"
+				on:click={() => toggleModal('finishEating')}
+				disabled={$page.data.dailyProgress.eaten}
 			>
 				F
 			</button>
@@ -312,6 +315,8 @@
 		<ModalNewItem {toggleModal} />
 	{:else if visibleModal == 'eat'}
 		<ModalEatingLog {toggleModal} />
+	{:else if visibleModal == 'finishEating'}
+		<ModalFinishEating {toggleModal} />
 	{/if}
 {:else}
 	<p class="m-3 px-5 flex justify-center">No one here yet...</p>
