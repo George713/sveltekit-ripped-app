@@ -240,7 +240,7 @@
 					/>
 				</div>
 				<!-- Tracker -->
-				<div class=" flex-grow">
+				<div class="flex-grow pl-3">
 					<TargetTracker
 						calTarget={$page.data.user.currentCalorieTarget}
 						proteinTarget={$page.data.dailyProgress.targetProtein}
