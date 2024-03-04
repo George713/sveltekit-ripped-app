@@ -4,11 +4,11 @@
 	import '../app.css';
 </script>
 
-<svelte:head>
+<!-- <svelte:head>
 	<title>SvelteKit Auth</title>
 </svelte:head>
 
-<!-- <nav class="flex justify-center bg-slate-400 py-3">
+<nav class="flex justify-center bg-slate-400 py-3">
 	{#if !$page.data.user}
 		<a class="bg-cyan-100 px-3 mr-2" href="/">Home</a>
 		<a class="bg-cyan-300 px-3 mx-2" href="/login">Login</a>

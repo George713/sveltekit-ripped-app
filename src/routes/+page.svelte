@@ -34,6 +34,7 @@
 	import ModalNewItem from '$lib/components/ModalNewItem.svelte';
 	import ModalEatingLog from '$lib/components/ModalEatingLog.svelte';
 	import ModalFinishEating from '$lib/components/ModalFinishEating.svelte';
+	import ModalHarvest from '$lib/components/ModalHarvest.svelte';
 
 	export let data: { foodItems: FoodItem[] };
 	if (data.foodItems) {
@@ -254,7 +255,9 @@
 			<!-- Harvest Button -->
 			<div class="bg-slate-100 flex-grow h-full flex items-center px-4">
 				<button
-					class="h-20 w-20 bg-gray-300 rounded shadow text-[40px] font-bold text-neutral-600 border border-gray-400/10"
+					class="h-20 w-20 bg-gray-300 rounded shadow text-[40px] font-bold text-neutral-600 border border-gray-400/10 disabled:bg-gray-200 disabled:text-neutral-400"
+					on:click={() => toggleModal('harvest')}
+					disabled={!$page.data.dailyProgress.eaten}
 				>
 					H
 				</button>
@@ -317,6 +320,8 @@
 		<ModalEatingLog {toggleModal} />
 	{:else if visibleModal == 'finishEating'}
 		<ModalFinishEating {toggleModal} />
+	{:else if visibleModal == 'harvest'}
+		<ModalHarvest {toggleModal} />
 	{/if}
 {:else}
 	<p class="m-3 px-5 flex justify-center">No one here yet...</p>
