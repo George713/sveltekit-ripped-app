@@ -49,7 +49,7 @@
 	<div class="absolute w-full h-[60px] bg-black opacity-30 rounded-b" />
 	<!-- Image -->
 	<img
-		src={`https://ripped-images-bucket.s3.eu-central-1.amazonaws.com/foodItem_${id}`}
+		src={`https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${id}`}
 		alt="imgUrl"
 		style="width:100%;height:60px;"
 		class="rounded-b"

@@ -34,9 +34,8 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@aws-sdk/client-s3": "^3.338.0",
-		"@aws-sdk/s3-request-presigner": "^3.338.0",
 		"@prisma/client": "^4.14.1",
+		"@supabase/supabase-js": "^2.39.7",
 		"bcrypt": "^5.1.0"
 	}
 }

@@ -1,24 +1,8 @@
 import { json } from '@sveltejs/kit';
-import {
-	AWS_BUCKET_REGION,
-	AWS_ACCESS_KEY_ID,
-	AWS_SECRET_ACCESS_KEY,
-	AWS_BUCKET_NAME
-} from '$env/static/private';
 
 import { db } from '$lib/database.server';
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-
+import { supabase } from '$lib/supabaseClient.server';
 import type { RequestHandler } from './$types';
-
-const s3 = new S3Client({
-	region: AWS_BUCKET_REGION,
-	credentials: {
-		accessKeyId: AWS_ACCESS_KEY_ID,
-		secretAccessKey: AWS_SECRET_ACCESS_KEY
-	}
-});
 
 export const POST: RequestHandler = async ({ locals }) => {
 	// Create picture reference
@@ -44,8 +28,9 @@ export const POST: RequestHandler = async ({ locals }) => {
 	const filename = 'progress_picture_' + id;
 
 	// Make presignedURL
-	const command = new PutObjectCommand({ Bucket: AWS_BUCKET_NAME, Key: filename });
-	const presignedURL = await getSignedUrl(s3, command, { expiresIn: 60 * 5 });
+	const { data, error } = await supabase.storage
+		.from('ripped-images-bucket')
+		.createSignedUploadUrl(filename)
 
-	return json({ url: presignedURL });
+	return json({ url: data.signedUrl });
 };
