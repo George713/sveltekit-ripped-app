@@ -25,6 +25,7 @@
 	<form
 		action="?/logWeight"
 		method="post"
+		autocomplete="off"
 		use:enhance={() => {
 			return async ({ result }) => {
 				if (result.type === 'success') {

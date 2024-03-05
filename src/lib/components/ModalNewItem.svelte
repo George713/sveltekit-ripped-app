@@ -53,7 +53,7 @@
 		<p class="relative top-2 text-2xl font-semibold text-gray-200">New Item</p>
 
 		<!-- Card -->
-		<form method="POST" on:submit|preventDefault={handleSubmit}>
+		<form method="POST" autocomplete="off" on:submit|preventDefault={handleSubmit}>
 			<div
 				class="relative top-12 w-[234px] h-[260px] border border-neutral-500
 		shadow-[0.5px_0.5px_1.5px_rgba(0,0,0,0.1)] rounded-md overflow-hidden"
