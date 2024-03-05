@@ -6,8 +6,8 @@
 	export let toggleModal: (modal: string) => void;
 
 	$: reachedTargetKcal =
-		$page.data.user.currentCalorieTarget - 50 <= $eatenKcal &&
-		$eatenKcal <= $page.data.user.currentCalorieTarget + 50;
+		$page.data.user.currentCalorieTarget - 25 <= $eatenKcal &&
+		$eatenKcal <= $page.data.user.currentCalorieTarget + 25;
 
 	$: reachedTargetProtein = $eatenProtein >= $page.data.dailyProgress.targetProtein;
 
