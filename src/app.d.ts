@@ -9,6 +9,7 @@ declare global {
 				pointBalance: number;
 				streakMeter: number;
 				currentBF: number;
+				currentStatus: string;
 				currentWeight: number;
 				currentCalorieTarget: number;
 				initBF: boolean;
@@ -20,6 +21,7 @@ declare global {
 				targetProtein: number;
 				planned: boolean;
 				eaten: boolean;
+				harvest: boolean;
 			};
 		}
 		// interface PageData {}

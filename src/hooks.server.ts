@@ -53,6 +53,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			// Daily progress
 			dailyPlanned: true,
 			dailyEaten: true,
+			dailyHarvest: true,
 			// Progess Player Journey
 			initBF: true,
 			initPhoto: true,
@@ -71,22 +72,28 @@ export const handle: Handle = async ({ event, resolve }) => {
 			}
 		});
 
+		// User properties
 		event.locals.user = {
 			name: user.username,
 			pointBalance: user.pointBalance,
 			streakMeter: user.weights.length,
 			currentCalorieTarget: user.calorieTargets.length > 0 ? user.calorieTargets[0].calories : 9999,
 			currentBF: user.bodyfats.length > 0 ? user.bodyfats[0].bodyfat : 999,
+			currentStatus: 'empty',
 			currentWeight: userWeight ? userWeight.weight : 999,
 			initBF: user.initBF,
 			initPhoto: user.initPhoto,
 			initCalories: user.initCalories
 		};
+		// Derived value for user
+		event.locals.user.currentStatus = getUserCurrentStatus(event.locals.user.currentBF)
+		// Daily Progress
 		event.locals.dailyProgress = {
 			weighIn: didWeightoday(user.weights),
 			targetProtein: Math.round(event.locals.user.currentWeight * 2),
 			planned: user.dailyPlanned,
-			eaten: user.dailyEaten
+			eaten: user.dailyEaten,
+			harvest: user.dailyHarvest,
 		};
 	}
 
@@ -106,3 +113,17 @@ const didWeightoday = (weights) => {
 	const weightDateStrings = weights.map((weight) => weight.createdAt.toLocaleDateString());
 	return weightDateStrings.includes(date);
 };
+
+const getUserCurrentStatus = (currentBF: number) => {
+	if (currentBF >= 16 && currentBF < 20) {
+		return 'Bronze';
+	} else if (currentBF >= 12 && currentBF < 16) {
+		return 'Silver';
+	} else if (currentBF >= 10 && currentBF < 12) {
+		return 'Gold';
+	} else if (currentBF < 10) {
+		return 'Platinum';
+	} else {
+		return 'Wood';
+	}
+}
