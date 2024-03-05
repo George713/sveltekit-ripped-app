@@ -4,11 +4,6 @@ import bcrypt from 'bcrypt'
 
 import { db } from '$lib/database.server'
 
-enum Roles {
-    ADMIN = 'ADMIN',
-    USER = 'USER'
-}
-
 export const load: PageServerLoad = async ({ locals }) => {
     if (locals.user) {
         throw redirect(302, '/')
@@ -42,7 +37,6 @@ const register: Action = async ({ request }) => {
             username,
             passwordHash: await bcrypt.hash(password, 10),
             userAuthToken: crypto.randomUUID(),
-            role: { connect: { name: Roles.USER } },
         },
     })
 

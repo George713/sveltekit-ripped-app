@@ -6,7 +6,6 @@ declare global {
 		interface Locals {
 			user: {
 				name: string;
-				role: string;
 				pointBalance: number;
 				streakMeter: number;
 				currentBF: number;
