@@ -1,24 +1,8 @@
 import { fail } from '@sveltejs/kit';
 import type { Action, Actions, PageServerLoad } from './$types';
 
-import {
-	AWS_BUCKET_REGION,
-	AWS_ACCESS_KEY_ID,
-	AWS_SECRET_ACCESS_KEY,
-	AWS_BUCKET_NAME
-} from '$env/static/private';
-
 import { db } from '$lib/database.server';
-import { S3Client, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-
-const s3 = new S3Client({
-	region: AWS_BUCKET_REGION,
-	credentials: {
-		accessKeyId: AWS_ACCESS_KEY_ID,
-		secretAccessKey: AWS_SECRET_ACCESS_KEY
-	}
-});
+import { supabase } from '$lib/supabaseClient.server';
 
 const logWeight: Action = async ({ locals, request }) => {
 	const data = await request.formData();
@@ -95,8 +79,8 @@ const logBodyFat: Action = async ({ locals, request }) => {
 };
 
 const newItem: Action = async ({ locals, request }) => {
-	const data = await request.formData();
-	const { itemName, kcal, protein, portionSize } = Object.fromEntries(data.entries());
+	const formData = await request.formData();
+	const { itemName, kcal, protein, portionSize } = Object.fromEntries(formData.entries());
 
 	// Create entry in db
 	const newItem = await db.foodItem.create({
@@ -116,17 +100,22 @@ const newItem: Action = async ({ locals, request }) => {
 	// Make unique filename
 	const filename = 'foodItem_' + newItem.id;
 
-	// Make presignedURL
-	const command = new PutObjectCommand({ Bucket: AWS_BUCKET_NAME, Key: filename });
-	const presignedURL = await getSignedUrl(s3, command, { expiresIn: 60 * 5 });
+	// Make presignedURL for upload from client
+	const { data, error } = await supabase.storage
+		.from('foodItems')
+		.createSignedUploadUrl(filename)
+
+	if (!data) {
+		throw new Error('Presigned URL could not be generated');
+	}
 
 	// return URL to user for upload
-	return { presignedURL: presignedURL, newItem: newItem }
+	return { presignedURL: data.signedUrl, newItem: newItem }
 }
 
 const deleteItem: Action = async ({ request }) => {
-	const data = await request.formData();
-	const { id } = Object.fromEntries(data.entries());
+	const formData = await request.formData();
+	const { id } = Object.fromEntries(formData.entries());
 
 	// Delete item from db
 	await db.foodItem.delete({
@@ -135,8 +124,10 @@ const deleteItem: Action = async ({ request }) => {
 
 	// Delete image from S3
 	const filename = 'foodItem_' + id;
-	const command = new DeleteObjectCommand({ Bucket: AWS_BUCKET_NAME, Key: filename });
-	await s3.send(command);
+	const { data, error } = await supabase
+		.storage
+		.from('foodItems')
+		.remove([filename])
 }
 
 const finishPlanning: Action = async ({ request }) => {
@@ -165,7 +156,6 @@ const finishPlanning: Action = async ({ request }) => {
 			data: { dailyPlanned: true }
 		})
 	}
-	return
 }
 
 const eatItem: Action = async ({ request }) => {

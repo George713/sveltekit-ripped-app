@@ -65,6 +65,8 @@
 			body: new FormData()
 		});
 		const presignedURL = (await response.json()).url;
+
+		// Upload image
 		await fetch(presignedURL, {
 			method: 'PUT',
 			body: picture
