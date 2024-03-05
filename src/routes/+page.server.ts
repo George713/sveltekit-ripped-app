@@ -178,13 +178,25 @@ const finishEating: Action = async ({ request }) => {
 	})
 }
 
+const harvestPoints: Action = async ({ locals, request }) => {
+	const formData = await request.formData()
+	const username = formData.get('username');
+	const points = formData.get('points');
+
+	// Update dailyHarvest & pointBalance
+	const user = await db.user.update({
+		where: { username: JSON.parse(username as string) },
+		data: { dailyHarvest: true, pointBalance: { increment: parseInt(points as string, 10) } }
+	})
+}
+
 const reset: Action = async ({ request }) => {
 	const formData = await request.formData()
 	const username = formData.get('username');
 
 	const user = await db.user.update({
 		where: { username: JSON.parse(username as string) },
-		data: { dailyPlanned: false, dailyEaten: false }
+		data: { dailyPlanned: false, dailyEaten: false, dailyHarvest: false }
 	})
 
 	await db.foodItem.updateMany({
@@ -225,5 +237,6 @@ export const actions: Actions = {
 	finishPlanning,
 	eatItem,
 	finishEating,
+	harvestPoints,
 	reset,
 };
