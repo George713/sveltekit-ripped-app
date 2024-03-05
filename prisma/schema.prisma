@@ -6,8 +6,11 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = "postgres://postgres.cdswqmabrloxyfswpggl:<PASSWORD>@aws-0-eu-central-1.pooler.supabase.com:6543/postgres?pgbouncer=true&connection_limit=1"
+  directUrl = "postgres://postgres.cdswqmabrloxyfswpggl:<PASSWORD>!@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?pgbouncer=true&connection_limit=1"
+  // url       = env("DATABASE_URL")
+  // directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -18,9 +21,6 @@ model User {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  role   Roles @relation(fields: [roleId], references: [id])
-  roleId Int
 
   pointBalance   Int             @default(0)
   calorieTargets CalorieTarget[]
@@ -41,12 +41,6 @@ model User {
   initBF       Boolean @default(false)
   initPhoto    Boolean @default(false)
   initCalories Boolean @default(false)
-}
-
-model Roles {
-  id   Int    @id @default(autoincrement())
-  name String @unique
-  User User[]
 }
 
 model Weight {
