@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { invalidateAll } from '$app/navigation';
-	import { dailySelection } from '$lib/stores';
 
 	export let toggleModal: (modal: string) => void;
 
