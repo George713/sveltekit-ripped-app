@@ -4,6 +4,8 @@
 
 <div
 	class="fixed top-0 w-full h-full bg-black bg-opacity-70"
+	role="button"
+	tabindex={0}
 	on:click|self={() => toggleModal('none')}
 	on:keydown|self={() => toggleModal('none')}
 >

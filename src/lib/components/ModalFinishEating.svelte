@@ -24,6 +24,8 @@
 
 <div
 	class="absolute top-0 left-0 w-screen h-screen bg-black/30 backdrop-blur-[2px] flex justify-center"
+	role="button"
+	tabindex={0}
 	on:click={() => toggleModal('none')}
 	on:keydown={() => toggleModal('none')}
 >

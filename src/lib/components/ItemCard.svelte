@@ -27,6 +27,8 @@
 			class="absolute w-[90px] h-[100px] z-10 {eaten
 				? 'bg-black opacity-60'
 				: ''} flex justify-center"
+			role="button"
+			tabindex={0}
 			on:click={() => {
 				if (!eaten) {
 					eatItem(id);

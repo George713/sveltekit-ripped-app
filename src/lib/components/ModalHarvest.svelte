@@ -7,6 +7,8 @@
 
 <div
 	class="absolute top-0 left-0 w-screen h-screen bg-gray-300"
+	role="button"
+	tabindex={0}
 	on:click={() => toggleModal('none')}
 	on:keydown={() => toggleModal('none')}
 >
@@ -27,11 +29,17 @@
 				<img src="/gcoins.svg" alt="gcoins" />
 				<img class="ml-10" src="/star.svg" alt="star" />
 			</div>
-			<div class="my-2">
-				<span class="w-44">Weight Measured</span>
+			<div class="relative my-2 flex">
+				<span class="w-40">Hit Protein Target</span>
+				<span class="text-right w-6 mr-1">12</span>
+				<img src="/gcoins.svg" alt="gcoins" />
+				<img class="ml-10" src="/star.svg" alt="star" />
 			</div>
-			<div class="my-2">
-				<span class="w-44">Weight Measured</span>
+			<div class="relative my-2 flex">
+				<span class="w-40">Hit Calorie Target</span>
+				<span class="text-right w-6 mr-1">35</span>
+				<img src="/gcoins.svg" alt="gcoins" />
+				<img class="ml-10" src="/star.svg" alt="star" />
 			</div>
 		</div>
 	</div>
