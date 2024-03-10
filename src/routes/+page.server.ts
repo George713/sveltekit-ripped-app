@@ -1,4 +1,4 @@
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import type { Action, Actions, PageServerLoad } from './$types';
 
 import { db } from '$lib/database.server';
@@ -186,7 +186,17 @@ const harvestPoints: Action = async ({ locals, request }) => {
 	// Update dailyHarvest & pointBalance
 	const user = await db.user.update({
 		where: { username: JSON.parse(username as string) },
-		data: { dailyHarvest: true, pointBalance: { increment: parseInt(points as string, 10) } }
+		data: {
+			dailyHarvest: true,
+			pointBalance: { increment: parseInt(points as string, 10) },
+			weeklyPic: true,
+		}
+	})
+
+	// Reset daily selection of food items
+	await db.foodItem.updateMany({
+		where: { user },
+		data: { intendedAmount: 0, eatenAmount: 0 }
 	})
 }
 
@@ -196,7 +206,12 @@ const reset: Action = async ({ request }) => {
 
 	const user = await db.user.update({
 		where: { username: JSON.parse(username as string) },
-		data: { dailyPlanned: false, dailyEaten: false, dailyHarvest: false }
+		data: {
+			dailyPlanned: false,
+			dailyEaten: false,
+			dailyHarvest: false,
+			weeklyPic: false,
+		}
 	})
 
 	await db.foodItem.updateMany({
@@ -215,6 +230,11 @@ export const load: PageServerLoad = async ({ locals }) => {
 		// Check that user was found
 		if (!user) {
 			return [] // Return an empty array if user is null  
+		}
+
+		// If last day was not ended, ask for new day
+		if (user.activeDay.toISOString().slice(0, 10) != new Date().toISOString().slice(0, 10)) {
+			redirect(302, "/newDay")
 		}
 
 		// Get items of that user
