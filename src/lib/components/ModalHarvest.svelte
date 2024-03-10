@@ -45,7 +45,9 @@
 	$: totalPoints = calcTotalPoints(points, multiplier);
 
 	const harvest = async (totalPoints: number) => {
-		// Add points to point balance & mark the daily activity as done
+		// - Add points to point balance
+		// - Mark the daily activity as done
+		// - Reset daily selection of food items
 		const formData = new FormData();
 		formData.append('username', JSON.stringify($page.data.user.name));
 		formData.append('points', totalPoints.toString()); // Convert number to string before appending
@@ -107,7 +109,9 @@
 		<div class="ml-14 flex flex-col">
 			<div class="relative my-2 flex">
 				<span class="w-36">Measure Streak</span>
-				<span class="text-right w-10 mr-1 font-bold text-cyan-500">+{100 * multiplier}% </span>
+				<span class="text-right w-10 mr-1 font-bold text-cyan-500"
+					>+{Math.round(100 * multiplier)}%
+				</span>
 				<img src="/uparrows.svg" alt="gcoins" class="ml-2" />
 			</div>
 		</div>
