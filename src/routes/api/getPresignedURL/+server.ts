@@ -14,7 +14,8 @@ export const POST: RequestHandler = async ({ locals }) => {
 			progressPictures: {
 				create: [{}]
 			},
-			initPhoto: true
+			initPhoto: true,
+			weeklyPic: true,
 		}
 	});
 	// Get id of reference (for usage in filename)
@@ -31,6 +32,10 @@ export const POST: RequestHandler = async ({ locals }) => {
 	const { data, error } = await supabase.storage
 		.from('ripped-images-bucket')
 		.createSignedUploadUrl(filename)
+
+	if (!data) {
+		throw new Error('Presigned URL could not be generated');
+	}
 
 	return json({ url: data.signedUrl });
 };
