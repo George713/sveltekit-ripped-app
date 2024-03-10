@@ -23,6 +23,8 @@ model User {
   pointBalance   Int             @default(0)
   calorieTargets CalorieTarget[]
 
+  activeDay DateTime @default(now())
+
   // Foods
   foodItems FoodItem[]
 
@@ -31,10 +33,15 @@ model User {
   bodyfats         BodyFat[]
   progressPictures ProgressPicture[]
 
-  // Daily progress
+  // Recurring activity progress
   dailyPlanned Boolean @default(false)
+  // lastPlannedOn DateTime
   dailyEaten   Boolean @default(false)
   dailyHarvest Boolean @default(false)
+  weeklyPic    Boolean @default(false)
+
+  // Appointments
+  progressPicOn String @default("SUN")
 
   // Progress Player Journey
   initBF       Boolean @default(false)
