@@ -18,6 +18,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			id: true,
 			username: true,
 			pointBalance: true,
+			activeDay: true,
 			// current calorie target
 			calorieTargets: {
 				orderBy: {
@@ -50,10 +51,13 @@ export const handle: Handle = async ({ event, resolve }) => {
 					createdAt: true
 				}
 			},
-			// Daily progress
+			// Recurring activity progress
 			dailyPlanned: true,
 			dailyEaten: true,
 			dailyHarvest: true,
+			weeklyPic: true,
+			// Appointments
+			progressPicOn: true,
 			// Progess Player Journey
 			initBF: true,
 			initPhoto: true,
@@ -76,6 +80,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		event.locals.user = {
 			name: user.username,
 			pointBalance: user.pointBalance,
+			activeDay: user.activeDay,
 			streakMeter: user.weights.length,
 			currentCalorieTarget: user.calorieTargets.length > 0 ? user.calorieTargets[0].calories : 9999,
 			currentBF: user.bodyfats.length > 0 ? user.bodyfats[0].bodyfat : 999,
@@ -83,7 +88,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 			currentWeight: userWeight ? userWeight.weight : 999,
 			initBF: user.initBF,
 			initPhoto: user.initPhoto,
-			initCalories: user.initCalories
+			initCalories: user.initCalories,
+			progressPicToday: new Date().toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() === user.progressPicOn ? true : false
 		};
 		// Derived value for user
 		event.locals.user.currentStatus = getUserCurrentStatus(event.locals.user.currentBF)
@@ -94,6 +100,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			planned: user.dailyPlanned,
 			eaten: user.dailyEaten,
 			harvest: user.dailyHarvest,
+			weeklyPic: user.weeklyPic,
 		};
 	}
 

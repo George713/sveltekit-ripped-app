@@ -7,6 +7,7 @@ declare global {
 			user: {
 				name: string;
 				pointBalance: number;
+				activeDay: Date;
 				streakMeter: number;
 				currentBF: number;
 				currentStatus: string;
@@ -15,6 +16,7 @@ declare global {
 				initBF: boolean;
 				initPhoto: boolean;
 				initCalories: boolean;
+				progressPicToday: boolean;
 			};
 			dailyProgress: {
 				weighIn: boolean;
@@ -22,6 +24,7 @@ declare global {
 				planned: boolean;
 				eaten: boolean;
 				harvest: boolean;
+				weeklyPic: boolean;
 			};
 		}
 		// interface PageData {}
