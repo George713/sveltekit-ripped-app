@@ -19,4 +19,4 @@
 
 ## Working with prisma
 
-- To setup new db from scratch, run `npx prisma migrate dev --name init`
+- To migrate db from schema to current, run `npx prisma migrate dev --name ~MIGRATIONNAME~`
