@@ -153,7 +153,7 @@ const finishPlanning: Action = async ({ request }) => {
 
 		await db.user.update({
 			where: { id: userId },
-			data: { dailyPlanned: true }
+			data: { lastPlannedOn: new Date() }
 		})
 	}
 }
@@ -207,7 +207,7 @@ const reset: Action = async ({ request }) => {
 	const user = await db.user.update({
 		where: { username: JSON.parse(username as string) },
 		data: {
-			dailyPlanned: false,
+			lastPlannedOn: new Date("1970-01-01"),
 			dailyEaten: false,
 			dailyHarvest: false,
 			weeklyPic: false,
