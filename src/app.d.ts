@@ -7,7 +7,6 @@ declare global {
 			user: {
 				name: string;
 				pointBalance: number;
-				activeDay: Date;
 				streakMeter: number;
 				currentBF: number;
 				currentStatus: string;

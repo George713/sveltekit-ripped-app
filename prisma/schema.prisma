@@ -23,8 +23,6 @@ model User {
   pointBalance   Int             @default(0)
   calorieTargets CalorieTarget[]
 
-  activeDay DateTime @default(now())
-
   // Foods
   foodItems FoodItem[]
 

@@ -231,11 +231,6 @@ export const load: PageServerLoad = async ({ locals }) => {
 			return [] // Return an empty array if user is null  
 		}
 
-		// If last day was not ended, ask for new day
-		if (user.activeDay.toISOString().slice(0, 10) != new Date().toISOString().slice(0, 10)) {
-			redirect(302, "/newDay")
-		}
-
 		// Get items of that user
 		let foodItems = await db.foodItem.findMany({
 			where: { userId: user.id },
