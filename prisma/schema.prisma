@@ -36,7 +36,7 @@ model User {
   // Recurring activity progress
   lastPlannedOn        DateTime @default(dbgenerated("to_date('1970-01-01', 'YYYY-MM-DD')"))
   lastFinishedEatingOn DateTime @default(dbgenerated("to_date('1970-01-01', 'YYYY-MM-DD')"))
-  dailyHarvest         Boolean  @default(false)
+  lastHarvestOn        DateTime @default(dbgenerated("to_date('1970-01-01', 'YYYY-MM-DD')"))
   weeklyPic            Boolean  @default(false)
 
   // Appointments

@@ -54,7 +54,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			// Recurring activity progress
 			lastPlannedOn: true,
 			lastFinishedEatingOn: true,
-			dailyHarvest: true,
+			lastHarvestOn: true,
 			weeklyPic: true,
 			// Appointments
 			progressPicOn: true,
@@ -99,7 +99,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			targetProtein: Math.round(event.locals.user.currentWeight * 2),
 			planned: didActivityToday(user.lastPlannedOn),
 			eaten: didActivityToday(user.lastFinishedEatingOn),
-			harvest: user.dailyHarvest,
+			harvest: didActivityToday(user.lastHarvestOn),
 			weeklyPic: user.weeklyPic,
 		};
 	}

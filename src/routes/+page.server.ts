@@ -183,11 +183,11 @@ const harvestPoints: Action = async ({ locals, request }) => {
 	const username = formData.get('username');
 	const points = formData.get('points');
 
-	// Update dailyHarvest & pointBalance
+	// Update lastHarvestOn & pointBalance
 	const user = await db.user.update({
 		where: { username: JSON.parse(username as string) },
 		data: {
-			dailyHarvest: true,
+			lastHarvestOn: new Date(),
 			pointBalance: { increment: parseInt(points as string, 10) },
 			weeklyPic: true,
 		}
@@ -209,7 +209,7 @@ const reset: Action = async ({ request }) => {
 		data: {
 			lastPlannedOn: new Date("1970-01-01"),
 			lastFinishedEatingOn: new Date("1970-01-01"),
-			dailyHarvest: false,
+			lastHarvestOn: new Date("1970-01-01"),
 			weeklyPic: false,
 		}
 	})
