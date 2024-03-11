@@ -4,20 +4,39 @@ import { db } from '$lib/database.server';
 import { supabase } from '$lib/supabaseClient.server';
 import type { RequestHandler } from './$types';
 
-export const POST: RequestHandler = async ({ locals }) => {
+export const POST: RequestHandler = async ({ locals, request }) => {
+	const formData = await request.formData()
+	const isInitPic = formData.get('isInitPic') === 'true';
+
+	// Declare user, as the if-clause is in another scope as the next statement needing user
+	let user
+
 	// Create picture reference
-	const user = await db.user.update({
-		where: {
-			username: locals.user.name
-		},
-		data: {
-			progressPictures: {
-				create: [{}]
+	if (isInitPic) {
+		user = await db.user.update({
+			where: {
+				username: locals.user.name
 			},
-			initPhoto: true,
-			weeklyPic: true,
-		}
-	});
+			data: {
+				progressPictures: {
+					create: [{}]
+				},
+				initPhoto: true,
+			}
+		});
+	} else {
+		user = await db.user.update({
+			where: {
+				username: locals.user.name
+			},
+			data: {
+				progressPictures: {
+					create: [{}]
+				},
+				lastWeeklyPicOn: new Date(),
+			}
+		});
+	}
 	// Get id of reference (for usage in filename)
 	// @ts-ignore
 	const { id } = await db.progressPicture.findFirst({

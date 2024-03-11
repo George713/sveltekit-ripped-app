@@ -50,7 +50,7 @@
 		visibleModal = modal;
 	};
 
-	const uploadToS3 = async (e: any) => {
+	const uploadToS3 = async (e: any, isInitPic: Boolean = false) => {
 		// Get picture
 		const picture = e.target.files[0];
 
@@ -60,9 +60,11 @@
 		}
 
 		// Get presigned URL
+		const formData = new FormData();
+		formData.append('isInitPic', JSON.stringify(isInitPic));
 		const response = await fetch('/api/getPresignedURL', {
 			method: 'POST',
-			body: new FormData()
+			body: formData
 		});
 		const presignedURL = (await response.json()).url;
 
@@ -189,7 +191,7 @@
 				bind:this={fileinput}
 				style="display:none"
 				accept=".jpg, .jpeg, .png"
-				on:change={(e) => uploadToS3(e)}
+				on:change={(e) => uploadToS3(e, true)}
 			/>
 			<button
 				on:click={() => fileinput.click()}

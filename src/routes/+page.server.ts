@@ -189,7 +189,6 @@ const harvestPoints: Action = async ({ locals, request }) => {
 		data: {
 			lastHarvestOn: new Date(),
 			pointBalance: { increment: parseInt(points as string, 10) },
-			weeklyPic: true,
 		}
 	})
 
@@ -210,7 +209,7 @@ const reset: Action = async ({ request }) => {
 			lastPlannedOn: new Date("1970-01-01"),
 			lastFinishedEatingOn: new Date("1970-01-01"),
 			lastHarvestOn: new Date("1970-01-01"),
-			weeklyPic: false,
+			lastWeeklyPicOn: new Date("1970-01-01"),
 		}
 	})
 

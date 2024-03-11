@@ -55,7 +55,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			lastPlannedOn: true,
 			lastFinishedEatingOn: true,
 			lastHarvestOn: true,
-			weeklyPic: true,
+			lastWeeklyPicOn: true,
 			// Appointments
 			progressPicOn: true,
 			// Progess Player Journey
@@ -100,7 +100,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			planned: didActivityToday(user.lastPlannedOn),
 			eaten: didActivityToday(user.lastFinishedEatingOn),
 			harvest: didActivityToday(user.lastHarvestOn),
-			weeklyPic: user.weeklyPic,
+			weeklyPic: didActivityToday(user.lastWeeklyPicOn),
 		};
 	}
 
