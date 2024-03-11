@@ -9,7 +9,6 @@ const newDay: Action = async ({ locals }) => {
         where: { username: locals.user.name },
         data: {
             activeDay: new Date().toISOString(),
-            dailyEaten: false,
             dailyHarvest: false,
             weeklyPic: false,
         }

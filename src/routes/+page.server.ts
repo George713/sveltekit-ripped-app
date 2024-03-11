@@ -174,7 +174,7 @@ const finishEating: Action = async ({ request }) => {
 
 	const user = await db.user.update({
 		where: { username: JSON.parse(username as string) },
-		data: { dailyEaten: true }
+		data: { lastFinishedEatingOn: new Date() }
 	})
 }
 
@@ -208,7 +208,7 @@ const reset: Action = async ({ request }) => {
 		where: { username: JSON.parse(username as string) },
 		data: {
 			lastPlannedOn: new Date("1970-01-01"),
-			dailyEaten: false,
+			lastFinishedEatingOn: new Date("1970-01-01"),
 			dailyHarvest: false,
 			weeklyPic: false,
 		}

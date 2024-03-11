@@ -52,9 +52,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 				}
 			},
 			// Recurring activity progress
-			// dailyPlanned: true,
 			lastPlannedOn: true,
-			dailyEaten: true,
+			lastFinishedEatingOn: true,
 			dailyHarvest: true,
 			weeklyPic: true,
 			// Appointments
@@ -98,9 +97,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 		event.locals.dailyProgress = {
 			weighIn: didWeightoday(user.weights),
 			targetProtein: Math.round(event.locals.user.currentWeight * 2),
-			// planned: user.dailyPlanned,
-			planned: didPlanToday(user.lastPlannedOn),
-			eaten: user.dailyEaten,
+			planned: didActivityToday(user.lastPlannedOn),
+			eaten: didActivityToday(user.lastFinishedEatingOn),
 			harvest: user.dailyHarvest,
 			weeklyPic: user.weeklyPic,
 		};
@@ -123,12 +121,12 @@ const didWeightoday = (weights) => {
 	return weightDateStrings.includes(date);
 };
 
-const didPlanToday = (lastPlannedOn: Date) => {
+const didActivityToday = (lastActivityDate: Date) => {
 	const now = new Date();
 	const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
 
 	// Check if it's between midnight and 3 am, otherwise check if it's today
-	return (now.getHours() < 3 ? lastPlannedOn.toLocaleDateString() === yesterday.toLocaleDateString() : lastPlannedOn.toLocaleDateString() === now.toLocaleDateString());
+	return (now.getHours() < 3 ? lastActivityDate.toLocaleDateString() === yesterday.toLocaleDateString() : lastActivityDate.toLocaleDateString() === now.toLocaleDateString());
 };
 
 const getUserCurrentStatus = (currentBF: number) => {
