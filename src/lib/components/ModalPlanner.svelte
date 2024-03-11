@@ -64,14 +64,14 @@
 		if ($dailySelection.length === 0) {
 			alert("You haven't selected any items for today.");
 			return;
-		} else if ($plannedKcal > $page.data.user.currentCalorieTarget + 50) {
+		} else if ($plannedKcal > $page.data.user.currentCalorieTarget + 25) {
 			alert(
-				`You have exceeded your calorie target for today. Try to select in the range of +-50 kcal of your target (${$page.data.user.currentCalorieTarget} kcal).`
+				`You have exceeded your calorie target for today. Try to select in the range of +-25 kcal of your target (${$page.data.user.currentCalorieTarget} kcal).`
 			);
 			return;
-		} else if ($plannedKcal < $page.data.user.currentCalorieTarget - 50) {
+		} else if ($plannedKcal < $page.data.user.currentCalorieTarget - 25) {
 			alert(
-				`You have not reached your calorie target for today. Try to select in the range of +-50 kcal of your target (${$page.data.user.currentCalorieTarget} kcal).`
+				`You have not reached your calorie target for today. Try to select in the range of +-25 kcal of your target (${$page.data.user.currentCalorieTarget} kcal).`
 			);
 			return;
 		}
