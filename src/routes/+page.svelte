@@ -62,6 +62,7 @@
 		// Get presigned URL
 		const formData = new FormData();
 		formData.append('isInitPic', JSON.stringify(isInitPic));
+		formData.append('timestamp', new Date().toUTCString());
 		const response = await fetch('/api/getPresignedURL', {
 			method: 'POST',
 			body: formData
