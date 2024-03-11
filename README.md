@@ -19,4 +19,5 @@
 
 ## Working with prisma
 
+- To update the local prisma client (e.g. when the schema has changed), run `npx prisma generate`
 - To migrate db from schema to current, run `npx prisma migrate dev --name ~MIGRATIONNAME~`
