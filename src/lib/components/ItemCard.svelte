@@ -1,16 +1,18 @@
 <script lang="ts">
 	export let type: string = 'bright';
 	export let id: number;
+	export let foodId: number;
 	export let itemName: string;
 	export let kcal: number;
 	export let protein: number;
 	export let portionUnit: string;
 	export let portionSize: number;
-	export let addRemoveItem: (id: number, method: string) => void = () => {};
 	export let deleteItem: (id: number) => void = () => {
 		console.log('deleteItem not defined');
 	};
-	export let eatable: boolean = false;
+	export let addToPlannedItems: (id: number) => void = () => {};
+	export let removeFromPlannedItems: (id: number) => void = () => {};
+	export let eatingMenu: boolean = false;
 	export let eaten: boolean = false;
 	export let eatItem: (id: number) => void = () => {};
 </script>
@@ -22,7 +24,7 @@
 		: 'border-neutral-200'} shadow-[0.5px_0.5px_1.5px_rgba(0,0,0,0.1)] rounded-md overflow-hidden"
 >
 	<!-- Overlay -->
-	{#if eatable}
+	{#if eatingMenu}
 		<div
 			class="absolute w-[90px] h-[100px] z-10 {eaten
 				? 'bg-black opacity-60'
@@ -32,13 +34,11 @@
 			on:click={() => {
 				if (!eaten) {
 					eatItem(id);
-					// eaten = true;
 				}
 			}}
 			on:keydown={() => {
 				if (!eaten) {
 					eatItem(id);
-					// eaten = true;
 				}
 			}}
 		>
@@ -51,7 +51,7 @@
 	<div class="absolute w-full h-[60px] bg-black opacity-30 rounded-b" />
 	<!-- Image -->
 	<img
-		src={`https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${id}`}
+		src={`https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${foodId}`}
 		alt="imgUrl"
 		style="width:100%;height:60px;"
 		class="rounded-b"
@@ -59,7 +59,12 @@
 	<!-- Image Icon: Adding/removing Item -->
 	{#if type === 'dark'}
 		<!-- Adding Item -->
-		<button class="absolute top-0 right-0" on:click={() => addRemoveItem(id, 'add')}>
+		<button
+			class="absolute top-0 right-0"
+			on:click={() => {
+				addToPlannedItems(id);
+			}}
+		>
 			<svg class="h-5 w-5 stroke-neutral-200/80 fill-none" viewBox="0 0 24 24">
 				<path
 					stroke-linecap="round"
@@ -71,7 +76,7 @@
 		</button>
 	{:else}
 		<!-- Removing Item -->
-		<button class="absolute top-0.5 right-1" on:click={() => addRemoveItem(id, 'remove')}>
+		<button class="absolute top-0.5 right-1" on:click={() => removeFromPlannedItems(id)}>
 			<svg class="h-3 fill-neutral-200/50" viewBox="0 0 24 24">
 				<path
 					fill-rule="evenodd"

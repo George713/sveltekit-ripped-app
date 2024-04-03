@@ -1,22 +1,21 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import TargetTracker from '$lib/components/TargetTracker.svelte';
-	import { foodLibrary, dailySelection, eatenKcal, eatenProtein } from '$lib/stores';
+	import { foodLibrary, plannedItems, eatenKcal, eatenProtein } from '$lib/stores';
 	import ItemCard from '$lib/components/ItemCard.svelte';
 
 	export let toggleModal: (modal: string) => void;
 
 	const eatItem = async (id: number) => {
-		// Increase eatenAmount by 1 for in store foodLibrary
-		foodLibrary.update((items) => {
+		plannedItems.update((items) => {
 			const index = items.findIndex((item) => item.id === id);
 			if (index !== -1) {
-				items[index].eatenAmount += 1;
+				items[index].eaten = true;
 			}
 			return items;
 		});
 
-		// Increase eatenAmount in db
+		// Updaten eaten flag in db
 		const formData = new FormData();
 		formData.append('id', id.toString());
 		const response = await fetch('?/eatItem', {
@@ -61,36 +60,20 @@
 			<div
 				class="h-[calc(89%)] mt-2 flex flex-row flex-wrap space-x-1 gap-y-1 justify-center overflow-y-auto scrollbar-hide"
 			>
-				{#each $dailySelection as { id, itemName, kcal, protein, portionSize, intendedAmount, eatenAmount }}
-					{#each Array(intendedAmount) as _, index (index)}
-						{#if eatenAmount >= index + 1}
-							<ItemCard
-								type="bright"
-								{id}
-								{itemName}
-								{kcal}
-								{protein}
-								portionUnit="ptn"
-								{portionSize}
-								eatable={true}
-								eaten={true}
-								{eatItem}
-							/>
-						{:else}
-							<ItemCard
-								type="bright"
-								{id}
-								{itemName}
-								{kcal}
-								{protein}
-								portionUnit="ptn"
-								{portionSize}
-								eatable={true}
-								eaten={false}
-								{eatItem}
-							/>
-						{/if}
-					{/each}
+				{#each $plannedItems as { id, foodId, eaten }}
+					<ItemCard
+						type="bright"
+						{id}
+						{foodId}
+						itemName={foodLibrary.getItemNameByIndex(foodId)}
+						kcal={foodLibrary.getKcalByIndex(foodId)}
+						protein={foodLibrary.getProteinByIndex(foodId)}
+						portionUnit="ptn"
+						portionSize={foodLibrary.getPortionSizeByIndex(foodId)}
+						eatingMenu={true}
+						{eaten}
+						{eatItem}
+					/>
 				{/each}
 			</div>
 		</div>

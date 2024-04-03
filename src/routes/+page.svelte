@@ -21,8 +21,8 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { invalidateAll } from '$app/navigation';
-	import { foodLibrary, eatenKcal, eatenProtein } from '$lib/stores';
-	import type { FoodItem } from '$lib/types';
+	import { foodLibrary, plannedItems, eatenKcal, eatenProtein } from '$lib/stores';
+	import type { FoodItem, PlannedItem } from '$lib/types';
 	import PowerUps from '$lib/components/PowerUps.svelte';
 	import ProgessBars from '$lib/components/ProgessBars.svelte';
 	import Sigil from '$lib/components/Sigil.svelte';
@@ -36,9 +36,12 @@
 	import ModalFinishEating from '$lib/components/ModalFinishEating.svelte';
 	import ModalHarvest from '$lib/components/ModalHarvest.svelte';
 
-	export let data: { foodItems: FoodItem[] };
+	export let data: { foodItems: FoodItem[]; plannedItems: PlannedItem[] };
 	if (data.foodItems) {
 		foodLibrary.set(data.foodItems);
+	}
+	if (data.plannedItems) {
+		plannedItems.set(data.plannedItems);
 	}
 
 	let fileinput: any;

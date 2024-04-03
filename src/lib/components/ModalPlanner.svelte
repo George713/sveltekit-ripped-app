@@ -2,35 +2,25 @@
 	import { page } from '$app/stores';
 	import { deserialize } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
-	import { foodLibrary, dailySelection, plannedKcal, plannedProtein } from '$lib/stores';
+	import type { PlannedItem } from '$lib/types';
+	import { foodLibrary, plannedItems, plannedKcal, plannedProtein } from '$lib/stores';
 	import ItemCard from '$lib/components/ItemCard.svelte';
 	import TargetTracker from '$lib/components/TargetTracker.svelte';
 
 	export let toggleModal: (modal: string) => void;
 
-	/**
-	 * Updates the intended amount of a food item in the food library.
-	 *
-	 * @param {number} id - The ID of the food item to update.
-	 * @param {string} method - The method to use ('add' to increase the intended amount, 'remove' to decrease it).
-	 * If the method is 'add', it increases the intended amount of the food item by 1.
-	 * If the method is 'remove', it decreases the intended amount of the food item by 1.
-	 * If the food item is not found in the food library, it does nothing.
-	 */
-	const addRemoveItem = (id: number, method: string) => {
-		foodLibrary.update((items) => {
-			const index = items.findIndex((item) => item.id === id);
-			if (index !== -1) {
-				let updatedItem = items[index];
-				if (method === 'add') {
-					updatedItem = { ...updatedItem, intendedAmount: updatedItem.intendedAmount + 1 };
-				} else if (method === 'remove') {
-					updatedItem = { ...updatedItem, intendedAmount: updatedItem.intendedAmount - 1 };
-				}
-				return [...items.slice(0, index), updatedItem, ...items.slice(index + 1)];
-			}
-			return items;
-		});
+	const addToPlannedItems = (id: number) => {
+		const newItem: PlannedItem = {
+			id: plannedItems.maxId + 1,
+			eaten: false,
+			createdAt: new Date(),
+			foodId: id
+		};
+		plannedItems.add(newItem);
+	};
+
+	const removeFromPlannedItems = (id: number) => {
+		plannedItems.remove(id);
 	};
 
 	/**
@@ -60,8 +50,8 @@
 	};
 
 	const finishPlanning = async () => {
-		// Check daily selection
-		if ($dailySelection.length === 0) {
+		// Check planned items
+		if ($plannedItems.length === 0) {
 			alert("You haven't selected any items for today.");
 			return;
 		} else if ($plannedKcal > $page.data.user.currentCalorieTarget + 25) {
@@ -76,9 +66,10 @@
 			return;
 		}
 
-		// Submit daily selection to server
+		// Submit planned items to server
 		const formData = new FormData();
-		formData.append('dailySelection', JSON.stringify($dailySelection));
+		formData.append('plannedItems', JSON.stringify($plannedItems));
+		formData.append('username', JSON.stringify($page.data.user.name));
 		const response = await fetch('?/finishPlanning', {
 			method: 'POST',
 			body: formData
@@ -131,19 +122,18 @@
 			<div
 				class="h-[210px] mt-1 px-1.5 flex flex-col flex-wrap gap-1 overflow-x-auto scrollbar-hide"
 			>
-				{#each $dailySelection as { id, itemName, kcal, protein, portionSize, intendedAmount }}
-					{#each Array(intendedAmount) as _, index (index)}
-						<ItemCard
-							type="bright"
-							{id}
-							{itemName}
-							{kcal}
-							{protein}
-							portionUnit="ptn"
-							{portionSize}
-							{addRemoveItem}
-						/>
-					{/each}
+				{#each $plannedItems as { id, foodId }}
+					<ItemCard
+						type="bright"
+						{id}
+						{foodId}
+						itemName={foodLibrary.getItemNameByIndex(foodId)}
+						kcal={foodLibrary.getKcalByIndex(foodId)}
+						protein={foodLibrary.getProteinByIndex(foodId)}
+						portionUnit="ptn"
+						portionSize={foodLibrary.getPortionSizeByIndex(foodId)}
+						{removeFromPlannedItems}
+					/>
 				{/each}
 			</div>
 		</div>
@@ -193,13 +183,15 @@
 					<ItemCard
 						type="dark"
 						{id}
+						foodId={id}
 						{itemName}
 						{kcal}
 						{protein}
 						portionUnit="ptn"
 						{portionSize}
-						{addRemoveItem}
 						{deleteItem}
+						{addToPlannedItems}
+						{removeFromPlannedItems}
 					/>
 				{/each}
 			</div>
