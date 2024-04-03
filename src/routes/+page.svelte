@@ -90,6 +90,9 @@
 			body: formData
 		});
 
+		// Clear plannedItem store
+		plannedItems.set([]);
+
 		// Reload page data (so plan button is enabled again)
 		invalidateAll();
 	};
