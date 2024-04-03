@@ -6,4 +6,11 @@ export interface FoodItem {
     portionSize: number;
     intendedAmount: number;
     eatenAmount: number;
-}  
+}
+
+export interface PlannedItem {
+    id: number;
+    eaten: boolean;
+    createdAt: Date;
+    foodId: number;
+}
