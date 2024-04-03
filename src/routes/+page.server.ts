@@ -132,27 +132,19 @@ const deleteItem: Action = async ({ request }) => {
 
 const finishPlanning: Action = async ({ request }) => {
 	const formData = await request.formData()
-	const dailySelection = formData.get('dailySelection');
+	const plannedItems = formData.get('plannedItems');
+	const username = formData.get('username')
 
-	if (dailySelection) {
-		const parsedDailySelection = JSON.parse(dailySelection as string)
+	if (plannedItems) {
+		const parsedPlannedItems = JSON.parse(plannedItems as string)
 
-		for (const item of parsedDailySelection) {
-			const { id, intendedAmount } = item;
-
-			await db.foodItem.update({
-				where: { id },
-				data: {
-					intendedAmount,
-					eatenAmount: 0
-				}
-			})
-		}
-
-		const userId = parsedDailySelection[0].userId
+		const createdPlannedItems = await db.plannedItem.createMany({
+			data: parsedPlannedItems,
+			skipDuplicates: true, // Skip duplicates if you don't want to create them again
+		});
 
 		await db.user.update({
-			where: { id: userId },
+			where: { username: JSON.parse(username as string) },
 			data: { lastPlannedOn: new Date() }
 		})
 	}
@@ -162,9 +154,9 @@ const eatItem: Action = async ({ request }) => {
 	const formData = await request.formData()
 	const { id } = Object.fromEntries(formData.entries());
 
-	await db.foodItem.update({
+	await db.plannedItem.update({
 		where: { id: parseInt(id as string) },
-		data: { eatenAmount: { increment: 1 } }
+		data: { eaten: true }
 	})
 }
 
@@ -191,12 +183,6 @@ const harvestPoints: Action = async ({ locals, request }) => {
 			pointBalance: { increment: parseInt(points as string, 10) },
 		}
 	})
-
-	// Reset daily selection of food items
-	await db.foodItem.updateMany({
-		where: { user },
-		data: { intendedAmount: 0, eatenAmount: 0 }
-	})
 }
 
 const reset: Action = async ({ request }) => {
@@ -213,10 +199,10 @@ const reset: Action = async ({ request }) => {
 		}
 	})
 
-	await db.foodItem.updateMany({
-		where: { user },
-		data: { intendedAmount: 0, eatenAmount: 0 }
-	})
+	// Delete all PlannedItems associated with the user
+	await db.plannedItem.deleteMany({
+		where: { foodItem: { userId: user.id } },
+	});
 }
 
 export const load: PageServerLoad = async ({ locals }) => {
@@ -228,7 +214,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 		// Check that user was found
 		if (!user) {
-			return [] // Return an empty array if user is null  
+			return { foodItems: [], plannedItems: [] } // Return empty arrays if user is null  
 		}
 
 		// Get items of that user
@@ -236,8 +222,18 @@ export const load: PageServerLoad = async ({ locals }) => {
 			where: { userId: user.id },
 		})
 
+		// Get planned items for the current day
+		const today = new Date();
+		const plannedItems = await db.plannedItem.findMany({
+			where: {
+				foodId: { in: foodItems.map(item => item.id) },
+				createdAt: { gte: new Date(today.setHours(3, 0, 0, 0)) }
+			},
+		});
+
 		return {
-			foodItems
+			foodItems,
+			plannedItems
 		};
 	}
 }
