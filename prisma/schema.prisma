@@ -20,16 +20,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  pointBalance   Int             @default(0)
-  calorieTargets CalorieTarget[]
-
-  // Foods
-  foodItems FoodItem[]
-
-  // Measurements
-  weights          Weight[]
-  bodyfats         BodyFat[]
-  progressPictures ProgressPicture[]
+  pointBalance Int @default(0)
 
   // Recurring activity progress
   lastPlannedOn        DateTime @default(dbgenerated("to_date('1970-01-01', 'YYYY-MM-DD')"))
@@ -44,6 +35,17 @@ model User {
   initBF       Boolean @default(false)
   initPhoto    Boolean @default(false)
   initCalories Boolean @default(false)
+
+  // RELATED TABLES 
+  // ================================
+  // Targets
+  calorieTargets   CalorieTarget[]
+  // Planning 
+  foodItems        FoodItem[]
+  // Measurements
+  weights          Weight[]
+  bodyfats         BodyFat[]
+  progressPictures ProgressPicture[]
 }
 
 model Weight {
@@ -88,9 +90,17 @@ model FoodItem {
   protein     Int
   portionSize Float
 
-  intendedAmount Int @default(0)
-  eatenAmount    Int @default(0)
-
   user   User   @relation(fields: [userId], references: [id])
   userId String
+
+  PlannedItems PlannedItem[]
+}
+
+model PlannedItem {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  eaten     Boolean  @default(false)
+
+  foodItem FoodItem @relation(fields: [foodId], references: [id])
+  foodId   Int
 }
