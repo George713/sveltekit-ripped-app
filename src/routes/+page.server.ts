@@ -203,6 +203,23 @@ const reset: Action = async ({ request }) => {
 	await db.plannedItem.deleteMany({
 		where: { foodItem: { userId: user.id } },
 	});
+
+	// Delete latest record in weight table
+	const latestWeight = await db.weight.findFirst({
+		where: { userId: user.id },
+		orderBy: {
+			createdAt: 'desc', // Order by `createdAt` in descending order
+		},
+	});
+
+	if (latestWeight) {
+		// If a record was found, delete it
+		await db.weight.delete({
+			where: {
+				id: latestWeight.id,
+			},
+		});
+	}
 }
 
 export const load: PageServerLoad = async ({ locals }) => {
