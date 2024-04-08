@@ -1,6 +1,5 @@
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import adapter from '@sveltejs/adapter-vercel';
-import type { Config } from '@sveltejs/kit';
 
 
 export default {
@@ -9,4 +8,4 @@ export default {
 		adapter: adapter(),
 		outDir: "public",
 	}
-} satisfies Config;
+};
