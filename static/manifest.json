@@ -1,0 +1,26 @@
+{
+    "name": "Have Your Cookie pwa",
+    "short_name": "HYC pwa",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#17191c",
+    "theme_color": "#ff3f20",
+    "description": "Nutrition tracker for long-term habit adoption",
+    "icons": [
+        {
+            "src": "pwa-64x64.png",
+            "type": "image/png",
+            "sizes": "64x64"
+        },
+        {
+            "src": "pwa-192x192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "pwa-512x512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ]
+}
