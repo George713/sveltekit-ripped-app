@@ -38,7 +38,7 @@
 	{/if}
 
 	<button class="w-full bg-green-300 rounded-xl mt-3 px-5 py-2" type="submit">Login</button>
-	<div class="flex justify-end">
+	<!-- <div class="flex justify-end">
 		<a href="/register" class="px-2 mt-1 -mb-3 text-sm  text-gray-700 underline">Register -></a>
-	</div>
+	</div> -->
 </form>
