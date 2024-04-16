@@ -37,6 +37,9 @@ self.addEventListener('activate', (event) => {
 
 // Listen to fetch events
 self.addEventListener('fetch', (event) => {
+    if (event.request.url.startsWith("https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem")) {
+        console.log(`request to: ${event.request.url}`)
+    }
     // ignore POST requests etc
     if (event.request.method !== 'GET') return;
 
