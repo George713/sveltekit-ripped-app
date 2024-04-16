@@ -98,7 +98,7 @@
 	</button>
 	<!-- Item Name -->
 	<p
-		class="text-[9px] font-medium pl-1 pt-1 {type === 'dark'
+		class="text-[9px] font-medium truncate pl-1 pt-1 {type === 'dark'
 			? 'text-neutral-200'
 			: 'text-neutral-500'}"
 	>
