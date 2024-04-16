@@ -36,7 +36,6 @@ self.addEventListener('activate', (event) => {
 });
 
 // Listen to fetch events
-
 self.addEventListener('fetch', (event) => {
     // ignore POST requests etc
     if (event.request.method !== 'GET') return;
@@ -54,8 +53,16 @@ self.addEventListener('fetch', (event) => {
             }
         }
 
-        // for everything else, try the network first, but
-        // fall back to the cache if we're offline
+        // Images are dynamically cached and can be loaded from cache the 2nd time onwards
+        if (url.pathname.includes('/foodItems/foodItem_')) {
+            const cached_response = await cache.match(url.pathname);
+
+            if (cached_response) {
+                return cached_response;
+            }
+        }
+
+        // for everything else, try the network first
         try {
             const response = await fetch(event.request);
 
@@ -71,14 +78,6 @@ self.addEventListener('fetch', (event) => {
 
             return response;
         } catch (err) {
-            const response = await cache.match(event.request);
-
-            if (response) {
-                return response;
-            }
-
-            // if there's no cache, then just error out
-            // as there is nothing we can do to respond to this request
             throw err;
         }
     }
