@@ -37,10 +37,6 @@ self.addEventListener('activate', (event) => {
 
 // Listen to fetch events
 self.addEventListener('fetch', (event) => {
-    if (event.request.url.startsWith("https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem")) {
-        console.log(`request to: ${event.request.url}`)
-        console.log(`method: ${event.request.method}`)
-    }
     // ignore POST requests etc
     if (event.request.method !== 'GET') return;
 
@@ -54,6 +50,15 @@ self.addEventListener('fetch', (event) => {
 
             if (response) {
                 return response;
+            }
+        }
+
+        // Images are dynamically cached and can be loaded from cache the 2nd time onwards
+        if (url.pathname.includes('/foodItems/foodItem_')) {
+            const cached_response = await cache.match(url.pathname);
+
+            if (cached_response) {
+                return cached_response;
             }
         }
 
