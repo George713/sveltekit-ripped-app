@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { deserialize } from '$app/forms';
-	import { foodLibrary } from '$lib/stores';
+	import { foodLibrary, showSpinner } from '$lib/stores';
 
 	export let toggleModal: (modal: string) => void;
 
@@ -18,6 +18,9 @@
 	};
 
 	const handleSubmit = async (event: Event) => {
+		// Show spinner
+		$showSpinner = true;
+
 		const response = await fetch('?/newItem', {
 			method: 'POST',
 			body: new FormData(event.target as HTMLFormElement)
@@ -42,6 +45,9 @@
 
 		// Return to planner modal
 		toggleModal('planner');
+
+		// Hide spinner
+		$showSpinner = false;
 	};
 </script>
 
