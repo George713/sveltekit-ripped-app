@@ -68,4 +68,6 @@ export const eatenKcal = derived([foodLibrary, plannedItems], ([$foodLibrary, $p
 
 export const eatenProtein = derived([foodLibrary, plannedItems], ([$foodLibrary, $plannedItems]) =>
     $plannedItems.reduce((sum, item) => sum + foodLibrary.getProteinByIndex(item.foodId) * (item.eaten ? 1 : 0), 0)
-);  
+);
+
+export const showSpinner = writable(false);
