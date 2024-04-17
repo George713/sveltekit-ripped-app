@@ -35,6 +35,7 @@
 	import ModalEatingLog from '$lib/components/ModalEatingLog.svelte';
 	import ModalFinishEating from '$lib/components/ModalFinishEating.svelte';
 	import ModalHarvest from '$lib/components/ModalHarvest.svelte';
+	import SpinnerOverlay from '$lib/components/SpinnerOverlay.svelte';
 
 	export let data: { foodItems: FoodItem[]; plannedItems: PlannedItem[] };
 	if (data.foodItems) {
@@ -356,6 +357,8 @@
 {:else}
 	<p class="m-3 px-5 flex justify-center">No one here yet...</p>
 {/if}
+
+<SpinnerOverlay />
 
 <!-- AUDIO -->
 <audio src="/audio/successBell.mp3" bind:this={audioWeighIn} />
