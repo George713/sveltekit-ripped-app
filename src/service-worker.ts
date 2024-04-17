@@ -44,17 +44,9 @@ self.addEventListener('fetch', (event) => {
         const url = new URL(event.request.url);
         const cache = await caches.open(CACHE);
 
-        // `build`/`files` can always be served from the cache
-        if (ASSETS.includes(url.pathname)) {
-            const response = await cache.match(url.pathname);
-
-            if (response) {
-                return response;
-            }
-        }
-
+        // `build`/`files` in ASSETS can always be served from the cache
         // Images are dynamically cached and can be loaded from cache the 2nd time onwards
-        if (url.pathname.includes('/foodItems/foodItem_')) {
+        if (ASSETS.includes(url.pathname) || url.pathname.includes('/foodItems/foodItem_')) {
             const cached_response = await cache.match(url.pathname);
 
             if (cached_response) {
