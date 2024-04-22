@@ -3,6 +3,7 @@ import type { Action, Actions, PageServerLoad } from './$types';
 
 import { db } from '$lib/database.server';
 import { supabase } from '$lib/supabaseClient.server';
+import type { PlannedItem } from '$lib/types';
 
 const logWeight: Action = async ({ locals, request }) => {
 	const data = await request.formData();
@@ -137,10 +138,10 @@ const finishPlanning: Action = async ({ request }) => {
 
 	if (plannedItems) {
 		const parsedPlannedItems = JSON.parse(plannedItems as string)
+		const cleanedPlannedItems = parsedPlannedItems.map((item: PlannedItem) => ({ ...item, id: undefined }))
 
-		const createdPlannedItems = await db.plannedItem.createMany({
-			data: parsedPlannedItems,
-			skipDuplicates: true, // Skip duplicates if you don't want to create them again
+		await db.plannedItem.createMany({
+			data: cleanedPlannedItems,
 		});
 
 		await db.user.update({
