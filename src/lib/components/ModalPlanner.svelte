@@ -3,9 +3,10 @@
 	import { deserialize } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
 	import type { PlannedItem } from '$lib/types';
-	import { foodLibrary, plannedItems, plannedKcal, plannedProtein } from '$lib/stores';
+	import { foodLibrary, plannedItems, plannedKcal, plannedProtein, showSpinner } from '$lib/stores';
 	import ItemCard from '$lib/components/ItemCard.svelte';
 	import TargetTracker from '$lib/components/TargetTracker.svelte';
+	import FinishPlanning from './overlays/FinishPlanning.svelte';
 
 	export let toggleModal: (modal: string) => void;
 
@@ -49,22 +50,26 @@
 		});
 	};
 
-	const finishPlanning = async () => {
-		// Check planned items
+	// Controls for finishing of planning
+	let showOverlay = false;
+	let msg: string;
+	const toggleOverlay = () => {
 		if ($plannedItems.length === 0) {
-			alert("You haven't selected any items for today.");
-			return;
+			msg = "You haven't selected any items for today.";
 		} else if ($plannedKcal > $page.data.user.currentCalorieTarget + 25) {
-			alert(
-				`You have exceeded your calorie target for today. Try to select in the range of +-25 kcal of your target (${$page.data.user.currentCalorieTarget} kcal).`
-			);
-			return;
+			msg = `You have exceeded your calorie target for today. Try to select in the range of +-25 kcal of your target (${$page.data.user.currentCalorieTarget} kcal).`;
 		} else if ($plannedKcal < $page.data.user.currentCalorieTarget - 25) {
-			alert(
-				`You have not reached your calorie target for today. Try to select in the range of +-25 kcal of your target (${$page.data.user.currentCalorieTarget} kcal).`
-			);
-			return;
+			msg = `You have not reached your calorie target for today. Try to select in the range of +-25 kcal of your target (${$page.data.user.currentCalorieTarget} kcal).`;
 		}
+
+		showOverlay = !showOverlay;
+	};
+
+	const finishPlanning = async () => {
+		// Hide overlay
+		toggleOverlay();
+		// Show spinner
+		$showSpinner = true;
 
 		// Submit planned items to server
 		const formData = new FormData();
@@ -85,6 +90,9 @@
 
 		// Reload page data (so plan button is disabled)
 		invalidateAll();
+
+		// Hide spinner
+		$showSpinner = false;
 	};
 </script>
 
@@ -198,7 +206,7 @@
 			<div class="flex justify-center mt-2">
 				<button
 					class="bg-neutral-700 rounded-[4px] mx-2 flex items-center shadow-[inset_2px_2px_3px_rgba(161,161,161,0.05),inset_-2px_-2px_3px_rgba(0,0,0,0.05)]"
-					on:click={finishPlanning}
+					on:click={toggleOverlay}
 				>
 					<svg class="h-4 ml-1 px-1 fill-zinc-300" viewBox="0 0 56 56">
 						<path
@@ -253,3 +261,7 @@
 		</button>
 	</div>
 </div>
+
+{#if showOverlay}
+	<FinishPlanning {toggleOverlay} {finishPlanning} {msg} />
+{/if}
