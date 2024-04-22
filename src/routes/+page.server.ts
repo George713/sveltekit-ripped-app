@@ -141,13 +141,30 @@ const finishPlanning: Action = async ({ request }) => {
 		const cleanedPlannedItems = parsedPlannedItems.map((item: PlannedItem) => ({ ...item, id: undefined }))
 
 		await db.plannedItem.createMany({
-			data: cleanedPlannedItems,
+			data: cleanedPlannedItems
 		});
+
+		const today = new Date();
+		const createdPlannedItems = await db.plannedItem.findMany({
+			where: {
+				foodItem: {
+					user: {
+						username: JSON.parse(username as string)
+					}
+				},
+				createdAt: {
+					gte: new Date(today.setHours(3, 0, 0, 0))
+				}
+			}
+		})
 
 		await db.user.update({
 			where: { username: JSON.parse(username as string) },
 			data: { lastPlannedOn: new Date() }
 		})
+
+		// Send the created planned items back to the client
+		return { createdPlannedItems }
 	}
 }
 

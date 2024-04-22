@@ -82,7 +82,8 @@
 
 		const result = deserialize(await response.text());
 
-		if (result.type === 'success') {
+		if (result.type === 'success' && result.data) {
+			plannedItems.set(result.data.createdPlannedItems as PlannedItem[]);
 		}
 
 		// Return to main view
