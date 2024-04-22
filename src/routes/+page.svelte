@@ -33,9 +33,9 @@
 	import ModalPlanner from '$lib/components/ModalPlanner.svelte';
 	import ModalNewItem from '$lib/components/ModalNewItem.svelte';
 	import ModalEatingLog from '$lib/components/ModalEatingLog.svelte';
-	import ModalFinishEating from '$lib/components/ModalFinishEating.svelte';
 	import ModalHarvest from '$lib/components/ModalHarvest.svelte';
-	import SpinnerOverlay from '$lib/components/SpinnerOverlay.svelte';
+	import ModalFinishEating from '$lib/components/overlays/FinishEating.svelte';
+	import SpinnerOverlay from '$lib/components/overlays/Spinner.svelte';
 
 	export let data: { foodItems: FoodItem[]; plannedItems: PlannedItem[] };
 	if (data.foodItems) {
