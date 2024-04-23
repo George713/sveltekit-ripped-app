@@ -11,13 +11,13 @@
 	export let toggleModal: (modal: string) => void;
 
 	const addToPlannedItems = (id: number) => {
-		const newItem: PlannedItem = {
+		const newPlannedItem: PlannedItem = {
 			id: plannedItems.maxId + 1,
 			eaten: false,
 			createdAt: new Date(),
 			foodId: id
 		};
-		plannedItems.add(newItem);
+		plannedItems.add(newPlannedItem);
 	};
 
 	const removeFromPlannedItems = (id: number) => {
