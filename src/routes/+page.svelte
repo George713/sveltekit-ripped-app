@@ -38,8 +38,8 @@
 	import ModalNewItem from '$organisms/ModalNewItem.svelte';
 	import ModalPlanner from '$organisms/ModalPlanner.svelte';
 	// Overlays
-	import ModalFinishEating from '$lib/components/overlays/FinishEating.svelte';
-	import SpinnerOverlay from '$lib/components/overlays/Spinner.svelte';
+	import ModalFinishEating from '$overlays/FinishEating.svelte';
+	import SpinnerOverlay from '$overlays/Spinner.svelte';
 
 	export let data: { foodItems: FoodItem[]; plannedItems: PlannedItem[] };
 	if (data.foodItems) {

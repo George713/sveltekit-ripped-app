@@ -6,7 +6,7 @@
 	import { foodLibrary, plannedItems, plannedKcal, plannedProtein, showSpinner } from '$lib/stores';
 	import ItemCard from '$atoms/ItemCard.svelte';
 	import TargetTracker from '$atoms/TargetTracker.svelte';
-	import FinishPlanning from '../overlays/FinishPlanning.svelte';
+	import FinishPlanning from '$overlays/FinishPlanning.svelte';
 
 	export let toggleModal: (modal: string) => void;
 

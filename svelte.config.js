@@ -11,6 +11,7 @@ const config = {
 			"$atoms": "./src/lib/components/atoms",
 			"$molecules": "./src/lib/components/molecules",
 			"$organisms": "./src/lib/components/organisms",
+			"$overlays": "./src/lib/components/overlays",
 		}
 	}
 };
