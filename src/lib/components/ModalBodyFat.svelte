@@ -2,7 +2,7 @@
 	import { enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
 
-	import ModalSkeleton from './ModalSkeleton.svelte';
+	import ModalSkeleton from '$molecules/ModalSkeleton.svelte';
 
 	export let toggleModal: (modal: string) => void;
 

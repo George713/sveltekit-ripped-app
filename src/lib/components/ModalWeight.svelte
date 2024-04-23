@@ -3,7 +3,7 @@
 	import { invalidateAll } from '$app/navigation';
 	import { createEventDispatcher } from 'svelte';
 
-	import ModalSkeleton from './ModalSkeleton.svelte';
+	import ModalSkeleton from '$molecules/ModalSkeleton.svelte';
 
 	export let toggleModal: (modal: string) => void;
 
