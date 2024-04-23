@@ -50,7 +50,9 @@
 
 	// Handler for visibility state of components
 	let visibleModal = 'none';
+	let originModal = 'none';
 	const toggleModal = (modal: string) => {
+		originModal = visibleModal;
 		visibleModal = modal;
 	};
 
@@ -346,7 +348,7 @@
 	{:else if visibleModal == 'planner'}
 		<ModalPlanner {toggleModal} />
 	{:else if visibleModal == 'newItem'}
-		<ModalNewItem {toggleModal} />
+		<ModalNewItem {toggleModal} {originModal} />
 	{:else if visibleModal == 'eat'}
 		<ModalEatingLog {toggleModal} />
 	{:else if visibleModal == 'finishEating'}
