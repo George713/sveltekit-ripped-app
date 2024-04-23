@@ -24,9 +24,9 @@
 	import { foodLibrary, plannedItems, eatenKcal, eatenProtein } from '$lib/stores';
 	import type { FoodItem, PlannedItem } from '$lib/types';
 	// Atoms
+	import HarvestButton from '$atoms/HarvestButton.svelte';
 	import PowerUps from '$atoms/PowerUps.svelte';
 	import ProgessBars from '$atoms/ProgessBars.svelte';
-	import Sigil from '$atoms/Sigil.svelte';
 	import SigilEmpty from '$atoms/SigilEmpty.svelte';
 	import TargetTracker from '$atoms/TargetTracker.svelte';
 	// Molecules
@@ -43,6 +43,7 @@
 	// Overlays
 	import ModalFinishEating from '$overlays/FinishEating.svelte';
 	import SpinnerOverlay from '$overlays/Spinner.svelte';
+	import ProgressPicButton from '$atoms/ProgressPicButton.svelte';
 
 	export let data: { foodItems: FoodItem[]; plannedItems: PlannedItem[] };
 	if (data.foodItems) {
@@ -158,30 +159,10 @@
 			</div>
 			<!-- Harvest Button -->
 			<div class="bg-slate-100 flex-grow h-full flex items-center px-4">
-				<button
-					class="h-20 w-20 bg-gray-300 rounded shadow text-[40px] font-bold text-neutral-600 border border-gray-400/10 disabled:bg-gray-200 disabled:text-neutral-400"
-					on:click={() => toggleModal('harvest')}
-					disabled={!$page.data.dailyProgress.eaten || $page.data.dailyProgress.harvest}
-				>
-					H
-				</button>
+				<HarvestButton {toggleModal} />
 				{#if $page.data.user.progressPicToday}
 					<div class="absolute mb-60 ml-[-4px]">
-						<!-- ProgressPic -->
-						<input
-							type="file"
-							bind:this={fileinput}
-							style="display:none"
-							accept=".jpg, .jpeg, .png"
-							on:change={(e) => uploadToS3(e)}
-						/>
-						<button
-							class="h-14 w-14 bg-gray-300 mx-4 rounded shadow text-[20px] font-bold text-neutral-600 border border-gray-400/10 disabled:bg-gray-200 disabled:text-neutral-400"
-							on:click={() => fileinput.click()}
-							disabled={$page.data.dailyProgress.weeklyPic}
-						>
-							P
-						</button>
+						<ProgressPicButton {uploadToS3} {fileinput} />
 					</div>
 				{/if}
 			</div>
