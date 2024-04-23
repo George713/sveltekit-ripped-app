@@ -30,8 +30,8 @@
 	import TargetTracker from '$atoms/TargetTracker.svelte';
 	// Molecules
 	import ModalBodyFat from '$molecules/ModalBodyFat.svelte';
+	import ModalCalories from '$molecules/ModalCalories.svelte';
 	import ModalWeight from '$molecules/ModalWeight.svelte';
-	import ModalCalories from '$lib/components/ModalCalories.svelte';
 	import ModalPlanner from '$lib/components/ModalPlanner.svelte';
 	import ModalNewItem from '$lib/components/ModalNewItem.svelte';
 	import ModalEatingLog from '$lib/components/ModalEatingLog.svelte';
