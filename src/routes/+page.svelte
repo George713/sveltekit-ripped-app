@@ -34,6 +34,7 @@
 	import ModalBodyFat from '$molecules/ModalBodyFat.svelte';
 	import ModalCalories from '$molecules/ModalCalories.svelte';
 	import ModalWeight from '$molecules/ModalWeight.svelte';
+	import SigilNavPoints from '$molecules/SigilNavPoints.svelte';
 	// Organisms
 	import ModalEatingLog from '$organisms/ModalEatingLog.svelte';
 	import ModalHarvest from '$organisms/ModalHarvest.svelte';
@@ -117,35 +118,16 @@
 
 {#if $page.data.user}
 	<!-- ONBOARDING -->
-	{#if !$page.data.user.initCalories || !$page.data.user.initPhoto || !$page.data.user.initBF || true}
+	{#if !$page.data.user.initCalories || !$page.data.user.initPhoto || !$page.data.user.initBF}
 		<!-- Empty Sigil  -->
 		<SigilEmpty />
 		<!-- Desired Action Buttons for Initial Inputs -->
 		<InitialInputs {toggleModal} {uploadToS3} {fileinput} />
 
 		<!-- SCAFFOLDING -->
-	{:else if 15 < $page.data.user.currentBF && $page.data.user.currentBF < 20}
-		<div class="bg-slate-100 w-full h-[calc(50vh)] flex justify-center pt-3 relative">
-			<button
-				class="absolute left-3 bg-slate-300 w-5 h-5 rounded flex justify-center items-center text-[10px] text-gray-600 font-bold shadow-sm"
-			>
-				G
-			</button>
-			<form action="/logout" class="logout" method="POST">
-				<button
-					class="absolute right-3 bg-slate-300 w-5 h-5 rounded flex justify-center items-center text-[10px] text-gray-600 font-bold shadow-sm"
-					type="submit"
-				>
-					X
-				</button>
-			</form>
-			<!-- Points -->
-			<div class="absolute left-[83%] top-[50%]">
-				<span class="text-gray-500 text-xs">$</span>
-				<span class="text-gray-500 text-lg font-medium">{$page.data.user.pointBalance}</span>
-			</div>
-			<Sigil />
-		</div>
+	{:else}
+		<!-- Sigil with Navigation elements and points -->
+		<SigilNavPoints />
 		<!-- PowerUps, Bars, Tracker, Harvest Button -->
 		<div class="bg-green-500 w-full h-[calc(25vh)] flex">
 			<!-- PowerUps, Bars, Tracker -->
