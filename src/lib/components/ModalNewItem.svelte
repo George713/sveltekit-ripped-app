@@ -1,8 +1,11 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { deserialize } from '$app/forms';
-	import { foodLibrary, showSpinner } from '$lib/stores';
+	import { foodLibrary, plannedItems, showSpinner } from '$lib/stores';
+	import type { FoodItem, PlannedItem } from '$lib/types';
 
 	export let toggleModal: (modal: string) => void;
+	export let originModal: string; // options: ModalPlanner or ModalEatingLog
 
 	let image = '';
 	let imageString: any;
@@ -17,6 +20,30 @@
 		};
 	};
 
+	const addToPlanning = async (newItem: FoodItem) => {
+		const newPlannedItem: PlannedItem = {
+			id: plannedItems.maxId + 1,
+			eaten: false,
+			createdAt: new Date(),
+			foodId: newItem.id
+		};
+
+		// Submit planned items to server
+		const formData = new FormData();
+		formData.append('plannedItems', JSON.stringify([newPlannedItem]));
+		formData.append('username', JSON.stringify($page.data.user.name));
+		const response = await fetch('?/finishPlanning', {
+			method: 'POST',
+			body: formData
+		});
+
+		const result = deserialize(await response.text());
+
+		if (result.type === 'success' && result.data) {
+			plannedItems.set(result.data.createdPlannedItems as PlannedItem[]);
+		}
+	};
+
 	const handleSubmit = async (event: Event) => {
 		// Show spinner
 		$showSpinner = true;
@@ -28,23 +55,29 @@
 
 		const result = deserialize(await response.text());
 
-		if (result.type === 'success') {
+		if (result.type === 'success' && result.data) {
 			// Upload image to s3 using presignURL
 			// @ts-ignore
 			await fetch(result.data.presignedURL, {
 				method: 'PUT',
 				body: imageString
 			});
+			const newItem = result.data.newItem as FoodItem;
+
+			// If origin is eatingLog, add item to planned items
+			if (originModal == 'eat') {
+				addToPlanning(newItem);
+			}
+
+			// Update foodLibrary
+			foodLibrary.update((items) => {
+				// @ts-ignore
+				return [...items, newItem];
+			});
 		}
 
-		// Update foodLibrary
-		foodLibrary.update((items) => {
-			// @ts-ignore
-			return [...items, result.data.newItem];
-		});
-
-		// Return to planner modal
-		toggleModal('planner');
+		// Return to previous modal
+		toggleModal(originModal);
 
 		// Hide spinner
 		$showSpinner = false;
