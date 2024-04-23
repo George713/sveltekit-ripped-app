@@ -140,12 +140,7 @@
 				</div>
 				<!-- Bars -->
 				<div class=" w-full pl-9">
-					<ProgessBars
-						eatenKcal={$eatenKcal}
-						eatenProtein={$eatenProtein}
-						targetKcal={$page.data.user.currentCalorieTarget}
-						targetProtein={$page.data.dailyProgress.targetProtein}
-					/>
+					<ProgessBars />
 				</div>
 				<!-- Tracker -->
 				<div class="flex-grow pl-3">
