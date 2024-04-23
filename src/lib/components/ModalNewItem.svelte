@@ -228,7 +228,7 @@
 		<!-- Minimize Symbol -->
 		<button
 			on:click={() => {
-				toggleModal('planner');
+				toggleModal(originModal);
 			}}
 			class="absolute bottom-3"
 		>
