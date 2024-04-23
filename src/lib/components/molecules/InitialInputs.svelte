@@ -1,0 +1,37 @@
+<script lang="ts">
+	import { page } from '$app/stores';
+
+	export let toggleModal: (model: string) => void;
+	export let uploadToS3: (e: any, isInitPic: Boolean) => void;
+	export let fileinput: any;
+</script>
+
+<div class="flex justify-center">
+	<!-- Target calorie input -->
+	<button
+		on:click={() => {
+			toggleModal('calories');
+		}}
+		disabled={$page.data.user.initCalories}
+		class="px-2 py-1 bg-gray-300 m-1 disabled:bg-slate-600">Calories</button
+	>
+	<!-- Photo input -->
+	<input
+		type="file"
+		bind:this={fileinput}
+		style="display:none"
+		accept=".jpg, .jpeg, .png"
+		on:change={(e) => uploadToS3(e, true)}
+	/>
+	<button
+		on:click={() => fileinput.click()}
+		disabled={$page.data.user.initPhoto}
+		class="px-2 py-1 bg-gray-300 m-1 disabled:bg-slate-600">Photo</button
+	>
+	<!-- BodyFat input -->
+	<button
+		on:click={() => toggleModal('bodyFat')}
+		disabled={$page.data.user.initBF}
+		class="px-2 py-1 bg-gray-300 m-1 disabled:bg-slate-600">BF%</button
+	>
+</div>

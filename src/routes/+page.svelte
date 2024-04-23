@@ -30,6 +30,7 @@
 	import SigilEmpty from '$atoms/SigilEmpty.svelte';
 	import TargetTracker from '$atoms/TargetTracker.svelte';
 	// Molecules
+	import InitialInputs from '$molecules/InitialInputs.svelte';
 	import ModalBodyFat from '$molecules/ModalBodyFat.svelte';
 	import ModalCalories from '$molecules/ModalCalories.svelte';
 	import ModalWeight from '$molecules/ModalWeight.svelte';
@@ -119,36 +120,9 @@
 	{#if !$page.data.user.initCalories || !$page.data.user.initPhoto || !$page.data.user.initBF || true}
 		<!-- Empty Sigil  -->
 		<SigilEmpty />
-		<!-- Desired Action Buttons -->
-		<div class="flex justify-center">
-			<!-- Target calorie input -->
-			<button
-				on:click={() => {
-					toggleModal('calories');
-				}}
-				disabled={$page.data.user.initCalories}
-				class="px-2 py-1 bg-gray-300 m-1 disabled:bg-slate-600">Calories</button
-			>
-			<!-- Photo input -->
-			<input
-				type="file"
-				bind:this={fileinput}
-				style="display:none"
-				accept=".jpg, .jpeg, .png"
-				on:change={(e) => uploadToS3(e, true)}
-			/>
-			<button
-				on:click={() => fileinput.click()}
-				disabled={$page.data.user.initPhoto}
-				class="px-2 py-1 bg-gray-300 m-1 disabled:bg-slate-600">Photo</button
-			>
-			<!-- BodyFat input -->
-			<button
-				on:click={() => toggleModal('bodyFat')}
-				disabled={$page.data.user.initBF}
-				class="px-2 py-1 bg-gray-300 m-1 disabled:bg-slate-600">BF%</button
-			>
-		</div>
+		<!-- Desired Action Buttons for Initial Inputs -->
+		<InitialInputs {toggleModal} {uploadToS3} {fileinput} />
+
 		<!-- SCAFFOLDING -->
 	{:else if 15 < $page.data.user.currentBF && $page.data.user.currentBF < 20}
 		<div class="bg-slate-100 w-full h-[calc(50vh)] flex justify-center pt-3 relative">
