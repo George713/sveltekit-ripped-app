@@ -32,10 +32,12 @@
 	import ModalBodyFat from '$molecules/ModalBodyFat.svelte';
 	import ModalCalories from '$molecules/ModalCalories.svelte';
 	import ModalWeight from '$molecules/ModalWeight.svelte';
+	// Organisms
+	import ModalEatingLog from '$organisms/ModalEatingLog.svelte';
 	import ModalPlanner from '$lib/components/ModalPlanner.svelte';
 	import ModalNewItem from '$lib/components/ModalNewItem.svelte';
-	import ModalEatingLog from '$lib/components/ModalEatingLog.svelte';
 	import ModalHarvest from '$lib/components/ModalHarvest.svelte';
+	// Overlays
 	import ModalFinishEating from '$lib/components/overlays/FinishEating.svelte';
 	import SpinnerOverlay from '$lib/components/overlays/Spinner.svelte';
 
