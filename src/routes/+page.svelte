@@ -35,8 +35,8 @@
 	// Organisms
 	import ModalEatingLog from '$organisms/ModalEatingLog.svelte';
 	import ModalHarvest from '$organisms/ModalHarvest.svelte';
+	import ModalNewItem from '$organisms/ModalNewItem.svelte';
 	import ModalPlanner from '$organisms/ModalPlanner.svelte';
-	import ModalNewItem from '$lib/components/ModalNewItem.svelte';
 	// Overlays
 	import ModalFinishEating from '$lib/components/overlays/FinishEating.svelte';
 	import SpinnerOverlay from '$lib/components/overlays/Spinner.svelte';
