@@ -21,7 +21,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { invalidateAll } from '$app/navigation';
-	import { foodLibrary, plannedItems, eatenKcal, eatenProtein, showSpinner } from '$lib/stores';
+	import { foodLibrary, plannedItems, showSpinner } from '$lib/stores';
 	import type { FoodItem, PlannedItem } from '$lib/types';
 	// Atoms
 	import HarvestButton from '$atoms/HarvestButton.svelte';
