@@ -21,3 +21,6 @@
 
 - To update the local prisma client (e.g. when the schema has changed), run `npx prisma generate`
 - To migrate db from schema to current, run `npx prisma migrate dev --name ~MIGRATIONNAME~`
+
+## Idea Backlog
+- streak design for progress pictures: x consequitive pictures -> morph image
