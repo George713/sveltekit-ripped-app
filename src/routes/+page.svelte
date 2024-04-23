@@ -24,8 +24,8 @@
 	import { foodLibrary, plannedItems, eatenKcal, eatenProtein } from '$lib/stores';
 	import type { FoodItem, PlannedItem } from '$lib/types';
 	import PowerUps from '$atoms/PowerUps.svelte';
+	import ProgessBars from '$atoms/ProgessBars.svelte';
 	import Sigil from '$atoms/Sigil.svelte';
-	import ProgessBars from '$lib/components/ProgessBars.svelte';
 	import TargetTracker from '$lib/components/TargetTracker.svelte';
 	import ModalWeight from '$lib/components/ModalWeight.svelte';
 	import ModalBodyFat from '$lib/components/ModalBodyFat.svelte';
