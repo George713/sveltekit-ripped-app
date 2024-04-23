@@ -4,7 +4,7 @@
 	import { invalidateAll } from '$app/navigation';
 	import type { PlannedItem } from '$lib/types';
 	import { foodLibrary, plannedItems, plannedKcal, plannedProtein, showSpinner } from '$lib/stores';
-	import ItemCard from '$lib/components/ItemCard.svelte';
+	import ItemCard from '$atoms/ItemCard.svelte';
 	import TargetTracker from '$lib/components/TargetTracker.svelte';
 	import FinishPlanning from './overlays/FinishPlanning.svelte';
 

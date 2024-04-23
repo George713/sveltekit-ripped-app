@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import TargetTracker from '$lib/components/TargetTracker.svelte';
 	import { foodLibrary, plannedItems, eatenKcal, eatenProtein } from '$lib/stores';
-	import ItemCard from '$lib/components/ItemCard.svelte';
+	import ItemCard from '$atoms/ItemCard.svelte';
 
 	export let toggleModal: (modal: string) => void;
 
