@@ -23,11 +23,13 @@
 	import { invalidateAll } from '$app/navigation';
 	import { foodLibrary, plannedItems, eatenKcal, eatenProtein } from '$lib/stores';
 	import type { FoodItem, PlannedItem } from '$lib/types';
+	// Atoms
 	import PowerUps from '$atoms/PowerUps.svelte';
 	import ProgessBars from '$atoms/ProgessBars.svelte';
 	import Sigil from '$atoms/Sigil.svelte';
 	import TargetTracker from '$atoms/TargetTracker.svelte';
-	import ModalWeight from '$lib/components/ModalWeight.svelte';
+	// Molecules
+	import ModalWeight from '$molecules/ModalWeight.svelte';
 	import ModalBodyFat from '$lib/components/ModalBodyFat.svelte';
 	import ModalCalories from '$lib/components/ModalCalories.svelte';
 	import ModalPlanner from '$lib/components/ModalPlanner.svelte';
