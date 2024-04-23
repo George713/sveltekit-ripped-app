@@ -21,15 +21,17 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { invalidateAll } from '$app/navigation';
-	import { foodLibrary, plannedItems, eatenKcal, eatenProtein } from '$lib/stores';
+	import { foodLibrary, plannedItems, eatenKcal, eatenProtein, showSpinner } from '$lib/stores';
 	import type { FoodItem, PlannedItem } from '$lib/types';
 	// Atoms
 	import HarvestButton from '$atoms/HarvestButton.svelte';
 	import PowerUps from '$atoms/PowerUps.svelte';
 	import ProgessBars from '$atoms/ProgessBars.svelte';
+	import ProgressPicButton from '$atoms/ProgressPicButton.svelte';
 	import SigilEmpty from '$atoms/SigilEmpty.svelte';
 	import TargetTracker from '$atoms/TargetTracker.svelte';
 	// Molecules
+	import DailyActionBtns from '$molecules/DailyActionBtns.svelte';
 	import InitialInputs from '$molecules/InitialInputs.svelte';
 	import ModalBodyFat from '$molecules/ModalBodyFat.svelte';
 	import ModalCalories from '$molecules/ModalCalories.svelte';
@@ -43,7 +45,6 @@
 	// Overlays
 	import ModalFinishEating from '$overlays/FinishEating.svelte';
 	import SpinnerOverlay from '$overlays/Spinner.svelte';
-	import ProgressPicButton from '$atoms/ProgressPicButton.svelte';
 
 	export let data: { foodItems: FoodItem[]; plannedItems: PlannedItem[] };
 	if (data.foodItems) {
@@ -169,45 +170,7 @@
 		</div>
 
 		<!-- Weigh, Plan, Finish, Reset Buttons -->
-		<div class="bg-slate-100 w-full h-[calc(25vh)] flex justify-center items-center relative">
-			<!-- Weigh-in -->
-			<button
-				class="h-14 w-14 bg-gray-300 mx-4 rounded shadow text-[20px] font-bold text-neutral-600 border border-gray-400/10 disabled:bg-gray-200 disabled:text-neutral-400"
-				on:click={() => {
-					toggleModal('weight');
-				}}
-				disabled={$page.data.dailyProgress.weighIn || $page.data.dailyProgress.harvest}
-			>
-				W
-			</button>
-			<!-- Plan -> Add Food -->
-			<button
-				class="h-14 w-14 bg-gray-300 mx-4 rounded shadow text-[20px] font-bold text-neutral-600 border border-gray-400/10 disabled:bg-gray-200 disabled:text-neutral-400"
-				on:click={() => {
-					if (!$page.data.dailyProgress.planned) toggleModal('planner');
-					else if ($page.data.dailyProgress.planned && !$page.data.dailyProgress.eaten)
-						toggleModal('eat');
-				}}
-				disabled={$page.data.dailyProgress.eaten}
-			>
-				{!$page.data.dailyProgress.planned ? 'P' : '+'}
-			</button>
-			<!-- Finish Eating -->
-			<button
-				class="h-14 w-14 bg-gray-300 mx-4 rounded shadow text-[20px] font-bold text-neutral-600 border border-gray-400/10 disabled:bg-gray-200 disabled:text-neutral-400"
-				on:click={() => toggleModal('finishEating')}
-				disabled={$page.data.dailyProgress.eaten}
-			>
-				F
-			</button>
-			<!-- Reset -->
-			<button
-				class="absolute h-7 w-14 bottom-0 left-0 bg-gray-200 rounded shadow text-[14px] text-neutral-400 border border-gray-400/10"
-				on:click={reset}
-			>
-				Reset
-			</button>
-		</div>
+		<DailyActionBtns {toggleModal} {reset} />
 	{/if}
 
 	{#if visibleModal == 'weight'}
@@ -231,7 +194,7 @@
 	<p class="m-3 px-5 flex justify-center">No one here yet...</p>
 {/if}
 
-<SpinnerOverlay />
+<SpinnerOverlay showSpinner={$showSpinner} />
 
 <!-- AUDIO -->
 <audio src="/audio/successBell.mp3" bind:this={audioWeighIn} />

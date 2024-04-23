@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { showSpinner } from '$lib/stores';
+	export let showSpinner: boolean;
 </script>
 
-{#if $showSpinner}
+{#if showSpinner}
 	<div class="absolute top-0 flex items-center justify-center w-full h-full bg-slate-600/60">
 		<svg
 			aria-hidden="true"
