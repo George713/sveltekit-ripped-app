@@ -29,8 +29,8 @@
 	import Sigil from '$atoms/Sigil.svelte';
 	import TargetTracker from '$atoms/TargetTracker.svelte';
 	// Molecules
+	import ModalBodyFat from '$molecules/ModalBodyFat.svelte';
 	import ModalWeight from '$molecules/ModalWeight.svelte';
-	import ModalBodyFat from '$lib/components/ModalBodyFat.svelte';
 	import ModalCalories from '$lib/components/ModalCalories.svelte';
 	import ModalPlanner from '$lib/components/ModalPlanner.svelte';
 	import ModalNewItem from '$lib/components/ModalNewItem.svelte';
