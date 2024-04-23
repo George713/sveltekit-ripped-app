@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import TargetTracker from '$lib/components/TargetTracker.svelte';
 	import { foodLibrary, plannedItems, eatenKcal, eatenProtein } from '$lib/stores';
 	import ItemCard from '$atoms/ItemCard.svelte';
+	import TargetTracker from '$atoms/TargetTracker.svelte';
 
 	export let toggleModal: (modal: string) => void;
 

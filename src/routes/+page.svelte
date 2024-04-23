@@ -26,7 +26,7 @@
 	import PowerUps from '$atoms/PowerUps.svelte';
 	import ProgessBars from '$atoms/ProgessBars.svelte';
 	import Sigil from '$atoms/Sigil.svelte';
-	import TargetTracker from '$lib/components/TargetTracker.svelte';
+	import TargetTracker from '$atoms/TargetTracker.svelte';
 	import ModalWeight from '$lib/components/ModalWeight.svelte';
 	import ModalBodyFat from '$lib/components/ModalBodyFat.svelte';
 	import ModalCalories from '$lib/components/ModalCalories.svelte';
