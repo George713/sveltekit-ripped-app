@@ -136,7 +136,7 @@
 			<div class="bg-slate-100 w-[calc(66%)] h-full flex flex-col">
 				<!-- PowerUps -->
 				<div class="w-full h-[calc(30%)] flex items-end justify-end pb-2 pr-2">
-					<PowerUps streakMeter={$page.data.user.streakMeter} />
+					<PowerUps />
 				</div>
 				<!-- Bars -->
 				<div class=" w-full pl-9">
