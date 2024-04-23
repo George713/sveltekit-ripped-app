@@ -144,13 +144,7 @@
 				</div>
 				<!-- Tracker -->
 				<div class="flex-grow pl-3">
-					<TargetTracker
-						calTarget={$page.data.user.currentCalorieTarget}
-						proteinTarget={$page.data.dailyProgress.targetProtein}
-						plannedKcal={$eatenKcal}
-						plannedProtein={$eatenProtein}
-						large={true}
-					/>
+					<TargetTracker large={true} />
 				</div>
 			</div>
 			<!-- Harvest Button -->

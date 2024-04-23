@@ -1,9 +1,11 @@
 <script lang="ts">
-	export let calTarget: number;
-	export let proteinTarget: number;
-	export let plannedKcal: number;
-	export let plannedProtein: number;
+	import { page } from '$app/stores';
+	import { eatenKcal, eatenProtein } from '$lib/stores';
+
 	export let large: boolean = false;
+
+	$: targetKcal = $page.data.user.currentCalorieTarget;
+	$: targetProtein = $page.data.dailyProgress.targetProtein;
 </script>
 
 {#if large}
@@ -17,7 +19,7 @@
 				<p class="text-[12px] font-light text-neutral-500">Calories</p>
 			</div>
 			<p class="text-[10px] font-light text-neutral-500">
-				{plannedKcal.toLocaleString('en')} | {calTarget.toLocaleString('en')} kcal
+				{$eatenKcal.toLocaleString('en')} | {targetKcal.toLocaleString('en')} kcal
 			</p>
 		</div>
 		<!-- Border -->
@@ -31,7 +33,7 @@
 				<p class="text-[12px] font-light text-neutral-500">Protein</p>
 			</div>
 			<p class="text-[10px] font-light text-neutral-500">
-				{plannedProtein} | {proteinTarget} g
+				{$eatenProtein} | {targetProtein} g
 			</p>
 		</div>
 	</div>
@@ -46,7 +48,7 @@
 				<p class="text-[10px] font-light text-neutral-500">Calories</p>
 			</div>
 			<p class="text-[8px] font-light text-neutral-500">
-				{plannedKcal.toLocaleString('en')} | {calTarget.toLocaleString('en')} kcal
+				{$eatenKcal.toLocaleString('en')} | {targetKcal.toLocaleString('en')} kcal
 			</p>
 		</div>
 		<!-- Border -->
@@ -60,7 +62,7 @@
 				<p class="text-[10px] font-light text-neutral-500">Protein</p>
 			</div>
 			<p class="text-[8px] font-light text-neutral-500">
-				{plannedProtein} | {proteinTarget} g
+				{$eatenProtein} | {targetProtein} g
 			</p>
 		</div>
 	</div>
