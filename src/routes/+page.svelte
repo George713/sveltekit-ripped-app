@@ -25,7 +25,7 @@
 	import type { FoodItem, PlannedItem } from '$lib/types';
 	import PowerUps from '$lib/components/PowerUps.svelte';
 	import ProgessBars from '$lib/components/ProgessBars.svelte';
-	import Sigil from '$lib/components/Sigil.svelte';
+	import Sigil from '$atoms/Sigil.svelte';
 	import TargetTracker from '$lib/components/TargetTracker.svelte';
 	import ModalWeight from '$lib/components/ModalWeight.svelte';
 	import ModalBodyFat from '$lib/components/ModalBodyFat.svelte';
