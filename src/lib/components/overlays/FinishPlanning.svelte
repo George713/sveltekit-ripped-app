@@ -8,23 +8,23 @@
 </script>
 
 <div
-	class="absolute top-0 left-0 w-screen h-screen bg-black/30 backdrop-blur-[2px] flex justify-center"
+	class="absolute left-0 top-0 flex h-screen w-screen justify-center bg-black/30 backdrop-blur-[2px]"
 	role="button"
 	tabindex={0}
 	on:click={() => toggleOverlay()}
 	on:keydown={() => toggleOverlay()}
 >
 	<div
-		class="relative top-[calc(56vh)] w-80 h-48 bg-white/60 backdrop-blur-lg shadow-lg rounded-lg flex flex-col items-center"
+		class="relative top-[calc(56vh)] flex h-48 w-80 flex-col items-center rounded-lg bg-white/60 shadow-lg backdrop-blur-lg"
 	>
-		<span class="pt-2 my-4 mx-2 font-sans font-semibold text-center">{msg}</span>
+		<span class="mx-2 my-4 pt-2 text-center font-sans font-semibold">{msg}</span>
 		<div class="flex">
 			<button
-				class="px-2 py-1 mx-2 w-[calc(50%)] border-2 border-green-400 rounded text-gray-700 font-bold text-lg"
+				class="mx-2 w-[calc(50%)] rounded border-2 border-green-400 px-2 py-1 text-lg font-bold text-gray-700"
 				on:click={finishPlanning}>End planning anyway</button
 			>
 			<button
-				class="px-2 py-1 mx-2 w-[calc(50%)] bg-green-400 rounded text-gray-700 font-bold text-lg"
+				class="mx-2 w-[calc(50%)] rounded bg-green-400 px-2 py-1 text-lg font-bold text-gray-700"
 				on:click={toggleOverlay}>Continue Planning</button
 			>
 		</div>

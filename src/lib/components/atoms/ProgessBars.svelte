@@ -8,16 +8,16 @@
 
 <!-- Progress Bars -->
 <!-- <img src="/pizza.svg" alt="pizza.svg" class="bg-black mt-1.5 ml-2" style="float:left;" /> -->
-<div class="rounded bg-gray-200 w-48 h-7 mb-2 shadow-inner">
+<div class="mb-2 h-7 w-48 rounded bg-gray-200 shadow-inner">
 	<div
-		class=" rounded bg-yellow-200 h-7 shadow-inner"
+		class=" h-7 rounded bg-yellow-200 shadow-inner"
 		style="width: {Math.min(($eatenKcal / targetKcal) * 100, 100)}%"
 	/>
 </div>
 <!-- <img src="/eggs.svg" alt="eggs.svg" class="bg-black mt-1.5 ml-[0.3rem]" style="float:left;" /> -->
-<div class="rounded bg-gray-200 w-48 h-7 shadow-inner">
+<div class="h-7 w-48 rounded bg-gray-200 shadow-inner">
 	<div
-		class=" rounded bg-sky-400 h-7 shadow-inner"
+		class=" h-7 rounded bg-sky-400 shadow-inner"
 		style="width: {Math.min(($eatenProtein / targetProtein) * 100, 100)}%"
 	/>
 </div>

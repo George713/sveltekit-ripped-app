@@ -13,7 +13,7 @@
 			toggleModal('calories');
 		}}
 		disabled={$page.data.user.initCalories}
-		class="px-2 py-1 bg-gray-300 m-1 disabled:bg-slate-600">Calories</button
+		class="m-1 bg-gray-300 px-2 py-1 disabled:bg-slate-600">Calories</button
 	>
 	<!-- Photo input -->
 	<input
@@ -26,12 +26,12 @@
 	<button
 		on:click={() => fileinput.click()}
 		disabled={$page.data.user.initPhoto}
-		class="px-2 py-1 bg-gray-300 m-1 disabled:bg-slate-600">Photo</button
+		class="m-1 bg-gray-300 px-2 py-1 disabled:bg-slate-600">Photo</button
 	>
 	<!-- BodyFat input -->
 	<button
 		on:click={() => toggleModal('bodyFat')}
 		disabled={$page.data.user.initBF}
-		class="px-2 py-1 bg-gray-300 m-1 disabled:bg-slate-600">BF%</button
+		class="m-1 bg-gray-300 px-2 py-1 disabled:bg-slate-600">BF%</button
 	>
 </div>

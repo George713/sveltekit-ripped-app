@@ -19,14 +19,14 @@
 
 <!-- Outer Frame -->
 <div
-	class="relative w-[90px] h-[100px] border {type === 'dark'
+	class="relative h-[100px] w-[90px] border {type === 'dark'
 		? 'border-neutral-500'
-		: 'border-neutral-200'} shadow-[0.5px_0.5px_1.5px_rgba(0,0,0,0.1)] rounded-md overflow-hidden"
+		: 'border-neutral-200'} overflow-hidden rounded-md shadow-[0.5px_0.5px_1.5px_rgba(0,0,0,0.1)]"
 >
 	<!-- Overlay -->
 	{#if eatingMenu}
 		<div
-			class="absolute w-[90px] h-[100px] z-10 {eaten
+			class="absolute z-10 h-[100px] w-[90px] {eaten
 				? 'bg-black opacity-60'
 				: ''} flex justify-center"
 			role="button"
@@ -43,12 +43,12 @@
 			}}
 		>
 			{#if eaten}
-				<span class="text-white mt-5">Eaten</span>
+				<span class="mt-5 text-white">Eaten</span>
 			{/if}
 		</div>
 	{/if}
 	<!-- Image Overlay -->
-	<div class="absolute w-full h-[60px] bg-black opacity-30 rounded-b" />
+	<div class="absolute h-[60px] w-full rounded-b bg-black opacity-30" />
 	<!-- Image -->
 	<img
 		src={`https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${foodId}`}
@@ -60,12 +60,12 @@
 	{#if type === 'dark'}
 		<!-- Adding Item -->
 		<button
-			class="absolute top-0 right-0"
+			class="absolute right-0 top-0"
 			on:click={() => {
 				addToPlannedItems(id);
 			}}
 		>
-			<svg class="h-5 w-5 stroke-neutral-200/80 fill-none" viewBox="0 0 24 24">
+			<svg class="h-5 w-5 fill-none stroke-neutral-200/80" viewBox="0 0 24 24">
 				<path
 					stroke-linecap="round"
 					stroke-linejoin="round"
@@ -76,7 +76,7 @@
 		</button>
 	{:else}
 		<!-- Removing Item -->
-		<button class="absolute top-0.5 right-1" on:click={() => removeFromPlannedItems(id)}>
+		<button class="absolute right-1 top-0.5" on:click={() => removeFromPlannedItems(id)}>
 			<svg class="h-3 fill-neutral-200/50" viewBox="0 0 24 24">
 				<path
 					fill-rule="evenodd"
@@ -87,7 +87,7 @@
 	{/if}
 	<!-- Image Icon: Edit -->
 	<button class="absolute bottom-[calc(40px)] left-[calc(2px)]" on:click={() => deleteItem(id)}>
-		<svg class="h-4 w-4 stroke-neutral-200/70 fill-none" viewBox="0 0 24 24">
+		<svg class="h-4 w-4 fill-none stroke-neutral-200/70" viewBox="0 0 24 24">
 			<path
 				stroke-linecap="round"
 				stroke-linejoin="round"
@@ -98,7 +98,7 @@
 	</button>
 	<!-- Item Name -->
 	<p
-		class="text-[9px] font-medium truncate pl-1 pt-1 {type === 'dark'
+		class="truncate pl-1 pt-1 text-[9px] font-medium {type === 'dark'
 			? 'text-neutral-200'
 			: 'text-neutral-500'}"
 	>
@@ -106,11 +106,11 @@
 	</p>
 	<div class="flex {type === 'dark' ? 'text-neutral-200' : 'text-neutral-500'}">
 		<!-- Portion -->
-		<p class="px-2 mt-[3px] text-[8px] flex-auto">{portionSize} {portionUnit}</p>
+		<p class="mt-[3px] flex-auto px-2 text-[8px]">{portionSize} {portionUnit}</p>
 		<!-- Calories & Protein-->
-		<div class="flex flex-col pr-1 mt-[-2px] text-right font-light">
+		<div class="mt-[-2px] flex flex-col pr-1 text-right font-light">
 			<p class="text-[8px]">kcal: {kcal}</p>
-			<p class="text-[8px] mt-[-3px]">protein: {protein}g</p>
+			<p class="mt-[-3px] text-[8px]">protein: {protein}g</p>
 		</div>
 	</div>
 </div>

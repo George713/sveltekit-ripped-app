@@ -131,11 +131,11 @@
 		<!-- Sigil with Navigation elements and points -->
 		<SigilNavPoints />
 		<!-- PowerUps, Bars, Tracker, Harvest Button, Progress Picture Button -->
-		<div class="bg-green-500 w-full h-[calc(25vh)] flex">
+		<div class="flex h-[calc(25vh)] w-full bg-green-500">
 			<!-- PowerUps, Bars, Tracker -->
-			<div class="bg-slate-100 w-[calc(66%)] h-full flex flex-col">
+			<div class="flex h-full w-[calc(66%)] flex-col bg-slate-100">
 				<!-- PowerUps -->
-				<div class="w-full h-[calc(30%)] flex items-end justify-end pb-2 pr-2">
+				<div class="flex h-[calc(30%)] w-full items-end justify-end pb-2 pr-2">
 					<PowerUps />
 				</div>
 				<!-- Bars -->
@@ -148,7 +148,7 @@
 				</div>
 			</div>
 			<!-- Harvest Button -->
-			<div class="bg-slate-100 flex-grow h-full flex items-center px-4">
+			<div class="flex h-full flex-grow items-center bg-slate-100 px-4">
 				<HarvestButton {toggleModal} />
 				{#if $page.data.user.progressPicToday}
 					<div class="absolute mb-60 ml-[-4px]">
@@ -180,7 +180,7 @@
 		<ModalHarvest {toggleModal} />
 	{/if}
 {:else}
-	<p class="m-3 px-5 flex justify-center">No one here yet...</p>
+	<p class="m-3 flex justify-center px-5">No one here yet...</p>
 {/if}
 
 <SpinnerOverlay showSpinner={$showSpinner} />

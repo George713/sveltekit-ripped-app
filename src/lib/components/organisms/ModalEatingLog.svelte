@@ -25,20 +25,20 @@
 	};
 </script>
 
-<div class="absolute inset-0 w-full h-full bg-black bg-opacity-70">
+<div class="absolute inset-0 h-full w-full bg-black bg-opacity-70">
 	<div
-		class="absolute bottom-1 left-0.5 w-[calc(100%-4px)] h-[calc(96%)] rounded-lg bg-gray-300 border-2 border-slate-50 flex flex-col items-center"
+		class="absolute bottom-1 left-0.5 flex h-[calc(96%)] w-[calc(100%-4px)] flex-col items-center rounded-lg border-2 border-slate-50 bg-gray-300"
 	>
 		<!-- Title: Planner -->
 		<p class="my-1 text-3xl font-medium text-gray-800">Eating Log</p>
 		<!-- Selected for today -->
 		<div
-			class="relative w-[calc(100%-8px)] h-[calc(86%)] bg-neutral-100 rounded-sm mb-1 shadow-[0_1px_1px_rgba(0,0,0,0.25)]"
+			class="relative mb-1 h-[calc(86%)] w-[calc(100%-8px)] rounded-sm bg-neutral-100 shadow-[0_1px_1px_rgba(0,0,0,0.25)]"
 		>
 			<!-- Title -->
 			<div class="flex">
 				<svg
-					class="fill-neutral-500 mt-[9px] ml-2 h-[13px] w-[12px]"
+					class="ml-2 mt-[9px] h-[13px] w-[12px] fill-neutral-500"
 					preserveAspectRatio="none"
 					style="float:left;"
 					viewBox="0 0 122.88 115.21"
@@ -47,13 +47,13 @@
 						d="m29.03 100.46 20.79-25.21 9.51 12.13L41 110.69c-7.02 8.92-20.01-.48-11.97-10.23zm24.28-57.41c1.98-6.46 1.07-11.98-6.37-20.18L28.76 1c-2.58-3.03-8.66 1.42-6.12 5.09L37.18 24c2.75 3.34-2.36 7.76-5.2 4.32L16.94 9.8c-2.8-3.21-8.59 1.03-5.66 4.7 4.24 5.1 10.8 13.43 15.04 18.53 2.94 2.99-1.53 7.42-4.43 3.69L6.96 18.32c-2.19-2.38-5.77-.9-6.72 1.88-1.02 2.97 1.49 5.14 3.2 7.34L20.1 49.06c5.17 5.99 10.95 9.54 17.67 7.53 1.03-.31 2.29-.94 3.64-1.77l44.76 57.78c2.41 3.11 7.06 3.44 10.08.93l.69-.57c3.4-2.83 3.95-8 1.04-11.34l-47.4-54.46c1.38-1.54 2.39-3 2.73-4.11zm12.67 12.6 7.37-8.94C63.87 23.21 99-8.11 116.03 6.29 136.72 23.8 105.97 66 84.36 55.57l-8.73 11.09-9.65-11.01z"
 					/>
 				</svg>
-				<div class="mt-2 px-1.5 text-zinc-500 text-[12px] font-medium">Daily Selection</div>
+				<div class="mt-2 px-1.5 text-[12px] font-medium text-zinc-500">Daily Selection</div>
 				<!-- Target tracker -->
 				<TargetTracker />
 			</div>
 			<!--  overflow-y-auto scrollbar-hide -->
 			<div
-				class="mt-2 flex flex-row flex-wrap space-x-1 gap-y-1 justify-center overflow-y-auto scrollbar-hide"
+				class="scrollbar-hide mt-2 flex flex-row flex-wrap justify-center gap-y-1 space-x-1 overflow-y-auto"
 			>
 				{#each $plannedItems as { id, foodId, eaten }}
 					<ItemCard
@@ -77,9 +77,9 @@
 					on:click={() => {
 						toggleModal('newItem');
 					}}
-					class="bg-neutral-400/70 rounded-[4px] mx-2 h-8 flex items-center shadow-[inset_2px_2px_3px_rgba(161,161,161,0.05),inset_-2px_-2px_3px_rgba(0,0,0,0.05)]"
+					class="mx-2 flex h-8 items-center rounded-[4px] bg-neutral-400/70 shadow-[inset_2px_2px_3px_rgba(161,161,161,0.05),inset_-2px_-2px_3px_rgba(0,0,0,0.05)]"
 				>
-					<svg class="h-[18px] ml-1 px-1 stroke-zinc-100 fill-none" viewBox="0 0 32 32"
+					<svg class="ml-1 h-[18px] fill-none stroke-zinc-100 px-1" viewBox="0 0 32 32"
 						><path
 							stroke-linecap="round"
 							stroke-linejoin="round"
@@ -88,7 +88,7 @@
 						/></svg
 					>
 					<div
-						class="flex flex-col text-[8px] font-bold text-zinc-100 leading-none tracking-tight py-[6px] pr-2"
+						class="flex flex-col py-[6px] pr-2 text-[8px] font-bold leading-none tracking-tight text-zinc-100"
 					>
 						<p>Add<br />Estimate</p>
 					</div>
@@ -97,9 +97,9 @@
 					on:click={() => {
 						toggleModal('newItem');
 					}}
-					class="bg-neutral-400/70 rounded-[4px] mx-2 h-8 flex items-center shadow-[inset_2px_2px_3px_rgba(161,161,161,0.05),inset_-2px_-2px_3px_rgba(0,0,0,0.05)]"
+					class="mx-2 flex h-8 items-center rounded-[4px] bg-neutral-400/70 shadow-[inset_2px_2px_3px_rgba(161,161,161,0.05),inset_-2px_-2px_3px_rgba(0,0,0,0.05)]"
 				>
-					<svg class="h-[18px] ml-1 px-1 stroke-zinc-100 fill-none" viewBox="0 0 24 24"
+					<svg class="ml-1 h-[18px] fill-none stroke-zinc-100 px-1" viewBox="0 0 24 24"
 						><path
 							stroke-linecap="round"
 							stroke-linejoin="round"
@@ -108,7 +108,7 @@
 						/></svg
 					>
 					<div
-						class="flex flex-col text-[8px] font-bold text-zinc-100 leading-none tracking-tight py-[6px] pr-2"
+						class="flex flex-col py-[6px] pr-2 text-[8px] font-bold leading-none tracking-tight text-zinc-100"
 					>
 						<p>New Item</p>
 					</div>

@@ -84,9 +84,9 @@
 	};
 </script>
 
-<div class="absolute inset-0 w-full h-full bg-black/70">
+<div class="absolute inset-0 h-full w-full bg-black/70">
 	<div
-		class="absolute bottom-1 left-0.5 w-[calc(100%-4px)] h-[calc(96%)] rounded-lg bg-neutral-600 border-[1px] border-neutral-500 flex flex-col items-center"
+		class="absolute bottom-1 left-0.5 flex h-[calc(96%)] w-[calc(100%-4px)] flex-col items-center rounded-lg border-[1px] border-neutral-500 bg-neutral-600"
 	>
 		<!-- Title: Planner -->
 		<p class="relative top-2 text-2xl font-semibold text-gray-200">New Item</p>
@@ -94,21 +94,21 @@
 		<!-- Card -->
 		<form method="POST" autocomplete="off" on:submit|preventDefault={handleSubmit}>
 			<div
-				class="relative top-12 w-[234px] h-[260px] border border-neutral-500
-		shadow-[0.5px_0.5px_1.5px_rgba(0,0,0,0.1)] rounded-md overflow-hidden"
+				class="relative top-12 h-[260px] w-[234px] overflow-hidden rounded-md
+		border border-neutral-500 shadow-[0.5px_0.5px_1.5px_rgba(0,0,0,0.1)]"
 			>
 				<!-- Image Overlay -->
 				{#if image}
-					<div class="absolute w-full h-[156px] bg-black/70 rounded-b">
+					<div class="absolute h-[156px] w-full rounded-b bg-black/70">
 						<img
-							class="absolute object-cover w-full h-[156px] rounded-b"
+							class="absolute h-[156px] w-full rounded-b object-cover"
 							src={image}
 							alt="uploadedImage"
 						/>
 					</div>
 				{:else}
 					<button
-						class="absolute w-full h-[156px] bg-black opacity-30 rounded-b"
+						class="absolute h-[156px] w-full rounded-b bg-black opacity-30"
 						on:click={() => {
 							fileinput.click();
 						}}
@@ -123,16 +123,16 @@
 					required
 				/>
 				<!-- Image -->
-				<div class="w-full h-[calc(60%)] rounded-b" />
+				<div class="h-[calc(60%)] w-full rounded-b" />
 				{#if !image}
 					<!-- Image Icon: Plus -->
 					<button
-						class="absolute top-16 left-[105px]"
+						class="absolute left-[105px] top-16"
 						on:click={() => {
 							fileinput.click();
 						}}
 					>
-						<svg class="h-7 w-7 stroke-neutral-200/80 fill-none" viewBox="0 0 24 24">
+						<svg class="h-7 w-7 fill-none stroke-neutral-200/80" viewBox="0 0 24 24">
 							<path
 								stroke-linecap="round"
 								stroke-linejoin="round"
@@ -149,7 +149,7 @@
 							fileinput.click();
 						}}
 					>
-						<svg class=" h-7 w-7 stroke-neutral-200/70 fill-none" viewBox="0 0 24 24">
+						<svg class=" h-7 w-7 fill-none stroke-neutral-200/70" viewBox="0 0 24 24">
 							<path
 								stroke-linecap="round"
 								stroke-linejoin="round"
@@ -161,17 +161,17 @@
 				{/if}
 				<!-- Item Name -->
 				<input
-					class="text-[18px] font-medium mx-3 w-[calc(90%)] mt-2 text-neutral-200 bg-transparent focus:outline-none"
+					class="mx-3 mt-2 w-[calc(90%)] bg-transparent text-[18px] font-medium text-neutral-200 focus:outline-none"
 					name="itemName"
 					type="text"
 					placeholder="Item Name..."
 					required
 				/>
-				<div class="flex mt-3 px-1 text-neutral-200">
+				<div class="mt-3 flex px-1 text-neutral-200">
 					<!-- Portion -->
 					<label class="flex flex-auto items-center">
 						<input
-							class="ml-2 pr-1 text-right font-light w-[30px] bg-transparent focus:outline-none"
+							class="ml-2 w-[30px] bg-transparent pr-1 text-right font-light focus:outline-none"
 							name="portionSize"
 							value="1"
 							type="text"
@@ -184,7 +184,7 @@
 						<label class="flex justify-end">
 							kcal:
 							<input
-								class="flex flex-col pr-[1px] text-right font-light w-[50px] bg-transparent focus:outline-none"
+								class="flex w-[50px] flex-col bg-transparent pr-[1px] text-right font-light focus:outline-none"
 								name="kcal"
 								placeholder="...  "
 								type="text"
@@ -194,7 +194,7 @@
 						<label class="flex">
 							protein:
 							<input
-								class="flex flex-col pr-1 text-right font-light w-10 bg-transparent focus:outline-none"
+								class="flex w-10 flex-col bg-transparent pr-1 text-right font-light focus:outline-none"
 								name="protein"
 								placeholder="... "
 								type="text"
@@ -206,10 +206,10 @@
 				</div>
 			</div>
 			<button
-				class="relative top-14 bg-neutral-700 rounded-[4px] mx-auto flex items-center shadow-[inset_2px_2px_3px_rgba(161,161,161,0.05),inset_-2px_-2px_3px_rgba(0,0,0,0.05)]"
+				class="relative top-14 mx-auto flex items-center rounded-[4px] bg-neutral-700 shadow-[inset_2px_2px_3px_rgba(161,161,161,0.05),inset_-2px_-2px_3px_rgba(0,0,0,0.05)]"
 				type="submit"
 			>
-				<svg class="h-[18px] ml-1 px-1 stroke-zinc-300 fill-none" viewBox="0 0 24 24">
+				<svg class="ml-1 h-[18px] fill-none stroke-zinc-300 px-1" viewBox="0 0 24 24">
 					<path
 						stroke-linecap="round"
 						stroke-linejoin="round"
@@ -218,7 +218,7 @@
 					/>
 				</svg>
 				<p
-					class="flex flex-col text-[8px] font-medium text-zinc-300 leading-none tracking-tight py-[6px] pr-2"
+					class="flex flex-col py-[6px] pr-2 text-[8px] font-medium leading-none tracking-tight text-zinc-300"
 				>
 					Add Item
 				</p>

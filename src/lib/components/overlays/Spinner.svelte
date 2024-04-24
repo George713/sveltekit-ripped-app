@@ -3,10 +3,10 @@
 </script>
 
 {#if showSpinner}
-	<div class="absolute top-0 flex items-center justify-center w-full h-full bg-slate-600/60">
+	<div class="absolute top-0 flex h-full w-full items-center justify-center bg-slate-600/60">
 		<svg
 			aria-hidden="true"
-			class="w-8 h-8 animate-spin fill-blue-600"
+			class="h-8 w-8 animate-spin fill-blue-600"
 			viewBox="0 0 100 101"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"

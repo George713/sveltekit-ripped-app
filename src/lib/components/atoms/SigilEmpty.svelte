@@ -1,5 +1,5 @@
 <svg
-	class="block m-auto my-2 fill-stone-200"
+	class="m-auto my-2 block fill-stone-200"
 	width="333"
 	height="189"
 	viewBox="0 0 333 189"

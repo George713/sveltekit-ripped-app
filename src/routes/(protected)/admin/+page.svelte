@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 </script>
 
-<h1 class="flex py-3 justify-center text-2xl font-black">/admin</h1>
+<h1 class="flex justify-center py-3 text-2xl font-black">/admin</h1>
 
 {#if $page.data.user}
 	<div class="ml-10 bg-neutral-400">
