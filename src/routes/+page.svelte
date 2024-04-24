@@ -130,7 +130,7 @@
 	{:else}
 		<!-- Sigil with Navigation elements and points -->
 		<SigilNavPoints />
-		<!-- PowerUps, Bars, Tracker, Harvest Button -->
+		<!-- PowerUps, Bars, Tracker, Harvest Button, Progress Picture Button -->
 		<div class="bg-green-500 w-full h-[calc(25vh)] flex">
 			<!-- PowerUps, Bars, Tracker -->
 			<div class="bg-slate-100 w-[calc(66%)] h-full flex flex-col">
