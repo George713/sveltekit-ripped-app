@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import Sigil from '$atoms/Sigil.svelte';
+	import SigilBronze from '$atoms/SigilBronze.svelte';
 </script>
 
 <div class="bg-slate-100 w-full h-[calc(50vh)] flex justify-center pt-3 relative">
@@ -23,6 +23,6 @@
 		<span class="text-gray-500 text-lg font-medium">{$page.data.user.pointBalance}</span>
 	</div>
 	{#if 15 < $page.data.user.currentBF && $page.data.user.currentBF < 20}
-		<Sigil />
+		<SigilBronze />
 	{/if}
 </div>
