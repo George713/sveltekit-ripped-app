@@ -121,12 +121,7 @@
 				</svg>
 				<div class="mt-2 px-1.5 text-zinc-500 text-[12px] font-medium">Selected for today</div>
 				<!-- Target tracker -->
-				<TargetTracker
-					plannedKcal={$plannedKcal}
-					calTarget={$page.data.user.currentCalorieTarget}
-					plannedProtein={$plannedProtein}
-					proteinTarget={$page.data.dailyProgress.targetProtein}
-				/>
+				<TargetTracker />
 			</div>
 			<div
 				class="h-[210px] mt-1 px-1.5 flex flex-col flex-wrap gap-1 overflow-x-auto scrollbar-hide"

@@ -49,12 +49,7 @@
 				</svg>
 				<div class="mt-2 px-1.5 text-zinc-500 text-[12px] font-medium">Daily Selection</div>
 				<!-- Target tracker -->
-				<TargetTracker
-					plannedKcal={$eatenKcal}
-					calTarget={$page.data.user.currentCalorieTarget}
-					plannedProtein={$eatenProtein}
-					proteinTarget={Math.round($page.data.user.currentWeight * 2)}
-				/>
+				<TargetTracker />
 			</div>
 			<!--  overflow-y-auto scrollbar-hide -->
 			<div
