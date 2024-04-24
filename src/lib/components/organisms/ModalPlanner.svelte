@@ -3,7 +3,7 @@
 	import { deserialize } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
 	import type { PlannedItem } from '$lib/types';
-	import { foodLibrary, plannedItems, plannedKcal, plannedProtein, showSpinner } from '$lib/stores';
+	import { foodLibrary, plannedItems, plannedKcal, showSpinner } from '$lib/stores';
 	import ItemCard from '$atoms/ItemCard.svelte';
 	import TargetTracker from '$atoms/TargetTracker.svelte';
 	import FinishPlanning from '$overlays/FinishPlanning.svelte';
