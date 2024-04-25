@@ -10,7 +10,7 @@
 
 	export let toggleModal: (modal: string) => void;
 
-	const addToPlannedItems = (id: number) => {
+	const addToPlanningProcess = (id: number) => {
 		const newPlannedItem: PlannedItem = {
 			id: plannedItems.maxId + 1,
 			eaten: false,
@@ -194,7 +194,7 @@
 						portionUnit="ptn"
 						{portionSize}
 						{deleteItem}
-						{addToPlannedItems}
+						plusButton={() => addToPlanningProcess(id)}
 						{removeFromPlannedItems}
 					/>
 				{/each}

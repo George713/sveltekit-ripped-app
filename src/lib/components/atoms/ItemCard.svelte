@@ -10,7 +10,7 @@
 	export let deleteItem: (id: number) => void = () => {
 		console.log('deleteItem not defined');
 	};
-	export let addToPlannedItems: (id: number) => void = () => {};
+	export let plusButton: () => void = () => {};
 	export let removeFromPlannedItems: (id: number) => void = () => {};
 	export let eatingMenu: boolean = false;
 	export let eaten: boolean = false;
@@ -62,7 +62,7 @@
 		<button
 			class="absolute right-0 top-0"
 			on:click={() => {
-				addToPlannedItems(id);
+				plusButton();
 			}}
 		>
 			<svg class="h-5 w-5 fill-none stroke-neutral-200/80" viewBox="0 0 24 24">
