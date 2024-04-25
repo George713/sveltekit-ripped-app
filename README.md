@@ -24,3 +24,4 @@
 
 ## Idea Backlog
 - streak design for progress pictures: x consequitive pictures -> morph image
+- extend items/days to items/packs/days, e.g. I would often use a 'coffee & tea' pack and maybe a 'protein shake pack'
