@@ -1,11 +1,10 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import { deserialize } from '$app/forms';
-	import { foodLibrary, plannedItems, showSpinner } from '$lib/stores';
-	import type { FoodItem, PlannedItem } from '$lib/types';
+	import { foodLibrary, showSpinner } from '$lib/stores';
+	import type { FoodItem } from '$lib/types';
 
 	export let toggleModal: (modal: string) => void;
-	export let originModal: string; // options: ModalPlanner or ModalEatingLog
+	export let originModal: string;
 
 	let image = '';
 	let imageString: any;
@@ -18,30 +17,6 @@
 		reader.onload = (e: any) => {
 			image = e.target.result;
 		};
-	};
-
-	const addToPlanning = async (newItem: FoodItem) => {
-		const newPlannedItem: PlannedItem = {
-			id: plannedItems.maxId + 1,
-			eaten: false,
-			createdAt: new Date(),
-			foodId: newItem.id
-		};
-
-		// Submit planned items to server
-		const formData = new FormData();
-		formData.append('plannedItems', JSON.stringify([newPlannedItem]));
-		formData.append('username', JSON.stringify($page.data.user.name));
-		const response = await fetch('?/finishPlanning', {
-			method: 'POST',
-			body: formData
-		});
-
-		const result = deserialize(await response.text());
-
-		if (result.type === 'success' && result.data) {
-			plannedItems.set(result.data.createdPlannedItems as PlannedItem[]);
-		}
 	};
 
 	const handleSubmit = async (event: Event) => {
@@ -63,11 +38,6 @@
 				body: imageString
 			});
 			const newItem = result.data.newItem as FoodItem;
-
-			// If origin is eatingLog, add item to planned items
-			if (originModal == 'eat') {
-				addToPlanning(newItem);
-			}
 
 			// Update foodLibrary
 			foodLibrary.update((items) => {

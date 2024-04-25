@@ -38,6 +38,7 @@
 	import ModalWeight from '$molecules/ModalWeight.svelte';
 	import SigilNavPoints from '$molecules/SigilNavPoints.svelte';
 	// Organisms
+	import FoodLibrary from '$organisms/FoodLibrary.svelte';
 	import ModalEatingLog from '$organisms/ModalEatingLog.svelte';
 	import ModalHarvest from '$organisms/ModalHarvest.svelte';
 	import ModalNewItem from '$organisms/ModalNewItem.svelte';
@@ -174,6 +175,8 @@
 		<ModalNewItem {toggleModal} {originModal} />
 	{:else if visibleModal == 'eat'}
 		<ModalEatingLog {toggleModal} />
+	{:else if visibleModal == 'foodLib'}
+		<FoodLibrary {toggleModal} />
 	{:else if visibleModal == 'finishEating'}
 		<ModalFinishEating {toggleModal} />
 	{:else if visibleModal == 'harvest'}

@@ -95,7 +95,7 @@
 				</button>
 				<button
 					on:click={() => {
-						toggleModal('newItem');
+						toggleModal('foodLib');
 					}}
 					class="mx-2 flex h-8 items-center rounded-[4px] bg-neutral-400/70 shadow-[inset_2px_2px_3px_rgba(161,161,161,0.05),inset_-2px_-2px_3px_rgba(0,0,0,0.05)]"
 				>
@@ -110,7 +110,7 @@
 					<div
 						class="flex flex-col py-[6px] pr-2 text-[8px] font-bold leading-none tracking-tight text-zinc-100"
 					>
-						<p>New Item</p>
+						<p>Food<br />Library</p>
 					</div>
 				</button>
 			</div>
