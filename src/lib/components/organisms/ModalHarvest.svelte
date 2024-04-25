@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { invalidateAll } from '$app/navigation';
-	import { eatenKcal, eatenProtein } from '$lib/stores';
-
-	export let toggleModal: (modal: string) => void;
+	import { eatenKcal, eatenProtein, visibleView } from '$lib/stores';
 
 	$: reachedTargetKcal =
 		$page.data.user.currentCalorieTarget - 25 <= $eatenKcal &&
@@ -57,7 +55,7 @@
 		});
 
 		// Return to main screen
-		toggleModal('none');
+		visibleView.update('none');
 
 		// Reset page data
 		invalidateAll();
@@ -68,8 +66,8 @@
 	class="absolute left-0 top-0 h-screen w-screen bg-gray-300"
 	role="button"
 	tabindex={0}
-	on:click={() => toggleModal('none')}
-	on:keydown={() => toggleModal('none')}
+	on:click={() => visibleView.update('none')}
+	on:keydown={() => visibleView.update('none')}
 >
 	<div class="relative m-1 mt-12 flex flex-col bg-slate-100 shadow-xl">
 		<!-- Base Points: Heading -->

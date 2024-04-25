@@ -21,7 +21,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { invalidateAll } from '$app/navigation';
-	import { foodLibrary, plannedItems, showSpinner } from '$lib/stores';
+	import { foodLibrary, plannedItems, showSpinner, visibleView } from '$lib/stores';
 	import type { FoodItem, PlannedItem } from '$lib/types';
 	// Atoms
 	import HarvestButton from '$atoms/HarvestButton.svelte';
@@ -57,14 +57,6 @@
 
 	let fileinput: any;
 	let audioWeighIn: any;
-
-	// Handler for visibility state of components
-	let visibleModal = 'none';
-	let originModal = 'none';
-	const toggleModal = (modal: string) => {
-		originModal = visibleModal;
-		visibleModal = modal;
-	};
 
 	const uploadToS3 = async (e: any, isInitPic: Boolean = false) => {
 		// Get picture
@@ -125,7 +117,7 @@
 		<!-- Empty Sigil  -->
 		<SigilEmpty />
 		<!-- Desired Action Buttons for Initial Inputs -->
-		<InitialInputs {toggleModal} {uploadToS3} {fileinput} />
+		<InitialInputs {uploadToS3} {fileinput} />
 
 		<!-- SCAFFOLDING -->
 	{:else}
@@ -150,7 +142,7 @@
 			</div>
 			<!-- Harvest Button -->
 			<div class="flex h-full flex-grow items-center bg-slate-100 px-4">
-				<HarvestButton {toggleModal} />
+				<HarvestButton />
 				{#if $page.data.user.progressPicToday}
 					<div class="absolute mb-60 ml-[-4px]">
 						<ProgressPicButton {uploadToS3} {fileinput} />
@@ -160,27 +152,27 @@
 		</div>
 
 		<!-- Weigh, Plan, Finish, Reset Buttons -->
-		<DailyActionBtns {toggleModal} {reset} />
+		<DailyActionBtns {reset} />
 	{/if}
 
-	{#if visibleModal == 'weight'}
-		<ModalWeight {toggleModal} on:playSound={handlePlaySound} />
-	{:else if visibleModal == 'bodyFat'}
-		<ModalBodyFat {toggleModal} />
-	{:else if visibleModal == 'calories'}
-		<ModalCalories {toggleModal} />
-	{:else if visibleModal == 'planner'}
-		<ModalPlanner {toggleModal} />
-	{:else if visibleModal == 'newItem'}
-		<ModalNewItem {toggleModal} {originModal} />
-	{:else if visibleModal == 'eat'}
-		<ModalEatingLog {toggleModal} />
-	{:else if visibleModal == 'foodLib'}
-		<FoodLibrary {toggleModal} />
-	{:else if visibleModal == 'finishEating'}
-		<ModalFinishEating {toggleModal} />
-	{:else if visibleModal == 'harvest'}
-		<ModalHarvest {toggleModal} />
+	{#if $visibleView.current == 'weight'}
+		<ModalWeight on:playSound={handlePlaySound} />
+	{:else if $visibleView.current == 'bodyFat'}
+		<ModalBodyFat />
+	{:else if $visibleView.current == 'calories'}
+		<ModalCalories />
+	{:else if $visibleView.current == 'planner'}
+		<ModalPlanner />
+	{:else if $visibleView.current == 'newItem'}
+		<ModalNewItem />
+	{:else if $visibleView.current == 'eat'}
+		<ModalEatingLog />
+	{:else if $visibleView.current == 'foodLib'}
+		<FoodLibrary />
+	{:else if $visibleView.current == 'finishEating'}
+		<ModalFinishEating />
+	{:else if $visibleView.current == 'harvest'}
+		<ModalHarvest />
 	{/if}
 {:else}
 	<p class="m-3 flex justify-center px-5">No one here yet...</p>

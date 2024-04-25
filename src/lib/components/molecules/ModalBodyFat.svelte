@@ -1,17 +1,16 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
+	import { visibleView } from '$lib/stores';
 
 	import ModalSkeleton from '$molecules/ModalSkeleton.svelte';
-
-	export let toggleModal: (modal: string) => void;
 
 	const init = (el: HTMLElement) => {
 		el.focus();
 	};
 </script>
 
-<ModalSkeleton {toggleModal}>
+<ModalSkeleton>
 	<form
 		action="?/logBodyFat"
 		method="post"
@@ -19,7 +18,7 @@
 		use:enhance={() => {
 			return async ({ result }) => {
 				if (result.type === 'success') {
-					toggleModal('none');
+					visibleView.update('none');
 					invalidateAll();
 				}
 			};

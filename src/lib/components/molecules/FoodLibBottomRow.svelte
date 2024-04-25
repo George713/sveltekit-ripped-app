@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let toggleModal: (modal: string) => void;
+	import { visibleView } from '$lib/stores';
 </script>
 
 <div class="relative my-2 flex">
@@ -11,7 +11,7 @@
 
 	<button
 		on:click={() => {
-			toggleModal('newItem');
+			visibleView.update('newItem');
 		}}
 		class="absolute right-3 flex h-7 items-center rounded-[4px] bg-neutral-700 shadow-[inset_2px_2px_3px_rgba(161,161,161,0.05),inset_-2px_-2px_3px_rgba(0,0,0,0.05)]"
 	>

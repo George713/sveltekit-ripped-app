@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { invalidateAll } from '$app/navigation';
-
-	export let toggleModal: (modal: string) => void;
+	import { visibleView } from '$lib/stores';
 
 	const finishEating = async () => {
 		// Mark finished eating in db
@@ -14,7 +13,7 @@
 		});
 
 		// Return to main screen
-		toggleModal('none');
+		visibleView.update('none');
 
 		// Reset page data
 		invalidateAll();
@@ -25,8 +24,8 @@
 	class="absolute left-0 top-0 flex h-screen w-screen justify-center bg-black/30 backdrop-blur-[2px]"
 	role="button"
 	tabindex={0}
-	on:click={() => toggleModal('none')}
-	on:keydown={() => toggleModal('none')}
+	on:click={() => visibleView.update('none')}
+	on:keydown={() => visibleView.update('none')}
 >
 	<div
 		class="relative top-[calc(56vh)] flex h-40 w-80 flex-col items-center rounded-lg bg-white/60 shadow-lg backdrop-blur-lg"

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { visibleView } from '$lib/stores';
 
-	export let toggleModal: (model: string) => void;
 	export let uploadToS3: (e: any, isInitPic: Boolean) => void;
 	export let fileinput: any;
 </script>
@@ -10,7 +10,7 @@
 	<!-- Target calorie input -->
 	<button
 		on:click={() => {
-			toggleModal('calories');
+			visibleView.update('calories');
 		}}
 		disabled={$page.data.user.initCalories}
 		class="m-1 bg-gray-300 px-2 py-1 disabled:bg-slate-600">Calories</button
@@ -30,7 +30,7 @@
 	>
 	<!-- BodyFat input -->
 	<button
-		on:click={() => toggleModal('bodyFat')}
+		on:click={() => visibleView.update('bodyFat')}
 		disabled={$page.data.user.initBF}
 		class="m-1 bg-gray-300 px-2 py-1 disabled:bg-slate-600">BF%</button
 	>

@@ -1,10 +1,8 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import { foodLibrary, plannedItems, eatenKcal, eatenProtein } from '$lib/stores';
+	import { foodLibrary, plannedItems, visibleView } from '$lib/stores';
+
 	import ItemCard from '$atoms/ItemCard.svelte';
 	import TargetTracker from '$atoms/TargetTracker.svelte';
-
-	export let toggleModal: (modal: string) => void;
 
 	const eatItem = async (id: number) => {
 		plannedItems.update((items) => {
@@ -75,7 +73,7 @@
 			<div class="absolute bottom-2 right-1 flex">
 				<button
 					on:click={() => {
-						toggleModal('newItem');
+						visibleView.update('newItem');
 					}}
 					class="mx-2 flex h-8 items-center rounded-[4px] bg-neutral-400/70 shadow-[inset_2px_2px_3px_rgba(161,161,161,0.05),inset_-2px_-2px_3px_rgba(0,0,0,0.05)]"
 				>
@@ -95,7 +93,7 @@
 				</button>
 				<button
 					on:click={() => {
-						toggleModal('foodLib');
+						visibleView.update('foodLib');
 					}}
 					class="mx-2 flex h-8 items-center rounded-[4px] bg-neutral-400/70 shadow-[inset_2px_2px_3px_rgba(161,161,161,0.05),inset_-2px_-2px_3px_rgba(0,0,0,0.05)]"
 				>
@@ -116,7 +114,7 @@
 			</div>
 		</div>
 		<!-- Minimize Symbol -->
-		<button on:click={() => toggleModal('none')} class="absolute bottom-3">
+		<button on:click={() => visibleView.update('none')} class="absolute bottom-3">
 			<svg width="31" height="18" class=" fill-none stroke-gray-400"
 				><path
 					stroke-linecap="round"

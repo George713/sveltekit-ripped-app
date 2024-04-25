@@ -1,11 +1,9 @@
 <script lang="ts">
-	import { foodLibrary } from '$lib/stores';
+	import { foodLibrary, visibleView } from '$lib/stores';
 
 	import SwitchItemsDays from '$atoms/SwitchItemsDays.svelte';
 	import CardArray from '$molecules/CardArray.svelte';
 	import FoodLibBottomRow from '$molecules/FoodLibBottomRow.svelte';
-
-	export let toggleModal: (modal: string) => void;
 </script>
 
 <div class="absolute inset-0 h-full w-full bg-black bg-opacity-70">
@@ -22,11 +20,11 @@
 				<SwitchItemsDays />
 			</div>
 			<CardArray items={$foodLibrary} />
-			<FoodLibBottomRow {toggleModal} />
+			<FoodLibBottomRow />
 		</div>
 
 		<!-- Minimize Symbol -->
-		<button on:click={() => toggleModal('eat')} class="relative bottom-3">
+		<button on:click={() => visibleView.update('eat')} class="relative bottom-3">
 			<svg width="31" height="18" class=" fill-none stroke-gray-400"
 				><path
 					stroke-linecap="round"

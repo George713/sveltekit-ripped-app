@@ -3,12 +3,10 @@
 	import { deserialize } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
 	import type { PlannedItem } from '$lib/types';
-	import { foodLibrary, plannedItems, plannedKcal, showSpinner } from '$lib/stores';
+	import { foodLibrary, plannedItems, plannedKcal, showSpinner, visibleView } from '$lib/stores';
 	import ItemCard from '$atoms/ItemCard.svelte';
 	import TargetTracker from '$atoms/TargetTracker.svelte';
 	import FinishPlanning from '$overlays/FinishPlanning.svelte';
-
-	export let toggleModal: (modal: string) => void;
 
 	const addToPlanningProcess = (id: number) => {
 		const newPlannedItem: PlannedItem = {
@@ -87,7 +85,7 @@
 		}
 
 		// Return to main view
-		toggleModal('');
+		visibleView.update('none');
 
 		// Reload page data (so plan button is disabled)
 		invalidateAll();
@@ -224,7 +222,7 @@
 				>
 				<button
 					on:click={() => {
-						toggleModal('newItem');
+						visibleView.update('newItem');
 					}}
 					class="mx-2 flex items-center rounded-[4px] bg-neutral-700 shadow-[inset_2px_2px_3px_rgba(161,161,161,0.05),inset_-2px_-2px_3px_rgba(0,0,0,0.05)]"
 				>
@@ -246,7 +244,7 @@
 		</div>
 
 		<!-- Minimize Symbol -->
-		<button on:click={() => toggleModal('none')} class="absolute bottom-3">
+		<button on:click={() => visibleView.update('none')} class="absolute bottom-3">
 			<svg width="31" height="18" class=" fill-none stroke-gray-400"
 				><path
 					stroke-linecap="round"

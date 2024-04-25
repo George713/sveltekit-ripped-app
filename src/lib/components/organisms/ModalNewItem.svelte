@@ -1,10 +1,7 @@
 <script lang="ts">
 	import { deserialize } from '$app/forms';
-	import { foodLibrary, showSpinner } from '$lib/stores';
+	import { foodLibrary, showSpinner, visibleView } from '$lib/stores';
 	import type { FoodItem } from '$lib/types';
-
-	export let toggleModal: (modal: string) => void;
-	export let originModal: string;
 
 	let image = '';
 	let imageString: any;
@@ -47,7 +44,7 @@
 		}
 
 		// Return to previous modal
-		toggleModal(originModal);
+		visibleView.update($visibleView.previous);
 
 		// Hide spinner
 		$showSpinner = false;
@@ -198,7 +195,7 @@
 		<!-- Minimize Symbol -->
 		<button
 			on:click={() => {
-				toggleModal(originModal);
+				visibleView.update($visibleView.previous);
 			}}
 			class="absolute bottom-3"
 		>

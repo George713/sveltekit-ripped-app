@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { visibleView } from '$lib/stores';
 
-	export let toggleModal: (modal: string) => void;
 	export let reset: () => void;
 </script>
 
@@ -10,7 +10,7 @@
 	<button
 		class="mx-4 h-14 w-14 rounded border border-gray-400/10 bg-gray-300 text-[20px] font-bold text-neutral-600 shadow disabled:bg-gray-200 disabled:text-neutral-400"
 		on:click={() => {
-			toggleModal('weight');
+			visibleView.update('weight');
 		}}
 		disabled={$page.data.dailyProgress.weighIn || $page.data.dailyProgress.harvest}
 	>
@@ -20,9 +20,9 @@
 	<button
 		class="mx-4 h-14 w-14 rounded border border-gray-400/10 bg-gray-300 text-[20px] font-bold text-neutral-600 shadow disabled:bg-gray-200 disabled:text-neutral-400"
 		on:click={() => {
-			if (!$page.data.dailyProgress.planned) toggleModal('planner');
+			if (!$page.data.dailyProgress.planned) visibleView.update('planner');
 			else if ($page.data.dailyProgress.planned && !$page.data.dailyProgress.eaten)
-				toggleModal('eat');
+				visibleView.update('eat');
 		}}
 		disabled={$page.data.dailyProgress.eaten}
 	>
@@ -31,7 +31,7 @@
 	<!-- Finish Eating -->
 	<button
 		class="mx-4 h-14 w-14 rounded border border-gray-400/10 bg-gray-300 text-[20px] font-bold text-neutral-600 shadow disabled:bg-gray-200 disabled:text-neutral-400"
-		on:click={() => toggleModal('finishEating')}
+		on:click={() => visibleView.update('finishEating')}
 		disabled={$page.data.dailyProgress.eaten}
 	>
 		F

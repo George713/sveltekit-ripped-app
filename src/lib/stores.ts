@@ -71,3 +71,22 @@ export const eatenProtein = derived([foodLibrary, plannedItems], ([$foodLibrary,
 );
 
 export const showSpinner = writable(false);
+
+const visibleViewStore = () => {
+    const { subscribe, update } = writable({
+        'previous': 'none',
+        'current': 'none'
+    })
+
+    return {
+        subscribe,
+        update: (newView: string) => {
+            update(state => {
+                state.previous = state.current;
+                state.current = newView;
+                return state;
+            });
+        }
+    }
+}
+export const visibleView = visibleViewStore()
