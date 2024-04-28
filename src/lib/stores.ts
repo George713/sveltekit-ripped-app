@@ -90,3 +90,13 @@ const visibleViewStore = () => {
     }
 }
 export const visibleView = visibleViewStore()
+
+const visibleOverlayStore = () => {
+    const { subscribe, set } = writable('none')
+
+    return {
+        subscribe,
+        set,
+    }
+}
+export const visibleOverlay = visibleOverlayStore()
