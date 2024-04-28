@@ -47,7 +47,7 @@
 			{/if}
 		</div>
 	{/if}
-	<!-- Image Overlay -->
+	<!-- Image Overlay for slightly darking it -->
 	<div class="absolute h-[60px] w-full rounded-b bg-black opacity-30" />
 	<!-- Image -->
 	<img
