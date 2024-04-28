@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { foodLibrary, plannedItems, visibleView } from '$lib/stores';
+	import { foodLibrary, plannedItems, visibleView, visibleOverlay } from '$lib/stores';
 
 	import ItemCard from '$atoms/ItemCard.svelte';
 	import TargetTracker from '$atoms/TargetTracker.svelte';
+	import OverlayAddEstimate from '$overlays/AddEstimate.svelte';
 
 	const eatItem = async (id: number) => {
 		plannedItems.update((items) => {
@@ -73,7 +74,7 @@
 			<div class="absolute bottom-2 right-1 flex">
 				<button
 					on:click={() => {
-						visibleView.update('newItem');
+						visibleOverlay.set('addEstimate');
 					}}
 					class="mx-2 flex h-8 items-center rounded-[4px] bg-neutral-400/70 shadow-[inset_2px_2px_3px_rgba(161,161,161,0.05),inset_-2px_-2px_3px_rgba(0,0,0,0.05)]"
 				>
@@ -125,3 +126,7 @@
 		</button>
 	</div>
 </div>
+
+{#if $visibleOverlay == 'addEstimate'}
+	<OverlayAddEstimate />
+{/if}
