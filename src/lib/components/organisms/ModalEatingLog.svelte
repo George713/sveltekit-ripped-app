@@ -1,5 +1,11 @@
 <script lang="ts">
-	import { foodLibrary, plannedItems, visibleView, visibleOverlay } from '$lib/stores';
+	import {
+		foodLibrary,
+		plannedItems,
+		visibleView,
+		visibleOverlay,
+		estimatesLog
+	} from '$lib/stores';
 
 	import ItemCard from '$atoms/ItemCard.svelte';
 	import TargetTracker from '$atoms/TargetTracker.svelte';
@@ -64,6 +70,20 @@
 						protein={foodLibrary.getProteinByIndex(foodId)}
 						portionUnit="ptn"
 						portionSize={foodLibrary.getPortionSizeByIndex(foodId)}
+						eatingMenu={true}
+						{eaten}
+						{eatItem}
+					/>
+				{/each}
+				{#each $estimatesLog as { id, eaten, kcal, protein }}
+					<ItemCard
+						type="bright"
+						{id}
+						itemName="Estimate"
+						{kcal}
+						{protein}
+						portionUnit="ptn"
+						portionSize={1}
 						eatingMenu={true}
 						{eaten}
 						{eatItem}

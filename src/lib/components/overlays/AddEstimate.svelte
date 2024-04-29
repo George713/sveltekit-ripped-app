@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { deserialize } from '$app/forms';
-	import { plannedItems, showSpinner, visibleOverlay } from '$lib/stores';
+	import { estimatesLog, showSpinner, visibleOverlay } from '$lib/stores';
+	import type { EatEstimate } from '$lib/types';
 
 	import Background from '$overlays/Background.svelte';
 
@@ -16,10 +17,11 @@
 		const result = deserialize(await response.text());
 
 		if (result.type === 'success' && result.data) {
-			// Update plannedItems
-			plannedItems.update((items) => {
+			const newEstimate = result.data.newEstimate as EatEstimate;
+			// Update estimatesLog
+			estimatesLog.update((items) => {
 				// @ts-ignore
-				return [...items, newItem];
+				return [...items, newEstimate];
 			});
 		}
 

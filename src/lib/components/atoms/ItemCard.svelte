@@ -1,7 +1,7 @@
 <script lang="ts">
 	export let type: string = 'bright';
 	export let id: number;
-	export let foodId: number;
+	export let foodId: number | undefined = undefined;
 	export let itemName: string;
 	export let kcal: number;
 	export let protein: number;
@@ -51,7 +51,9 @@
 	<div class="absolute h-[60px] w-full rounded-b bg-black opacity-30" />
 	<!-- Image -->
 	<img
-		src={`https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${foodId}`}
+		src={foodId
+			? `https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${foodId}`
+			: 'https://placehold.co/90x60?text=Estimate&font=roboto'}
 		alt="imgUrl"
 		style="width:100%;height:60px;"
 		class="rounded-b"
