@@ -114,6 +114,28 @@ const newItem: Action = async ({ locals, request }) => {
 	return { presignedURL: data.signedUrl, newItem: newItem }
 }
 
+const addEstimate: Action = async ({ locals, request }) => {
+	const formData = await request.formData();
+	const { kcal, protein } = Object.fromEntries(formData.entries());
+
+	// Create entry in db
+	const newEstimate = await db.eatEstimate.create({
+		data: {
+			kcal: parseInt(kcal as string),
+			protein: parseInt(protein as string),
+			user: {
+				connect: {
+					username: locals.user.name,
+				},
+			},
+		}
+	})
+
+	return {
+		newEstimate
+	}
+}
+
 const deleteItem: Action = async ({ request }) => {
 	const formData = await request.formData();
 	const { id } = Object.fromEntries(formData.entries());
@@ -266,9 +288,18 @@ export const load: PageServerLoad = async ({ locals }) => {
 			},
 		});
 
+		// Get eating estimate for the current day
+		const eatEstimates = await db.eatEstimate.findMany({
+			where: {
+				createdAt: { gte: new Date(today.setHours(3, 0, 0, 0)) }
+			},
+		});
+
+
 		return {
 			foodItems,
-			plannedItems
+			plannedItems,
+			eatEstimates
 		};
 	}
 }
@@ -278,6 +309,7 @@ export const actions: Actions = {
 	logCalories,
 	logBodyFat,
 	newItem,
+	addEstimate,
 	deleteItem,
 	finishPlanning,
 	eatItem,

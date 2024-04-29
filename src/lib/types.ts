@@ -14,3 +14,11 @@ export interface PlannedItem {
     createdAt: Date;
     foodId: number;
 }
+
+export interface EatEstimate {
+    id: number;
+    eaten: boolean;
+    createdAt: Date;
+    kcal: number;
+    protein: number;
+}

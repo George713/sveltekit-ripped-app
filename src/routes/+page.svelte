@@ -21,8 +21,8 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { invalidateAll } from '$app/navigation';
-	import { foodLibrary, plannedItems, showSpinner, visibleView } from '$lib/stores';
-	import type { FoodItem, PlannedItem } from '$lib/types';
+	import { foodLibrary, plannedItems, estimatesLog, showSpinner, visibleView } from '$lib/stores';
+	import type { FoodItem, PlannedItem, EatEstimate } from '$lib/types';
 	// Atoms
 	import HarvestButton from '$atoms/HarvestButton.svelte';
 	import PowerUps from '$atoms/PowerUps.svelte';
@@ -47,12 +47,19 @@
 	import ModalFinishEating from '$overlays/FinishEating.svelte';
 	import SpinnerOverlay from '$overlays/Spinner.svelte';
 
-	export let data: { foodItems: FoodItem[]; plannedItems: PlannedItem[] };
+	export let data: {
+		foodItems: FoodItem[];
+		plannedItems: PlannedItem[];
+		eatEstimates: EatEstimate[];
+	};
 	if (data.foodItems) {
 		foodLibrary.set(data.foodItems);
 	}
 	if (data.plannedItems) {
 		plannedItems.set(data.plannedItems);
+	}
+	if (data.eatEstimates) {
+		estimatesLog.set(data.eatEstimates);
 	}
 
 	let fileinput: any;
