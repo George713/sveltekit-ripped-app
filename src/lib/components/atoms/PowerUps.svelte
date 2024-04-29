@@ -1,5 +1,7 @@
 <script lang="ts">
-	export let streakMeter = 0;
+	import { page } from '$app/stores';
+
+	$: streakMeter = $page.data.user.streakMeter;
 </script>
 
 <!-- PowerUp Section -->

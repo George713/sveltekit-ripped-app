@@ -1,8 +1,9 @@
-import { fail, redirect } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 import type { Action, Actions, PageServerLoad } from './$types';
 
 import { db } from '$lib/database.server';
 import { supabase } from '$lib/supabaseClient.server';
+import type { PlannedItem } from '$lib/types';
 
 const logWeight: Action = async ({ locals, request }) => {
 	const data = await request.formData();
@@ -113,6 +114,28 @@ const newItem: Action = async ({ locals, request }) => {
 	return { presignedURL: data.signedUrl, newItem: newItem }
 }
 
+const addEstimate: Action = async ({ locals, request }) => {
+	const formData = await request.formData();
+	const { kcal, protein } = Object.fromEntries(formData.entries());
+
+	// Create entry in db
+	const newEstimate = await db.eatEstimate.create({
+		data: {
+			kcal: parseInt(kcal as string),
+			protein: parseInt(protein as string),
+			user: {
+				connect: {
+					username: locals.user.name,
+				},
+			},
+		}
+	})
+
+	return {
+		newEstimate
+	}
+}
+
 const deleteItem: Action = async ({ request }) => {
 	const formData = await request.formData();
 	const { id } = Object.fromEntries(formData.entries());
@@ -137,27 +160,52 @@ const finishPlanning: Action = async ({ request }) => {
 
 	if (plannedItems) {
 		const parsedPlannedItems = JSON.parse(plannedItems as string)
+		const cleanedPlannedItems = parsedPlannedItems.map((item: PlannedItem) => ({ ...item, id: undefined }))
 
-		const createdPlannedItems = await db.plannedItem.createMany({
-			data: parsedPlannedItems,
-			skipDuplicates: true, // Skip duplicates if you don't want to create them again
+		await db.plannedItem.createMany({
+			data: cleanedPlannedItems
 		});
+
+		const today = new Date();
+		const createdPlannedItems = await db.plannedItem.findMany({
+			where: {
+				foodItem: {
+					user: {
+						username: JSON.parse(username as string)
+					}
+				},
+				createdAt: {
+					gte: new Date(today.setHours(3, 0, 0, 0))
+				}
+			}
+		})
 
 		await db.user.update({
 			where: { username: JSON.parse(username as string) },
 			data: { lastPlannedOn: new Date() }
 		})
+
+		// Send the created planned items back to the client
+		return { createdPlannedItems }
 	}
 }
 
 const eatItem: Action = async ({ request }) => {
 	const formData = await request.formData()
-	const { id } = Object.fromEntries(formData.entries());
+	const { id, type } = Object.fromEntries(formData.entries());
 
-	await db.plannedItem.update({
-		where: { id: parseInt(id as string) },
-		data: { eaten: true }
-	})
+	if (type === 'planned') {
+		await db.plannedItem.update({
+			where: { id: parseInt(id as string) },
+			data: { eaten: true }
+		})
+	}
+	else if (type === 'estimate') {
+		await db.eatEstimate.update({
+			where: { id: parseInt(id as string) },
+			data: { eaten: true }
+		})
+	}
 }
 
 const finishEating: Action = async ({ request }) => {
@@ -248,9 +296,18 @@ export const load: PageServerLoad = async ({ locals }) => {
 			},
 		});
 
+		// Get eating estimate for the current day
+		const eatEstimates = await db.eatEstimate.findMany({
+			where: {
+				createdAt: { gte: new Date(today.setHours(3, 0, 0, 0)) }
+			},
+		});
+
+
 		return {
 			foodItems,
-			plannedItems
+			plannedItems,
+			eatEstimates
 		};
 	}
 }
@@ -260,6 +317,7 @@ export const actions: Actions = {
 	logCalories,
 	logBodyFat,
 	newItem,
+	addEstimate,
 	deleteItem,
 	finishPlanning,
 	eatItem,

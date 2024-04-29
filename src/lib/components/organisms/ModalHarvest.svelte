@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { invalidateAll } from '$app/navigation';
-	import { eatenKcal, eatenProtein } from '$lib/stores';
-
-	export let toggleModal: (modal: string) => void;
+	import { eatenKcal, eatenProtein, visibleView } from '$lib/stores';
 
 	$: reachedTargetKcal =
 		$page.data.user.currentCalorieTarget - 25 <= $eatenKcal &&
@@ -57,7 +55,7 @@
 		});
 
 		// Return to main screen
-		toggleModal('none');
+		visibleView.update('none');
 
 		// Reset page data
 		invalidateAll();
@@ -65,15 +63,15 @@
 </script>
 
 <div
-	class="absolute top-0 left-0 w-screen h-screen bg-gray-300"
+	class="absolute left-0 top-0 h-screen w-screen bg-gray-300"
 	role="button"
 	tabindex={0}
-	on:click={() => toggleModal('none')}
-	on:keydown={() => toggleModal('none')}
+	on:click={() => visibleView.update('none')}
+	on:keydown={() => visibleView.update('none')}
 >
-	<div class="relative m-1 mt-12 bg-slate-100 shadow-xl flex flex-col">
+	<div class="relative m-1 mt-12 flex flex-col bg-slate-100 shadow-xl">
 		<!-- Base Points: Heading -->
-		<div class="mt-8 ml-8">
+		<div class="ml-8 mt-8">
 			<span class="text-lg font-bold text-slate-400 [text-shadow:_1px_1px_2px_rgb(0_0_0_/_20%)]">
 				Base Points
 			</span>
@@ -82,25 +80,25 @@
 		<div class="ml-14 flex flex-col">
 			<div class="relative my-2 flex">
 				<span class="w-40">Weight Measured</span>
-				<span class="text-right w-6 mr-1">{points.weight}</span>
+				<span class="mr-1 w-6 text-right">{points.weight}</span>
 				<img src="/gcoins.svg" alt="gcoins" />
 				<!-- <img class="ml-10" src="/star.svg" alt="star" /> -->
 			</div>
 			<div class="relative my-2 flex">
 				<span class="w-40">Hit Protein Target</span>
-				<span class="text-right w-6 mr-1">{points.protein}</span>
+				<span class="mr-1 w-6 text-right">{points.protein}</span>
 				<img src="/gcoins.svg" alt="gcoins" />
 				<!-- <img class="ml-10" src="/star.svg" alt="star" /> -->
 			</div>
 			<div class="relative my-2 flex">
 				<span class="w-40">Hit Calorie Target</span>
-				<span class="text-right w-6 mr-1">{points.calories}</span>
+				<span class="mr-1 w-6 text-right">{points.calories}</span>
 				<img src="/gcoins.svg" alt="gcoins" />
 				<!-- <img class="ml-10" src="/star.svg" alt="star" /> -->
 			</div>
 		</div>
 		<!-- Multipliers: Heading -->
-		<div class="mt-5 ml-8">
+		<div class="ml-8 mt-5">
 			<span class="text-lg font-bold text-slate-400 [text-shadow:_1px_1px_2px_rgb(0_0_0_/_20%)]">
 				Multipliers
 			</span>
@@ -109,23 +107,23 @@
 		<div class="ml-14 flex flex-col">
 			<div class="relative my-2 flex">
 				<span class="w-36">Measure Streak</span>
-				<span class="text-right w-10 mr-1 font-bold text-cyan-500"
+				<span class="mr-1 w-10 text-right font-bold text-cyan-500"
 					>+{Math.round(100 * multiplier)}%
 				</span>
 				<img src="/uparrows.svg" alt="gcoins" class="ml-2" />
 			</div>
 		</div>
 		<!-- Summary: Horizontal Bar -->
-		<div class="bg-gray-500 flex-span h-[2px] rounded-lg mt-8 ml-[calc(45%)] mr-16" />
+		<div class="flex-span ml-[calc(45%)] mr-16 mt-8 h-[2px] rounded-lg bg-gray-500" />
 		<!-- Summary: Points -->
 		<div class="relative my-2 flex">
-			<span class="text-right font-bold text-2xl text-gray-700 w-6 ml-[calc(57%)] mr-1"
+			<span class="ml-[calc(57%)] mr-1 w-6 text-right text-2xl font-bold text-gray-700"
 				>{totalPoints}</span
 			>
 			<img src="/gcoins.svg" alt="gcoins" />
 		</div>
 		<button
-			class="mx-auto mt-20 mb-10 w-36 px-6 py-2 bg-green-400 rounded text-gray-700 font-bold text-xl"
+			class="mx-auto mb-10 mt-20 w-36 rounded bg-green-400 px-6 py-2 text-xl font-bold text-gray-700"
 			on:click={() => harvest(totalPoints)}>HARVEST</button
 		>
 	</div>

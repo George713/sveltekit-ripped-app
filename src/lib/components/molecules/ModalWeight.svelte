@@ -2,10 +2,9 @@
 	import { enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
 	import { createEventDispatcher } from 'svelte';
+	import { visibleView } from '$lib/stores';
 
-	import ModalSkeleton from './ModalSkeleton.svelte';
-
-	export let toggleModal: (modal: string) => void;
+	import ModalSkeleton from '$molecules/ModalSkeleton.svelte';
 
 	// For putting the focus automatically on input field
 	const init = (el: HTMLElement) => {
@@ -21,7 +20,7 @@
 	};
 </script>
 
-<ModalSkeleton {toggleModal}>
+<ModalSkeleton>
 	<form
 		action="?/logWeight"
 		method="post"
@@ -30,7 +29,7 @@
 			return async ({ result }) => {
 				if (result.type === 'success') {
 					playSound();
-					toggleModal('none');
+					visibleView.update('none');
 					invalidateAll();
 				}
 			};

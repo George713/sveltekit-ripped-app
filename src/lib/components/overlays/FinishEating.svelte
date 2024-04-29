@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { invalidateAll } from '$app/navigation';
-
-	export let toggleModal: (modal: string) => void;
+	import { visibleView } from '$lib/stores';
 
 	const finishEating = async () => {
 		// Mark finished eating in db
@@ -14,7 +13,7 @@
 		});
 
 		// Return to main screen
-		toggleModal('none');
+		visibleView.update('none');
 
 		// Reset page data
 		invalidateAll();
@@ -22,20 +21,20 @@
 </script>
 
 <div
-	class="absolute top-0 left-0 w-screen h-screen bg-black/30 backdrop-blur-[2px] flex justify-center"
+	class="absolute left-0 top-0 flex h-screen w-screen justify-center bg-black/30 backdrop-blur-[2px]"
 	role="button"
 	tabindex={0}
-	on:click={() => toggleModal('none')}
-	on:keydown={() => toggleModal('none')}
+	on:click={() => visibleView.update('none')}
+	on:keydown={() => visibleView.update('none')}
 >
 	<div
-		class="relative top-[calc(56vh)] w-80 h-40 bg-white/60 backdrop-blur-lg shadow-lg rounded-lg flex flex-col items-center"
+		class="relative top-[calc(56vh)] flex h-40 w-80 flex-col items-center rounded-lg bg-white/60 shadow-lg backdrop-blur-lg"
 	>
-		<span class="pt-2 my-4 font-sans font-semibold text-center"
+		<span class="my-4 pt-2 text-center font-sans font-semibold"
 			>Everything I ate today I <br /> entered & I am done eating.</span
 		>
 		<button
-			class="px-6 py-2 bg-green-400 rounded text-gray-700 font-bold text-xl"
+			class="rounded bg-green-400 px-6 py-2 text-xl font-bold text-gray-700"
 			on:click={finishEating}>CONFIRM</button
 		>
 	</div>
