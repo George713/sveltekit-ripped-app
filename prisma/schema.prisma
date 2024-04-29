@@ -40,8 +40,9 @@ model User {
   // ================================
   // Targets
   calorieTargets   CalorieTarget[]
-  // Planning 
+  // Planning & Tracking
   foodItems        FoodItem[]
+  eatEstimates     EatEstimate[]
   // Measurements
   weights          Weight[]
   bodyfats         BodyFat[]
@@ -103,4 +104,15 @@ model PlannedItem {
 
   foodItem FoodItem @relation(fields: [foodId], references: [id])
   foodId   Int
+}
+
+model EatEstimate {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  eaten     Boolean  @default(false)
+  kcal      Int
+  protein   Int
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
 }
