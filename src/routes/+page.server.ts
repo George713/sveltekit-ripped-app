@@ -192,12 +192,20 @@ const finishPlanning: Action = async ({ request }) => {
 
 const eatItem: Action = async ({ request }) => {
 	const formData = await request.formData()
-	const { id } = Object.fromEntries(formData.entries());
+	const { id, type } = Object.fromEntries(formData.entries());
 
-	await db.plannedItem.update({
-		where: { id: parseInt(id as string) },
-		data: { eaten: true }
-	})
+	if (type === 'planned') {
+		await db.plannedItem.update({
+			where: { id: parseInt(id as string) },
+			data: { eaten: true }
+		})
+	}
+	else if (type === 'estimate') {
+		await db.eatEstimate.update({
+			where: { id: parseInt(id as string) },
+			data: { eaten: true }
+		})
+	}
 }
 
 const finishEating: Action = async ({ request }) => {

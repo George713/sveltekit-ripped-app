@@ -11,18 +11,29 @@
 	import TargetTracker from '$atoms/TargetTracker.svelte';
 	import OverlayAddEstimate from '$overlays/AddEstimate.svelte';
 
-	const eatItem = async (id: number) => {
-		plannedItems.update((items) => {
-			const index = items.findIndex((item) => item.id === id);
-			if (index !== -1) {
-				items[index].eaten = true;
-			}
-			return items;
-		});
+	const eatItem = async (id: number, type: string) => {
+		if (type === 'planned') {
+			plannedItems.update((items) => {
+				const index = items.findIndex((item) => item.id === id);
+				if (index !== -1) {
+					items[index].eaten = true;
+				}
+				return items;
+			});
+		} else if (type === 'estimate') {
+			estimatesLog.update((items) => {
+				const index = items.findIndex((item) => item.id === id);
+				if (index !== -1) {
+					items[index].eaten = true;
+				}
+				return items;
+			});
+		}
 
 		// Updaten eaten flag in db
 		const formData = new FormData();
 		formData.append('id', id.toString());
+		formData.append('type', type);
 		const response = await fetch('?/eatItem', {
 			method: 'POST',
 			body: formData
@@ -72,7 +83,7 @@
 						portionSize={foodLibrary.getPortionSizeByIndex(foodId)}
 						eatingMenu={true}
 						{eaten}
-						{eatItem}
+						eatItem={() => eatItem(id, 'planned')}
 					/>
 				{/each}
 				{#each $estimatesLog as { id, eaten, kcal, protein }}
@@ -86,7 +97,7 @@
 						portionSize={1}
 						eatingMenu={true}
 						{eaten}
-						{eatItem}
+						eatItem={() => eatItem(id, 'estimate')}
 					/>
 				{/each}
 			</div>

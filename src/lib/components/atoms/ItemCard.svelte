@@ -14,7 +14,7 @@
 	export let removeFromPlannedItems: (id: number) => void = () => {};
 	export let eatingMenu: boolean = false;
 	export let eaten: boolean = false;
-	export let eatItem: (id: number) => void = () => {};
+	export let eatItem: () => void = () => {};
 </script>
 
 <!-- Outer Frame -->
@@ -33,12 +33,12 @@
 			tabindex={0}
 			on:click={() => {
 				if (!eaten) {
-					eatItem(id);
+					eatItem();
 				}
 			}}
 			on:keydown={() => {
 				if (!eaten) {
-					eatItem(id);
+					eatItem();
 				}
 			}}
 		>
