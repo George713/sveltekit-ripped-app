@@ -26,3 +26,5 @@
 ## Idea Backlog
 - streak design for progress pictures: x consequitive pictures -> morph image
 - extend items/days to items/packs/days, e.g. I would often use a 'coffee & tea' pack and maybe a 'protein shake pack'
+- Onboarding: Let the different actions unlock different aspects
+- Headline on homepage: "F#%! willpower. Have your cookie. And still lose fat!"
