@@ -22,6 +22,7 @@
 		<span class="text-xs text-gray-500">$</span>
 		<span class="text-lg font-medium text-gray-500">{$page.data.user.pointBalance}</span>
 	</div>
+	<!-- Sigil -->
 	{#if 15 < $page.data.user.currentBF && $page.data.user.currentBF < 20}
 		<SigilBronze />
 	{/if}
