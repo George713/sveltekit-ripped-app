@@ -22,3 +22,8 @@ export interface EatEstimate {
     kcal: number;
     protein: number;
 }
+
+export interface WeightData {
+    weight: number;
+    createdAt: string;
+};

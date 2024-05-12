@@ -108,3 +108,5 @@ const visibleOverlayStore = () => {
     }
 }
 export const visibleOverlay = visibleOverlayStore()
+
+export const weightTrend = writable<number[]>([])
