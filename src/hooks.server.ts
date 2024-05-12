@@ -55,8 +55,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 			lastFinishedEatingOn: true,
 			lastHarvestOn: true,
 			lastWeeklyPicOn: true,
+			lastReviewOn: true,
 			// Appointments
 			progressPicOn: true,
+			reviewOn: true,
 			// Progess Player Journey
 			initBF: true,
 			initPhoto: true,
@@ -87,18 +89,20 @@ export const handle: Handle = async ({ event, resolve }) => {
 			initBF: user.initBF,
 			initPhoto: user.initPhoto,
 			initCalories: user.initCalories,
-			progressPicToday: new Date().toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() === user.progressPicOn ? true : false
+			progressPicToday: new Date().toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() === user.progressPicOn ? true : false,
+			reviewToday: new Date().toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() === user.reviewOn ? true : false
 		};
 		// Derived value for user
 		event.locals.user.currentStatus = getUserCurrentStatus(event.locals.user.currentBF)
 		// Daily Progress
 		event.locals.dailyProgress = {
 			weighIn: didWeightoday(user.weights),
-			targetProtein: Math.round(event.locals.user.currentWeight * 2),
+			targetProtein: Math.round(event.locals.user.currentWeight * 1.6),
 			planned: didActivityToday(user.lastPlannedOn),
 			eaten: didActivityToday(user.lastFinishedEatingOn),
 			harvest: didActivityToday(user.lastHarvestOn),
 			weeklyPic: didActivityToday(user.lastWeeklyPicOn),
+			weeklyReview: didActivityToday(user.lastReviewOn),
 		};
 	}
 
