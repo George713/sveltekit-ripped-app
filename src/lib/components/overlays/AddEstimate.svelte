@@ -9,6 +9,9 @@
 		// Show spinner
 		$showSpinner = true;
 
+		// Return to previous modal
+		visibleOverlay.set('none');
+
 		const response = await fetch('?/addEstimate', {
 			method: 'POST',
 			body: new FormData(event.target as HTMLFormElement)
@@ -24,9 +27,6 @@
 				return [...items, newEstimate];
 			});
 		}
-
-		// Return to previous modal
-		visibleOverlay.set('none');
 
 		// Hide spinner
 		$showSpinner = false;
