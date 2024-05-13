@@ -12,3 +12,8 @@
 	-ms-overflow-style: none; /* IE and Edge */
 	scrollbar-width: none; /* Firefox */
 }
+
+/* Hide spinners in Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
