@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import { invalidateAll } from '$app/navigation';
 	import { showSpinner, visibleOverlay, visibleView } from '$lib/stores';
+	import { selectInput } from '$lib/utils.ts';
 
 	import Background from '$overlays/Background.svelte';
 
@@ -45,6 +46,7 @@
 					value={$page.data.user.currentCalorieTarget}
 					class="mx-1 w-12 rounded pr-1 text-right"
 					name="calories"
+					on:focus={selectInput}
 					required
 				/>
 				<span class="w-7">kcal</span>

@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { deserialize } from '$app/forms';
 	import { estimatesLog, showSpinner, visibleOverlay } from '$lib/stores';
+	import { selectInput } from '$lib/utils';
+
 	import type { EatEstimate } from '$lib/types';
 
 	import Background from '$overlays/Background.svelte';
@@ -42,13 +44,25 @@
 			<!-- Row Calories -->
 			<div class="mb-1 flex justify-end">
 				<span>Calories</span>
-				<input type="number" value="0" class="mx-1 w-10 rounded pr-1 text-right" name="kcal" />
+				<input
+					type="number"
+					value="0"
+					class="mx-1 w-10 rounded pr-1 text-right"
+					name="kcal"
+					on:focus={selectInput}
+				/>
 				<span class="w-7">kcal</span>
 			</div>
 			<!-- Row Protein -->
 			<div class="mb-3 flex justify-end">
 				<span>Protein</span>
-				<input type="number" value="0" class="mx-1 w-10 rounded pr-1 text-right" name="protein" />
+				<input
+					type="number"
+					value="0"
+					class="mx-1 w-10 rounded pr-1 text-right"
+					name="protein"
+					on:focus={selectInput}
+				/>
 				<span class="w-7">g</span>
 			</div>
 			<!-- Submit Button -->

@@ -3,6 +3,7 @@
 	import { invalidateAll } from '$app/navigation';
 	import { createEventDispatcher } from 'svelte';
 	import { visibleView } from '$lib/stores';
+	import { selectInput } from '$lib/utils';
 
 	import ModalSkeleton from '$molecules/ModalSkeleton.svelte';
 
@@ -37,7 +38,7 @@
 	>
 		<label for="weight">Current Weight</label>
 
-		<input id="weight" name="weight" type="number" required use:init />
+		<input id="weight" name="weight" type="number" on:focus={selectInput} required use:init />
 		<button type="submit">Log Weight</button>
 	</form>
 </ModalSkeleton>
