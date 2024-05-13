@@ -27,9 +27,11 @@ model User {
   lastFinishedEatingOn DateTime @default(dbgenerated("to_date('1970-01-01', 'YYYY-MM-DD')"))
   lastHarvestOn        DateTime @default(dbgenerated("to_date('1970-01-01', 'YYYY-MM-DD')"))
   lastWeeklyPicOn      DateTime @default(dbgenerated("to_date('1970-01-01', 'YYYY-MM-DD')"))
+  lastReviewOn         DateTime @default(dbgenerated("to_date('1970-01-01', 'YYYY-MM-DD')"))
 
   // Appointments
   progressPicOn String @default("SUN")
+  reviewOn      String @default("SUN")
 
   // Progress Player Journey
   initBF       Boolean @default(false)

@@ -16,6 +16,7 @@ declare global {
 				initPhoto: boolean;
 				initCalories: boolean;
 				progressPicToday: boolean;
+				reviewToday: boolean;
 			};
 			dailyProgress: {
 				weighIn: boolean;
@@ -24,6 +25,7 @@ declare global {
 				eaten: boolean;
 				harvest: boolean;
 				weeklyPic: boolean;
+				weeklyReview: boolean;
 			};
 		}
 		// interface PageData {}
