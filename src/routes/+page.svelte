@@ -43,6 +43,7 @@
 	import ModalHarvest from '$organisms/ModalHarvest.svelte';
 	import ModalNewItem from '$organisms/ModalNewItem.svelte';
 	import ModalPlanner from '$organisms/ModalPlanner.svelte';
+	import WeeklyReview from '$organisms/WeeklyReview.svelte';
 	// Overlays
 	import ModalFinishEating from '$overlays/FinishEating.svelte';
 	import SpinnerOverlay from '$overlays/Spinner.svelte';
@@ -180,6 +181,8 @@
 		<ModalFinishEating />
 	{:else if $visibleView.current == 'harvest'}
 		<ModalHarvest />
+	{:else if $visibleView.current == 'review'}
+		<WeeklyReview />
 	{/if}
 {:else}
 	<p class="m-3 flex justify-center px-5">No one here yet...</p>

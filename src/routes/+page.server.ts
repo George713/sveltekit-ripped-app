@@ -3,7 +3,7 @@ import type { Action, Actions, PageServerLoad } from './$types';
 
 import { db } from '$lib/database.server';
 import { supabase } from '$lib/supabaseClient.server';
-import type { PlannedItem } from '$lib/types';
+import type { PlannedItem, UpdateDataCalories } from '$lib/types';
 
 const logWeight: Action = async ({ locals, request }) => {
 	const data = await request.formData();
@@ -32,6 +32,7 @@ const logWeight: Action = async ({ locals, request }) => {
 const logCalories: Action = async ({ locals, request }) => {
 	const data = await request.formData();
 	let calories: any = data.get('calories');
+	const reviewMode = data.get('reviewMode');
 
 	// Check if 'calories' is a number
 	if (isNaN(calories)) {
@@ -40,17 +41,24 @@ const logCalories: Action = async ({ locals, request }) => {
 		calories = parseFloat(calories);
 	}
 
+	// Create data for update
+	let updateData: UpdateDataCalories = {
+		calorieTargets: {
+			create: [{ calories }]
+		}
+	}
+	if (reviewMode) {
+		updateData.lastReviewOn = new Date()
+	} else {
+		updateData.initCalories = true
+	}
+
 	// Create calorie target entry for current user
 	await db.user.update({
 		where: {
 			username: locals.user.name
 		},
-		data: {
-			calorieTargets: {
-				create: [{ calories }]
-			},
-			initCalories: true
-		}
+		data: updateData
 	});
 };
 
@@ -218,7 +226,7 @@ const finishEating: Action = async ({ request }) => {
 	})
 }
 
-const harvestPoints: Action = async ({ locals, request }) => {
+const harvestPoints: Action = async ({ request }) => {
 	const formData = await request.formData()
 	const username = formData.get('username');
 	const points = formData.get('points');
@@ -231,6 +239,17 @@ const harvestPoints: Action = async ({ locals, request }) => {
 			pointBalance: { increment: parseInt(points as string, 10) },
 		}
 	})
+}
+
+const finishReview: Action = async ({ locals }) => {
+	await db.user.update({
+		where: {
+			username: locals.user.name
+		},
+		data: {
+			lastReviewOn: new Date()
+		}
+	});
 }
 
 const reset: Action = async ({ request }) => {
@@ -323,5 +342,6 @@ export const actions: Actions = {
 	eatItem,
 	finishEating,
 	harvestPoints,
+	finishReview,
 	reset,
 };

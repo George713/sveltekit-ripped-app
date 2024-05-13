@@ -27,3 +27,11 @@ export interface WeightData {
     weight: number;
     createdAt: string;
 };
+
+export interface UpdateDataCalories {
+    calorieTargets: {
+        create: { calories: number }[];
+    };
+    lastReviewOn?: Date;
+    initCalories?: boolean;
+}
