@@ -26,7 +26,7 @@
 	>
 		<label for="bodyfat">Current Body Fat Percentage</label>
 
-		<input id="bodyfat" name="bodyfat" type="float" required use:init />
+		<input id="bodyfat" name="bodyfat" type="number" required use:init />
 		<button type="submit">Log BF%</button>
 	</form>
 </ModalSkeleton>

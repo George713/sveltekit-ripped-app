@@ -37,7 +37,7 @@
 	>
 		<label for="weight">Current Weight</label>
 
-		<input id="weight" name="weight" type="float" required use:init />
+		<input id="weight" name="weight" type="number" required use:init />
 		<button type="submit">Log Weight</button>
 	</form>
 </ModalSkeleton>

@@ -27,7 +27,7 @@
 	>
 		<label for="calories">Target Calories</label>
 
-		<input id="calories" name="calories" type="float" required use:init />
+		<input id="calories" name="calories" type="number" required use:init />
 		<button type="submit">Confirm Calories</button>
 	</form>
 </ModalSkeleton>

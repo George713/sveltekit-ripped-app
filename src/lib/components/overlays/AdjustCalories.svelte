@@ -47,7 +47,6 @@
 					name="calories"
 					required
 				/>
-				<!-- inputmode="numeric" -->
 				<span class="w-7">kcal</span>
 			</div>
 			<!-- Submit Button -->
