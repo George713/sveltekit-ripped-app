@@ -59,6 +59,7 @@
 				<input
 					type="number"
 					value="0"
+					step="0.1"
 					class="mx-1 w-10 rounded pr-1 text-right"
 					name="protein"
 					on:focus={selectInput}
