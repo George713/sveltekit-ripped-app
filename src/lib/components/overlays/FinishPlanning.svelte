@@ -1,7 +1,4 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import { invalidateAll } from '$app/navigation';
-
 	export let toggleOverlay: () => void;
 	export let finishPlanning: () => void;
 	export let msg: string;
