@@ -38,7 +38,15 @@
 	>
 		<label for="weight">Current Weight</label>
 
-		<input id="weight" name="weight" type="number" on:focus={selectInput} required use:init />
+		<input
+			id="weight"
+			name="weight"
+			type="number"
+			step="0.01"
+			on:focus={selectInput}
+			required
+			use:init
+		/>
 		<button type="submit">Log Weight</button>
 	</form>
 </ModalSkeleton>
