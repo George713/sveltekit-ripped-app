@@ -9,7 +9,6 @@
 		? 'animate-pulse absolute'
 		: 'absolute'}
 	on:click={() => visibleView.update('review')}
-	disabled={!$page.data.user.reviewToday || $page.data.locals?.weeklyReview}
 >
 	<slot />
 </button>

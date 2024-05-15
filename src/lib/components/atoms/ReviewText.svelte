@@ -19,7 +19,7 @@
 					: "If you stuck to your diet, it's time to tinker with your intake.";
 </script>
 
-<div class="flex flex-col items-center mx-10">
+<div class="flex flex-col items-center mx-10 my-8">
 	<p class="text-stone-500 text-center font-semibold">{textInterpretation}</p>
 	<p class="text-stone-500 text-center text-sm">
 		{textRecommendation} Adjust your calorie target?
