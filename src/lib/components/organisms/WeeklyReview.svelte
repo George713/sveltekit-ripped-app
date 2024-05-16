@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 
-	import { visibleOverlay, weightTrend } from '$lib/stores';
+	import { visibleOverlay, visibleView, weightTrend } from '$lib/stores';
 
 	import GraphWeight from '$atoms/GraphWeight.svelte';
 	import ReviewText from '$atoms/ReviewText.svelte';
@@ -13,7 +13,13 @@
 	$: weightDiff = $weightTrend.slice(-1)[0] - $weightTrend.slice(-7)[0];
 </script>
 
-<div class="absolute top-0 h-full w-full bg-white">
+<div
+	class="absolute top-0 h-full w-full bg-white"
+	on:click={() => visibleView.update('None')}
+	on:keydown={() => visibleView.update('None')}
+	role="button"
+	tabindex="0"
+>
 	<div class="flex flex-col">
 		<!-- Heading -->
 		<div class="my-3 text-center text-lg font-bold text-stone-600">Weekly Review</div>
