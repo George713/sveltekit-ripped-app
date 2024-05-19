@@ -2,12 +2,13 @@
 	import { page } from '$app/stores';
 
 	import { visibleView } from '$lib/stores';
+
+	$: weeklyReviewOutstanding =
+		$page.data.user.reviewToday && !$page.data.dailyProgress.weeklyReview;
 </script>
 
 <button
-	class={$page.data.user.reviewToday && !$page.data.locals?.weeklyReview
-		? 'animate-pulse absolute'
-		: 'absolute'}
+	class={weeklyReviewOutstanding ? 'animate-pulse absolute' : 'absolute'}
 	on:click={() => visibleView.update('review')}
 >
 	<slot />
