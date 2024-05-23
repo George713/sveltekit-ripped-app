@@ -21,7 +21,7 @@
 	<InfoBox
 		mainText="Weight Trend"
 		subText="past 7 days"
-		value={weightDiff < 0 ? '' : '+' + weightDiff.toFixed(2)}
+		value={(weightDiff < 0 ? '' : '+') + weightDiff.toFixed(2)}
 		unit="kg"
 		color="blue-300"
 	/>
