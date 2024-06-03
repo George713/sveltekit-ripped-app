@@ -3,7 +3,7 @@
     "short_name": "HYC pwa",
     "start_url": "/",
     "display": "standalone",
-    "background_color": "#17191c",
+    "background_color": "#F1F5F9",
     "theme_color": "#ff3f20",
     "description": "Nutrition tracker for long-term habit adoption",
     "icons": [
