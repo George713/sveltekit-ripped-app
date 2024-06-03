@@ -2,7 +2,7 @@
     "name": "Have Your Cookie",
     "short_name": "HYC pwa",
     "start_url": "/",
-    "display": "fullscreen",
+    "display": "standalone",
     "background_color": "#17191c",
     "theme_color": "#ff3f20",
     "description": "Nutrition tracker for long-term habit adoption",
