@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { deserialize } from '$app/forms';
 
-	import { plannedItems } from '$lib/stores';
+	import { plannedItems, showSpinner, visibleView } from '$lib/stores';
 	import type { FoodItem, PlannedItem } from '$lib/types';
 
 	import ItemCard from '$atoms/ItemCard.svelte';
@@ -11,6 +11,9 @@
 
 	// Function for adding item to the list of already planned items
 	const addToPlannedItems = async (itemId: number) => {
+		// Show spinner
+		$showSpinner = true;
+
 		const newPlannedItem: PlannedItem = {
 			id: plannedItems.maxId + 1,
 			eaten: false,
@@ -32,6 +35,12 @@
 		if (result.type === 'success' && result.data) {
 			plannedItems.set(result.data.createdPlannedItems as PlannedItem[]);
 		}
+
+		// Return to eating view
+		visibleView.update('eat');
+
+		// Hide spinner
+		$showSpinner = false;
 	};
 </script>
 

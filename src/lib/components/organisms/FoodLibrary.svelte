@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { foodLibrary, visibleView } from '$lib/stores';
+	import { foodLibrary, showSpinner, visibleView } from '$lib/stores';
 
 	import SwitchItemsDays from '$atoms/SwitchItemsDays.svelte';
 	import CardArray from '$molecules/CardArray.svelte';
 	import FoodLibBottomRow from '$molecules/FoodLibBottomRow.svelte';
+	import Spinner from '$overlays/Spinner.svelte';
 </script>
 
 <div class="absolute inset-0 h-full w-full bg-black bg-opacity-70">
@@ -35,3 +36,5 @@
 		</button>
 	</div>
 </div>
+
+<Spinner showSpinner={$showSpinner} />
