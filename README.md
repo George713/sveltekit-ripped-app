@@ -24,7 +24,8 @@
 - To simply apply changes without migration protocol, run `npx prisma db push` instead
 
 ## Idea Backlog
-- streak design for progress pictures: x consequitive pictures -> morph image
+- streak design for progress pictures: x consequitive pictures -> morph image/flipbook
 - extend items/days to items/packs/days, e.g. I would often use a 'coffee & tea' pack and maybe a 'protein shake pack'
 - Onboarding: Let the different actions unlock different aspects
 - Headline on homepage: "F#%! willpower. Have your cookie. And still lose fat!"
+- push notifications + 'if eaten it'
