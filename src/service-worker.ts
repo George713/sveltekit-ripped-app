@@ -33,6 +33,10 @@ self.addEventListener('activate', (event) => {
     }
 
     event.waitUntil(deleteOldCaches());
+
+    // Reload page, so that the new service worker takes effect
+    // (without this, the user is not recognized as logged in)
+    window.location.reload();
 });
 
 // Listen to fetch events
