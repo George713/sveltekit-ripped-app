@@ -2,12 +2,12 @@
 	import { page } from '$app/stores';
 	import { deserialize } from '$app/forms';
 
-	import { plannedItems, showSpinner, visibleView } from '$lib/stores';
-	import type { FoodItem, PlannedItem } from '$lib/types';
+	import { plannedItems, foodLibrary, estimatesLog, showSpinner, visibleView } from '$lib/stores';
+	import type { PlannedItem } from '$lib/types';
 
 	import ItemCard from '$atoms/ItemCard.svelte';
 
-	export let items: FoodItem[];
+	export let items: String[];
 
 	// Function for adding item to the list of already planned items
 	const addToPlannedItems = async (itemId: number) => {
@@ -42,20 +42,87 @@
 		// Hide spinner
 		$showSpinner = false;
 	};
+
+	const eatItem = async (id: number, type: string) => {
+		if (type === 'planned') {
+			plannedItems.update((items) => {
+				const index = items.findIndex((item) => item.id === id);
+				if (index !== -1) {
+					items[index].eaten = true;
+				}
+				return items;
+			});
+		} else if (type === 'estimate') {
+			estimatesLog.update((items) => {
+				const index = items.findIndex((item) => item.id === id);
+				if (index !== -1) {
+					items[index].eaten = true;
+				}
+				return items;
+			});
+		}
+
+		// Updaten eaten flag in db
+		const formData = new FormData();
+		formData.append('id', id.toString());
+		formData.append('type', type);
+		const response = await fetch('?/eatItem', {
+			method: 'POST',
+			body: formData
+		});
+	};
 </script>
 
-<div class="scrollbar-hide flex h-52 grow flex-col flex-wrap gap-1 overflow-x-auto px-1.5">
-	{#each items as { id, itemName, kcal, protein, portionSize }}
-		<ItemCard
-			type="dark"
-			{id}
-			foodId={id}
-			{itemName}
-			{kcal}
-			{protein}
-			portionUnit="ptn"
-			{portionSize}
-			plusButton={$page.data.dailyProgress.planned ? () => addToPlannedItems(id) : undefined}
-		/>
-	{/each}
+<!-- h-1 prevents the container from overflowing -->
+<div
+	class="flex flex-wrap justify-center gap-1 m-1 h-1 grow overflow-y-auto scrollbar-hide content-start"
+>
+	{#if items.includes('food')}
+		{#each $foodLibrary as { id, itemName, kcal, protein, portionSize }}
+			<ItemCard
+				type="dark"
+				{id}
+				foodId={id}
+				{itemName}
+				{kcal}
+				{protein}
+				portionUnit="ptn"
+				{portionSize}
+				plusButton={$page.data.dailyProgress.planned ? () => addToPlannedItems(id) : undefined}
+			/>
+		{/each}
+	{/if}
+	{#if items.includes('planned')}
+		{#each $plannedItems as { id, foodId, eaten }}
+			<ItemCard
+				type="bright"
+				{id}
+				{foodId}
+				itemName={foodLibrary.getItemNameByIndex(foodId)}
+				kcal={foodLibrary.getKcalByIndex(foodId)}
+				protein={foodLibrary.getProteinByIndex(foodId)}
+				portionUnit="ptn"
+				portionSize={foodLibrary.getPortionSizeByIndex(foodId)}
+				eatingMenu={true}
+				{eaten}
+				eatItem={() => eatItem(id, 'planned')}
+			/>
+		{/each}
+	{/if}
+	{#if items.includes('estimates')}
+		{#each $estimatesLog as { id, eaten, kcal, protein }}
+			<ItemCard
+				type="bright"
+				{id}
+				itemName="Estimate"
+				{kcal}
+				{protein}
+				portionUnit="ptn"
+				portionSize={1}
+				eatingMenu={true}
+				{eaten}
+				eatItem={() => eatItem(id, 'estimate')}
+			/>
+		{/each}
+	{/if}
 </div>
