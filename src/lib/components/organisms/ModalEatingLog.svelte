@@ -33,7 +33,7 @@
 				<TargetTracker />
 			</div>
 			<!--  overflow-y-auto scrollbar-hide -->
-			<CardArray items={['planned', 'estimate']} />
+			<CardArray items={['planned', 'estimates']} />
 			<!-- Buttons for Adding Items -->
 			<div class="flex justify-end mb-2">
 				<button
