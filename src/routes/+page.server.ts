@@ -252,6 +252,18 @@ const finishReview: Action = async ({ locals }) => {
 	});
 }
 
+
+const setUserTimeZone: Action = async ({ request }) => {
+	const formData = await request.formData()
+	const timezone = formData.get('timezone');
+	const username = formData.get('username');
+
+	await db.user.update({
+		where: { username: JSON.parse(username as string) },
+		data: { activeTimeZone: JSON.parse(timezone as string) }
+	})
+}
+
 const reset: Action = async ({ request }) => {
 	const formData = await request.formData()
 	const username = formData.get('username');
@@ -306,19 +318,32 @@ export const load: PageServerLoad = async ({ locals }) => {
 			where: { userId: user.id },
 		})
 
-		// Get planned items for the current day
-		const today = new Date();
+		// Get planned items for the current day (day starts and ends at 3am local time)
+		const localTimeString = new Date().toLocaleString("en-GB", { timeZone: user.activeTimeZone })
+		const localTime = new Date(localTimeString)
+		const localHour = localTime.getHours()
+		let referenceDate;
+		if (localHour >= 3) {
+			// reference day is today
+			referenceDate = new Date()
+		} else {
+			// reference day is yesterday
+			const now = new Date()
+			referenceDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1)
+		}
+		referenceDate.setHours(3, 0, 0, 0)
+
 		const plannedItems = await db.plannedItem.findMany({
 			where: {
 				foodId: { in: foodItems.map(item => item.id) },
-				createdAt: { gte: new Date(today.setHours(3, 0, 0, 0)) }
+				createdAt: { gte: referenceDate }
 			},
 		});
 
 		// Get eating estimate for the current day
 		const eatEstimates = await db.eatEstimate.findMany({
 			where: {
-				createdAt: { gte: new Date(today.setHours(3, 0, 0, 0)) }
+				createdAt: { gte: referenceDate }
 			},
 		});
 
@@ -344,4 +369,5 @@ export const actions: Actions = {
 	harvestPoints,
 	finishReview,
 	reset,
+	setUserTimeZone,
 };

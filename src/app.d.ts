@@ -6,6 +6,7 @@ declare global {
 		interface Locals {
 			user: {
 				name: string;
+				activeTimeZone: string;
 				pointBalance: number;
 				streakMeter: number;
 				currentBF: number;

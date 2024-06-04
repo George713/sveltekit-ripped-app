@@ -19,6 +19,7 @@
 
 -->
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import { invalidateAll } from '$app/navigation';
 	import { foodLibrary, plannedItems, estimatesLog, showSpinner, visibleView } from '$lib/stores';
@@ -65,6 +66,34 @@
 
 	let fileinput: any;
 	let audioWeighIn: any;
+
+	/**
+	 * This block of code is executed when the component is first rendered, i.e. after the server-side load function.
+	 * It gets the user's current timezone and compares it to the timezone stored in the user's database.
+	 * If the two timezones are different, it sends a request to the server to update the user's timezone.
+	 * This is required to handle data loading in accordance with the user's timezone, in particular
+	 * plannedItems and eatEstimates.
+	 */
+	onMount(() => {
+		// Get the user's current timezone
+		const timezone = new Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+		// Compare the user's current timezone to the timezone stored in the database
+		if (timezone != $page.data.user.activeTimeZone) {
+			const formData = new FormData();
+			formData.append('timezone', JSON.stringify(timezone)); // Add the user's timezone to the FormData object
+			formData.append('username', JSON.stringify($page.data.user.name)); // Add the user's username to the FormData object
+
+			// Send a POST request to the server to update the user's timezone
+			fetch('?/setUserTimeZone', {
+				method: 'POST',
+				body: formData
+			});
+
+			// Reload page data to ensure that the correct timezone is used
+			invalidateAll();
+		}
+	});
 
 	const uploadToS3 = async (e: any, isInitPic: Boolean = false) => {
 		// Get picture
