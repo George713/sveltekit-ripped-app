@@ -22,7 +22,14 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import { invalidateAll } from '$app/navigation';
-	import { foodLibrary, plannedItems, estimatesLog, showSpinner, visibleView } from '$lib/stores';
+	import {
+		foodLibrary,
+		plannedItems,
+		estimatesLog,
+		showSpinner,
+		visibleView,
+		visibleOverlay
+	} from '$lib/stores';
 	import type { FoodItem, PlannedItem, EatEstimate } from '$lib/types';
 	// Atoms
 	import HarvestButton from '$atoms/HarvestButton.svelte';
@@ -36,7 +43,6 @@
 	import InitialInputs from '$molecules/InitialInputs.svelte';
 	import ModalBodyFat from '$molecules/ModalBodyFat.svelte';
 	import ModalCalories from '$molecules/ModalCalories.svelte';
-	import ModalWeight from '$molecules/ModalWeight.svelte';
 	import SigilNavPoints from '$molecules/SigilNavPoints.svelte';
 	// Organisms
 	import FoodLibrary from '$organisms/FoodLibrary.svelte';
@@ -48,6 +54,7 @@
 	// Overlays
 	import ModalFinishEating from '$overlays/FinishEating.svelte';
 	import SpinnerOverlay from '$overlays/Spinner.svelte';
+	import EnterWeightOverlay from '$overlays/EnterWeight.svelte';
 
 	export let data: {
 		foodItems: FoodItem[];
@@ -192,8 +199,8 @@
 		<DailyActionBtns {reset} />
 	{/if}
 
-	{#if $visibleView.current == 'weight'}
-		<ModalWeight on:playSound={handlePlaySound} />
+	{#if $visibleOverlay == 'weight'}
+		<EnterWeightOverlay on:playSound={handlePlaySound} />
 	{:else if $visibleView.current == 'bodyFat'}
 		<ModalBodyFat />
 	{:else if $visibleView.current == 'calories'}
