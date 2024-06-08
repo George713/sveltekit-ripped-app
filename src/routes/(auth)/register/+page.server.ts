@@ -1,8 +1,5 @@
 import { fail, redirect } from '@sveltejs/kit'
 import type { Action, Actions, PageServerLoad } from './$types'
-import bcrypt from 'bcrypt'
-
-import { db } from '$lib/database.server'
 
 export const load: PageServerLoad = async ({ locals }) => {
     if (locals.user) {
@@ -10,37 +7,35 @@ export const load: PageServerLoad = async ({ locals }) => {
     }
 }
 
-const register: Action = async ({ request }) => {
-    const data = await request.formData()
-    const username = data.get('username')
-    const password = data.get('password')
-
-    if (
-        typeof username !== 'string' ||
-        typeof password !== 'string' ||
-        !username ||
-        !password
-    ) {
-        return fail(400, { invalid: true })
-    }
-
-    const user = await db.user.findUnique({
-        where: { username }
-    })
-
-    if (user) {
-        return fail(400, { user: true })
-    }
-
-    await db.user.create({
+const Fail = (error: { message: string, status?: number, name?: string }, data?: { email?: string }) => {
+    return fail(error.status ?? 400, {
+        error: error.message,
         data: {
-            username,
-            passwordHash: await bcrypt.hash(password, 10),
-            userAuthToken: crypto.randomUUID(),
-        },
+            email: data?.email
+        }
+    })
+}
+
+const register: Action = async ({ request, locals: { supabase } }) => {
+    const formData = await request.formData()
+    const email = formData.get('email') as string
+    const password = formData.get('password') as string
+
+    if (!email || !password)
+        return Fail(
+            { message: 'Please enter an email and password' },
+            { email }
+        )
+
+    const { error } = await supabase.auth.signUp({
+        email,
+        password
     })
 
-    throw redirect(303, '/login')
+    if (error)
+        return Fail(error, { email })
+    else
+        return { message: 'Please check your email to confirm your signup.' }
 }
 
 export const actions: Actions = {

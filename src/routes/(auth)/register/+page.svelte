@@ -8,12 +8,12 @@
 
 <form action="?/register" method="POST" class="m-5 rounded-lg border border-gray-300 p-5 shadow-lg">
 	<div>
-		<label class="block text-sm font-medium text-gray-700" for="username">Username</label>
+		<label class="block text-sm font-medium text-gray-700" for="username">Email</label>
 		<input
 			class="w-full rounded-lg border border-gray-300 px-3 py-1 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-			id="username"
-			name="username"
-			type="text"
+			id="email"
+			name="email"
+			type="email"
 			required
 		/>
 	</div>
@@ -36,6 +36,6 @@
 	</div>
 </form>
 
-{#if form?.user}
-	<p class="flex justify-center text-sm text-red-700">Username is taken. Sorry!</p>
+{#if form?.message}
+	<p class="flex justify-center text-sm text-red-700">{form.message}</p>
 {/if}
