@@ -6,9 +6,7 @@ import type { RequestHandler } from './$types';
 export const GET: RequestHandler = async ({ locals }) => {
     const weights = await db.weight.findMany({
         where: {
-            user: {
-                username: locals.user.name
-            }
+            user: { id: locals.user.id }
         },
         select: {
             weight: true,
