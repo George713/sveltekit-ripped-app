@@ -303,23 +303,13 @@ const reset: Action = async ({ request }) => {
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
-		// Get user which include user.id
-		const user = await db.user.findUnique({
-			where: { username: locals.user.name },
-		})
-
-		// Check that user was found
-		if (!user) {
-			return { foodItems: [], plannedItems: [] } // Return empty arrays if user is null  
-		}
-
 		// Get items of that user
 		let foodItems = await db.foodItem.findMany({
-			where: { userId: user.id },
+			where: { userId: locals.user.id },
 		})
 
 		// Get planned items for the current day (day starts and ends at 3am local time)
-		const localTimeString = new Date().toLocaleString("en-GB", { timeZone: user.activeTimeZone })
+		const localTimeString = new Date().toLocaleString("en-GB", { timeZone: locals.user.activeTimeZone })
 		const localTime = new Date(localTimeString)
 		const localHour = localTime.getHours()
 		let referenceDate;
@@ -346,7 +336,6 @@ export const load: PageServerLoad = async ({ locals }) => {
 				createdAt: { gte: referenceDate }
 			},
 		});
-
 
 		return {
 			foodItems,
