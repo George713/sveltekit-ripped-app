@@ -87,9 +87,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 	 * If you'd rather do this in your routes, see (authenticated)/app/+page.server.ts
 	 * for an example.
 	 */
-	const auth_protected_paths = new Set(['']) //new Set(['app', 'self'])
-	if (!session && auth_protected_paths.has(event.url.pathname.split('/')[1]))
-		redirect(307, '/login')
+	// const auth_protected_paths = new Set(['']) //new Set(['app', 'self'])
+	// if (!session && auth_protected_paths.has(event.url.pathname.split('/')[1]))
+	// 	redirect(307, '/login')
 
 	// Get user data
 	const { data, error } = await event.locals.supabase.auth.getUser()
@@ -193,7 +193,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 			};
 		}
 	}
-
 
 	return resolve(event, {
 		/**
