@@ -1,8 +1,5 @@
 import { fail, redirect } from '@sveltejs/kit'
 import type { Action, Actions, PageServerLoad } from './$types'
-import bcrypt from 'bcrypt'
-
-import { db } from '$lib/database.server'
 
 export const load: PageServerLoad = async ({ locals }) => {
     if (locals.user) {
