@@ -5,6 +5,7 @@ export const selectInput = (event: Event) => {
 }
 
 // For putting the focus automatically on input field
-export const focusElement = (el: HTMLElement) => {
+export const focusElement = (el: HTMLInputElement) => {
     el.focus();
+    el.select()
 };
