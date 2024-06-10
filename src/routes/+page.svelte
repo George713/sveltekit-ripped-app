@@ -85,20 +85,22 @@
 		// Get the user's current timezone
 		const timezone = new Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-		// Compare the user's current timezone to the timezone stored in the database
-		if (timezone != $page.data.user.activeTimeZone) {
-			const formData = new FormData();
-			formData.append('timezone', JSON.stringify(timezone)); // Add the user's timezone to the FormData object
-			formData.append('username', JSON.stringify($page.data.user.name)); // Add the user's username to the FormData object
+		if ($page.data.user) {
+			// Compare the user's current timezone to the timezone stored in the database
+			if (timezone != $page.data.user.activeTimeZone) {
+				const formData = new FormData();
+				formData.append('timezone', JSON.stringify(timezone)); // Add the user's timezone to the FormData object
+				formData.append('username', JSON.stringify($page.data.user.name)); // Add the user's username to the FormData object
 
-			// Send a POST request to the server to update the user's timezone
-			fetch('?/setUserTimeZone', {
-				method: 'POST',
-				body: formData
-			});
+				// Send a POST request to the server to update the user's timezone
+				fetch('?/setUserTimeZone', {
+					method: 'POST',
+					body: formData
+				});
 
-			// Reload page data to ensure that the correct timezone is used
-			invalidateAll();
+				// Reload page data to ensure that the correct timezone is used
+				invalidateAll();
+			}
 		}
 	});
 
