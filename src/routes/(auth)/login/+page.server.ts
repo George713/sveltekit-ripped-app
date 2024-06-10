@@ -1,8 +1,5 @@
 import { fail, redirect } from '@sveltejs/kit'
 import type { Action, Actions, PageServerLoad } from './$types'
-import bcrypt from 'bcrypt'
-
-import { db } from '$lib/database.server'
 
 export const load: PageServerLoad = async ({ locals }) => {
     if (locals.user) {
@@ -10,54 +7,36 @@ export const load: PageServerLoad = async ({ locals }) => {
     }
 }
 
-const login: Action = async ({ cookies, request }) => {
-    const data = await request.formData()
-    const username = data.get('username')
-    const password = data.get('password')
+const Fail = (error: { message: string, status?: number, name?: string }, data?: { email?: string }) => {
+    return fail(error.status ?? 400, {
+        error: error.message,
+        data: {
+            email: data?.email
+        }
+    })
+}
 
-    if (
-        typeof username !== 'string' ||
-        typeof password !== 'string' ||
-        !username ||
-        !password
-    ) {
-        return fail(400, { invalid: true })
-    }
+const login: Action = async ({ request, locals: { supabase } }) => {
+    const formData = await request.formData()
+    const email = formData.get('email') as string
+    const password = formData.get('password') as string
 
-    const user = await db.user.findUnique({
-        where: { username }
+    if (!email || !password)
+        return Fail(
+            { message: 'Please enter an email and password' },
+            { email }
+        )
+
+    const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password
     })
 
-    if (!user) {
-        return fail(400, { credentials: true })
-    }
+    if (error)
+        return Fail(error, { email })
 
-    const userPassword = await bcrypt.compare(password, user.passwordHash)
-
-    if (!userPassword) {
-        return fail(400, { credentials: true })
-    }
-
-    // generate new auth token just in case
-    const authenticatedUser = await db.user.update({
-        where: { username: user.username },
-        data: { userAuthToken: crypto.randomUUID() }
-    })
-
-    cookies.set('session', authenticatedUser.userAuthToken, {
-        // send cookie for every page
-        path: '/',
-        // server side cookie only so you can't use `document.cookie`
-        httpOnly: true,
-        // only requests from the same site can send cookies
-        sameSite: 'strict',
-        // only sent over HTTPS in production
-        secure: process.env.NODE_ENV === 'production',
-        // set cookie to expire after a month
-        maxAge: 60 * 60 * 24 * 30,
-    })
-
-    throw redirect(302, '/')
+    /* Login successful, redirect. */
+    redirect(303, '/')
 }
 
 export const actions: Actions = { login }

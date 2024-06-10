@@ -166,7 +166,7 @@
 		<!-- SCAFFOLDING -->
 	{:else}
 		<!-- Sigil with Navigation elements and points -->
-		<SigilNavPoints />
+		<SigilNavPoints {data} />
 		<!-- PowerUps, Bars, Tracker, Harvest Button, Progress Picture Button -->
 		<div class="flex h-[calc(25vh)] w-full bg-green-500">
 			<!-- PowerUps, Bars, Tracker -->
