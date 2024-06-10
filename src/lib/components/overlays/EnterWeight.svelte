@@ -55,7 +55,6 @@
 					value={$page.data.user.currentWeight}
 					class="ml-2 mx-1 w-14 rounded pr-1 text-right"
 					name="weight"
-					use:focusElement
 					on:focus={selectInput}
 					required
 				/>
