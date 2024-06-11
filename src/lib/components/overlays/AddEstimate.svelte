@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { deserialize } from '$app/forms';
 	import { estimatesLog, showSpinner, visibleOverlay } from '$lib/stores';
-	import { selectInput } from '$lib/utils';
+	import { selectInput, focusElement } from '$lib/utils';
 
 	import type { EatEstimate } from '$lib/types';
 
@@ -50,6 +50,7 @@
 					class="mx-1 w-10 rounded pr-1 text-right"
 					name="kcal"
 					on:focus={selectInput}
+					use:focusElement
 				/>
 				<span class="w-7">kcal</span>
 			</div>

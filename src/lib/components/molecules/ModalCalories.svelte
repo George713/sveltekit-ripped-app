@@ -2,14 +2,9 @@
 	import { enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
 	import { visibleView } from '$lib/stores';
-	import { selectInput } from '$lib/utils';
+	import { selectInput, focusElement } from '$lib/utils';
 
 	import ModalSkeleton from '$molecules/ModalSkeleton.svelte';
-
-	// For putting the focus automatically on input field
-	const init = (el: HTMLElement) => {
-		el.focus();
-	};
 </script>
 
 <ModalSkeleton>
@@ -28,7 +23,14 @@
 	>
 		<label for="calories">Target Calories</label>
 
-		<input id="calories" name="calories" type="number" on:focus={selectInput} required use:init />
+		<input
+			id="calories"
+			name="calories"
+			type="number"
+			on:focus={selectInput}
+			use:focusElement
+			required
+		/>
 		<button type="submit">Confirm Calories</button>
 	</form>
 </ModalSkeleton>

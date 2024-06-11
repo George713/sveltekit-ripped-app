@@ -12,8 +12,8 @@
 		on:click={() => {
 			visibleOverlay.set('weight');
 		}}
+		disabled={$page.data.dailyProgress.weighIn || $page.data.dailyProgress.harvest}
 	>
-		<!-- disabled={$page.data.dailyProgress.weighIn || $page.data.dailyProgress.harvest} -->
 		W
 	</button>
 	<!-- Plan -> Add Food -->

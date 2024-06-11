@@ -2,13 +2,9 @@
 	import { enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
 	import { visibleView } from '$lib/stores';
-	import { selectInput } from '$lib/utils';
+	import { focusElement } from '$lib/utils';
 
 	import ModalSkeleton from '$molecules/ModalSkeleton.svelte';
-
-	const init = (el: HTMLElement) => {
-		el.focus();
-	};
 </script>
 
 <ModalSkeleton>
@@ -26,16 +22,7 @@
 		}}
 	>
 		<label for="bodyfat">Current Body Fat Percentage</label>
-
-		<input
-			id="bodyfat"
-			name="bodyfat"
-			type="number"
-			step="0.1"
-			on:focus={selectInput}
-			required
-			use:init
-		/>
+		<input id="bodyfat" name="bodyfat" type="number" step="0.1" use:focusElement required />
 		<button type="submit">Log BF%</button>
 	</form>
 </ModalSkeleton>

@@ -2,8 +2,8 @@
 	import { createEventDispatcher } from 'svelte';
 	import { page } from '$app/stores';
 	import { invalidateAll } from '$app/navigation';
-	import { showSpinner, visibleOverlay, visibleView } from '$lib/stores';
-	import { focusElement, selectInput } from '$lib/utils.ts';
+	import { showSpinner, visibleOverlay } from '$lib/stores';
+	import { focusElement } from '$lib/utils.ts';
 
 	import Background from '$overlays/Background.svelte';
 
@@ -55,7 +55,6 @@
 					value={$page.data.user.currentWeight}
 					class="ml-2 mx-1 w-14 rounded pr-1 text-right"
 					name="weight"
-					on:focus={selectInput}
 					use:focusElement
 					required
 				/>
