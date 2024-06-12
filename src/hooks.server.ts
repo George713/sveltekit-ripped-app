@@ -134,6 +134,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 					},
 					select: {
 						createdAt: true
+					},
+					orderBy: {
+						createdAt: 'desc' // or 'asc' depending on your requirement
 					}
 				},
 				// Recurring activity progress
@@ -183,7 +186,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			event.locals.user.currentStatus = getUserCurrentStatus(event.locals.user.currentBF)
 			// Daily Progress
 			event.locals.dailyProgress = {
-				weighIn: didWeightoday(user.weights),
+				weighIn: didActivityToday(user.weights[0].createdAt),
 				targetProtein: Math.round(event.locals.user.currentWeight * 1.6),
 				planned: didActivityToday(user.lastPlannedOn),
 				eaten: didActivityToday(user.lastFinishedEatingOn),
@@ -209,14 +212,6 @@ const getDateFromXDaysAgo = (days: number) => {
 	let date = new Date();
 	date.setDate(date.getDate() - days);
 	return date;
-};
-
-// @ts-ignore
-const didWeightoday = (weights) => {
-	const date = new Date().toLocaleDateString();
-	// @ts-ignore
-	const weightDateStrings = weights.map((weight) => weight.createdAt.toLocaleDateString());
-	return weightDateStrings.includes(date);
 };
 
 const didActivityToday = (lastActivityDate: Date) => {
