@@ -4,6 +4,7 @@ import type { Action, Actions, PageServerLoad } from './$types';
 import { db } from '$lib/database.server';
 import { supabase } from '$lib/supabaseClient.server';
 import type { PlannedItem, UpdateDataCalories } from '$lib/types';
+import { isBetweenMidnightAnd3AM } from '$lib/utils';
 
 const logWeight: Action = async ({ locals, request }) => {
 	const data = await request.formData();
@@ -309,11 +310,8 @@ export const load: PageServerLoad = async ({ locals }) => {
 		})
 
 		// Get planned items for the current day (day starts and ends at 3am local time)
-		const localTimeString = new Date().toLocaleString("en-GB", { timeZone: locals.user.activeTimeZone })
-		const localTime = new Date(localTimeString)
-		const localHour = localTime.getHours()
 		let referenceDate;
-		if (localHour >= 3) {
+		if (!isBetweenMidnightAnd3AM(locals.user.activeTimeZone)) {
 			// reference day is today
 			referenceDate = new Date()
 		} else {
