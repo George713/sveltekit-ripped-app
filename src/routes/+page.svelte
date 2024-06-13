@@ -60,7 +60,6 @@
 		foodItems: FoodItem[];
 		plannedItems: PlannedItem[];
 		eatEstimates: EatEstimate[];
-		referenceDate: string;
 	};
 	if (data.foodItems) {
 		foodLibrary.set(data.foodItems);
@@ -74,8 +73,6 @@
 
 	let fileinput: any;
 	let audioWeighIn: any;
-
-	console.log(data.referenceDate);
 
 	/**
 	 * This block of code is executed when the component is first rendered, i.e. after the server-side load function.

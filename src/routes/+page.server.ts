@@ -342,7 +342,6 @@ export const load: PageServerLoad = async ({ locals }) => {
 			foodItems,
 			plannedItems,
 			eatEstimates,
-			referenceDate
 		};
 	}
 }
