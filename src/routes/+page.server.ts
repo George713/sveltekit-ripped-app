@@ -254,14 +254,14 @@ const finishReview: Action = async ({ locals }) => {
 }
 
 
-const setUserTimeZone: Action = async ({ request }) => {
+const setUserTimeZoneOffset: Action = async ({ request }) => {
 	const formData = await request.formData()
-	const timezone = formData.get('timezone');
+	const timeZoneOffset = formData.get('timeZoneOffset');
 	const username = formData.get('username');
 
 	await db.user.update({
 		where: { username: JSON.parse(username as string) },
-		data: { activeTimeZone: JSON.parse(timezone as string) }
+		data: { timeZoneOffset: JSON.parse(timeZoneOffset as string) }
 	})
 }
 
@@ -309,17 +309,20 @@ export const load: PageServerLoad = async ({ locals }) => {
 			where: { userId: locals.user.id },
 		})
 
+		const timeZoneOffset = locals.user.timeZoneOffset
+
 		// Get planned items for the current day (day starts and ends at 3am local time)
 		let referenceDate;
-		if (!isBetweenMidnightAnd3AM(locals.user.activeTimeZone)) {
-			// reference day is today
-			referenceDate = new Date()
+		const now = new Date();
+		if (!isBetweenMidnightAnd3AM(timeZoneOffset)) {
+			// reference day is today (in UTC)
+			// `timeZoneOffset` is given in hours
+			referenceDate = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), 3) - timeZoneOffset * 60 * 60 * 1000);
 		} else {
-			// reference day is yesterday
-			const now = new Date()
-			referenceDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1)
+			// reference day is yesterday (in UTC)
+			referenceDate = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate() - 1, 3) - timeZoneOffset * 60 * 60 * 1000);
+
 		}
-		referenceDate.setHours(3, 0, 0, 0)
 
 		const plannedItems = await db.plannedItem.findMany({
 			where: {
@@ -357,5 +360,5 @@ export const actions: Actions = {
 	harvestPoints,
 	finishReview,
 	reset,
-	setUserTimeZone,
+	setUserTimeZoneOffset,
 };
