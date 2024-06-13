@@ -216,10 +216,18 @@ const getDateFromXDaysAgo = (days: number) => {
 
 const didActivityToday = (lastActivityDate: Date, timeZoneOffset: number) => {
 	const now = new Date();
-	const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+	const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+	const localHours = (new Date(now.getTime() + timeZoneOffset * 60 * 60 * 1000)).getUTCHours(); // get hour value in user's timezone
 
-	// Check if it's between midnight and 3 am, otherwise check if it's today
-	return (now.getHours() < (3 - timeZoneOffset + 24) % 24 ? lastActivityDate.toLocaleDateString() === yesterday.toLocaleDateString() : lastActivityDate.toLocaleDateString() === now.toLocaleDateString());
+	// Adjust `lastActivityDate` to account for correct day assignment
+	const activityDateAdjusted = new Date(lastActivityDate.getTime() - 3 * 60 * 60 * 1000)
+
+	/**
+	 * Check if it's between midnight and 3 am for the user, if so
+	 * compare activity date to date from yesterday.
+	 * Otherwise compare with today's date.
+	 */
+	return (localHours < 3 ? activityDateAdjusted.toLocaleDateString() === yesterday.toLocaleDateString() : activityDateAdjusted.toLocaleDateString() === now.toLocaleDateString());
 };
 
 const getUserCurrentStatus = (currentBF: number) => {
