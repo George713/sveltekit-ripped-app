@@ -19,7 +19,7 @@ model User {
 
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
-  activeTimeZone String   @default("undefined")
+  timeZoneOffset Int      @default(0)
 
   pointBalance Int @default(0)
 
