@@ -9,10 +9,9 @@ export const focusElement = (el: HTMLInputElement) => {
 };
 
 // Evaluates whether it is between midnight and 3am in a given timezone.
-export const isBetweenMidnightAnd3AM = (timeZone: string) => {
-    const date = new Date();
-    const options = { timeZone };
-    const hours = parseInt(date.toLocaleString('en-GB', { hour: 'numeric', ...options }))
-
-    return hours >= 0 && hours < 3;
+export const isBetweenMidnightAnd3AM = (timeZoneOffset: number) => {
+    const now = new Date();
+    const utcHours = now.getUTCHours();
+    const localTimeHours = (utcHours + timeZoneOffset) % 24;
+    return localTimeHours >= 0 && localTimeHours < 3;
 }
