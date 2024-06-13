@@ -186,13 +186,13 @@ export const handle: Handle = async ({ event, resolve }) => {
 			event.locals.user.currentStatus = getUserCurrentStatus(event.locals.user.currentBF)
 			// Daily Progress
 			event.locals.dailyProgress = {
-				weighIn: didActivityToday(user.weights[0].createdAt),
+				weighIn: didActivityToday(user.weights[0].createdAt, user.timeZoneOffset),
 				targetProtein: Math.round(event.locals.user.currentWeight * 1.6),
-				planned: didActivityToday(user.lastPlannedOn),
-				eaten: didActivityToday(user.lastFinishedEatingOn),
-				harvest: didActivityToday(user.lastHarvestOn),
-				weeklyPic: didActivityToday(user.lastWeeklyPicOn),
-				weeklyReview: didActivityToday(user.lastReviewOn),
+				planned: didActivityToday(user.lastPlannedOn, user.timeZoneOffset),
+				eaten: didActivityToday(user.lastFinishedEatingOn, user.timeZoneOffset),
+				harvest: didActivityToday(user.lastHarvestOn, user.timeZoneOffset),
+				weeklyPic: didActivityToday(user.lastWeeklyPicOn, user.timeZoneOffset),
+				weeklyReview: didActivityToday(user.lastReviewOn, user.timeZoneOffset),
 			};
 		}
 	}
@@ -214,12 +214,12 @@ const getDateFromXDaysAgo = (days: number) => {
 	return date;
 };
 
-const didActivityToday = (lastActivityDate: Date) => {
+const didActivityToday = (lastActivityDate: Date, timeZoneOffset: number) => {
 	const now = new Date();
 	const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
 
 	// Check if it's between midnight and 3 am, otherwise check if it's today
-	return (now.getHours() < 3 ? lastActivityDate.toLocaleDateString() === yesterday.toLocaleDateString() : lastActivityDate.toLocaleDateString() === now.toLocaleDateString());
+	return (now.getHours() < (3 - timeZoneOffset + 24) % 24 ? lastActivityDate.toLocaleDateString() === yesterday.toLocaleDateString() : lastActivityDate.toLocaleDateString() === now.toLocaleDateString());
 };
 
 const getUserCurrentStatus = (currentBF: number) => {
