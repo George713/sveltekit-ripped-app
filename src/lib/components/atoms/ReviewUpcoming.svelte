@@ -11,5 +11,5 @@
 </script>
 
 <p class="mx-24 my-8 text-stone-500 text-center font-semibold">
-	The next review will be in {daysUntilSun} days on Sunday.
+	The next review will be in {daysUntilSun} day{daysUntilSun > 1 ? 's' : ''} (Sunday).
 </p>
