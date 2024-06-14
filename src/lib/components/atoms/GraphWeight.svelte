@@ -3,7 +3,6 @@
 	import { echarts } from '$lib/echarts.ts';
 
 	import { weightTrend } from '$lib/stores';
-
 	import type { WeightData } from '$lib/types';
 
 	let weights: WeightData[] = [];
@@ -17,8 +16,6 @@
 	};
 	let letterArray: string[] = [];
 	let option: any = null;
-
-	$: weightDiff = imputedScale ? $weightTrend.slice(-1)[0] - $weightTrend.slice(-7)[0] : 0;
 
 	const convertToDateWithoutTime = (dateString: string) => {
 		const date = new Date(dateString);
@@ -81,16 +78,21 @@
 
 			i++;
 		}
+		// Calculate weight trend by applying a moving average with decreasing weights to the interpolatedWeights array.
+		// For each index in the array, take the last 7 values and calculate a weighted average using a decay factor of 0.1.
 		weightTrend.set(
 			interpolatedWeights.map((value: number, index: number) => {
+				let total = 0;
+				let factorSum = 0;
 				if (index < 6) {
-					return value;
-				} else {
-					const sum = interpolatedWeights
-						.slice(index - 6, index)
-						.reduce((acc: number, current: number) => acc + current, 0);
-					return (sum + value) / 7;
+					return value; // return the original value if there are not enough previous values to calculate a weighted average
 				}
+				for (let i = 0; i <= 6; i++) {
+					const factor = 1.0 - i * 0.1; // apply decay factor
+					factorSum += factor;
+					total += interpolatedWeights[index - i] * factor; // calculate weighted sum
+				}
+				return total / factorSum; // return weighted average
 			})
 		);
 
