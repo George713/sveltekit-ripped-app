@@ -26,7 +26,7 @@ export const getDateDayBegin = (timeZoneOffset: number) => {
     const yesterday = new Date(now.getTime() - (24 * 60 * 60 * 1000)) // getTime() is in units of milliseconds
     let dateDayBegin: Date
     // If the utc hour is before the logical beginning hour, use yesterday's date
-    if (now.getUTCHours() > beginningHour) {
+    if (now.getUTCHours() >= beginningHour) {
         dateDayBegin = now
     }
     else {
