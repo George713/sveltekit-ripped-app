@@ -1,9 +1,10 @@
-import { redirect, type Handle } from '@sveltejs/kit'
+import { type Handle } from '@sveltejs/kit'
 
 import type { Session } from '@supabase/supabase-js'
 import { createServerClient } from '@supabase/ssr'
 import jwt from 'jsonwebtoken'
 import { db } from '$lib/database.server'
+import { getDateDayBegin } from '$lib/utils'
 
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
 import { JWT_SECRET } from '$env/static/private';
@@ -185,14 +186,15 @@ export const handle: Handle = async ({ event, resolve }) => {
 			// Derived value for user
 			event.locals.user.currentStatus = getUserCurrentStatus(event.locals.user.currentBF)
 			// Daily Progress
+			const dateDayBegin = getDateDayBegin(user.timeZoneOffset)
 			event.locals.dailyProgress = {
-				weighIn: didActivityToday(user.weights[0].createdAt, user.timeZoneOffset),
+				weighIn: user.weights[0].createdAt > dateDayBegin,
 				targetProtein: Math.round(event.locals.user.currentWeight * 1.6),
-				planned: didActivityToday(user.lastPlannedOn, user.timeZoneOffset),
-				eaten: didActivityToday(user.lastFinishedEatingOn, user.timeZoneOffset),
-				harvest: didActivityToday(user.lastHarvestOn, user.timeZoneOffset),
-				weeklyPic: didActivityToday(user.lastWeeklyPicOn, user.timeZoneOffset),
-				weeklyReview: didActivityToday(user.lastReviewOn, user.timeZoneOffset),
+				planned: user.lastPlannedOn > dateDayBegin,
+				eaten: user.lastFinishedEatingOn > dateDayBegin,
+				harvest: user.lastHarvestOn > dateDayBegin,
+				weeklyPic: user.lastWeeklyPicOn > dateDayBegin,
+				weeklyReview: user.lastReviewOn > dateDayBegin,
 			};
 		}
 	}
@@ -212,22 +214,6 @@ const getDateFromXDaysAgo = (days: number) => {
 	let date = new Date();
 	date.setDate(date.getDate() - days);
 	return date;
-};
-
-const didActivityToday = (lastActivityDate: Date, timeZoneOffset: number) => {
-	const now = new Date();
-	const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-	const localHours = (new Date(now.getTime() + timeZoneOffset * 60 * 60 * 1000)).getUTCHours(); // get hour value in user's timezone
-
-	// Adjust `lastActivityDate` to account for correct day assignment
-	const activityDateAdjusted = new Date(lastActivityDate.getTime() - 3 * 60 * 60 * 1000)
-
-	/**
-	 * Check if it's between midnight and 3 am for the user, if so
-	 * compare activity date to date from yesterday.
-	 * Otherwise compare with today's date.
-	 */
-	return (localHours < 3 ? activityDateAdjusted.toLocaleDateString() === yesterday.toLocaleDateString() : activityDateAdjusted.toLocaleDateString() === now.toLocaleDateString());
 };
 
 const getUserCurrentStatus = (currentBF: number) => {

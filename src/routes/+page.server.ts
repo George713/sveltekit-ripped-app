@@ -4,7 +4,7 @@ import type { Action, Actions, PageServerLoad } from './$types';
 import { db } from '$lib/database.server';
 import { supabase } from '$lib/supabaseClient.server';
 import type { PlannedItem, UpdateDataCalories } from '$lib/types';
-import { isBetweenMidnightAnd3AM } from '$lib/utils';
+import { getDateDayBegin, isBetweenMidnightAnd3AM } from '$lib/utils';
 
 const logWeight: Action = async ({ locals, request }) => {
 	const data = await request.formData();
@@ -304,37 +304,25 @@ const reset: Action = async ({ request }) => {
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
+		const dateDayBegin = getDateDayBegin(locals.user.timeZoneOffset)
+
 		// Get items of that user
 		let foodItems = await db.foodItem.findMany({
 			where: { userId: locals.user.id },
 		})
 
-		const timeZoneOffset = locals.user.timeZoneOffset
-
-		// Get planned items for the current day (day starts and ends at 3am local time)
-		let referenceDate;
-		const now = new Date();
-		if (!isBetweenMidnightAnd3AM(timeZoneOffset)) {
-			// reference day is today (in UTC)
-			// `timeZoneOffset` is given in hours
-			referenceDate = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), 3) - timeZoneOffset * 60 * 60 * 1000);
-		} else {
-			// reference day is yesterday (in UTC)
-			referenceDate = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate() - 1, 3) - timeZoneOffset * 60 * 60 * 1000);
-
-		}
-
+		// Get planned items for the current day
 		const plannedItems = await db.plannedItem.findMany({
 			where: {
 				foodId: { in: foodItems.map(item => item.id) },
-				createdAt: { gte: referenceDate }
+				createdAt: { gte: dateDayBegin }
 			},
 		});
 
 		// Get eating estimate for the current day
 		const eatEstimates = await db.eatEstimate.findMany({
 			where: {
-				createdAt: { gte: referenceDate }
+				createdAt: { gte: dateDayBegin }
 			},
 		});
 
