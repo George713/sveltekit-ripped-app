@@ -10,7 +10,7 @@
 
 	let imageString = '';
 	let fileinput: HTMLInputElement;
-	let activeUnitIsPTN = true;
+	let activeUnitIsPtn = true;
 
 	const handleSubmit = async (event: Event) => {
 		// Show spinner
@@ -61,15 +61,24 @@
 		const proteinNum = Number(protein);
 		const defaultPtnSizeNum = Number(defaultPtnSizeInGram);
 
-		if (unitAmount && kcal && protein) {
-			if (activeUnitIsPTN) {
-				portionAmount = unitAmount;
-				kcalPer100 = ((100 / defaultPtnSizeNum / portionAmount) * kcalNum).toFixed(0);
-				proteinPer100 = ((100 / defaultPtnSizeNum / portionAmount) * proteinNum).toFixed(1);
-			} else {
-				gramAmount = unitAmount;
-				kcalPer100 = ((100 / gramAmount) * kcalNum).toFixed(0);
-				proteinPer100 = ((100 / gramAmount) * proteinNum).toFixed(1);
+		if (unitAmount) {
+			if (kcal) {
+				if (activeUnitIsPtn) {
+					portionAmount = unitAmount;
+					kcalPer100 = ((100 / defaultPtnSizeNum / portionAmount) * kcalNum).toFixed(0);
+				} else {
+					gramAmount = unitAmount;
+					kcalPer100 = ((100 / gramAmount) * kcalNum).toFixed(0);
+				}
+			}
+			if (protein) {
+				if (activeUnitIsPtn) {
+					portionAmount = unitAmount;
+					proteinPer100 = ((100 / defaultPtnSizeNum / portionAmount) * proteinNum).toFixed(1);
+				} else {
+					gramAmount = unitAmount;
+					proteinPer100 = ((100 / gramAmount) * proteinNum).toFixed(1);
+				}
 			}
 		}
 	};
@@ -106,26 +115,26 @@
 							on:input={handleChangePtnSize}
 							type="number"
 						/>
-						<!-- value={activeUnitIsPTN ? portionAmount : gramAmount} -->
+						<!-- value={activeUnitIsPtn ? portionAmount : gramAmount} -->
 						<div class="relative bg-black/20 rounded flex items-baseline py-0.5">
 							<input
 								class="opacity-0 absolute w-full h-full z-10"
 								type="text"
-								value={activeUnitIsPTN ? 'ptn' : 'grams'}
-								name="unit"
+								value={activeUnitIsPtn}
+								name="unitIsPtn"
 								on:click={() => {
-									activeUnitIsPTN = !activeUnitIsPTN;
-									unitAmount = activeUnitIsPTN ? portionAmount : gramAmount;
+									activeUnitIsPtn = !activeUnitIsPtn;
+									unitAmount = activeUnitIsPtn ? portionAmount : gramAmount;
 									handleChangePtnSize();
 								}}
 								readonly
 							/>
 							<div class="flex flex-col px-2 mt-[-5px] w-16">
-								<p>{activeUnitIsPTN ? 'ptn' : 'grams'}</p>
+								<p>{activeUnitIsPtn ? 'ptn' : 'grams'}</p>
 								<div class="flex">
 									<p class="text-xs font-light opacity-50">/</p>
 									<p class="text-xs font-semilight opacity-50">
-										{activeUnitIsPTN ? 'grams' : 'ptn'}
+										{activeUnitIsPtn ? 'grams' : 'ptn'}
 									</p>
 								</div>
 							</div>
@@ -143,6 +152,7 @@
 								type="number"
 								step="1"
 								bind:value={kcal}
+								on:input={handleChangePtnSize}
 								required
 							/>
 						</label>
@@ -155,6 +165,7 @@
 								type="number"
 								step="0.1"
 								bind:value={protein}
+								on:input={handleChangePtnSize}
 								required
 							/>
 							g

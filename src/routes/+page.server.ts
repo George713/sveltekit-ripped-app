@@ -90,15 +90,29 @@ const logBodyFat: Action = async ({ locals, request }) => {
 
 const newItem: Action = async ({ locals, request }) => {
 	const formData = await request.formData();
-	const { itemName, kcal, protein, unitAmount } = Object.fromEntries(formData.entries());
+	console.log(formData)
+	const {
+		itemName,
+		unitAmount,
+		unitIsPtn,
+		kcal,
+		protein,
+		defaultPtnSizeInGram,
+		kcalPer100,
+		proteinPer100
+	} = Object.fromEntries(formData.entries());
 
 	// Create entry in db
 	const newItem = await db.foodItem.create({
 		data: {
 			itemName: (itemName as string),
-			kcal: parseInt(kcal as string),
-			protein: parseInt(protein as string),
 			unitAmount: parseFloat(unitAmount as string),
+			unitIsPtn: unitIsPtn === 'true',
+			kcal: parseInt(kcal as string),
+			protein: parseFloat(protein as string),
+			defaultPtnSizeInGram: defaultPtnSizeInGram ? parseFloat(defaultPtnSizeInGram as string) : null,
+			kcalPer100: kcalPer100 ? parseInt(kcalPer100 as string) : null,
+			proteinPer100: proteinPer100 ? parseFloat(proteinPer100 as string) : null,
 			user: {
 				connect: {
 					username: locals.user.name,
