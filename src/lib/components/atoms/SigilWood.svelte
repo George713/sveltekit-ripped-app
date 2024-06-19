@@ -8,6 +8,6 @@
 		class="drop-shadow-lg blur-[0.3px] brightness-95"
 		width={300}
 		src="/SigilWood.png"
-		alt="abc"
+		alt="Sigil Crest"
 	/>
 </SigilWrapper>
