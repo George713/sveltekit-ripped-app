@@ -106,7 +106,7 @@
 				kcal={foodLibrary.getKcalByIndex(foodId, unitIsPtn, unitAmount)}
 				protein={foodLibrary.getProteinByIndex(foodId, unitIsPtn, unitAmount)}
 				{unitIsPtn}
-				unitAmount={foodLibrary.getUnitAmountByIndex(foodId)}
+				{unitAmount}
 				eatingMenu={true}
 				{eaten}
 				eatItem={() => eatItem(id, 'planned')}

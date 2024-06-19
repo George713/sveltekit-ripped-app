@@ -8,12 +8,14 @@
 	import TargetTracker from '$atoms/TargetTracker.svelte';
 	import FinishPlanning from '$overlays/FinishPlanning.svelte';
 
-	const addToPlanningProcess = (id: number) => {
+	const addToPlanningProcess = (id: number, unitIsPtn: boolean, unitAmount: number) => {
 		const newPlannedItem: PlannedItem = {
 			id: plannedItems.maxId + 1,
 			eaten: false,
 			createdAt: new Date(),
-			foodId: id
+			foodId: id,
+			unitIsPtn: unitIsPtn,
+			unitAmount: unitAmount
 		};
 		plannedItems.add(newPlannedItem);
 	};
@@ -124,16 +126,16 @@
 			<div
 				class="scrollbar-hide mt-1 flex h-[210px] flex-col flex-wrap gap-1 overflow-x-auto px-1.5"
 			>
-				{#each $plannedItems as { id, foodId }}
+				{#each $plannedItems as { id, foodId, unitIsPtn, unitAmount }}
 					<ItemCard
 						type="bright"
 						{id}
 						{foodId}
 						itemName={foodLibrary.getItemNameByIndex(foodId)}
-						kcal={foodLibrary.getKcalByIndex(foodId)}
-						protein={foodLibrary.getProteinByIndex(foodId)}
-						portionUnit="ptn"
-						unitAmount={foodLibrary.getUnitAmountByIndex(foodId)}
+						kcal={foodLibrary.getKcalByIndex(foodId, unitIsPtn, unitAmount)}
+						protein={foodLibrary.getProteinByIndex(foodId, unitIsPtn, unitAmount)}
+						{unitIsPtn}
+						{unitAmount}
 						{removeFromPlannedItems}
 					/>
 				{/each}
@@ -181,7 +183,7 @@
 			</div>
 			<!-- Library Items -->
 			<div class="scrollbar-hide mt-2 flex h-52 flex-col flex-wrap gap-1 overflow-x-auto px-1.5">
-				{#each $foodLibrary as { id, itemName, kcal, protein, unitAmount }}
+				{#each $foodLibrary as { id, itemName, kcal, protein, unitIsPtn, unitAmount }}
 					<ItemCard
 						type="dark"
 						{id}
@@ -189,10 +191,10 @@
 						{itemName}
 						{kcal}
 						{protein}
-						portionUnit="ptn"
+						{unitIsPtn}
 						{unitAmount}
 						{deleteItem}
-						plusButton={() => addToPlanningProcess(id)}
+						plusButton={() => addToPlanningProcess(id, unitIsPtn, unitAmount)}
 						{removeFromPlannedItems}
 					/>
 				{/each}
