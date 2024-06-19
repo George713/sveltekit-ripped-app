@@ -25,7 +25,7 @@
 </script>
 
 <svelte:head>
-	<title>SvelteKit Auth</title>
+	<title>HYC - Have Your Cookie</title>
 </svelte:head>
 
 {#if !$page.data.user}
