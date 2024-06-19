@@ -1,11 +1,13 @@
 export interface FoodItem {
     id: number;
     itemName: string;
+    unitIsPtn: boolean;
+    unitAmount: number;
     kcal: number;
     protein: number;
-    unitAmount: number;
-    intendedAmount: number;
-    eatenAmount: number;
+    defaultPtnSizeInGram: number;
+    kcalPer100: number;
+    proteinPer100: number;
 }
 
 export interface PlannedItem {
