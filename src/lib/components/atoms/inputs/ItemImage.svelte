@@ -1,3 +1,4 @@
+<!-- ItemImage.svelte -->
 <script lang="ts">
 	export let imageString: any;
 	export let fileinput: HTMLInputElement;
