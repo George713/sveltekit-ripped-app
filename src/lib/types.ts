@@ -15,6 +15,8 @@ export interface PlannedItem {
     eaten: boolean;
     createdAt: Date;
     foodId: number;
+    unitIsPtn: boolean;
+    unitAmount: number;
 }
 
 export interface EatEstimate {

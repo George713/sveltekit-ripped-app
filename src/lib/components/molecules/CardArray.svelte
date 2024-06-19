@@ -10,7 +10,7 @@
 	export let items: String[];
 
 	// Function for adding item to the list of already planned items
-	const addToPlannedItems = async (itemId: number) => {
+	const addToPlannedItems = async (itemId: number, unitIsPtn: boolean, unitAmount: number) => {
 		// Show spinner
 		$showSpinner = true;
 
@@ -18,7 +18,9 @@
 			id: plannedItems.maxId + 1,
 			eaten: false,
 			createdAt: new Date(),
-			foodId: itemId
+			foodId: itemId,
+			unitIsPtn: unitIsPtn,
+			unitAmount: unitAmount
 		};
 
 		// Submit planned items to server
@@ -78,7 +80,7 @@
 	class="flex flex-wrap justify-center gap-1 m-1 h-1 grow overflow-y-auto scrollbar-hide content-start"
 >
 	{#if items.includes('food')}
-		{#each $foodLibrary as { id, itemName, kcal, protein, unitAmount }}
+		{#each $foodLibrary as { id, itemName, kcal, protein, unitIsPtn, unitAmount }}
 			<ItemCard
 				type="dark"
 				{id}
@@ -86,22 +88,24 @@
 				{itemName}
 				{kcal}
 				{protein}
-				portionUnit="ptn"
+				{unitIsPtn}
 				{unitAmount}
-				plusButton={$page.data.dailyProgress.planned ? () => addToPlannedItems(id) : undefined}
+				plusButton={$page.data.dailyProgress.planned
+					? () => addToPlannedItems(id, unitIsPtn, unitAmount)
+					: undefined}
 			/>
 		{/each}
 	{/if}
 	{#if items.includes('planned')}
-		{#each $plannedItems as { id, foodId, eaten }}
+		{#each $plannedItems as { id, foodId, eaten, unitIsPtn, unitAmount }}
 			<ItemCard
 				type="bright"
 				{id}
 				{foodId}
 				itemName={foodLibrary.getItemNameByIndex(foodId)}
-				kcal={foodLibrary.getKcalByIndex(foodId)}
-				protein={foodLibrary.getProteinByIndex(foodId)}
-				portionUnit="ptn"
+				kcal={foodLibrary.getKcalByIndex(foodId, unitIsPtn, unitAmount)}
+				protein={foodLibrary.getProteinByIndex(foodId, unitIsPtn, unitAmount)}
+				{unitIsPtn}
 				unitAmount={foodLibrary.getUnitAmountByIndex(foodId)}
 				eatingMenu={true}
 				{eaten}
@@ -117,7 +121,7 @@
 				itemName="Estimate"
 				{kcal}
 				{protein}
-				portionUnit="ptn"
+				unitIsPtn={true}
 				unitAmount={1}
 				eatingMenu={true}
 				{eaten}

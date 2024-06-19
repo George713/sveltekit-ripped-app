@@ -105,9 +105,11 @@ model FoodItem {
 }
 
 model PlannedItem {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  eaten     Boolean  @default(false)
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  eaten      Boolean  @default(false)
+  unitIsPtn  Boolean
+  unitAmount Float
 
   foodItem FoodItem @relation(fields: [foodId], references: [id])
   foodId   Int
