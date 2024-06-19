@@ -23,9 +23,9 @@ const foodLibraryStore = () => {
             const items = get(store)
             return items.reduce((value, item) => (item.id === id ? item.protein : value), 0)
         },
-        getPortionSizeByIndex: (id: number) => {
+        getUnitAmountByIndex: (id: number) => {
             const items = get(store)
-            return items.reduce((value, item) => (item.id === id ? item.portionSize : value), 0)
+            return items.reduce((value, item) => (item.id === id ? item.unitAmount : value), 0)
         }
     }
 }

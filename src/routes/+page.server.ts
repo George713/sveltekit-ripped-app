@@ -98,7 +98,7 @@ const newItem: Action = async ({ locals, request }) => {
 			itemName: (itemName as string),
 			kcal: parseInt(kcal as string),
 			protein: parseInt(protein as string),
-			portionSize: parseFloat(unitAmount as string),
+			unitAmount: parseFloat(unitAmount as string),
 			user: {
 				connect: {
 					username: locals.user.name,

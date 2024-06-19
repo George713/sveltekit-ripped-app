@@ -78,7 +78,7 @@
 	class="flex flex-wrap justify-center gap-1 m-1 h-1 grow overflow-y-auto scrollbar-hide content-start"
 >
 	{#if items.includes('food')}
-		{#each $foodLibrary as { id, itemName, kcal, protein, portionSize }}
+		{#each $foodLibrary as { id, itemName, kcal, protein, unitAmount }}
 			<ItemCard
 				type="dark"
 				{id}
@@ -87,7 +87,7 @@
 				{kcal}
 				{protein}
 				portionUnit="ptn"
-				{portionSize}
+				{unitAmount}
 				plusButton={$page.data.dailyProgress.planned ? () => addToPlannedItems(id) : undefined}
 			/>
 		{/each}
@@ -102,7 +102,7 @@
 				kcal={foodLibrary.getKcalByIndex(foodId)}
 				protein={foodLibrary.getProteinByIndex(foodId)}
 				portionUnit="ptn"
-				portionSize={foodLibrary.getPortionSizeByIndex(foodId)}
+				unitAmount={foodLibrary.getUnitAmountByIndex(foodId)}
 				eatingMenu={true}
 				{eaten}
 				eatItem={() => eatItem(id, 'planned')}
@@ -118,7 +118,7 @@
 				{kcal}
 				{protein}
 				portionUnit="ptn"
-				portionSize={1}
+				unitAmount={1}
 				eatingMenu={true}
 				{eaten}
 				eatItem={() => eatItem(id, 'estimate')}

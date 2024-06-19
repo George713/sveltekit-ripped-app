@@ -3,7 +3,7 @@ export interface FoodItem {
     itemName: string;
     kcal: number;
     protein: number;
-    portionSize: number;
+    unitAmount: number;
     intendedAmount: number;
     eatenAmount: number;
 }

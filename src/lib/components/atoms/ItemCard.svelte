@@ -6,7 +6,7 @@
 	export let kcal: number;
 	export let protein: number;
 	export let portionUnit: string;
-	export let portionSize: number;
+	export let unitAmount: number;
 	export let deleteItem: (id: number) => void = () => {
 		console.log('deleteItem not defined');
 	};
@@ -110,7 +110,7 @@
 	</p>
 	<div class="flex {type === 'dark' ? 'text-neutral-200' : 'text-neutral-500'}">
 		<!-- Portion -->
-		<p class="mt-[3px] flex-auto px-2 text-[8px]">{portionSize} {portionUnit}</p>
+		<p class="mt-[3px] flex-auto px-2 text-[8px]">{unitAmount} {portionUnit}</p>
 		<!-- Calories & Protein-->
 		<div class="mt-[-2px] flex flex-col pr-1 text-right font-light">
 			<p class="text-[8px]">kcal: {kcal}</p>

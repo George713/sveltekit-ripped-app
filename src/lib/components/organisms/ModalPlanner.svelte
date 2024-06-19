@@ -133,7 +133,7 @@
 						kcal={foodLibrary.getKcalByIndex(foodId)}
 						protein={foodLibrary.getProteinByIndex(foodId)}
 						portionUnit="ptn"
-						portionSize={foodLibrary.getPortionSizeByIndex(foodId)}
+						unitAmount={foodLibrary.getUnitAmountByIndex(foodId)}
 						{removeFromPlannedItems}
 					/>
 				{/each}
@@ -181,7 +181,7 @@
 			</div>
 			<!-- Library Items -->
 			<div class="scrollbar-hide mt-2 flex h-52 flex-col flex-wrap gap-1 overflow-x-auto px-1.5">
-				{#each $foodLibrary as { id, itemName, kcal, protein, portionSize }}
+				{#each $foodLibrary as { id, itemName, kcal, protein, unitAmount }}
 					<ItemCard
 						type="dark"
 						{id}
@@ -190,7 +190,7 @@
 						{kcal}
 						{protein}
 						portionUnit="ptn"
-						{portionSize}
+						{unitAmount}
 						{deleteItem}
 						plusButton={() => addToPlanningProcess(id)}
 						{removeFromPlannedItems}
