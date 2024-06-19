@@ -88,11 +88,15 @@ model CalorieTarget {
 }
 
 model FoodItem {
-  id         Int    @id @default(autoincrement())
-  itemName   String
-  kcal       Int
-  protein    Int
-  unitAmount Float
+  id                   Int     @id @default(autoincrement())
+  itemName             String
+  unitIsPtn            Boolean
+  unitAmount           Float
+  kcal                 Int
+  protein              Int
+  defaultPtnSizeInGram Float
+  kcalPer100           Int
+  proteinPer100        Float
 
   user   User   @relation(fields: [userId], references: [id])
   userId String
