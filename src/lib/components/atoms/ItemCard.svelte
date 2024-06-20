@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { originItem, visibleView } from '$lib/stores';
+
 	export let type: string = 'bright';
 	export let id: number;
 	export let foodId: number | undefined = undefined;
@@ -7,8 +9,9 @@
 	export let protein: number;
 	export let unitIsPtn: boolean;
 	export let unitAmount: number;
-	export let deleteItem: (id: number) => void = () => {
-		console.log('deleteItem not defined');
+	export let updateItem: (id: number) => void = () => {
+		$originItem = id;
+		visibleView.update('updateItem');
 	};
 	export let plusButton: () => void = () => {};
 	export let removeFromPlannedItems: (id: number) => void = () => {};
@@ -89,7 +92,7 @@
 	{/if}
 	<!-- Image Icon: Edit -->
 	{#if !eatingMenu}
-		<button class="absolute bottom-[calc(40px)] left-[calc(2px)]" on:click={() => deleteItem(id)}>
+		<button class="absolute bottom-[calc(40px)] left-[calc(2px)]" on:click={() => updateItem(id)}>
 			<svg class="h-4 w-4 fill-none stroke-neutral-200/70" viewBox="0 0 24 24">
 				<path
 					stroke-linecap="round"

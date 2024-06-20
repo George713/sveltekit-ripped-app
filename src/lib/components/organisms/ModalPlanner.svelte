@@ -193,7 +193,7 @@
 						{protein}
 						{unitIsPtn}
 						{unitAmount}
-						{deleteItem}
+						updateItem={deleteItem}
 						plusButton={() => addToPlanningProcess(id, unitIsPtn, unitAmount)}
 						{removeFromPlannedItems}
 					/>

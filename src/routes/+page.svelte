@@ -49,6 +49,7 @@
 	import ModalEatingLog from '$organisms/ModalEatingLog.svelte';
 	import ModalHarvest from '$organisms/ModalHarvest.svelte';
 	import NewItem from '$organisms/NewItem.svelte';
+	import UpdateItem from '$organisms/UpdateItem.svelte';
 	import ModalPlanner from '$organisms/ModalPlanner.svelte';
 	import WeeklyReview from '$organisms/WeeklyReview.svelte';
 	// Overlays
@@ -217,6 +218,8 @@
 		<ModalEatingLog />
 	{:else if $visibleView.current == 'foodLib'}
 		<FoodLibrary />
+	{:else if $visibleView.current == 'updateItem'}
+		<UpdateItem />
 	{:else if $visibleView.current == 'finishEating'}
 		<ModalFinishEating />
 	{:else if $visibleView.current == 'harvest'}

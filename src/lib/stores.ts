@@ -5,7 +5,10 @@ const foodLibraryStore = () => {
     const store = writable<FoodItem[]>([]);
     const { subscribe, set, update } = store
 
-    const findItemById = (items: FoodItem[], id: number) => items.find(item => item.id === id);
+    const findItemById = (id: number) => {
+        const items = get(store);
+        return items.find(item => item.id === id);
+    };
 
     const calculateKcal = (item: FoodItem, unitIsPtn: boolean, unitAmount: number) => {
         if (unitIsPtn) {
@@ -33,24 +36,21 @@ const foodLibraryStore = () => {
         update,
         add: (item: FoodItem) => update((items) => [...items, item]),
         remove: (id: number) => update((items) => items.filter((item) => item.id !== id)),
+        findItemById,
         getItemNameByIndex: (id: number) => {
-            const items = get(store);
-            const item = findItemById(items, id);
+            const item = findItemById(id);
             return item ? item.itemName : "null";
         },
         getKcalByIndex: (id: number, unitIsPtn: boolean, unitAmount: number) => {
-            const items = get(store);
-            const item = findItemById(items, id);
+            const item = findItemById(id);
             return item ? calculateKcal(item, unitIsPtn, unitAmount) : 0;
         },
         getProteinByIndex: (id: number, unitIsPtn: boolean, unitAmount: number) => {
-            const items = get(store);
-            const item = findItemById(items, id);
+            const item = findItemById(id);
             return item ? calculateProtein(item, unitIsPtn, unitAmount) : 0;
         },
         getUnitAmountByIndex: (id: number) => {
-            const items = get(store);
-            const item = findItemById(items, id);
+            const item = findItemById(id);
             return item ? item.unitAmount : 0;
         }
     };
@@ -136,3 +136,5 @@ const visibleOverlayStore = () => {
 export const visibleOverlay = visibleOverlayStore()
 
 export const weightTrend = writable<number[]>([])
+
+export const originItem = writable<number>()
