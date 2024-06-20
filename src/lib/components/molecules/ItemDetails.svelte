@@ -38,7 +38,20 @@
 		const { type, detail } = event;
 		switch (type) {
 			case 'unitAmount':
-				unitAmount = Number(detail);
+				/**
+				 * This logic ensures that kcal and protein are updated
+				 * when the unit is `ptn` and and amount is adjusted.
+				 */
+				if (activeUnitIsPtn) {
+					const unitAmountBefore = unitAmount;
+
+					unitAmount = Number(detail);
+
+					kcal = ((unitAmount / unitAmountBefore) * Number(kcal)).toFixed(0);
+					protein = ((unitAmount / unitAmountBefore) * Number(protein)).toFixed(1);
+				} else {
+					unitAmount = Number(detail);
+				}
 				break;
 			case 'kcal':
 				kcal = Number(detail);
