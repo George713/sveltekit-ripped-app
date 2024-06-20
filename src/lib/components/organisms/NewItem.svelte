@@ -54,6 +54,7 @@
 </script>
 
 <ItemDetails
+	title="New Item"
 	submitBtnText="Add Item"
 	submitBtnSymbol="plus"
 	{imageString}

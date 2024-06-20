@@ -1,22 +1,27 @@
 <!-- ItemDetails.svelte -->
 <script lang="ts">
+	// Atoms
 	import Card from '$atoms/inputs/Card.svelte';
 	import ItemImage from '$atoms/inputs/ItemImage.svelte';
 	import ItemName from '$atoms/inputs/ItemName.svelte';
 	import BtnMinimize from '$atoms/BtnMinimize.svelte';
 	import ItemBackground from '$atoms/ItemBackground.svelte';
-	import Background from '$overlays/Background.svelte';
 	import BtnSubmit from '$atoms/BtnSubmit.svelte';
 	import Nutrients from '$atoms/inputs/Nutrients.svelte';
 	import CardExtension from '$atoms/inputs/CardExtension.svelte';
 	import NutrientsPer100 from '$atoms/inputs/NutrientsPer100.svelte';
+	// Overlays
+	import Background from '$overlays/Background.svelte';
 
+	export let title: string;
 	export let submitBtnText: string;
 	export let submitBtnSymbol: string;
 
-	export let imageString: string;
-	let fileinput: HTMLInputElement;
+	export let imageString: string = '';
+	let fileInput: HTMLInputElement;
 
+	export let foodId: number | null = null;
+	export let itemName: string | null = null;
 	export let activeUnitIsPtn: boolean;
 	export let unitAmount: number; // serves as umbrella for ptnAmount & gramAmount
 	export let ptnAmount: number;
@@ -87,13 +92,13 @@
 <Background>
 	<ItemBackground>
 		<!-- Title: Planner -->
-		<p class="relative top-2 text-2xl font-semibold text-gray-200">New Item</p>
+		<p class="relative top-2 text-2xl font-semibold text-gray-200">{title}</p>
 
 		<!-- Card -->
 		<form method="POST" autocomplete="off" on:submit|preventDefault={handleSubmit}>
 			<Card>
-				<ItemImage {imageString} {fileinput} />
-				<ItemName />
+				<ItemImage {imageString} {fileInput} {foodId} />
+				<ItemName {itemName} />
 				<Nutrients
 					{unitAmount}
 					{activeUnitIsPtn}
