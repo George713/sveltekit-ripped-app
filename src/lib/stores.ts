@@ -13,7 +13,7 @@ const foodLibraryStore = () => {
     const calculateKcal = (item: FoodItem, unitIsPtn: boolean, unitAmount: number) => {
         if (unitIsPtn) {
             return item.unitIsPtn
-                ? unitAmount * item.kcal
+                ? item.kcal
                 : (item.defaultPtnSizeInGram / 100 * item.kcalPer100) * unitAmount;
         } else {
             return unitAmount / 100 * item.kcalPer100;
@@ -23,7 +23,7 @@ const foodLibraryStore = () => {
     const calculateProtein = (item: FoodItem, unitIsPtn: boolean, unitAmount: number) => {
         if (unitIsPtn) {
             return item.unitIsPtn
-                ? unitAmount * item.protein
+                ? item.protein
                 : (item.defaultPtnSizeInGram / 100 * item.proteinPer100) * unitAmount;
         } else {
             return unitAmount / 100 * item.proteinPer100;
