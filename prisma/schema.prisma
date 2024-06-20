@@ -93,7 +93,7 @@ model FoodItem {
   unitIsPtn            Boolean
   unitAmount           Float
   kcal                 Int
-  protein              Int
+  protein              Float
   defaultPtnSizeInGram Float?
   kcalPer100           Int?
   proteinPer100        Float?
