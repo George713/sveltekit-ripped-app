@@ -17,28 +17,32 @@
 		// Show spinner
 		$showSpinner = true;
 
-		// const response = await fetch('?/newItem', {
-		// 	method: 'POST',
-		// 	body: new FormData(event.target as HTMLFormElement)
-		// });
+		// Prepare request
+		const formData = new FormData(event.target as HTMLFormElement);
+		formData.append('id', JSON.stringify(item?.id));
+		const response = await fetch('?/updateItem', {
+			method: 'POST',
+			body: formData
+		});
 
-		// const result = deserialize(await response.text());
+		const result = deserialize(await response.text());
 
-		// if (result.type === 'success' && result.data) {
-		// 	// Upload image to s3 using presignURL
-		// 	// @ts-ignore
-		// 	await fetch(result.data.presignedURL, {
-		// 		method: 'PUT',
-		// 		body: imageString
-		// 	});
-		// 	const newItem = result.data.newItem as FoodItem;
+		if (result.type === 'success' && result.data) {
+			// Upload image to s3 using presignURL
+			// @ts-ignore
+			// await fetch(result.data.presignedURL, {
+			// 	method: 'PUT',
+			// 	body: imageString
+			// });
+			const updatedItem = result.data.updatedItem as FoodItem;
 
-		// 	// Update foodLibrary
-		// 	foodLibrary.update((items) => {
-		// 		// @ts-ignore
-		// 		return [...items, newItem];
-		// 	});
-		// }
+			// Update foodLibrary
+			foodLibrary.update((items) => {
+				const index = items.findIndex((i) => i.id === updatedItem.id);
+				items[index] = updatedItem;
+				return items;
+			});
+		}
 
 		// Return to previous modal
 		visibleView.update($visibleView.previous);

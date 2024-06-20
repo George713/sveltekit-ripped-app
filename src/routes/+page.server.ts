@@ -137,6 +137,49 @@ const newItem: Action = async ({ locals, request }) => {
 	return { presignedURL: data.signedUrl, newItem: newItem }
 }
 
+const updateItem: Action = async ({ request }) => {
+	const formData = await request.formData();
+	const {
+		id,
+		itemName,
+		unitAmount,
+		unitIsPtn,
+		kcal,
+		protein,
+		defaultPtnSizeInGram,
+		kcalPer100,
+		proteinPer100
+	} = Object.fromEntries(formData.entries());
+
+	// Ensure id is provided and is a number
+	if (!id || isNaN(Number(id))) {
+		return {
+			status: 400,
+			body: { error: 'Invalid or missing ID' }
+		};
+	}
+
+	// Update the item in the database
+	const updatedItem = await db.foodItem.update({
+		where: { id: Number(id) },
+		data: {
+			itemName: itemName as string,
+			unitAmount: parseFloat(unitAmount as string),
+			unitIsPtn: unitIsPtn === 'true',
+			kcal: parseInt(kcal as string),
+			protein: parseFloat(protein as string),
+			defaultPtnSizeInGram: defaultPtnSizeInGram ? parseFloat(defaultPtnSizeInGram as string) : null,
+			kcalPer100: kcalPer100 ? parseInt(kcalPer100 as string) : null,
+			proteinPer100: proteinPer100 ? parseFloat(proteinPer100 as string) : null
+		}
+	});
+
+	return {
+		message: 'Item updated successfully',
+		updatedItem
+	}
+};
+
 const addEstimate: Action = async ({ locals, request }) => {
 	const formData = await request.formData();
 	const { kcal, protein } = Object.fromEntries(formData.entries());
@@ -353,6 +396,7 @@ export const actions: Actions = {
 	logCalories,
 	logBodyFat,
 	newItem,
+	updateItem,
 	addEstimate,
 	deleteItem,
 	finishPlanning,
