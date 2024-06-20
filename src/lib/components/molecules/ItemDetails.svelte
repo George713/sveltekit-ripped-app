@@ -104,7 +104,7 @@
 
 <Background>
 	<ItemBackground>
-		<!-- Title: Planner -->
+		<!-- Title -->
 		<p class="relative top-2 text-2xl font-semibold text-gray-200">{title}</p>
 
 		<!-- Card -->
