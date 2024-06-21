@@ -75,30 +75,33 @@
 		}
 
 		// Parse base values for typing reasons
-		const kcalNum = Number(kcal);
-		const proteinNum = Number(protein);
-		const defaultPtnSizeNum = Number(defaultPtnSizeInGram);
+		/**
+		 * Temporarily disable field interaction
+		 */
+		// const kcalNum = Number(kcal);
+		// const proteinNum = Number(protein);
+		// const defaultPtnSizeNum = Number(defaultPtnSizeInGram);
 
-		if (unitAmount) {
-			if (kcal) {
-				if (activeUnitIsPtn) {
-					ptnAmount = unitAmount;
-					kcalPer100 = ((100 / defaultPtnSizeNum / ptnAmount) * kcalNum).toFixed(0);
-				} else {
-					gramAmount = unitAmount;
-					kcalPer100 = ((100 / gramAmount) * kcalNum).toFixed(0);
-				}
-			}
-			if (protein) {
-				if (activeUnitIsPtn) {
-					ptnAmount = unitAmount;
-					proteinPer100 = ((100 / defaultPtnSizeNum / ptnAmount) * proteinNum).toFixed(1);
-				} else {
-					gramAmount = unitAmount;
-					proteinPer100 = ((100 / gramAmount) * proteinNum).toFixed(1);
-				}
-			}
-		}
+		// if (unitAmount) {
+		// 	if (kcal) {
+		// 		if (activeUnitIsPtn) {
+		// 			ptnAmount = unitAmount;
+		// 			kcalPer100 = ((100 / defaultPtnSizeNum / ptnAmount) * kcalNum).toFixed(0);
+		// 		} else {
+		// 			gramAmount = unitAmount;
+		// 			kcalPer100 = ((100 / gramAmount) * kcalNum).toFixed(0);
+		// 		}
+		// 	}
+		// 	if (protein) {
+		// 		if (activeUnitIsPtn) {
+		// 			ptnAmount = unitAmount;
+		// 			proteinPer100 = ((100 / defaultPtnSizeNum / ptnAmount) * proteinNum).toFixed(1);
+		// 		} else {
+		// 			gramAmount = unitAmount;
+		// 			proteinPer100 = ((100 / gramAmount) * proteinNum).toFixed(1);
+		// 		}
+		// 	}
+		// }
 	};
 </script>
 
