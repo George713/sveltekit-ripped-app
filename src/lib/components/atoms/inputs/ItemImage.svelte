@@ -1,11 +1,13 @@
 <!-- ItemImage.svelte -->
 <script lang="ts">
 	import BtnFileInput from '$atoms/inputs/BtnFileInput.svelte';
+	import Camera from '$atoms/inputs/Camera.svelte';
 
 	export let imageString: any;
 	export let fileInput: HTMLInputElement;
 	export let foodId: number | null;
 	let image = '';
+	let showCamera = false;
 
 	const onFileSelected = (e: any) => {
 		imageString = e.target.files[0];
@@ -16,14 +18,25 @@
 				image = e.target.result;
 			};
 			foodId = null;
+		} else {
+			showCamera = true;
 		}
+	};
+
+	const handlePhotoTaken = (dataUrl: string) => {
+		image = dataUrl;
+		showCamera = false;
 	};
 </script>
 
 <!-- Outer Shape -->
 <div class="relative h-[calc(60%)] w-full">
 	<!-- Overlay -->
-	<div class="absolute h-full w-full rounded-b-lg bg-black/50" />
+	{#if showCamera}
+		<Camera onPhotoTaken={handlePhotoTaken} />
+	{:else}
+		<div class="absolute h-full w-full rounded-b-lg bg-black/50" />
+	{/if}
 	<!-- Image from storage/upload/no image-->
 	{#if foodId}
 		<img
