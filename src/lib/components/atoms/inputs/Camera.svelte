@@ -20,7 +20,11 @@
 	const handleStream = (mediaStream: MediaStream) => {
 		stream = mediaStream;
 		video.srcObject = mediaStream;
-		video.play();
+		video.play().then(() => {
+			// Set canvas dimensions to match video stream dimensions
+			canvas.width = video.videoWidth;
+			canvas.height = video.videoHeight;
+		});
 	};
 
 	const handleError = (error: any) => {
@@ -46,7 +50,7 @@
 		bind:this={video}
 		autoplay
 		playsinline
-		class="w-full h-full object-cover rounded-b-lg {photoTaken ? 'invisible' : ''}"
+		class="w-full h-full rounded-b-lg {photoTaken ? 'invisible' : ''}"
 	/>
 	<canvas
 		bind:this={canvas}
