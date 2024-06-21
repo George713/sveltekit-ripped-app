@@ -36,7 +36,8 @@
 		<img class="absolute h-full w-full rounded-b-lg object-cover" src={image} alt="uploadedImage" />
 	{/if}
 	{#if foodId || image}
-		<BtnFileInput {fileInput} icon="edit" />
+		<!-- Temporarily disable field interaction -->
+		<!-- <BtnFileInput {fileInput} icon="edit" /> -->
 	{:else}
 		<BtnFileInput {fileInput} icon="plus" />
 	{/if}
