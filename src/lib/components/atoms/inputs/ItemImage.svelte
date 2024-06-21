@@ -2,6 +2,7 @@
 <script lang="ts">
 	import BtnFileInput from '$atoms/inputs/BtnFileInput.svelte';
 	import Camera from '$atoms/inputs/Camera.svelte';
+	import { isMobile } from '$lib/utils';
 
 	export let imageString: any;
 	export let fileInput: HTMLInputElement;
@@ -26,12 +27,6 @@
 	const handlePhotoTaken = (dataUrl: string) => {
 		image = dataUrl;
 		showCamera = false;
-	};
-
-	const isMobile = () => {
-		return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-			navigator.userAgent
-		);
 	};
 </script>
 
