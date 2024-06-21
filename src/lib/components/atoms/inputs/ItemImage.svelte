@@ -7,7 +7,7 @@
 	export let fileInput: HTMLInputElement;
 	export let foodId: number | null;
 	let image = '';
-	let showCamera = false;
+	let showCamera = true;
 
 	const onFileSelected = (e: any) => {
 		imageString = e.target.files[0];
@@ -80,4 +80,3 @@
 	on:change={(e) => onFileSelected(e)}
 	bind:this={fileInput}
 />
-{isMobile()}

@@ -3,7 +3,8 @@
 	export let icon: string;
 </script>
 
-<button class="absolute top-0 w-full h-full flex" on:click={() => fileInput.click()} type="button">
+<button class="absolute top-0 w-full h-full flex" type="button">
+	<!-- on:click={() => fileInput.click()} -->
 	{#if icon === 'plus'}
 		<svg class="h-7 w-7 flex-1 my-auto fill-none stroke-neutral-200/80" viewBox="0 0 24 24">
 			<path
