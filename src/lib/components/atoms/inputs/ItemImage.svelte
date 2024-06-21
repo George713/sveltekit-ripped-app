@@ -27,6 +27,12 @@
 		image = dataUrl;
 		showCamera = false;
 	};
+
+	const isMobile = () => {
+		return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+			navigator.userAgent
+		);
+	};
 </script>
 
 <!-- Outer Shape -->
@@ -52,7 +58,17 @@
 		<!-- Temporarily disable field interaction -->
 		<!-- <BtnFileInput {fileInput} icon="edit" /> -->
 	{:else}
-		<BtnFileInput {fileInput} icon="plus" />
+		<BtnFileInput
+			{fileInput}
+			icon="plus"
+			on:click={() => {
+				if (isMobile()) {
+					showCamera = true;
+				} else {
+					fileInput.click();
+				}
+			}}
+		/>
 	{/if}
 </div>
 <!-- Invisible input element -->
