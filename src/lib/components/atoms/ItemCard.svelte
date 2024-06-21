@@ -117,7 +117,7 @@
 		<!-- Calories & Protein-->
 		<div class="mt-[-2px] flex flex-col pr-1 text-right font-light">
 			<p class="text-[8px]">kcal: {kcal}</p>
-			<p class="mt-[-3px] text-[8px]">protein: {protein}g</p>
+			<p class="mt-[-3px] text-[8px]">protein: {protein.toFixed(0)}g</p>
 		</div>
 	</div>
 </div>
