@@ -1,6 +1,7 @@
 <!-- Camera.svelte -->
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { isMobile } from '$lib/utils';
 
 	let video: HTMLVideoElement;
 	let canvas: HTMLCanvasElement;
@@ -10,7 +11,10 @@
 	export let onPhotoTaken: (dataUrl: string) => void;
 
 	onMount(() => {
-		navigator.mediaDevices.getUserMedia({ video: true }).then(handleStream).catch(handleError);
+		const constraints = isMobile()
+			? { video: { facingMode: { exact: 'environment' } } }
+			: { video: true };
+		navigator.mediaDevices.getUserMedia(constraints).then(handleStream).catch(handleError);
 	});
 
 	const handleStream = (mediaStream: MediaStream) => {
