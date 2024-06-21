@@ -46,7 +46,8 @@
 <input
 	style="display:none"
 	type="file"
-	accept=".jpg, .jpeg, .png"
+	accept="image/*"
+	capture="environment"
 	on:change={(e) => onFileSelected(e)}
 	bind:this={fileInput}
 />
