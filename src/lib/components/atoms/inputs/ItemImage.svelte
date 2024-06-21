@@ -80,3 +80,4 @@
 	on:change={(e) => onFileSelected(e)}
 	bind:this={fileInput}
 />
+{isMobile()}
