@@ -44,17 +44,17 @@
 	};
 </script>
 
-<div class="absolute h-full w-full rounded-b-lg">
+<div class="relative h-full w-full rounded-b-lg">
 	<!-- svelte-ignore a11y-media-has-caption -->
 	<video
 		bind:this={video}
 		autoplay
 		playsinline
-		class="w-full h-full rounded-b-lg {photoTaken ? 'invisible' : ''}"
+		class="w-full h-full rounded-b-lg {photoTaken ? 'invisible' : ''} object-cover"
 	/>
 	<canvas
 		bind:this={canvas}
-		class="absolute top-0 w-full h-full rounded-b-lg {photoTaken ? '' : 'invisible'}"
+		class="absolute top-0 w-full h-full rounded-b-lg {photoTaken ? '' : 'invisible'} object-cover"
 	/>
 	<div class="absolute top-0 w-full h-full rounded-b-lg {photoTaken ? 'bg-black/30' : ''}" />
 	<button on:click={takePhoto} class="absolute top-[200px]">Take Photo</button>
