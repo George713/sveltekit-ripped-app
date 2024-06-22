@@ -19,42 +19,12 @@
 	const handleStream = (mediaStream: MediaStream) => {
 		stream = mediaStream;
 		video.srcObject = mediaStream;
-		video.play().then(() => {
-			// Set canvas dimensions to match video stream dimensions
-			// canvas.width = video.videoWidth;
-			// canvas.height = video.videoHeight;
-		});
+		video.play();
 	};
 
 	const handleError = (error: any) => {
 		console.error('Error accessing camera:', error);
 	};
-
-	// const takePhoto = () => {
-	// 	const context = canvas.getContext('2d');
-	// 	if (context) {
-	// 		// Draw the image on the canvas
-	// 		context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-	// 		// Convert image to URL for immediate display
-	// 		const imageDataUrl = canvas.toDataURL('image/png');
-
-	// 		/**
-	// 		 * Convert the image to WebP format for later upload.
-	// 		 * toBlob() takes a callback, which is executed after the blob
-	// 		 * has been produced.
-	// 		 */
-	// 		canvas.toBlob(
-	// 			(blob) => {
-	// 				if (blob) {
-	// 					handlePhotoTaken(imageDataUrl, blob);
-	// 				} else console.log('error');
-	// 			},
-	// 			'image/webp',
-	// 			0.9 // quality factor
-	// 		);
-	// 	}
-	// };
 
 	const takePhoto = () => {
 		const context = canvas.getContext('2d');
