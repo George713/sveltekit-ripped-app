@@ -40,56 +40,11 @@
 		console.error('Error accessing camera:', error);
 	};
 
-	// const takePhoto = () => {
-	// 	const context = canvas.getContext('2d');
-	// 	if (context) {
-	// 		// Draw the image on the canvas
-	// 		context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-	// 		// Convert image to URL for immediate display
-	// 		const imageDataUrl = canvas.toDataURL('image/png');
-
-	// 		/**
-	// 		 * Convert the image to WebP format for later upload.
-	// 		 * toBlob() takes a callback, which is executed after the blob
-	// 		 * has been produced.
-	// 		 */
-	// 		canvas.toBlob(
-	// 			(blob) => {
-	// 				if (blob) {
-	// 					handlePhotoTaken(imageDataUrl, blob);
-	// 				} else console.log('error');
-	// 			},
-	// 			'image/webp',
-	// 			0.9 // quality factor
-	// 		);
-	// 	}
-	// };
-
 	const takePhoto = () => {
 		const context = canvas.getContext('2d');
 		if (context) {
-			// Calculate the source rectangle from the video
-			const videoAspectRatio = video.videoWidth / video.videoHeight;
-			const containerAspectRatio = video.clientWidth / video.clientHeight;
-
-			let sx, sy, sw, sh;
-			if (videoAspectRatio > containerAspectRatio) {
-				// Video is wider than the container
-				sw = video.videoHeight * containerAspectRatio;
-				sh = video.videoHeight;
-				sx = (video.videoWidth - sw) / 2;
-				sy = 0;
-			} else {
-				// Video is taller than the container
-				sw = video.videoWidth;
-				sh = video.videoWidth / containerAspectRatio;
-				sx = 0;
-				sy = (video.videoHeight - sh) / 2;
-			}
-
-			// Draw the image on the canvas with the calculated source and destination rectangles
-			context.drawImage(video, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
+			// Draw the image on the canvas
+			context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
 			// Convert image to URL for immediate display
 			const imageDataUrl = canvas.toDataURL('image/png');
