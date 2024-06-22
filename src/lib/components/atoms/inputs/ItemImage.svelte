@@ -2,42 +2,22 @@
 <script lang="ts">
 	import BtnFileInput from '$atoms/inputs/BtnFileInput.svelte';
 	import Camera from '$atoms/inputs/Camera.svelte';
-	import { isMobile } from '$lib/utils';
 
-	export let imageString: any;
-	export let fileInput: HTMLInputElement;
-	export let foodId: number | null;
+	export let imageBlob: Blob | null;
+	export let foodId: number | null = null;
+
 	let image = '';
-	let showCamera = true;
+	let showCamera = false;
 
-	const onFileSelected = (e: any) => {
-		imageString = e.target.files[0];
-		if (imageString) {
-			let reader = new FileReader();
-			reader.readAsDataURL(imageString);
-			reader.onload = (e: any) => {
-				image = e.target.result;
-			};
-			foodId = null;
-		} else {
-			showCamera = true;
-		}
-	};
-
-	const handlePhotoTaken = (dataUrl: string) => {
-		image = dataUrl;
+	const handlePhotoTaken = (imageDataUrl: string, blob: Blob) => {
+		image = imageDataUrl;
+		imageBlob = blob;
 		showCamera = false;
 	};
 </script>
 
 <!-- Outer Shape -->
 <div class="relative h-[calc(60%)] w-full">
-	<!-- Overlay -->
-	{#if showCamera}
-		<Camera onPhotoTaken={handlePhotoTaken} />
-	{:else}
-		<div class="absolute h-full w-full rounded-b-lg bg-black/50" />
-	{/if}
 	<!-- Image from storage/upload/no image-->
 	{#if foodId}
 		<img
@@ -51,27 +31,11 @@
 	{/if}
 	{#if foodId || image}
 		<!-- Temporarily disable field interaction -->
-		<!-- <BtnFileInput {fileInput} icon="edit" /> -->
+		<BtnFileInput icon="edit" on:click={() => (showCamera = true)} />
 	{:else}
-		<BtnFileInput
-			{fileInput}
-			icon="plus"
-			on:click={() => {
-				if (isMobile()) {
-					showCamera = true;
-				} else {
-					fileInput.click();
-				}
-			}}
-		/>
+		<BtnFileInput icon="plus" on:click={() => (showCamera = true)} />
+	{/if}
+	{#if showCamera}
+		<Camera {handlePhotoTaken} />
 	{/if}
 </div>
-<!-- Invisible input element -->
-<input
-	style="display:none"
-	type="file"
-	accept="image/*"
-	capture="environment"
-	on:change={(e) => onFileSelected(e)}
-	bind:this={fileInput}
-/>

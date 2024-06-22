@@ -17,8 +17,7 @@
 	export let submitBtnText: string;
 	export let submitBtnSymbol: string;
 
-	export let imageString: string = '';
-	let fileInput: HTMLInputElement;
+	export let imageBlob: Blob | null = null;
 
 	export let foodId: number | null = null;
 	export let itemName: string | null = null;
@@ -113,7 +112,7 @@
 		<!-- Card -->
 		<form method="POST" autocomplete="off" on:submit|preventDefault={handleSubmit}>
 			<Card>
-				<ItemImage {imageString} {fileInput} {foodId} />
+				<ItemImage bind:imageBlob {foodId} />
 				<ItemName {itemName} />
 				<Nutrients
 					{unitAmount}

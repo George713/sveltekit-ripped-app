@@ -6,7 +6,7 @@
 
 	import ItemDetails from '$molecules/ItemDetails.svelte';
 
-	let imageString = '';
+	let imageBlob: Blob;
 
 	let activeUnitIsPtn = true;
 	let unitAmount = 1; // serves as umbrella for ptnAmount & gramAmount
@@ -34,7 +34,7 @@
 			// @ts-ignore
 			await fetch(result.data.presignedURL, {
 				method: 'PUT',
-				body: imageString
+				body: imageBlob
 			});
 			const newItem = result.data.newItem as FoodItem;
 
@@ -57,7 +57,7 @@
 	title="New Item"
 	submitBtnText="Add Item"
 	submitBtnSymbol="plus"
-	{imageString}
+	bind:imageBlob
 	{activeUnitIsPtn}
 	{unitAmount}
 	{ptnAmount}
