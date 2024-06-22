@@ -59,7 +59,7 @@
 			: 'https://placehold.co/90x60?text=Estimate&font=roboto'}
 		alt="imgUrl"
 		style="width:100%;height:60px;"
-		class="rounded-b"
+		class="rounded-b object-cover"
 	/>
 	<!-- Image Icon: Adding/removing Item -->
 	{#if type === 'dark'}
