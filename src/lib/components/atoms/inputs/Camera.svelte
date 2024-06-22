@@ -20,19 +20,9 @@
 		stream = mediaStream;
 		video.srcObject = mediaStream;
 		video.play().then(() => {
-			// Set canvas dimensions to match the visible area of the video
-			const videoAspectRatio = video.videoWidth / video.videoHeight;
-			const containerAspectRatio = video.clientWidth / video.clientHeight;
-
-			if (videoAspectRatio > containerAspectRatio) {
-				// Video is wider than the container
-				canvas.width = video.clientWidth;
-				canvas.height = video.clientWidth / videoAspectRatio;
-			} else {
-				// Video is taller than the container
-				canvas.width = video.clientHeight * videoAspectRatio;
-				canvas.height = video.clientHeight;
-			}
+			// Set canvas dimensions to match video stream dimensions
+			// canvas.width = video.videoWidth;
+			// canvas.height = video.videoHeight;
 		});
 	};
 
@@ -40,20 +30,63 @@
 		console.error('Error accessing camera:', error);
 	};
 
+	// const takePhoto = () => {
+	// 	const context = canvas.getContext('2d');
+	// 	if (context) {
+	// 		// Draw the image on the canvas
+	// 		context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+	// 		// Convert image to URL for immediate display
+	// 		const imageDataUrl = canvas.toDataURL('image/png');
+
+	// 		/**
+	// 		 * Convert the image to WebP format for later upload.
+	// 		 * toBlob() takes a callback, which is executed after the blob
+	// 		 * has been produced.
+	// 		 */
+	// 		canvas.toBlob(
+	// 			(blob) => {
+	// 				if (blob) {
+	// 					handlePhotoTaken(imageDataUrl, blob);
+	// 				} else console.log('error');
+	// 			},
+	// 			'image/webp',
+	// 			0.9 // quality factor
+	// 		);
+	// 	}
+	// };
+
 	const takePhoto = () => {
 		const context = canvas.getContext('2d');
 		if (context) {
-			// Draw the image on the canvas
-			context.drawImage(video, 0, 0, canvas.width, canvas.height);
+			// Set canvas dimensions to match the container size
+			canvas.width = canvas.clientWidth;
+			canvas.height = canvas.clientHeight;
+
+			// Calculate the visible area of the video
+			const videoAspectRatio = video.videoWidth / video.videoHeight;
+			const containerAspectRatio = canvas.width / canvas.height;
+			let width, height, x, y;
+			if (videoAspectRatio > containerAspectRatio) {
+				// Video is wider than the container
+				width = canvas.height * videoAspectRatio;
+				height = canvas.height;
+				x = (width - canvas.width) / 2;
+				y = 0;
+			} else {
+				// Video is taller than the container
+				width = canvas.width;
+				height = canvas.width / videoAspectRatio;
+				x = 0;
+				y = (height - canvas.height) / 2;
+			}
+			// Draw the visible part of the video on the canvas
+			context.drawImage(video, -x, -y, width, height);
 
 			// Convert image to URL for immediate display
 			const imageDataUrl = canvas.toDataURL('image/png');
 
-			/**
-			 * Convert the image to WebP format for later upload.
-			 * toBlob() takes a callback, which is executed after the blob
-			 * has been produced.
-			 */
+			// Convert the image to WebP format for later upload
 			canvas.toBlob(
 				(blob) => {
 					if (blob) {
