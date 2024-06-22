@@ -20,9 +20,19 @@
 		stream = mediaStream;
 		video.srcObject = mediaStream;
 		video.play().then(() => {
-			// Set canvas dimensions to match video stream dimensions
-			canvas.width = video.videoWidth;
-			canvas.height = video.videoHeight;
+			// Set canvas dimensions to match the visible area of the video
+			const videoAspectRatio = video.videoWidth / video.videoHeight;
+			const containerAspectRatio = video.clientWidth / video.clientHeight;
+
+			if (videoAspectRatio > containerAspectRatio) {
+				// Video is wider than the container
+				canvas.width = video.clientWidth;
+				canvas.height = video.clientWidth / videoAspectRatio;
+			} else {
+				// Video is taller than the container
+				canvas.width = video.clientHeight * videoAspectRatio;
+				canvas.height = video.clientHeight;
+			}
 		});
 	};
 
@@ -33,7 +43,7 @@
 	const takePhoto = () => {
 		const context = canvas.getContext('2d');
 		if (context) {
-			// Draw the image on the canvas
+			// Draw the image on the canvas with the calculated dimensions
 			context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
 			// Convert image to URL for immediate display
