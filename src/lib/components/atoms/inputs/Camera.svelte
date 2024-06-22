@@ -60,8 +60,8 @@
 		const context = canvas.getContext('2d');
 		if (context) {
 			// Set canvas dimensions to match the container size
-			canvas.width = canvas.clientWidth;
-			canvas.height = canvas.clientHeight;
+			canvas.width = canvas.clientWidth * 2;
+			canvas.height = canvas.clientHeight * 2;
 
 			// Calculate the visible area of the video
 			const videoAspectRatio = video.videoWidth / video.videoHeight;
