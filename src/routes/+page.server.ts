@@ -90,7 +90,6 @@ const logBodyFat: Action = async ({ locals, request }) => {
 
 const newItem: Action = async ({ locals, request }) => {
 	const formData = await request.formData();
-	console.log(formData)
 	const {
 		itemName,
 		unitAmount,
