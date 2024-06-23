@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import { isMobile } from '$lib/utils';
 
+	export let showCamera: boolean;
 	export let handlePhotoTaken: (imageDataUrl: string, imageBlob: Blob) => void;
 
 	let video: HTMLVideoElement;
@@ -81,6 +82,8 @@
 	<canvas bind:this={canvas} class="absolute top-0 w-full h-full rounded-b-lg object-cover" />
 	<div
 		class="fixed z-10 top-0 left-0 w-full h-full bg-black/40 flex justify-center items-end backdrop-blur-[1px]"
+		on:click={() => (showCamera = false)}
+		role="none"
 	>
 		<button
 			on:click={takePhoto}

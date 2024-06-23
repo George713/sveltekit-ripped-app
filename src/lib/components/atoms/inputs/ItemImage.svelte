@@ -12,7 +12,6 @@
 	const handlePhotoTaken = (imageDataUrl: string, blob: Blob) => {
 		image = imageDataUrl;
 		imageBlob = blob;
-		showCamera = false;
 	};
 </script>
 
@@ -36,6 +35,6 @@
 		<BtnFileInput icon="plus" on:click={() => (showCamera = true)} />
 	{/if}
 	{#if showCamera}
-		<Camera {handlePhotoTaken} />
+		<Camera bind:showCamera {handlePhotoTaken} />
 	{/if}
 </div>
