@@ -38,8 +38,8 @@
 		// video.play();
 		video.addEventListener('loadedmetadata', () => {
 			video.play();
-			canvas.width = video.clientWidth;
-			canvas.height = video.clientHeight;
+			canvas.width = 2160; //video.clientWidth;
+			canvas.height = (video.clientHeight / video.clientWidth) * 2160;
 		});
 	};
 
@@ -68,6 +68,7 @@
 				y = (height - canvas.height) / 2;
 			}
 			// Draw the visible part of the video on the canvas
+			// console.log(x, y, width, height);
 			context.drawImage(video, -x, -y, width, height);
 
 			photoTaken = true;
@@ -125,7 +126,7 @@
 		/>
 		<div class="relative h-full w-full {photoTaken ? '' : 'hidden'}">
 			<!-- Canvas / Image taken -->
-			<canvas bind:this={canvas} class="rounded-lg h-full w-full object-cover" />
+			<canvas bind:this={canvas} class="rounded-lg h-full w-full" />
 			<!-- Redo Button -->
 			<button
 				on:click={() => (photoTaken = false)}
