@@ -17,7 +17,7 @@
 			? {
 					video: {
 						facingMode: { exact: 'environment' },
-						aspectRatio: { exact: 1.7777777778 }
+						zoom: { exact: 2 }
 					}
 				}
 			: { video: true };
