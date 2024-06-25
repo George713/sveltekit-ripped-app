@@ -1,13 +1,13 @@
 <!-- Camera.svelte -->
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { isMobile, uploadToS3 } from '$lib/utils';
-	import Background from '$overlays/Background.svelte';
-	import { showSpinner, visibleOverlay } from '$lib/stores';
 	import { invalidateAll } from '$app/navigation';
 
-	let photoTaken = false;
+	import { showSpinner, visibleOverlay } from '$lib/stores';
+	import { isMobile, uploadToS3 } from '$lib/utils';
+	import Background from '$overlays/Background.svelte';
 
+	let photoTaken = false;
 	let video: HTMLVideoElement;
 	let canvas: HTMLCanvasElement;
 

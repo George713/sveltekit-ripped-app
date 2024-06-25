@@ -194,14 +194,7 @@
 				<HarvestButton />
 				{#if $page.data.user.progressPicToday || true}
 					<div class="absolute mb-60 ml-[-4px]">
-						<!-- <ProgressPicButton {uploadToS3} {fileinput} /> -->
-						<button
-							class="mx-4 h-14 w-14 rounded border border-gray-400/10 bg-gray-300 text-[20px] font-bold text-neutral-600 shadow disabled:bg-gray-200 disabled:text-neutral-400"
-							on:click={() => visibleOverlay.set('weeklyPic')}
-							disabled={$page.data.dailyProgress.weeklyPic}
-						>
-							P
-						</button>
+						<ProgressPicButton />
 					</div>
 				{/if}
 			</div>
