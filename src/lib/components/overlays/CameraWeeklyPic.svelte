@@ -18,7 +18,7 @@
 						facingMode: { exact: 'environment' },
 						height: { ideal: 1080 },
 						frameRate: { ideal: 60 },
-						advanced: [{ zoom: 120 }]
+						advanced: [{ zoom: 2 }]
 					},
 					audio: false
 				}
@@ -26,7 +26,7 @@
 					video: {
 						height: { ideal: 1080 },
 						frameRate: { ideal: 60 },
-						advanced: [{ zoom: 120 }]
+						advanced: [{ zoom: 2 }]
 					},
 					audio: false
 				};
