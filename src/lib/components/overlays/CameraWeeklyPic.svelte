@@ -16,8 +16,7 @@
 		const constraints = isMobile()
 			? {
 					video: {
-						facingMode: { exact: 'environment' },
-						zoom: { exact: 2 }
+						facingMode: { exact: 'environment' }
 					}
 				}
 			: { video: true };
