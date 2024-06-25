@@ -35,12 +35,9 @@
 
 	const handleStream = (mediaStream: MediaStream) => {
 		video.srcObject = mediaStream;
-		// video.play();
-		video.addEventListener('loadedmetadata', () => {
-			video.play();
-			canvas.width = 1080; //video.clientWidth;
-			canvas.height = (video.clientHeight / video.clientWidth) * 1080;
-		});
+		video.play();
+		canvas.width = 1080;
+		canvas.height = (video.clientHeight / video.clientWidth) * 1080;
 	};
 
 	const handleError = (error: any) => {
@@ -68,7 +65,6 @@
 				y = (height - canvas.height) / 2;
 			}
 			// Draw the visible part of the video on the canvas
-			// console.log(x, y, width, height);
 			context.drawImage(video, -x, -y, width, height);
 
 			photoTaken = true;
