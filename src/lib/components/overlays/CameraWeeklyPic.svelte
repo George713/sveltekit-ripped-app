@@ -38,8 +38,8 @@
 		// video.play();
 		video.addEventListener('loadedmetadata', () => {
 			video.play();
-			canvas.width = 2160; //video.clientWidth;
-			canvas.height = (video.clientHeight / video.clientWidth) * 2160;
+			canvas.width = 1080; //video.clientWidth;
+			canvas.height = (video.clientHeight / video.clientWidth) * 1080;
 		});
 	};
 
