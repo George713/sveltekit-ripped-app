@@ -14,21 +14,14 @@
 
 	onMount(() => {
 		const constraints = isMobile()
-			? { video: { facingMode: { exact: 'environment' } }, zoom: 2 }
+			? { video: { facingMode: { exact: 'environment' } }, advanced: [{ zoom: 2 }] }
 			: { video: true };
 		navigator.mediaDevices.getUserMedia(constraints).then(handleStream).catch(handleError);
 	});
 
 	const handleStream = (mediaStream: MediaStream) => {
 		stream = mediaStream;
-		// applying zoom and turning on flashlight
-		stream.getVideoTracks()[0].applyConstraints([
-			{
-				zoom: 2 // 2x zoom
-				// torch: true // flashlight on
-			}
-		]);
-		video.srcObject = stream;
+		video.srcObject = mediaStream;
 		video.play();
 	};
 
