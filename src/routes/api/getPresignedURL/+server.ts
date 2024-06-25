@@ -7,8 +7,6 @@ import type { RequestHandler } from './$types';
 export const POST: RequestHandler = async ({ locals, request }) => {
 	const formData = await request.formData()
 	const isInitPic = formData.get('isInitPic') === 'true';
-	// @ts-ignore
-	const timestamp = new Date(formData.get("timestamp"))
 
 	// Declare user, as the if-clause is in another scope as the next statement needing user
 	let user
@@ -35,7 +33,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 				progressPictures: {
 					create: [{}]
 				},
-				lastWeeklyPicOn: timestamp,
+				lastWeeklyPicOn: new Date,
 			}
 		});
 	}

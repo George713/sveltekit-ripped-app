@@ -56,6 +56,7 @@
 	import ModalFinishEating from '$overlays/FinishEating.svelte';
 	import SpinnerOverlay from '$overlays/Spinner.svelte';
 	import EnterWeightOverlay from '$overlays/EnterWeight.svelte';
+	import CameraWeeklyPic from '$overlays/CameraWeeklyPic.svelte';
 
 	export let data: {
 		foodItems: FoodItem[];
@@ -119,7 +120,6 @@
 		// Get presigned URL
 		const formData = new FormData();
 		formData.append('isInitPic', JSON.stringify(isInitPic));
-		formData.append('timestamp', new Date().toUTCString());
 		const response = await fetch('/api/getPresignedURL', {
 			method: 'POST',
 			body: formData
@@ -192,9 +192,16 @@
 			<!-- Harvest Button -->
 			<div class="flex h-full flex-grow items-center bg-slate-100 px-4">
 				<HarvestButton />
-				{#if $page.data.user.progressPicToday}
+				{#if $page.data.user.progressPicToday || true}
 					<div class="absolute mb-60 ml-[-4px]">
-						<ProgressPicButton {uploadToS3} {fileinput} />
+						<!-- <ProgressPicButton {uploadToS3} {fileinput} /> -->
+						<button
+							class="mx-4 h-14 w-14 rounded border border-gray-400/10 bg-gray-300 text-[20px] font-bold text-neutral-600 shadow disabled:bg-gray-200 disabled:text-neutral-400"
+							on:click={() => visibleOverlay.set('weeklyPic')}
+							disabled={$page.data.dailyProgress.weeklyPic}
+						>
+							P
+						</button>
 					</div>
 				{/if}
 			</div>
@@ -226,6 +233,8 @@
 		<ModalHarvest />
 	{:else if $visibleView.current == 'review'}
 		<WeeklyReview />
+	{:else if $visibleOverlay == 'weeklyPic'}
+		<CameraWeeklyPic />
 	{/if}
 {:else}
 	<p class="m-3 flex justify-center px-5">No one here yet...</p>

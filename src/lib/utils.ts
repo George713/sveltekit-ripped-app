@@ -39,3 +39,11 @@ export const isMobile = () => {
         navigator.userAgent
     );
 };
+
+export const uploadToS3 = async (fileBlob: Blob, presignedURL: string) => {
+    // Upload image to s3 using presignedURL
+    await fetch(presignedURL, {
+        method: 'PUT',
+        body: fileBlob
+    });
+}
