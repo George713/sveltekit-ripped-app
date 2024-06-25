@@ -21,7 +21,14 @@
 
 	const handleStream = (mediaStream: MediaStream) => {
 		stream = mediaStream;
-		video.srcObject = mediaStream;
+		// applying zoom and turning on flashlight
+		stream.getVideoTracks()[0].applyConstraints([
+			{
+				zoom: 2 // 2x zoom
+				// torch: true // flashlight on
+			}
+		]);
+		video.srcObject = stream;
 		video.play();
 	};
 
