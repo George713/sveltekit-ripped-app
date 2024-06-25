@@ -14,7 +14,12 @@
 
 	onMount(() => {
 		const constraints = isMobile()
-			? { video: { facingMode: { exact: 'environment' } } }
+			? {
+					video: {
+						facingMode: { exact: 'environment' },
+						zoom: { exact: 2 }
+					}
+				}
 			: { video: true };
 		navigator.mediaDevices.getUserMedia(constraints).then(handleStream).catch(handleError);
 	});
@@ -71,19 +76,6 @@
 
 		invalidateAll();
 	};
-
-	// Function to list available cameras
-	const listCameras = async () => {
-		const devices = await navigator.mediaDevices.enumerateDevices();
-		const cameras = devices.filter((device) => device.kind === 'videoinput');
-		return cameras;
-	};
-
-	// Function to switch camera
-	const switchCamera = async (deviceId: string) => {
-		const constraints = { video: { deviceId: { exact: deviceId } } };
-		navigator.mediaDevices.getUserMedia(constraints).then(handleStream).catch(handleError);
-	};
 </script>
 
 <Background>
@@ -99,10 +91,10 @@
 			bind:this={video}
 			autoplay
 			playsinline
-			class="rounded-lg {!photoTaken ? '' : 'hidden'}"
+			class="rounded-lg h-full object-cover {!photoTaken ? '' : 'hidden'}"
 		/>
 		<div class="relative {photoTaken ? '' : 'hidden'}">
-			<canvas bind:this={canvas} class="rounded-lg object-contain w-full" />
+			<canvas bind:this={canvas} class="rounded-lg h-full object-cover" />
 			<!-- Redo Button -->
 			<button on:click={() => (photoTaken = false)} class="absolute bottom-1 right-1 w-8 h-8">
 				<svg viewBox="0 0 24 24" class=" fill-none stroke-neutral-400">
@@ -129,19 +121,5 @@
 				Submit Photo
 			</button>
 		{/if}
-		<!-- Camera Selection Dropdown -->
-		<div class="absolute bottom-5">
-			<select on:change={(e) => switchCamera(e.target.value)}>
-				{#await listCameras()}
-					<option value="">Loading cameras...</option>
-				{:then cameras}
-					{#each cameras as camera}
-						<option value={camera.deviceId}>{camera.label || `Camera ${camera.deviceId}`}</option>
-					{/each}
-				{:catch error}
-					<option value="">Error loading cameras</option>
-				{/await}
-			</select>
-		</div>
 	</div>
 </Background>
