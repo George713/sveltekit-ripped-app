@@ -16,7 +16,7 @@
 			? {
 					video: {
 						facingMode: { exact: 'environment' },
-						height: { ideal: 1080 },
+						height: { ideal: 2160 },
 						frameRate: { ideal: 60 },
 						advanced: [{ zoom: 2 }]
 					},
@@ -24,7 +24,7 @@
 				}
 			: {
 					video: {
-						height: { ideal: 1080 },
+						height: { ideal: 2160 },
 						frameRate: { ideal: 60 },
 						advanced: [{ zoom: 2 }]
 					},
@@ -106,7 +106,7 @@
 
 <Background>
 	<div
-		class="absolute p-2 w-full h-full bg-black/40 flex items-center justify-center"
+		class="absolute p-4 w-full h-full bg-black/40 flex items-center justify-center"
 		role="button"
 		tabindex={0}
 		on:click|self={() => visibleOverlay.set('none')}
