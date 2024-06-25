@@ -14,7 +14,8 @@
 
 	onMount(() => {
 		const constraints = isMobile()
-			? { video: { facingMode: { exact: 'environment' } } }
+			// ? { video: { facingMode: { exact: 'environment' } } }
+			?  { video: { label: { exact: 'camera2 1, facing front' } } };
 			: { video: true };
 		navigator.mediaDevices.getUserMedia(constraints).then(handleStream).catch(handleError);
 	});
