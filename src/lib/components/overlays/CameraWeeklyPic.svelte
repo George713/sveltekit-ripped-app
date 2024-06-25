@@ -10,21 +10,30 @@
 
 	let video: HTMLVideoElement;
 	let canvas: HTMLCanvasElement;
-	let stream: MediaStream;
 
 	onMount(() => {
 		const constraints = isMobile()
 			? {
 					video: {
-						facingMode: { exact: 'environment' }
-					}
+						facingMode: { exact: 'environment' },
+						height: { ideal: 1080 },
+						frameRate: { ideal: 60 },
+						advanced: [{ zoom: 120 }]
+					},
+					audio: false
 				}
-			: { video: true };
+			: {
+					video: {
+						height: { ideal: 1080 },
+						frameRate: { ideal: 60 },
+						advanced: [{ zoom: 120 }]
+					},
+					audio: false
+				};
 		navigator.mediaDevices.getUserMedia(constraints).then(handleStream).catch(handleError);
 	});
 
 	const handleStream = (mediaStream: MediaStream) => {
-		stream = mediaStream;
 		video.srcObject = mediaStream;
 		video.play();
 	};
