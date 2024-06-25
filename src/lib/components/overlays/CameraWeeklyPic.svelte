@@ -35,7 +35,12 @@
 
 	const handleStream = (mediaStream: MediaStream) => {
 		video.srcObject = mediaStream;
-		video.play();
+		// video.play();
+		video.addEventListener('loadedmetadata', () => {
+			video.play();
+			canvas.width = video.clientWidth;
+			canvas.height = video.clientHeight;
+		});
 	};
 
 	const handleError = (error: any) => {
@@ -45,12 +50,25 @@
 	const takePhoto = () => {
 		const context = canvas.getContext('2d');
 		if (context) {
-			// Set canvas dimensions to match the container size
-			canvas.width = video.videoWidth;
-			canvas.height = video.videoHeight;
-
+			// Calculate the visible area of the video
+			const videoAspectRatio = video.videoWidth / video.videoHeight;
+			const containerAspectRatio = canvas.width / canvas.height;
+			let width, height, x, y;
+			if (videoAspectRatio > containerAspectRatio) {
+				// Video is wider than the container
+				width = canvas.height * videoAspectRatio;
+				height = canvas.height;
+				x = (width - canvas.width) / 2;
+				y = 0;
+			} else {
+				// Video is taller than the container
+				width = canvas.width;
+				height = canvas.width / videoAspectRatio;
+				x = 0;
+				y = (height - canvas.height) / 2;
+			}
 			// Draw the visible part of the video on the canvas
-			context.drawImage(video, 0, 0, canvas.width, canvas.height);
+			context.drawImage(video, -x, -y, width, height);
 
 			photoTaken = true;
 		}
@@ -88,7 +106,7 @@
 
 <Background>
 	<div
-		class="absolute p-5 w-full h-full bg-black/40 flex items-center justify-center"
+		class="absolute p-2 w-full h-full bg-black/40 flex items-center justify-center"
 		role="button"
 		tabindex={0}
 		on:click|self={() => visibleOverlay.set('none')}
@@ -100,11 +118,19 @@
 			autoplay
 			playsinline
 			class="rounded-lg h-full object-cover {!photoTaken ? '' : 'hidden'}"
+			role="button"
+			tabindex={0}
+			on:click|self={() => visibleOverlay.set('none')}
+			on:keydown|self={() => visibleOverlay.set('none')}
 		/>
-		<div class="relative {photoTaken ? '' : 'hidden'}">
-			<canvas bind:this={canvas} class="rounded-lg h-full object-cover" />
+		<div class="relative h-full w-full {photoTaken ? '' : 'hidden'}">
+			<!-- Canvas / Image taken -->
+			<canvas bind:this={canvas} class="rounded-lg h-full w-full object-cover" />
 			<!-- Redo Button -->
-			<button on:click={() => (photoTaken = false)} class="absolute bottom-1 right-1 w-8 h-8">
+			<button
+				on:click={() => (photoTaken = false)}
+				class="absolute bottom-1 right-1 w-8 h-8 rounded-lg border-neutral-400 bg-black/50"
+			>
 				<svg viewBox="0 0 24 24" class=" fill-none stroke-neutral-400">
 					<path
 						d="M13.9998 8H18.9998V3M18.7091 16.3569C17.7772 17.7918 16.4099 18.8902 14.8079 19.4907C13.2059 20.0913 11.4534 20.1624 9.80791 19.6937C8.16246 19.225 6.71091 18.2413 5.66582 16.8867C4.62073 15.5321 4.03759 13.878 4.00176 12.1675C3.96593 10.4569 4.47903 8.78001 5.46648 7.38281C6.45392 5.98561 7.86334 4.942 9.48772 4.40479C11.1121 3.86757 12.8661 3.86499 14.4919 4.39795C16.1177 4.93091 17.5298 5.97095 18.5209 7.36556"
@@ -116,7 +142,7 @@
 		{#if !photoTaken}
 			<button
 				on:click={takePhoto}
-				class="absolute bottom-20 border-2 rounded-2xl p-3 text-neutral-400 font-semibold border-neutral-400"
+				class="absolute bottom-20 rounded-2xl p-3 text-neutral-400 font-semibold border-neutral-400 bg-black/60"
 			>
 				Take Photo
 			</button>
@@ -124,7 +150,7 @@
 			<!-- Submit Button -->
 			<button
 				on:click={uploadImage}
-				class="absolute bottom-20 border-2 rounded-2xl p-3 text-neutral-400 font-semibold border-neutral-400"
+				class="absolute bottom-20 rounded-2xl p-3 text-neutral-400 font-semibold border-neutral-400 bg-black/60"
 			>
 				Submit Photo
 			</button>
