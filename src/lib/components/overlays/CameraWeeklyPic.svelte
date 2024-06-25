@@ -71,10 +71,29 @@
 
 		invalidateAll();
 	};
+
+	// Function to list available cameras
+	const listCameras = async () => {
+		const devices = await navigator.mediaDevices.enumerateDevices();
+		const cameras = devices.filter((device) => device.kind === 'videoinput');
+		return cameras;
+	};
+
+	// Function to switch camera
+	const switchCamera = async (deviceId: string) => {
+		const constraints = { video: { deviceId: { exact: deviceId } } };
+		navigator.mediaDevices.getUserMedia(constraints).then(handleStream).catch(handleError);
+	};
 </script>
 
 <Background>
-	<div class="absolute p-5 w-full h-full bg-black/40 flex items-center justify-center">
+	<div
+		class="absolute p-5 w-full h-full bg-black/40 flex items-center justify-center"
+		role="button"
+		tabindex={0}
+		on:click|self={() => visibleOverlay.set('none')}
+		on:keydown|self={() => visibleOverlay.set('none')}
+	>
 		<!-- svelte-ignore a11y-media-has-caption -->
 		<video
 			bind:this={video}
@@ -110,5 +129,19 @@
 				Submit Photo
 			</button>
 		{/if}
+		<!-- Camera Selection Dropdown -->
+		<div class="absolute bottom-5">
+			<select on:change={(e) => switchCamera(e.target.value)}>
+				{#await listCameras()}
+					<option value="">Loading cameras...</option>
+				{:then cameras}
+					{#each cameras as camera}
+						<option value={camera.deviceId}>{camera.label || `Camera ${camera.deviceId}`}</option>
+					{/each}
+				{:catch error}
+					<option value="">Error loading cameras</option>
+				{/await}
+			</select>
+		</div>
 	</div>
 </Background>
