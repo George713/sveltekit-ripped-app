@@ -373,6 +373,9 @@ export const load: PageServerLoad = async ({ locals }) => {
 				foodId: { in: foodItems.map(item => item.id) },
 				createdAt: { gte: dateDayBegin }
 			},
+			orderBy: {
+				createdAt: 'asc'
+			}
 		});
 
 		// Get eating estimate for the current day

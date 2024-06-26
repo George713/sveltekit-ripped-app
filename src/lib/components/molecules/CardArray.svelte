@@ -97,7 +97,16 @@
 		{/each}
 	{/if}
 	{#if items.includes('planned')}
-		{#each $plannedItems as { id, foodId, eaten, unitIsPtn, unitAmount }}
+		<!-- 
+		[...$plannedItems].reverse()
+		============================
+		This first creates a shallow copy of $plannedItems,
+		then reverses the order of the items in it.
+		
+		This is required as toggling the `eaten` status would
+		have modified $plannedItems in place again.
+		-->
+		{#each [...$plannedItems].reverse() as { id, foodId, eaten, unitIsPtn, unitAmount }}
 			<ItemCard
 				type="bright"
 				{id}
