@@ -8,14 +8,6 @@ export const focusElement = (el: HTMLInputElement) => {
     el.focus();
 };
 
-// Evaluates whether it is between midnight and 3am in a given timezone.
-export const isBetweenMidnightAnd3AM = (timeZoneOffset: number) => {
-    const now = new Date();
-    const utcHours = now.getUTCHours();
-    const localTimeHours = (utcHours + timeZoneOffset) % 24;
-    return localTimeHours >= 0 && localTimeHours < 3;
-}
-
 /**
  * Calculates the datetime of the logical beginning of the current day.
  * Reminder: HYC's days run from 3am to 3am in the user's local timezone.
