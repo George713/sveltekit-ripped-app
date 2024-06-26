@@ -3,8 +3,8 @@ import type { Action, Actions, PageServerLoad } from './$types';
 
 import { db } from '$lib/database.server';
 import { supabase } from '$lib/supabaseClient.server';
-import type { PlannedItem, UpdateDataCalories } from '$lib/types';
-import { getDateDayBegin, isBetweenMidnightAnd3AM } from '$lib/utils';
+import type { FoodItem, PlannedItem, UpdateDataCalories } from '$lib/types';
+import { getDateDayBegin } from '$lib/utils';
 
 const logWeight: Action = async ({ locals, request }) => {
 	const data = await request.formData();
@@ -363,9 +363,38 @@ export const load: PageServerLoad = async ({ locals }) => {
 		const dateDayBegin = getDateDayBegin(locals.user.timeZoneOffset)
 
 		// Get items of that user
-		let foodItems = await db.foodItem.findMany({
-			where: { userId: locals.user.id },
-		})
+		// prisma.js issue: https://github.com/prisma/prisma/issues/22631
+		// Code, once its resolved:
+		// ========================
+		// const thirtyDaysAgo = new Date();
+		// thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+		// let foodItems = await db.foodItem.findMany({
+		// 	where: { userId: locals.user.id },
+		// 	include: {
+		// 		PlannedItems: {
+		// 			where: {
+		// 				createdAt: { gte: thirtyDaysAgo }
+		// 			}
+		// 		}
+		// 	},
+		// 	orderBy: {
+		// 		_count: {
+		// 			PlannedItems: 'desc'
+		// 		}
+		// 	}
+		// });
+		const twoWeeksAgo = new Date();
+		twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
+
+		const foodItems: [FoodItem] = await db.$queryRaw`
+			SELECT "fi".*
+			FROM "FoodItem" "fi"
+			LEFT JOIN "PlannedItem" "pi" ON "fi"."id" = "pi"."foodId" AND "pi"."createdAt" >= ${twoWeeksAgo}
+			WHERE "fi"."userId" = ${locals.user.id}
+			GROUP BY "fi"."id"
+			ORDER BY COUNT("pi"."id") DESC
+		`;
 
 		// Get planned items for the current day
 		const plannedItems = await db.plannedItem.findMany({
