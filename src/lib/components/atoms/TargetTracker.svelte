@@ -37,7 +37,7 @@
 				<p class="text-[12px] font-light text-neutral-500">Protein</p>
 			</div>
 			<p class="text-[10px] font-light text-neutral-500">
-				{currentProtein} | {targetProtein} g
+				{currentProtein.toFixed(0)} | {targetProtein} g
 			</p>
 		</div>
 	</div>
@@ -66,7 +66,7 @@
 				<p class="text-[10px] font-light text-neutral-500">Protein</p>
 			</div>
 			<p class="text-[8px] font-light text-neutral-500">
-				{currentProtein} | {targetProtein} g
+				{currentProtein.toFixed(0)} | {targetProtein} g
 			</p>
 		</div>
 	</div>
