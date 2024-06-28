@@ -192,7 +192,7 @@
 			<!-- Harvest Button -->
 			<div class="flex h-full flex-grow items-center bg-slate-100 px-4">
 				<HarvestButton />
-				{#if $page.data.user.progressPicToday}
+				{#if $page.data.user.progressPicToday || true}
 					<div class="absolute mb-60 ml-[-4px]">
 						<ProgressPicButton />
 					</div>
