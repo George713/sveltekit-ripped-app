@@ -5,6 +5,7 @@
 	import { uploadToS3 } from '$lib/utils';
 
 	let inputElement: HTMLInputElement;
+	const maxWidth = 1080; // max. width of image taken
 
 	const handleFileChange = async (event: Event) => {
 		const target = event.target as HTMLInputElement | null;
@@ -33,11 +34,10 @@
 					// Determine the new dimensions while maintaining aspect ratio
 					let width = img.width;
 					let height = img.height;
-					const maxDimension = 2160;
 
-					if (width > maxDimension) {
-						height *= maxDimension / width;
-						width = maxDimension;
+					if (width > maxWidth) {
+						height *= maxWidth / width;
+						width = maxWidth;
 					}
 
 					// Set canvas dimensions and draw the image
