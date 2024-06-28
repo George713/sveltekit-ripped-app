@@ -226,8 +226,6 @@
 		<ModalHarvest />
 	{:else if $visibleView.current == 'review'}
 		<WeeklyReview />
-	{:else if $visibleOverlay == 'weeklyPic'}
-		<CameraWeeklyPic />
 	{/if}
 {:else}
 	<p class="m-3 flex justify-center px-5">No one here yet...</p>

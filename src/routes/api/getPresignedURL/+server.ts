@@ -33,7 +33,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 				progressPictures: {
 					create: [{}]
 				},
-				lastWeeklyPicOn: new Date,
+				// lastWeeklyPicOn: new Date,
 			}
 		});
 	}
