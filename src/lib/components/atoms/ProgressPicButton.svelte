@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { visibleOverlay, showSpinner } from '$lib/stores';
+	import { showSpinner } from '$lib/stores';
 	import { uploadToS3 } from '$lib/utils';
 
 	let inputElement: HTMLInputElement;

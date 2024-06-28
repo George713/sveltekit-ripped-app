@@ -56,7 +56,6 @@
 	import ModalFinishEating from '$overlays/FinishEating.svelte';
 	import SpinnerOverlay from '$overlays/Spinner.svelte';
 	import EnterWeightOverlay from '$overlays/EnterWeight.svelte';
-	import CameraWeeklyPic from '$overlays/CameraWeeklyPic.svelte';
 
 	export let data: {
 		foodItems: FoodItem[];
@@ -192,7 +191,7 @@
 			<!-- Harvest Button -->
 			<div class="flex h-full flex-grow items-center bg-slate-100 px-4">
 				<HarvestButton />
-				{#if $page.data.user.progressPicToday || true}
+				{#if $page.data.user.progressPicToday}
 					<div class="absolute mb-60 ml-[-4px]">
 						<ProgressPicButton />
 					</div>
