@@ -15,7 +15,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 	if (isInitPic) {
 		user = await db.user.update({
 			where: {
-				username: locals.user.name
+				id: locals.user.id
 			},
 			data: {
 				progressPictures: {
@@ -27,7 +27,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 	} else {
 		user = await db.user.update({
 			where: {
-				username: locals.user.name
+				id: locals.user.id
 			},
 			data: {
 				progressPictures: {
