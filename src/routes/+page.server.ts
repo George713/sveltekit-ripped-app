@@ -1,7 +1,7 @@
 import { fail } from '@sveltejs/kit';
 import type { Action, Actions, PageServerLoad } from './$types';
 
-import { db } from '$lib/database.server';
+import { db } from '$lib/prismaClient.server';
 import { supabase } from '$lib/supabaseClient.server';
 import type { FoodItem, PlannedItem, UpdateDataCalories } from '$lib/types';
 import { getDateDayBegin } from '$lib/utils';

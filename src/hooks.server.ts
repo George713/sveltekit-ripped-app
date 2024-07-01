@@ -4,7 +4,7 @@ import { type Handle } from '@sveltejs/kit'
 import type { Session } from '@supabase/supabase-js'
 import { createServerClient } from '@supabase/ssr'
 import jwt from 'jsonwebtoken'
-import { db } from '$lib/database.server'
+import { db } from '$lib/prismaClient.server'
 import { getDateDayBegin, getCurrentCrestLevel } from '$lib/utils'
 
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';

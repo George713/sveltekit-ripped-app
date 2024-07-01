@@ -1,6 +1,6 @@
 import { json } from '@sveltejs/kit';
 
-import { db } from '$lib/database.server';
+import { db } from '$lib/prismaClient.server';
 import { supabase } from '$lib/supabaseClient.server';
 import type { RequestHandler } from './$types';
 
