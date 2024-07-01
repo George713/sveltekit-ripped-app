@@ -66,6 +66,7 @@ const logCalories: Action = async ({ locals, request }) => {
 const logBodyFat: Action = async ({ locals, request }) => {
 	const data = await request.formData();
 	let bodyfat: any = data.get('bodyfat');
+	let isMale = data.get('isMale') === 'true';
 
 	// Check if 'bodyweight' is a number
 	if (isNaN(bodyfat)) {
@@ -74,18 +75,35 @@ const logBodyFat: Action = async ({ locals, request }) => {
 		bodyfat = parseFloat(bodyfat);
 	}
 
-	// Create bodyweight entry for current user
-	await db.user.update({
-		where: {
-			id: locals.user.id
-		},
-		data: {
-			bodyfats: {
-				create: [{ bodyfat }]
+	/**
+	 * Create bodyweight entry for current user
+	 * If it's initial measurement, the gender is also requested.
+	 */
+	if (data.has('isMale')) {
+		await db.user.update({
+			where: {
+				id: locals.user.id
 			},
-			initBF: true
-		}
-	});
+			data: {
+				bodyfats: {
+					create: [{ bodyfat }]
+				},
+				isMale,
+				initBF: true
+			}
+		});
+	} else {
+		await db.user.update({
+			where: {
+				id: locals.user.id
+			},
+			data: {
+				bodyfats: {
+					create: [{ bodyfat }]
+				},
+			}
+		});
+	}
 };
 
 const newItem: Action = async ({ locals, request }) => {

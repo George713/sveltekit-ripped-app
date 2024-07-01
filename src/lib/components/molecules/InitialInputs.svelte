@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { visibleView } from '$lib/stores';
+	import { visibleOverlay, visibleView } from '$lib/stores';
 
 	export let uploadToS3: (e: any, isInitPic: Boolean) => void;
 	export let fileinput: any;
@@ -30,7 +30,7 @@
 	>
 	<!-- BodyFat input -->
 	<button
-		on:click={() => visibleView.update('bodyFat')}
+		on:click={() => visibleOverlay.set('bodyFat')}
 		disabled={$page.data.user.initBF}
 		class="m-1 bg-gray-300 px-2 py-1 disabled:bg-slate-600">BF%</button
 	>

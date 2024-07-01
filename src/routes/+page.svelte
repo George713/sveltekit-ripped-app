@@ -41,7 +41,6 @@
 	// Molecules
 	import DailyActionBtns from '$molecules/DailyActionBtns.svelte';
 	import InitialInputs from '$molecules/InitialInputs.svelte';
-	import ModalBodyFat from '$molecules/ModalBodyFat.svelte';
 	import ModalCalories from '$molecules/ModalCalories.svelte';
 	import SigilNavPoints from '$molecules/SigilNavPoints.svelte';
 	// Organisms
@@ -56,6 +55,7 @@
 	import ModalFinishEating from '$overlays/FinishEating.svelte';
 	import SpinnerOverlay from '$overlays/Spinner.svelte';
 	import EnterWeightOverlay from '$overlays/EnterWeight.svelte';
+	import EnterBodyfatOverlay from '$overlays/EnterBodyfat.svelte';
 
 	export let data: {
 		foodItems: FoodItem[];
@@ -203,8 +203,8 @@
 
 	{#if $visibleOverlay == 'weight'}
 		<EnterWeightOverlay on:playSound={handlePlaySound} />
-	{:else if $visibleView.current == 'bodyFat'}
-		<ModalBodyFat />
+	{:else if $visibleOverlay == 'bodyFat'}
+		<EnterBodyfatOverlay askGender={!$page.data.user.initBF} />
 	{:else if $visibleView.current == 'calories'}
 		<ModalCalories />
 	{:else if $visibleView.current == 'planner'}
