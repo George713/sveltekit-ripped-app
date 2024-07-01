@@ -167,41 +167,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 					isMale: true,
 					timeZoneOffset: true,
 					pointBalance: true,
-					// current calorie target
-					calorieTargets: {
-						orderBy: {
-							createdAt: 'desc'
-						},
-						select: {
-							calories: true
-						},
-						take: 0
-					},
-					// current bodyfat
-					bodyfats: {
-						orderBy: {
-							createdAt: 'desc'
-						},
-						select: {
-							bodyfat: true
-						},
-						take: 0
-					},
-					// weight measurements of the last 5 days
-					weights: {
-						where: {
-							createdAt: {
-								lte: getDateFromXDaysAgo(0),
-								gte: getDateFromXDaysAgo(5)
-							}
-						},
-						select: {
-							createdAt: true
-						},
-						orderBy: {
-							createdAt: 'desc' // or 'asc' depending on your requirement
-						}
-					},
+					calorieTargets: { take: 0 },
+					bodyfats: { take: 0 },
+					weights: { take: 0 },
 					// Recurring activity progress
 					lastPlannedOn: true,
 					lastFinishedEatingOn: true,
