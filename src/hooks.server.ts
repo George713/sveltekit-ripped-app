@@ -151,8 +151,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 				progressPicOn: true,
 				reviewOn: true,
 				// Progess Player Journey
-				initPhoto: true,
-				initCalories: true
+				initPhoto: true
 			}
 		});
 
@@ -179,8 +178,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 					progressPicOn: true,
 					reviewOn: true,
 					// Progess Player Journey
-					initPhoto: true,
-					initCalories: true
+					initPhoto: true
 				}
 			});
 		}
@@ -207,7 +205,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			currentWeight: userWeight ? userWeight.weight : 999,
 			initBF: user.bodyfats.length > 0, // whether init body fat measurement was taken
 			initPhoto: user.initPhoto,
-			initCalories: user.initCalories,
+			initCalories: user.calorieTargets.length > 0, // whether init calorie target was entered
 			progressPicToday: new Date().toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() === user.progressPicOn ? true : false,
 			reviewToday: new Date().toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() === user.reviewOn ? true : false
 		};

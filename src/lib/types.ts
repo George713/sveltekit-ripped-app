@@ -37,7 +37,6 @@ export interface UpdateDataCalories {
         create: { calories: number }[];
     };
     lastReviewOn?: Date;
-    initCalories?: boolean;
 }
 
 export type SupabaseJwt = {

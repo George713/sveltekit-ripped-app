@@ -50,8 +50,6 @@ const logCalories: Action = async ({ locals, request }) => {
 	}
 	if (reviewMode) {
 		updateData.lastReviewOn = new Date()
-	} else {
-		updateData.initCalories = true
 	}
 
 	// Create calorie target entry for current user

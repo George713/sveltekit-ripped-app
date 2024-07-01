@@ -29,7 +29,6 @@ model User {
   // Progress Player Journey
   pointBalance Int     @default(0)
   initPhoto    Boolean @default(false)
-  initCalories Boolean @default(false)
 
   // Auxiliary
   timeZoneOffset Int @default(0)
