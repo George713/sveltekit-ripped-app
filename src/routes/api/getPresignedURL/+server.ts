@@ -1,6 +1,6 @@
 import { json } from '@sveltejs/kit';
 
-import { db } from '$lib/prismaClient.server';
+import { prisma } from '$lib/prismaClient.server';
 import { supabase } from '$lib/supabaseClient.server';
 import type { RequestHandler } from './$types';
 
@@ -13,7 +13,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 
 	// Create picture reference
 	if (isInitPic) {
-		user = await db.user.update({
+		user = await prisma.user.update({
 			where: {
 				id: locals.user.id
 			},
@@ -25,7 +25,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 			}
 		});
 	} else {
-		user = await db.user.update({
+		user = await prisma.user.update({
 			where: {
 				id: locals.user.id
 			},
@@ -39,7 +39,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 	}
 	// Get id of reference (for usage in filename)
 	// @ts-ignore
-	const { id } = await db.progressPicture.findFirst({
+	const { id } = await prisma.progressPicture.findFirst({
 		where: { user },
 		orderBy: { createdAt: 'desc' }
 	});

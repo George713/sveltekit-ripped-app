@@ -4,7 +4,7 @@ import { type Handle } from '@sveltejs/kit'
 import type { Session } from '@supabase/supabase-js'
 import { createServerClient } from '@supabase/ssr'
 import jwt from 'jsonwebtoken'
-import { db } from '$lib/prismaClient.server'
+import { prisma } from '$lib/prismaClient.server'
 import { getDateDayBegin, getCurrentCrestLevel } from '$lib/utils'
 
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
@@ -97,7 +97,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	const { data, error } = await event.locals.supabase.auth.getUser()
 
 	if (data.user) {
-		let user = await db.user.findUnique({
+		let user = await prisma.user.findUnique({
 			where: {
 				id: data.user.id
 			},
@@ -156,7 +156,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		});
 
 		if (!user) {
-			user = await db.user.create({
+			user = await prisma.user.create({
 				data: {
 					id: data.user.id,
 				},
@@ -183,7 +183,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			});
 		}
 
-		const userWeight = await db.weight.findFirst({
+		const userWeight = await prisma.weight.findFirst({
 			where: {
 				userId: user.id
 			},

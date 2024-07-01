@@ -1,10 +1,10 @@
 import { json } from '@sveltejs/kit';
 
-import { db } from '$lib/prismaClient.server';
+import { prisma } from '$lib/prismaClient.server';
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async ({ locals }) => {
-    const weights = await db.weight.findMany({
+    const weights = await prisma.weight.findMany({
         where: {
             user: { id: locals.user.id }
         },
