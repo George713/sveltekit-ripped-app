@@ -66,4 +66,5 @@ export const getCurrentCrestLevel = (bodyfatPercentage: number, isMale: boolean)
             return "platinum";
         }
     }
+    return "notEvaluatedYet"
 }

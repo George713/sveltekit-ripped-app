@@ -5,7 +5,7 @@ import type { Session } from '@supabase/supabase-js'
 import { createServerClient } from '@supabase/ssr'
 import jwt from 'jsonwebtoken'
 import { db } from '$lib/database.server'
-import { getDateDayBegin } from '$lib/utils'
+import { getDateDayBegin, getCurrentCrestLevel } from '$lib/utils'
 
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
 import { JWT_SECRET } from '$env/static/private';
@@ -246,7 +246,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			reviewToday: new Date().toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() === user.reviewOn ? true : false
 		};
 		// Derived value for user
-		event.locals.user.currentStatus = getUserCurrentStatus(event.locals.user.currentBF)
+		event.locals.user.currentStatus = getCurrentCrestLevel(event.locals.user.currentBF, user.isMale)
 		// Daily Progress
 		const dateDayBegin = getDateDayBegin(user.timeZoneOffset)
 		event.locals.dailyProgress = {
@@ -277,17 +277,3 @@ const getDateFromXDaysAgo = (days: number) => {
 	date.setDate(date.getDate() - days);
 	return date;
 };
-
-const getUserCurrentStatus = (currentBF: number) => {
-	if (currentBF >= 16 && currentBF < 20) {
-		return 'Bronze';
-	} else if (currentBF >= 12 && currentBF < 16) {
-		return 'Silver';
-	} else if (currentBF >= 10 && currentBF < 12) {
-		return 'Gold';
-	} else if (currentBF < 10) {
-		return 'Platinum';
-	} else {
-		return 'Wood';
-	}
-}

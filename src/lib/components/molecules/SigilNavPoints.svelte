@@ -6,11 +6,9 @@
 	import SigilGold from '$atoms/SigilGold.svelte';
 	import SigilWood from '$atoms/SigilWood.svelte';
 
-	import { getCurrentCrestLevel } from '$lib/utils';
-
 	export let data;
 
-	const level = getCurrentCrestLevel($page.data.user.currentBF, $page.data.user.isMale);
+	const level = $page.data.user.currentStatus;
 </script>
 
 <div class="relative flex h-[calc(50vh)] w-full justify-center bg-slate-100 pt-3">
