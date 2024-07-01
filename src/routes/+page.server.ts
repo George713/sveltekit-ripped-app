@@ -20,7 +20,7 @@ const logWeight: Action = async ({ locals, request }) => {
 	// Create weight entry for current user
 	await db.user.update({
 		where: {
-			username: locals.user.name
+			id: locals.user.id
 		},
 		data: {
 			weights: {
@@ -57,7 +57,7 @@ const logCalories: Action = async ({ locals, request }) => {
 	// Create calorie target entry for current user
 	await db.user.update({
 		where: {
-			username: locals.user.name
+			id: locals.user.id
 		},
 		data: updateData
 	});
@@ -77,7 +77,7 @@ const logBodyFat: Action = async ({ locals, request }) => {
 	// Create bodyweight entry for current user
 	await db.user.update({
 		where: {
-			username: locals.user.name
+			id: locals.user.id
 		},
 		data: {
 			bodyfats: {
@@ -114,7 +114,7 @@ const newItem: Action = async ({ locals, request }) => {
 			proteinPer100: proteinPer100 ? parseFloat(proteinPer100 as string) : null,
 			user: {
 				connect: {
-					username: locals.user.name,
+					id: locals.user.id
 				},
 			},
 		}
@@ -190,7 +190,7 @@ const addEstimate: Action = async ({ locals, request }) => {
 			protein: parseInt(protein as string),
 			user: {
 				connect: {
-					username: locals.user.name,
+					id: locals.user.id
 				},
 			},
 		}
@@ -218,10 +218,9 @@ const deleteItem: Action = async ({ request }) => {
 		.remove([filename])
 }
 
-const finishPlanning: Action = async ({ request }) => {
+const finishPlanning: Action = async ({ locals, request }) => {
 	const formData = await request.formData()
 	const plannedItems = formData.get('plannedItems');
-	const username = formData.get('username')
 
 	if (plannedItems) {
 		const parsedPlannedItems = JSON.parse(plannedItems as string)
@@ -236,7 +235,7 @@ const finishPlanning: Action = async ({ request }) => {
 			where: {
 				foodItem: {
 					user: {
-						username: JSON.parse(username as string)
+						id: locals.user.id
 					}
 				},
 				createdAt: {
@@ -246,7 +245,7 @@ const finishPlanning: Action = async ({ request }) => {
 		})
 
 		await db.user.update({
-			where: { username: JSON.parse(username as string) },
+			where: { id: locals.user.id },
 			data: { lastPlannedOn: new Date() }
 		})
 
@@ -273,24 +272,22 @@ const eatItem: Action = async ({ request }) => {
 	}
 }
 
-const finishEating: Action = async ({ request }) => {
+const finishEating: Action = async ({ locals, request }) => {
 	const formData = await request.formData()
-	const username = formData.get('username');
 
 	const user = await db.user.update({
-		where: { username: JSON.parse(username as string) },
+		where: { id: locals.user.id },
 		data: { lastFinishedEatingOn: new Date() }
 	})
 }
 
-const harvestPoints: Action = async ({ request }) => {
+const harvestPoints: Action = async ({ locals, request }) => {
 	const formData = await request.formData()
-	const username = formData.get('username');
 	const points = formData.get('points');
 
 	// Update lastHarvestOn & pointBalance
 	const user = await db.user.update({
-		where: { username: JSON.parse(username as string) },
+		where: { id: locals.user.id },
 		data: {
 			lastHarvestOn: new Date(),
 			pointBalance: { increment: parseInt(points as string, 10) },
@@ -301,7 +298,7 @@ const harvestPoints: Action = async ({ request }) => {
 const finishReview: Action = async ({ locals }) => {
 	await db.user.update({
 		where: {
-			username: locals.user.name
+			id: locals.user.id
 		},
 		data: {
 			lastReviewOn: new Date()
@@ -310,23 +307,19 @@ const finishReview: Action = async ({ locals }) => {
 }
 
 
-const setUserTimeZoneOffset: Action = async ({ request }) => {
+const setUserTimeZoneOffset: Action = async ({ locals, request }) => {
 	const formData = await request.formData()
 	const timeZoneOffset = formData.get('timeZoneOffset');
-	const username = formData.get('username');
 
 	await db.user.update({
-		where: { username: JSON.parse(username as string) },
+		where: { id: locals.user.id },
 		data: { timeZoneOffset: JSON.parse(timeZoneOffset as string) }
 	})
 }
 
-const reset: Action = async ({ request }) => {
-	const formData = await request.formData()
-	const username = formData.get('username');
-
+const reset: Action = async ({ locals }) => {
 	const user = await db.user.update({
-		where: { username: JSON.parse(username as string) },
+		where: { id: locals.user.id },
 		data: {
 			lastPlannedOn: new Date("1970-01-01"),
 			lastFinishedEatingOn: new Date("1970-01-01"),

@@ -93,7 +93,6 @@
 			if (timeZoneOffset != $page.data.user.activeTimeZone) {
 				const formData = new FormData();
 				formData.append('timeZoneOffset', JSON.stringify(timeZoneOffset)); // Add the user's timezone to the FormData object
-				formData.append('username', JSON.stringify($page.data.user.name)); // Add the user's username to the FormData object
 
 				// Send a POST request to the server to update the user's timezone
 				fetch('?/setUserTimeZoneOffset', {
@@ -137,7 +136,6 @@
 
 	const reset = async () => {
 		const formData = new FormData();
-		formData.append('username', JSON.stringify($page.data.user.name));
 		const response = await fetch('?/reset', {
 			method: 'POST',
 			body: formData

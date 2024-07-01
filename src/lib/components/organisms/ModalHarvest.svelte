@@ -47,7 +47,6 @@
 		// - Mark the daily activity as done
 		// - Reset daily selection of food items
 		const formData = new FormData();
-		formData.append('username', JSON.stringify($page.data.user.name));
 		formData.append('points', totalPoints.toString()); // Convert number to string before appending
 		const response = await fetch('?/harvestPoints', {
 			method: 'POST',

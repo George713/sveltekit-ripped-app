@@ -26,7 +26,6 @@
 		// Submit planned items to server
 		const formData = new FormData();
 		formData.append('plannedItems', JSON.stringify([newPlannedItem]));
-		formData.append('username', JSON.stringify($page.data.user.name));
 		const response = await fetch('?/finishPlanning', {
 			method: 'POST',
 			body: formData
