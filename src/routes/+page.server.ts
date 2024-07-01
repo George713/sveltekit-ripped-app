@@ -88,8 +88,7 @@ const logBodyFat: Action = async ({ locals, request }) => {
 				bodyfats: {
 					create: [{ bodyfat }]
 				},
-				isMale,
-				initBF: true
+				isMale
 			}
 		});
 	} else {
