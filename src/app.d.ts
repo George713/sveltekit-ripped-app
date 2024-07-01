@@ -11,7 +11,6 @@ declare global {
 			getSession(): Promise<Session | null>
 			user: {
 				id: string,
-				name: string;
 				isMale: boolean;
 				timeZoneOffset: number;
 				pointBalance: number;

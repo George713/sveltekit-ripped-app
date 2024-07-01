@@ -1,3 +1,4 @@
+// hooks.server.ts
 import { type Handle } from '@sveltejs/kit'
 
 import type { Session } from '@supabase/supabase-js'
@@ -96,13 +97,12 @@ export const handle: Handle = async ({ event, resolve }) => {
 	const { data, error } = await event.locals.supabase.auth.getUser()
 
 	if (data.user) {
-		const user = await db.user.findUnique({
+		let user = await db.user.findUnique({
 			where: {
 				id: data.user.id
 			},
 			select: {
 				id: true,
-				username: true,
 				isMale: true,
 				timeZoneOffset: true,
 				pointBalance: true,
@@ -157,47 +157,107 @@ export const handle: Handle = async ({ event, resolve }) => {
 			}
 		});
 
-		if (user) {
-			const userWeight = await db.weight.findFirst({
-				where: {
-					userId: user.id
+		if (!user) {
+			user = await db.user.create({
+				data: {
+					id: data.user.id,
 				},
-				orderBy: {
-					createdAt: 'desc'
+				select: {
+					id: true,
+					isMale: true,
+					timeZoneOffset: true,
+					pointBalance: true,
+					// current calorie target
+					calorieTargets: {
+						orderBy: {
+							createdAt: 'desc'
+						},
+						select: {
+							calories: true
+						},
+						take: 0
+					},
+					// current bodyfat
+					bodyfats: {
+						orderBy: {
+							createdAt: 'desc'
+						},
+						select: {
+							bodyfat: true
+						},
+						take: 0
+					},
+					// weight measurements of the last 5 days
+					weights: {
+						where: {
+							createdAt: {
+								lte: getDateFromXDaysAgo(0),
+								gte: getDateFromXDaysAgo(5)
+							}
+						},
+						select: {
+							createdAt: true
+						},
+						orderBy: {
+							createdAt: 'desc' // or 'asc' depending on your requirement
+						}
+					},
+					// Recurring activity progress
+					lastPlannedOn: true,
+					lastFinishedEatingOn: true,
+					lastHarvestOn: true,
+					lastWeeklyPicOn: true,
+					lastReviewOn: true,
+					// Appointments
+					progressPicOn: true,
+					reviewOn: true,
+					// Progess Player Journey
+					initBF: true,
+					initPhoto: true,
+					initCalories: true
 				}
 			});
+		}
 
-			// User properties
-			event.locals.user = {
-				id: user.id,
-				name: user.username,
-				isMale: user.isMale,
-				timeZoneOffset: user.timeZoneOffset,
-				pointBalance: user.pointBalance,
-				streakMeter: user.weights.length,
-				currentCalorieTarget: user.calorieTargets.length > 0 ? user.calorieTargets[0].calories : 9999,
-				currentBF: user.bodyfats.length > 0 ? user.bodyfats[0].bodyfat : 999,
-				currentStatus: 'empty',
-				currentWeight: userWeight ? userWeight.weight : 999,
-				initBF: user.initBF,
-				initPhoto: user.initPhoto,
-				initCalories: user.initCalories,
-				progressPicToday: new Date().toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() === user.progressPicOn ? true : false,
-				reviewToday: new Date().toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() === user.reviewOn ? true : false
-			};
-			// Derived value for user
-			event.locals.user.currentStatus = getUserCurrentStatus(event.locals.user.currentBF)
-			// Daily Progress
-			const dateDayBegin = getDateDayBegin(user.timeZoneOffset)
-			event.locals.dailyProgress = {
-				weighIn: user.weights[0].createdAt > dateDayBegin,
-				targetProtein: Math.round(event.locals.user.currentWeight * 1.6),
-				planned: user.lastPlannedOn > dateDayBegin,
-				eaten: user.lastFinishedEatingOn > dateDayBegin,
-				harvest: user.lastHarvestOn > dateDayBegin,
-				weeklyPic: user.lastWeeklyPicOn > dateDayBegin,
-				weeklyReview: user.lastReviewOn > dateDayBegin,
-			};
+		const userWeight = await db.weight.findFirst({
+			where: {
+				userId: user.id
+			},
+			orderBy: {
+				createdAt: 'desc'
+			}
+		});
+
+		// User properties
+		event.locals.user = {
+			id: user.id,
+			isMale: user.isMale,
+			timeZoneOffset: user.timeZoneOffset,
+			pointBalance: user.pointBalance,
+			streakMeter: user.weights.length,
+			currentCalorieTarget: user.calorieTargets.length > 0 ? user.calorieTargets[0].calories : 9999,
+			currentBF: user.bodyfats.length > 0 ? user.bodyfats[0].bodyfat : 999,
+			currentStatus: 'empty',
+			currentWeight: userWeight ? userWeight.weight : 999,
+			initBF: user.initBF,
+			initPhoto: user.initPhoto,
+			initCalories: user.initCalories,
+			progressPicToday: new Date().toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() === user.progressPicOn ? true : false,
+			reviewToday: new Date().toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() === user.reviewOn ? true : false
+		};
+		// Derived value for user
+		event.locals.user.currentStatus = getUserCurrentStatus(event.locals.user.currentBF)
+		// Daily Progress
+		const dateDayBegin = getDateDayBegin(user.timeZoneOffset)
+		event.locals.dailyProgress = {
+			weighIn: user.weights[0] ? user.weights[0].createdAt > dateDayBegin : false, // condition required for when user is new
+			targetProtein: Math.round(event.locals.user.currentWeight * 1.6),
+			planned: user.lastPlannedOn > dateDayBegin,
+			eaten: user.lastFinishedEatingOn > dateDayBegin,
+			harvest: user.lastHarvestOn > dateDayBegin,
+			weeklyPic: user.lastWeeklyPicOn > dateDayBegin,
+			weeklyReview: user.lastReviewOn > dateDayBegin,
+
 		}
 	}
 

@@ -12,17 +12,8 @@ datasource db {
 }
 
 model User {
-  id            String  @id @default(uuid())
-  username      String  @unique
-  isMale        Boolean @default(true)
-  passwordHash  String
-  userAuthToken String  @unique
-
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  timeZoneOffset Int      @default(0)
-
-  pointBalance Int @default(0)
+  id     String  @id @default(uuid())
+  isMale Boolean @default(true)
 
   // Recurring activity progress
   lastPlannedOn        DateTime @default(dbgenerated("to_date('1970-01-01', 'YYYY-MM-DD')"))
@@ -36,9 +27,13 @@ model User {
   reviewOn      String @default("SUN")
 
   // Progress Player Journey
+  pointBalance Int     @default(0)
   initBF       Boolean @default(false)
   initPhoto    Boolean @default(false)
   initCalories Boolean @default(false)
+
+  // Auxiliary
+  timeZoneOffset Int @default(0)
 
   // RELATED TABLES 
   // ================================
