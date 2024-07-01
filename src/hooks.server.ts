@@ -103,6 +103,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			select: {
 				id: true,
 				username: true,
+				isMale: true,
 				timeZoneOffset: true,
 				pointBalance: true,
 				// current calorie target
@@ -170,6 +171,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			event.locals.user = {
 				id: user.id,
 				name: user.username,
+				isMale: user.isMale,
 				timeZoneOffset: user.timeZoneOffset,
 				pointBalance: user.pointBalance,
 				streakMeter: user.weights.length,

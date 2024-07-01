@@ -39,3 +39,31 @@ export const uploadToS3 = async (fileBlob: Blob, presignedURL: string) => {
         body: fileBlob
     });
 }
+
+export const getCurrentCrestLevel = (bodyfatPercentage: number, isMale: boolean) => {
+    if (isMale) {
+        if (bodyfatPercentage >= 20) {
+            return "wood";
+        } else if (bodyfatPercentage >= 15 && bodyfatPercentage < 20) {
+            return "bronze";
+        } else if (bodyfatPercentage >= 12 && bodyfatPercentage < 15) {
+            return "silver";
+        } else if (bodyfatPercentage >= 10 && bodyfatPercentage < 12) {
+            return "gold";
+        } else if (bodyfatPercentage < 10) {
+            return "platinum";
+        }
+    } else {
+        if (bodyfatPercentage >= 27) {
+            return "wood";
+        } else if (bodyfatPercentage >= 21 && bodyfatPercentage < 27) {
+            return "bronze";
+        } else if (bodyfatPercentage >= 17 && bodyfatPercentage < 21) {
+            return "silver";
+        } else if (bodyfatPercentage >= 14 && bodyfatPercentage < 17) {
+            return "gold";
+        } else if (bodyfatPercentage < 14) {
+            return "platinum";
+        }
+    }
+}

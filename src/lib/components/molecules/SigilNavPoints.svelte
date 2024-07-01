@@ -1,11 +1,16 @@
 <script lang="ts">
 	import { goto, invalidateAll } from '$app/navigation';
 	import { page } from '$app/stores';
+
 	import SigilBronze from '$atoms/SigilBronze.svelte';
 	import SigilGold from '$atoms/SigilGold.svelte';
 	import SigilWood from '$atoms/SigilWood.svelte';
 
+	import { getCurrentCrestLevel } from '$lib/utils';
+
 	export let data;
+
+	const level = getCurrentCrestLevel($page.data.user.currentBF, $page.data.user.isMale);
 </script>
 
 <div class="relative flex h-[calc(50vh)] w-full justify-center bg-slate-100 pt-3">
@@ -30,12 +35,15 @@
 		<span class="text-lg font-medium text-gray-500">{$page.data.user.pointBalance}</span>
 	</div>
 	<!-- Sigil -->
-	{#if $page.data.user.currentBF > 20}
+	{#if level === 'wood'}
 		<SigilWood />
-	{:else if 15 < $page.data.user.currentBF && $page.data.user.currentBF < 20}
+	{:else if level === 'bronze'}
 		<SigilBronze />
-	{:else if 10 < $page.data.user.currentBF && $page.data.user.currentBF < 12}
-		<!-- {:else if $page.data.user.currentBF > 20} -->
+	{:else if level === 'silver'}
+		<SigilBronze />
+	{:else if level === 'gold'}
+		<SigilGold />
+	{:else if level === 'platinum'}
 		<SigilGold />
 	{/if}
 </div>

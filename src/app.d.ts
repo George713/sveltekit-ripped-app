@@ -12,6 +12,7 @@ declare global {
 			user: {
 				id: string,
 				name: string;
+				isMale: boolean;
 				timeZoneOffset: number;
 				pointBalance: number;
 				streakMeter: number;
