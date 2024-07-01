@@ -2,30 +2,15 @@
 	import { page } from '$app/stores';
 	import { invalidateAll } from '$app/navigation';
 	import { eatenKcal, eatenProtein, visibleView } from '$lib/stores';
+	import { calculateBasePoints } from '$lib/utils';
+
+	const basePoints = calculateBasePoints($page.data.user.currentStatus);
 
 	$: reachedTargetKcal =
 		$page.data.user.currentCalorieTarget - 25 <= $eatenKcal &&
 		$eatenKcal <= $page.data.user.currentCalorieTarget + 25;
 
 	$: reachedTargetProtein = $eatenProtein >= $page.data.dailyProgress.targetProtein;
-
-	const calculateBasePoints = (currentStatus: string) => {
-		if (currentStatus === 'Wood') {
-			return 20;
-		} else if (currentStatus === 'Bronze') {
-			return 35;
-		} else if (currentStatus === 'Silver') {
-			return 60;
-		} else if (currentStatus === 'Gold') {
-			return 100;
-		} else if (currentStatus === 'Platinum') {
-			return 200;
-		} else {
-			return 0;
-		}
-	};
-
-	$: basePoints = calculateBasePoints($page.data.user.currentStatus);
 
 	$: points = {
 		calories: reachedTargetKcal ? basePoints : 0,
