@@ -2,15 +2,9 @@
 	import { goto, invalidateAll } from '$app/navigation';
 	import { page } from '$app/stores';
 
-	import SigilWood from '$atoms/sigils/SigilWood.svelte';
-	import SigilBronze from '$atoms/sigils/SigilBronze.svelte';
-	import SigilSilver from '$atoms/sigils/SigilSilver.svelte';
-	import SigilGold from '$atoms/sigils/SigilGold.svelte';
-	import SigilPlatinum from '$atoms/sigils/SigilPlatinum.svelte';
+	import Sigil from '$atoms/sigils/Sigil.svelte';
 
 	export let data;
-
-	const level = $page.data.user.currentStatus;
 </script>
 
 <div class="relative flex h-[calc(50vh)] w-full justify-center bg-slate-100 pt-3">
@@ -35,15 +29,5 @@
 		<span class="text-lg font-medium text-gray-500">{$page.data.user.pointBalance}</span>
 	</div>
 	<!-- Sigil -->
-	{#if level === 'wood'}
-		<SigilWood />
-	{:else if level === 'bronze'}
-		<SigilBronze />
-	{:else if level === 'silver'}
-		<SigilSilver />
-	{:else if level === 'gold'}
-		<SigilGold />
-	{:else if level === 'platinum'}
-		<SigilPlatinum />
-	{/if}
+	<Sigil />
 </div>
