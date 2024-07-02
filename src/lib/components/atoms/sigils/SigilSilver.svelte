@@ -7,7 +7,7 @@
 	<img
 		class="drop-shadow-lg blur-[0.3px] brightness-95 mt-10"
 		width={300}
-		src="/sigils/bronze.webp"
+		src="/sigils/silver.webp"
 		alt="Sigil Crest"
 	/>
 </SigilWrapper>

@@ -5,9 +5,9 @@
 <!-- Sigil Symbol -->
 <SigilWrapper>
 	<img
-		class="drop-shadow-lg blur-[0.3px] brightness-95"
-		width={300}
-		src="/SigilWood.png"
+		class="drop-shadow-lg blur-[0.3px] brightness-95 mt-5"
+		width={350}
+		src="/sigils/wood.webp"
 		alt="Sigil Crest"
 	/>
 </SigilWrapper>

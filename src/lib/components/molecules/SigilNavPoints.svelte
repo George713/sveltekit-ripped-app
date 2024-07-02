@@ -2,9 +2,11 @@
 	import { goto, invalidateAll } from '$app/navigation';
 	import { page } from '$app/stores';
 
-	import SigilBronze from '$atoms/sigils/SigilBronze.svelte';
-	import SigilGold from '$atoms/sigils/SigilGold.svelte';
 	import SigilWood from '$atoms/sigils/SigilWood.svelte';
+	import SigilBronze from '$atoms/sigils/SigilBronze.svelte';
+	import SigilSilver from '$atoms/sigils/SigilSilver.svelte';
+	import SigilGold from '$atoms/sigils/SigilGold.svelte';
+	import SigilPlatinum from '$atoms/sigils/SigilPlatinum.svelte';
 
 	export let data;
 
@@ -38,10 +40,10 @@
 	{:else if level === 'bronze'}
 		<SigilBronze />
 	{:else if level === 'silver'}
-		<SigilBronze />
+		<SigilSilver />
 	{:else if level === 'gold'}
 		<SigilGold />
 	{:else if level === 'platinum'}
-		<SigilGold />
+		<SigilPlatinum />
 	{/if}
 </div>
