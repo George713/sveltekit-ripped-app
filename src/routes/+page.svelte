@@ -36,7 +36,7 @@
 	import PowerUps from '$atoms/PowerUps.svelte';
 	import ProgessBars from '$atoms/ProgessBars.svelte';
 	import ProgressPicButton from '$atoms/ProgressPicButton.svelte';
-	import SigilEmpty from '$atoms/SigilEmpty.svelte';
+	import SigilEmpty from '$atoms/sigils/SigilEmpty.svelte';
 	import TargetTracker from '$atoms/TargetTracker.svelte';
 	// Molecules
 	import DailyActionBtns from '$molecules/DailyActionBtns.svelte';

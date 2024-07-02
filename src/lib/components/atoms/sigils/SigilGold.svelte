@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SigilWrapper from '$atoms/SigilWrapper.svelte';
+	import SigilWrapper from '$atoms/sigils/SigilWrapper.svelte';
 </script>
 
 <!-- Sigil Symbol -->

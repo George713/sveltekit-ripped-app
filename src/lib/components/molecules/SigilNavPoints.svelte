@@ -2,9 +2,9 @@
 	import { goto, invalidateAll } from '$app/navigation';
 	import { page } from '$app/stores';
 
-	import SigilBronze from '$atoms/SigilBronze.svelte';
-	import SigilGold from '$atoms/SigilGold.svelte';
-	import SigilWood from '$atoms/SigilWood.svelte';
+	import SigilBronze from '$atoms/sigils/SigilBronze.svelte';
+	import SigilGold from '$atoms/sigils/SigilGold.svelte';
+	import SigilWood from '$atoms/sigils/SigilWood.svelte';
 
 	export let data;
 
