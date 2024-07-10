@@ -50,9 +50,9 @@
 		});
 	};
 
-	// Controls for finishing of planning
+	// Controls for finishing planning process
 	let showOverlay = false;
-	let msg: string;
+	let msg = '';
 	const toggleOverlay = () => {
 		if ($plannedItems.length === 0) {
 			msg = "You haven't selected any items for today.";
@@ -62,12 +62,13 @@
 			msg = `You have not reached your calorie target for today. Try to select in the range of +-25 kcal of your target (${$page.data.user.currentCalorieTarget} kcal).`;
 		}
 
-		showOverlay = !showOverlay;
+		showOverlay = msg !== ''; // if a prior msg has been set, show overlay
 	};
 
 	const finishPlanning = async () => {
 		// Hide overlay
-		toggleOverlay();
+		showOverlay = false;
+
 		// Show spinner
 		$showSpinner = true;
 
@@ -89,7 +90,7 @@
 		visibleView.update('none');
 
 		// Reload page data (so plan button is disabled)
-		invalidateAll();
+		await invalidateAll();
 
 		// Hide spinner
 		$showSpinner = false;
