@@ -52,8 +52,9 @@
 
 	// Controls for finishing planning process
 	let showOverlay = false;
-	let msg = '';
+	let msg: string;
 	const toggleOverlay = () => {
+		msg = '';
 		if ($plannedItems.length === 0) {
 			msg = "You haven't selected any items for today.";
 		} else if ($plannedKcal > $page.data.user.currentCalorieTarget + 25) {
@@ -62,7 +63,11 @@
 			msg = `You have not reached your calorie target for today. Try to select in the range of +-25 kcal of your target (${$page.data.user.currentCalorieTarget} kcal).`;
 		}
 
-		showOverlay = msg !== ''; // if a prior msg has been set, show overlay
+		if (msg == '') {
+			finishPlanning();
+		} else {
+			showOverlay = !showOverlay; // !-syntax required as toggle also exits overlay
+		}
 	};
 
 	const finishPlanning = async () => {
@@ -86,11 +91,11 @@
 			plannedItems.set(result.data.createdPlannedItems as PlannedItem[]);
 		}
 
-		// Return to main view
-		visibleView.update('none');
-
 		// Reload page data (so plan button is disabled)
 		await invalidateAll();
+
+		// Return to main view
+		visibleView.update('none');
 
 		// Hide spinner
 		$showSpinner = false;
