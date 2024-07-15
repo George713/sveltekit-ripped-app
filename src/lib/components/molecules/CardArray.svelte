@@ -76,7 +76,7 @@
 
 <!-- h-1 prevents the container from overflowing -->
 <div
-	class="flex flex-wrap justify-center gap-1 m-1 h-1 grow overflow-y-auto scrollbar-hide content-start"
+	class="scrollbar-hide m-1 flex h-1 grow flex-wrap content-start justify-center gap-1 overflow-y-auto"
 >
 	{#if items.includes('food')}
 		{#each $foodLibrary as { id, itemName, kcal, protein, unitIsPtn, unitAmount }}
