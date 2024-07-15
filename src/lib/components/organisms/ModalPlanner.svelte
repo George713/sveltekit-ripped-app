@@ -2,8 +2,10 @@
 	import { page } from '$app/stores';
 	import { deserialize } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
+
 	import type { PlannedItem } from '$lib/types';
 	import { foodLibrary, plannedItems, plannedKcal, showSpinner, visibleView } from '$lib/stores';
+
 	import ItemCard from '$atoms/ItemCard.svelte';
 	import TargetTracker from '$atoms/TargetTracker.svelte';
 	import FinishPlanning from '$overlays/FinishPlanning.svelte';
@@ -198,9 +200,7 @@
 						{protein}
 						{unitIsPtn}
 						{unitAmount}
-						updateItem={deleteItem}
 						plusButton={() => addToPlanningProcess(id, unitIsPtn, unitAmount)}
-						{removeFromPlannedItems}
 					/>
 				{/each}
 			</div>
