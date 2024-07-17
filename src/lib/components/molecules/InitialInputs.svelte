@@ -1,37 +1,29 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { visibleOverlay, visibleView } from '$lib/stores';
+	import { visibleView } from '$lib/stores';
 
-	export let uploadToS3: (e: any, isInitPic: Boolean) => void;
-	export let fileinput: any;
+	import ActionButton from '$atoms/ActionButton.svelte';
+	import BodyfatButton from '$atoms/BodyfatButton.svelte';
+	import ProgressPicButton from '$atoms/ProgressPicButton.svelte';
 </script>
 
 <div class="flex justify-center">
 	<!-- Target calorie input -->
-	<button
-		on:click={() => {
+	<ActionButton
+		text="Calories"
+		onclick={() => {
 			visibleView.update('calories');
 		}}
 		disabled={$page.data.user.initCalories}
-		class="m-1 bg-gray-300 px-2 py-1 disabled:bg-slate-600">Calories</button
-	>
-	<!-- Photo input -->
-	<input
-		type="file"
-		bind:this={fileinput}
-		style="display:none"
-		accept=".jpg, .jpeg, .png"
-		on:change={(e) => uploadToS3(e, true)}
+		width={24}
 	/>
-	<button
-		on:click={() => fileinput.click()}
+	<!-- Photo input -->
+	<ProgressPicButton
+		text="Photo"
 		disabled={$page.data.user.initPhoto}
-		class="m-1 bg-gray-300 px-2 py-1 disabled:bg-slate-600">Photo</button
-	>
+		width={20}
+		isInitPic="true"
+	/>
 	<!-- BodyFat input -->
-	<button
-		on:click={() => visibleOverlay.set('bodyFat')}
-		disabled={$page.data.user.initBF}
-		class="m-1 bg-gray-300 px-2 py-1 disabled:bg-slate-600">BF%</button
-	>
+	<BodyfatButton disabled={$page.data.user.initBF} />
 </div>

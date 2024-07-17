@@ -1,10 +1,14 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
-	import { page } from '$app/stores';
 	import { showSpinner } from '$lib/stores';
 	import { uploadToS3 } from '$lib/utils';
 
 	import ActionButton from './ActionButton.svelte';
+
+	export let disabled = false;
+	export let text = '';
+	export let width = 14;
+	export let isInitPic = 'false';
 
 	let inputElement: HTMLInputElement;
 	const maxWidth = 1080; // max. width of image taken
@@ -15,10 +19,14 @@
 			// Show spinner
 			$showSpinner = true;
 
+			// Determine initPic status
+			const formData = new FormData();
+			formData.append('isInitPic', isInitPic);
+
 			// Get presigned URL
 			const response = await fetch('/api/getPresignedURL', {
 				method: 'POST',
-				body: new FormData()
+				body: formData
 			});
 			const presignedURL = (await response.json()).url;
 
@@ -69,7 +77,7 @@
 	};
 </script>
 
-<ActionButton text="P" disabled={$page.data.dailyProgress.weeklyPic} />
+<ActionButton {text} {disabled} {width} />
 
 <input
 	bind:this={inputElement}

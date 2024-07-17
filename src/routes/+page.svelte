@@ -73,7 +73,6 @@
 		estimatesLog.set(data.eatEstimates);
 	}
 
-	let fileinput: any;
 	let audioWeighIn: any;
 
 	/**
@@ -107,34 +106,6 @@
 		}
 	});
 
-	const uploadToS3 = async (e: any, isInitPic: Boolean = false) => {
-		// Get picture
-		const picture = e.target.files[0];
-
-		// catch if no image is in formData
-		if (picture.name == '') {
-			return null;
-		}
-
-		// Get presigned URL
-		const formData = new FormData();
-		formData.append('isInitPic', JSON.stringify(isInitPic));
-		const response = await fetch('/api/getPresignedURL', {
-			method: 'POST',
-			body: formData
-		});
-		const presignedURL = (await response.json()).url;
-
-		// Upload image
-		await fetch(presignedURL, {
-			method: 'PUT',
-			body: picture
-		});
-
-		// Reload page data (so photo button is disabled)
-		invalidateAll();
-	};
-
 	const reset = async () => {
 		const formData = new FormData();
 		const response = await fetch('?/reset', {
@@ -164,8 +135,7 @@
 		<!-- Empty Sigil  -->
 		<SigilEmpty />
 		<!-- Desired Action Buttons for Initial Inputs -->
-		<InitialInputs {uploadToS3} {fileinput} />
-
+		<InitialInputs />
 		<!-- SCAFFOLDING -->
 	{:else}
 		<!-- Sigil with Navigation elements and points -->
@@ -193,7 +163,7 @@
 				<!-- Progess Picture Button -->
 				{#if $page.data.user.progressPicToday}
 					<div class="absolute mb-60 ml-[-4px]">
-						<ProgressPicButton />
+						<ProgressPicButton text="P" disabled={$page.data.dailyProgress.weeklyPic} />
 					</div>
 				{/if}
 				<!-- Bodyfat Update Button -->
