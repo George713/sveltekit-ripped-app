@@ -31,19 +31,8 @@
 		visibleOverlay
 	} from '$lib/stores';
 	import type { FoodItem, PlannedItem, EatEstimate } from '$lib/types';
-	// Atoms
-	import HarvestButton from '$atoms/HarvestButton.svelte';
-	import PowerUps from '$atoms/PowerUps.svelte';
-	import ProgessBars from '$atoms/ProgessBars.svelte';
-	import BodyfatButton from '$atoms/BodyfatButton.svelte';
-	import ProgressPicButton from '$atoms/ProgressPicButton.svelte';
-	import SigilEmpty from '$atoms/sigils/SigilEmpty.svelte';
-	import TargetTracker from '$atoms/TargetTracker.svelte';
 	// Molecules
-	import DailyActionBtns from '$molecules/DailyActionBtns.svelte';
-	import InitialInputs from '$molecules/InitialInputs.svelte';
 	import ModalCalories from '$molecules/ModalCalories.svelte';
-	import SigilNavPoints from '$molecules/SigilNavPoints.svelte';
 	// Organisms
 	import FoodLibrary from '$organisms/FoodLibrary.svelte';
 	import ModalEatingLog from '$organisms/ModalEatingLog.svelte';
@@ -57,6 +46,7 @@
 	import SpinnerOverlay from '$overlays/Spinner.svelte';
 	import EnterWeightOverlay from '$overlays/EnterWeight.svelte';
 	import EnterBodyfatOverlay from '$overlays/EnterBodyfat.svelte';
+	import MainView from '$organisms/MainView.svelte';
 
 	export let data: {
 		foodItems: FoodItem[];
@@ -74,6 +64,14 @@
 	}
 
 	let audioWeighIn: any;
+
+	// EventHandler for playing sounds
+	const handlePlaySound = (event: CustomEvent) => {
+		switch (event.detail.text) {
+			case 'weighIn':
+				audioWeighIn.play();
+		}
+	};
 
 	/**
 	 * This block of code is executed when the component is first rendered, i.e. after the server-side load function.
@@ -105,79 +103,10 @@
 			}
 		}
 	});
-
-	const reset = async () => {
-		const formData = new FormData();
-		const response = await fetch('?/reset', {
-			method: 'POST',
-			body: formData
-		});
-
-		// Clear plannedItem store
-		plannedItems.set([]);
-
-		// Reload page data (so plan button is enabled again)
-		invalidateAll();
-	};
-
-	// EventHandler for playing sounds
-	const handlePlaySound = (event: CustomEvent) => {
-		switch (event.detail.text) {
-			case 'weighIn':
-				audioWeighIn.play();
-		}
-	};
 </script>
 
 {#if $page.data.user}
-	<!-- ONBOARDING -->
-	{#if !$page.data.user.initCalories || !$page.data.user.initPhoto || !$page.data.user.initBF}
-		<!-- Empty Sigil  -->
-		<SigilEmpty />
-		<!-- Desired Action Buttons for Initial Inputs -->
-		<InitialInputs />
-		<!-- SCAFFOLDING -->
-	{:else}
-		<!-- Sigil with Navigation elements and points -->
-		<SigilNavPoints {data} />
-		<!-- PowerUps, Bars, Tracker, Harvest Button, Progress Picture Button -->
-		<div class="flex h-[calc(25vh)] w-full bg-green-500">
-			<!-- PowerUps, Bars, Tracker -->
-			<div class="flex h-full w-[calc(66%)] flex-col bg-slate-100">
-				<!-- PowerUps -->
-				<div class="flex h-[calc(30%)] w-full items-end justify-end pb-2 pr-2">
-					<PowerUps />
-				</div>
-				<!-- Bars -->
-				<div class=" w-full pl-9">
-					<ProgessBars />
-				</div>
-				<!-- Tracker -->
-				<div class="flex-grow pl-3">
-					<TargetTracker large={true} />
-				</div>
-			</div>
-			<!-- Harvest Button -->
-			<div class="flex h-full flex-grow items-center bg-slate-100 px-4">
-				<HarvestButton />
-				<!-- Progess Picture Button -->
-				{#if $page.data.user.progressPicToday}
-					<div class="absolute mb-60 ml-[-4px]">
-						<ProgressPicButton text="P" disabled={$page.data.dailyProgress.weeklyPic} />
-					</div>
-				{/if}
-				<!-- Bodyfat Update Button -->
-				{#if $page.data.user.enterBodyfatToday}
-					<div class="absolute mb-64 ml-[-80px]">
-						<BodyfatButton />
-					</div>
-				{/if}
-			</div>
-		</div>
-
-		<!-- Weigh, Plan, Finish, Reset Buttons -->
-		<DailyActionBtns {reset} />
-	{/if}
+	<MainView {data} />
 
 	{#if $visibleOverlay == 'weight'}
 		<EnterWeightOverlay on:playSound={handlePlaySound} />
