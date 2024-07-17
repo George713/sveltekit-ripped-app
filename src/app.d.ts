@@ -24,6 +24,7 @@ declare global {
 				initCalories: boolean;
 				progressPicToday: boolean;
 				reviewToday: boolean;
+				enterBodyfatToday: boolean;
 			};
 			dailyProgress: {
 				weighIn: boolean;

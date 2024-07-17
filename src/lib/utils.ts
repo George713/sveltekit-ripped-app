@@ -23,7 +23,24 @@ export const getDateDayBegin = (timeZoneOffset: number) => {
     else {
         return new Date(yesterday.setUTCHours(beginningHour, 0, 0, 0))
     }
+}
 
+/**
+ * Determines whether the date of a given action is older than x days
+ * while considering the day begin of the date the action was performed.
+ */
+export const actionIsOlderThanXdays = (timeZoneOffset: number, date: Date, xDays: number) => {
+    const beginningHour = (3 - timeZoneOffset + 24) % 24 // Add 24 so that expression in front of modulo is always positive
+    const now = new Date()
+    const priorDay = new Date(date.getTime() - (24 * 60 * 60 * 1000))
+    let actionDateDayBeginning
+    if (now.getUTCHours() >= beginningHour) {
+        actionDateDayBeginning = new Date(date.setUTCHours(beginningHour, 0, 0, 0))
+    }
+    else {
+        actionDateDayBeginning = new Date(priorDay.setUTCHours(beginningHour, 0, 0, 0))
+    }
+    return actionDateDayBeginning <= new Date(now.setUTCHours(beginningHour, 0, 0, 0) - (xDays * 24 * 60 * 60 * 1000))
 }
 
 export const isMobile = () => {

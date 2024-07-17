@@ -35,6 +35,7 @@
 	import HarvestButton from '$atoms/HarvestButton.svelte';
 	import PowerUps from '$atoms/PowerUps.svelte';
 	import ProgessBars from '$atoms/ProgessBars.svelte';
+	import BodyfatButton from '$atoms/BodyfatButton.svelte';
 	import ProgressPicButton from '$atoms/ProgressPicButton.svelte';
 	import SigilEmpty from '$atoms/sigils/SigilEmpty.svelte';
 	import TargetTracker from '$atoms/TargetTracker.svelte';
@@ -189,9 +190,16 @@
 			<!-- Harvest Button -->
 			<div class="flex h-full flex-grow items-center bg-slate-100 px-4">
 				<HarvestButton />
+				<!-- Progess Picture Button -->
 				{#if $page.data.user.progressPicToday}
 					<div class="absolute mb-60 ml-[-4px]">
 						<ProgressPicButton />
+					</div>
+				{/if}
+				<!-- Bodyfat Update Button -->
+				{#if $page.data.user.enterBodyfatToday}
+					<div class="absolute mb-64 ml-[-80px]">
+						<BodyfatButton />
 					</div>
 				{/if}
 			</div>

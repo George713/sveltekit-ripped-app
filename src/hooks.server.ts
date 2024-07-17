@@ -5,7 +5,7 @@ import type { Session } from '@supabase/supabase-js'
 import { createServerClient } from '@supabase/ssr'
 import jwt from 'jsonwebtoken'
 import { prisma } from '$lib/prismaClient.server'
-import { getDateDayBegin, getCurrentCrestLevel } from '$lib/utils'
+import { getDateDayBegin, getCurrentCrestLevel, actionIsOlderThanXdays } from '$lib/utils'
 
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
 import { JWT_SECRET } from '$env/static/private';
@@ -122,7 +122,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 						createdAt: 'desc'
 					},
 					select: {
-						bodyfat: true
+						bodyfat: true,
+						createdAt: true
 					},
 					take: 1
 				},
@@ -207,7 +208,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 			initPhoto: user.initPhoto,
 			initCalories: user.calorieTargets.length > 0, // whether init calorie target was entered
 			progressPicToday: new Date().toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() === user.progressPicOn ? true : false,
-			reviewToday: new Date().toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() === user.reviewOn ? true : false
+			reviewToday: new Date().toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() === user.reviewOn ? true : false,
+			enterBodyfatToday: user.bodyfats.length > 0 ? actionIsOlderThanXdays(user.timeZoneOffset, user.bodyfats[0].createdAt, 28) : false,
 		};
 		// Derived value for user
 		event.locals.user.currentStatus = getCurrentCrestLevel(event.locals.user.currentBF, user.isMale)
@@ -221,7 +223,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 			harvest: user.lastHarvestOn > dateDayBegin,
 			weeklyPic: user.lastWeeklyPicOn > dateDayBegin,
 			weeklyReview: user.lastReviewOn > dateDayBegin,
-
 		}
 	}
 
