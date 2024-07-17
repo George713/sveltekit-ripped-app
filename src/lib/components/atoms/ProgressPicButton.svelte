@@ -4,6 +4,8 @@
 	import { showSpinner } from '$lib/stores';
 	import { uploadToS3 } from '$lib/utils';
 
+	import ActionButton from './ActionButton.svelte';
+
 	let inputElement: HTMLInputElement;
 	const maxWidth = 1080; // max. width of image taken
 
@@ -67,13 +69,7 @@
 	};
 </script>
 
-<button
-	class="mx-4 h-14 w-14 rounded border border-gray-400/10 bg-gray-300 text-[20px] font-bold text-neutral-600 shadow disabled:bg-gray-200 disabled:text-neutral-400"
-	on:click={() => inputElement.click()}
-	disabled={$page.data.dailyProgress.weeklyPic}
->
-	P
-</button>
+<ActionButton text="P" disabled={$page.data.dailyProgress.weeklyPic} />
 
 <input
 	bind:this={inputElement}
