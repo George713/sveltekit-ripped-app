@@ -129,18 +129,14 @@ export const handle: Handle = async ({ event, resolve }) => {
 				},
 				// weight measurements of the last 5 days
 				weights: {
-					where: {
-						createdAt: {
-							lte: getDateFromXDaysAgo(0),
-							gte: getDateFromXDaysAgo(5)
-						}
-					},
-					select: {
-						createdAt: true
-					},
 					orderBy: {
 						createdAt: 'desc' // or 'asc' depending on your requirement
-					}
+					},
+					select: {
+						weight: true,
+						createdAt: true
+					},
+					take: 5
 				},
 				// Recurring activity progress
 				lastPlannedOn: true,
@@ -184,14 +180,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 			});
 		}
 
-		const userWeight = await prisma.weight.findFirst({
-			where: {
-				userId: user.id
-			},
-			orderBy: {
-				createdAt: 'desc'
-			}
-		});
+		// Filter out old weight information
+		user.weights = user.weights.filter(weight => weight.createdAt >= getDateDayBegin(user.timeZoneOffset, 4));
 
 		// User properties
 		event.locals.user = {
@@ -203,7 +193,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			currentCalorieTarget: user.calorieTargets.length > 0 ? user.calorieTargets[0].calories : 9999,
 			currentBF: user.bodyfats.length > 0 ? user.bodyfats[0].bodyfat : 999,
 			currentStatus: 'empty',
-			currentWeight: userWeight ? userWeight.weight : 999,
+			currentWeight: user.weights.length > 0 ? user.weights[0].weight : 999, // userWeight ? userWeight.weight : 999,
 			initBF: user.bodyfats.length > 0, // whether init body fat measurement was taken
 			initPhoto: user.initPhoto,
 			initCalories: user.calorieTargets.length > 0, // whether init calorie target was entered
@@ -235,10 +225,4 @@ export const handle: Handle = async ({ event, resolve }) => {
 			return name === 'content-range' || name === 'x-supabase-api-version'
 		},
 	})
-};
-
-const getDateFromXDaysAgo = (days: number) => {
-	let date = new Date();
-	date.setDate(date.getDate() - days);
-	return date;
 };

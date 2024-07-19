@@ -9,19 +9,19 @@ export const focusElement = (el: HTMLInputElement) => {
 };
 
 /**
- * Calculates the datetime of the logical beginning of the current day.
+ * Calculates the datetime of the logical beginning of the current day or from x days ago.
  * Reminder: HYC's days run from 3am to 3am in the user's local timezone.
  */
-export const getDateDayBegin = (timeZoneOffset: number) => {
+export const getDateDayBegin = (timeZoneOffset: number, xDays: number = 0) => {
     const beginningHour = (3 - timeZoneOffset + 24) % 24 // Add 24 so that expression in front of modulo is always positive
     const now = new Date()
     const yesterday = new Date(now.getTime() - (24 * 60 * 60 * 1000)) // getTime() is in units of milliseconds
     // If the utc hour is before the logical beginning hour, use yesterday's date
     if (now.getUTCHours() >= beginningHour) {
-        return new Date(now.setUTCHours(beginningHour, 0, 0, 0))
+        return new Date(now.setUTCHours(beginningHour, 0, 0, 0) - (xDays * 24 * 60 * 60 * 1000))
     }
     else {
-        return new Date(yesterday.setUTCHours(beginningHour, 0, 0, 0))
+        return new Date(yesterday.setUTCHours(beginningHour, 0, 0, 0) - (xDays * 24 * 60 * 60 * 1000))
     }
 }
 
