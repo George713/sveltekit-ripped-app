@@ -34,6 +34,7 @@
 	// Molecules
 	import ModalCalories from '$molecules/ModalCalories.svelte';
 	// Organisms
+	import MainView from '$organisms/MainView.svelte';
 	import FoodLibrary from '$organisms/FoodLibrary.svelte';
 	import ModalEatingLog from '$organisms/ModalEatingLog.svelte';
 	import ModalHarvest from '$organisms/ModalHarvest.svelte';
@@ -46,7 +47,7 @@
 	import SpinnerOverlay from '$overlays/Spinner.svelte';
 	import EnterWeightOverlay from '$overlays/EnterWeight.svelte';
 	import EnterBodyfatOverlay from '$overlays/EnterBodyfat.svelte';
-	import MainView from '$organisms/MainView.svelte';
+	import Calendar from '$overlays/Calendar.svelte';
 
 	export let data: {
 		foodItems: FoodItem[];
@@ -112,6 +113,8 @@
 		<EnterWeightOverlay on:playSound={handlePlaySound} />
 	{:else if $visibleOverlay == 'bodyFat'}
 		<EnterBodyfatOverlay askGender={!$page.data.user.initBF} />
+	{:else if $visibleOverlay == 'calendar'}
+		<Calendar />
 	{:else if $visibleView.current == 'calories'}
 		<ModalCalories />
 	{:else if $visibleView.current == 'planner'}
