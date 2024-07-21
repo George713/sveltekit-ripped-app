@@ -77,7 +77,7 @@
 	};
 </script>
 
-<ActionButton {text} {disabled} {width} />
+<ActionButton {text} onclick={() => inputElement.click()} {disabled} {width} />
 
 <input
 	bind:this={inputElement}
