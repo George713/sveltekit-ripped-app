@@ -107,7 +107,7 @@
 </script>
 
 {#if $page.data.user}
-	<MainView {data} />
+	<MainView />
 
 	{#if $visibleOverlay == 'weight'}
 		<EnterWeightOverlay on:playSound={handlePlaySound} />

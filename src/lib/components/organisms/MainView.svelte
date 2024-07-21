@@ -17,8 +17,6 @@
 	import InitialInputs from '$molecules/InitialInputs.svelte';
 	import SigilNavPoints from '$molecules/SigilNavPoints.svelte';
 
-	export let data;
-
 	const reset = async () => {
 		const formData = new FormData();
 		const response = await fetch('?/reset', {
