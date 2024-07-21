@@ -8,7 +8,7 @@
 </script>
 
 <button
-	class={weeklyReviewOutstanding ? 'absolute animate-pulse' : 'absolute' + ' mt-10'}
+	class={(weeklyReviewOutstanding ? 'absolute animate-pulse' : 'absolute') + ' mt-8'}
 	on:click={() => visibleView.update('review')}
 >
 	<img
