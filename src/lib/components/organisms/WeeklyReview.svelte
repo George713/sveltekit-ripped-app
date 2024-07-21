@@ -9,6 +9,7 @@
 	import ReviewInfoBoxes from '$molecules/ReviewInfoBoxes.svelte';
 	import AdjustCalories from '$overlays/AdjustCalories.svelte';
 	import ReviewUpcoming from '$atoms/ReviewUpcoming.svelte';
+	import GraphWeight2 from '$atoms/GraphWeight2.svelte';
 
 	$: weightDiff = $weightTrend.slice(-1)[0] - $weightTrend.slice(-7)[0];
 </script>
@@ -23,7 +24,7 @@
 	<div class="flex flex-col">
 		<!-- Heading -->
 		<div class="my-3 text-center text-lg font-bold text-stone-600">Weekly Review</div>
-		<GraphWeight />
+		<GraphWeight2 />
 		<ReviewInfoBoxes />
 		{#if !$page.data.user.reviewToday || $page.data.locals?.weeklyReview}
 			<ReviewUpcoming />
