@@ -2,6 +2,7 @@
 // for information about these interfaces
 
 import { SupabaseClient, Session } from '@supabase/supabase-js'
+import type { ScheduledEvent } from '$lib/types';
 
 declare global {
 	namespace App {
@@ -34,6 +35,11 @@ declare global {
 				harvest: boolean;
 				weeklyPic: boolean;
 				weeklyReview: boolean;
+			};
+			schedule: {
+				nextProgressPic: ScheduledEvent;
+				nextReview: ScheduledEvent;
+				nextBodyfatMeasurement: ScheduledEvent;
 			};
 		}
 		// interface PageData {}

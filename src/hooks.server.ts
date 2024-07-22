@@ -4,8 +4,14 @@ import { type Handle } from '@sveltejs/kit'
 import type { Session } from '@supabase/supabase-js'
 import { createServerClient } from '@supabase/ssr'
 import jwt from 'jsonwebtoken'
+
 import { prisma } from '$lib/prismaClient.server'
-import { getDateDayBegin, getCurrentCrestLevel, actionIsOlderThanXdays } from '$lib/utils'
+import {
+	getDateDayBegin,
+	getCurrentCrestLevel,
+	actionIsOlderThanXdays,
+	getScheduledEvent,
+} from '$lib/utils'
 
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
 import { JWT_SECRET } from '$env/static/private';
@@ -213,6 +219,12 @@ export const handle: Handle = async ({ event, resolve }) => {
 			harvest: user.lastHarvestOn > dateDayBegin,
 			weeklyPic: user.lastWeeklyPicOn > dateDayBegin,
 			weeklyReview: user.lastReviewOn > dateDayBegin,
+		}
+		// Upcoming Events
+		event.locals.schedule = {
+			nextProgressPic: getScheduledEvent('weekly', 'Progress Picture', user.timeZoneOffset, user.lastWeeklyPicOn, user.progressPicOn),
+			nextReview: getScheduledEvent('weekly', 'Weekly Review', user.timeZoneOffset, user.lastReviewOn, user.reviewOn),
+			nextBodyfatMeasurement: getScheduledEvent('fourWeekly', 'Bodyfat Measurement', user.timeZoneOffset, user.bodyfats.length > 0 ? user.bodyfats[0].createdAt : undefined),
 		}
 	}
 

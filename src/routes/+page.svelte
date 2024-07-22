@@ -114,7 +114,7 @@
 	{:else if $visibleOverlay == 'bodyFat'}
 		<EnterBodyfatOverlay askGender={!$page.data.user.initBF} />
 	{:else if $visibleOverlay == 'calendar'}
-		<Calendar />
+		<Calendar schedule={$page.data.schedule} />
 	{:else if $visibleView.current == 'calories'}
 		<ModalCalories />
 	{:else if $visibleView.current == 'planner'}

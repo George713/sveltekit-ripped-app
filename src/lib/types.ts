@@ -39,6 +39,12 @@ export interface UpdateDataCalories {
     lastReviewOn?: Date;
 }
 
+export interface ScheduledEvent {
+    date: Date;
+    name: string;
+    remainingDays: number;
+}
+
 export type SupabaseJwt = {
     aal: string;
     aud: string;

@@ -1,3 +1,5 @@
+import type { ScheduledEvent } from "./types";
+
 export const selectInput = (event: Event) => {
     const element = event.target as HTMLInputElement;
     element.select()
@@ -22,6 +24,17 @@ export const getDateDayBegin = (timeZoneOffset: number, xDays: number = 0) => {
     }
     else {
         return new Date(yesterday.setUTCHours(beginningHour, 0, 0, 0) - (xDays * 24 * 60 * 60 * 1000))
+    }
+}
+
+export const getDateBeginning = (timeZoneOffset: number, date: Date): Date => {
+    const beginningHour = (3 - timeZoneOffset + 24) % 24 // Add 24 so that expression in front of modulo is always positive
+    const now = new Date()
+    if (now.getUTCHours() >= beginningHour) {
+        return new Date(date.setUTCHours(beginningHour, 0, 0, 0))
+    }
+    else {
+        return new Date(date.setUTCHours(beginningHour, 0, 0, 0) - (24 * 60 * 60 * 1000))
     }
 }
 
@@ -101,3 +114,46 @@ export const calculateBasePoints = (currentStatus: string) => {
         return 0;
     }
 };
+
+export const getScheduledEvent = (
+    type: string,
+    name: string,
+    timeZoneOffset: number,
+    lastDate: Date | undefined,
+    fixedWeekDay: string | undefined = undefined
+): ScheduledEvent => {
+
+    const today = getDateDayBegin(timeZoneOffset)
+    let nextDate: Date
+
+    if (!lastDate) {
+        nextDate = today
+    } else {
+        // Initialize loop with last date
+        nextDate = getDateBeginning(timeZoneOffset, lastDate)
+
+        // Add periods until new date is in the future
+        while (nextDate < today) {
+            if (type === 'weekly') {
+                nextDate.setDate(lastDate.getDate() + 7);
+            } else if (type === 'fourWeekly') {
+                nextDate.setDate(lastDate.getDate() + 28);
+            }
+        }
+
+        // Adjust by weekday
+        if (fixedWeekDay) {
+            while (nextDate.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() !== fixedWeekDay) {
+                nextDate.setDate(nextDate.getDate() + 1);
+            }
+        }
+    }
+
+    const remainingDays = Math.ceil((nextDate.getTime() - today.getTime()) / (24 * 60 * 60 * 1000));
+
+    return {
+        date: nextDate,
+        name: name,
+        remainingDays: remainingDays
+    };
+}

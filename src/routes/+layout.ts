@@ -26,6 +26,7 @@ export const load = async ({ fetch, data, depends }) => {
     return {
         user: data.user,
         dailyProgress: data.dailyProgress,
+        schedule: data.schedule,
         supabase
     }
 }
