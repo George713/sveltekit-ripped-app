@@ -12,6 +12,7 @@
 	>
 		G
 	</button>
+	<!-- Calendar Button -->
 	<button
 		class="absolute right-3 flex h-5 w-5 items-center justify-center rounded bg-slate-300 text-[10px] font-bold text-gray-600 shadow-sm"
 		on:click={() => {
