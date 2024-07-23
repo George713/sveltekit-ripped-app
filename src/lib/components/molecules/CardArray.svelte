@@ -8,6 +8,7 @@
 	import ItemCard from '$atoms/ItemCard.svelte';
 
 	export let items: String[];
+	export let verticalScroll: boolean;
 
 	// Function for adding item to the list of already planned items
 	const addToPlannedItems = async (itemId: number, unitIsPtn: boolean, unitAmount: number) => {
@@ -76,7 +77,9 @@
 
 <!-- h-1 prevents the container from overflowing -->
 <div
-	class="scrollbar-hide m-1 flex h-1 grow flex-wrap content-start justify-center gap-1 overflow-y-auto"
+	class="scrollbar-hide mx-1.5 my-0.5 flex flex-wrap gap-1 {verticalScroll
+		? 'h-1 grow content-start justify-center overflow-y-auto'
+		: 'h-52 flex-col overflow-x-auto'}"
 >
 	{#if items.includes('food')}
 		{#each $foodLibrary as { id, itemName, kcal, protein, unitIsPtn, unitAmount }}

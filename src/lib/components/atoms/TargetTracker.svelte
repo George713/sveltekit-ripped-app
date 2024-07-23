@@ -42,7 +42,7 @@
 		</div>
 	</div>
 {:else}
-	<div class="ml-2 mt-1 flex h-8 grow items-center justify-center">
+	<div class="flex h-8 items-center justify-center px-5">
 		<!-- Calories -->
 		<div class="flex flex-col items-center">
 			<div class="flex">

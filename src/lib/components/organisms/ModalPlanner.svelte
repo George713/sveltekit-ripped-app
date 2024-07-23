@@ -71,7 +71,7 @@
 		<Title title="Planner" />
 		<Selection />
 		<FoodLibraryPlanner {toggleOverlay} />
-		<MinimizeBtn />
+		<MinimizeBtn viewTarget="none" />
 	</BackgroundPlanel>
 </Background>
 

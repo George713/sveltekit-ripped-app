@@ -1,6 +1,6 @@
 <label
 	for="check"
-	class="relative m-2 h-5 w-[78px] cursor-pointer rounded-full bg-neutral-500/40 shadow"
+	class="relative mr-1 mt-0.5 h-5 w-[78px] cursor-pointer rounded-full bg-neutral-500/40 shadow"
 >
 	<input type="checkbox" id="check" class="peer sr-only" />
 	<span

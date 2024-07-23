@@ -1,8 +1,10 @@
 <script lang="ts">
 	import { visibleView } from '$lib/stores';
+
+	export let viewTarget: string;
 </script>
 
-<button on:click={() => visibleView.update('none')} class="absolute bottom-3">
+<button on:click={() => visibleView.update(viewTarget)} class="relative mt-auto p-2">
 	<svg width="31" height="18" class=" fill-none stroke-gray-400"
 		><path
 			stroke-linecap="round"
