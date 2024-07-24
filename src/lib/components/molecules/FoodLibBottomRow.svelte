@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Search from '$atoms/planner/Search.svelte';
 	import { visibleView } from '$lib/stores';
 </script>
 
