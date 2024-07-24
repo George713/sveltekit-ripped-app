@@ -14,7 +14,7 @@
 		<p class="my-1 text-3xl font-medium text-gray-800">Eating Log</p>
 		<!-- Selected for today -->
 		<div
-			class="relative flex flex-col mb-1 h-[calc(86%)] w-[calc(100%-8px)] rounded-sm bg-neutral-100 shadow-[0_1px_1px_rgba(0,0,0,0.25)]"
+			class="relative mb-1 flex h-[calc(86%)] w-[calc(100%-8px)] flex-col rounded-sm bg-neutral-100 shadow-[0_1px_1px_rgba(0,0,0,0.25)]"
 		>
 			<!-- Title -->
 			<div class="flex">
@@ -33,9 +33,9 @@
 				<TargetTracker />
 			</div>
 			<!--  overflow-y-auto scrollbar-hide -->
-			<CardArray items={['planned', 'estimates']} />
+			<CardArray items={['planned', 'estimates']} verticalScroll={true} />
 			<!-- Buttons for Adding Items -->
-			<div class="flex justify-end mb-2">
+			<div class="mb-2 flex justify-end">
 				<button
 					on:click={() => {
 						visibleOverlay.set('addEstimate');
