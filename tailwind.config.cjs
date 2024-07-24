@@ -8,7 +8,8 @@ module.exports = {
     "fill-yellow-400",
     "text-blue-300",
     "fill-blue-300",
-    "stroke-blue-300"
+    "stroke-blue-300",
+    "fill-neutral-300"
   ],
   theme: {
     extend: {},
