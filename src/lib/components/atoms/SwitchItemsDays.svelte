@@ -1,8 +1,12 @@
+<script lang="ts">
+	export let isChecked: boolean;
+</script>
+
 <label
 	for="check"
 	class="relative mr-1 mt-0.5 h-5 w-[78px] cursor-pointer rounded-full bg-neutral-500/40 shadow"
 >
-	<input type="checkbox" id="check" class="peer sr-only" />
+	<input type="checkbox" id="check" bind:checked={isChecked} class="peer sr-only" />
 	<span
 		class="absolute left-0.5 top-0.5 h-4 w-[74px] rounded-full bg-neutral-200/90 shadow-[inset_2px_2px_4px_rgba(255,255,255,0.25),inset_-2px_-2px_4px_rgba(0,0,0,0.15)]"
 	/>

@@ -9,6 +9,7 @@
 
 	export let items: String[];
 	export let verticalScroll: boolean;
+	export let showDays = false;
 
 	// Function for adding item to the list of items currently in planning
 	const addToPlanningProcess = (id: number, unitIsPtn: boolean, unitAmount: number) => {
@@ -152,5 +153,22 @@
 				eatItem={() => eatItem(id, 'estimate')}
 			/>
 		{/each}
+	{/if}
+	{#if items.includes('days')}
+		abc
+		<!-- {#each $estimatesLog as { id, eaten, kcal, protein }}
+			<ItemCard
+				type="bright"
+				{id}
+				itemName="Estimate"
+				{kcal}
+				{protein}
+				unitIsPtn={true}
+				unitAmount={1}
+				eatingMenu={true}
+				{eaten}
+				eatItem={() => eatItem(id, 'estimate')}
+			/>
+		{/each} -->
 	{/if}
 </div>

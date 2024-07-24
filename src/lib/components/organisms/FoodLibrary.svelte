@@ -13,6 +13,8 @@
 	import Spinner from '$overlays/Spinner.svelte';
 	import Background from '$overlays/Background.svelte';
 	import BackgroundPlanel from '$atoms/BackgroundPlanel.svelte';
+
+	let showDays = false;
 </script>
 
 <Background>
@@ -24,7 +26,7 @@
 		>
 			<div class="m-1 flex h-6 items-center justify-between">
 				<PlannerCardTitle title="Food Library" color="neutral-300" />
-				<SwitchItemsDays />
+				<SwitchItemsDays bind:isChecked={showDays} />
 			</div>
 			<CardArray items={['food']} verticalScroll={true} />
 			<FoodLibBottomRow />

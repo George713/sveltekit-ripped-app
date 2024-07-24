@@ -1,28 +1,21 @@
 <script lang="ts">
-	import { foodLibrary, plannedItems, visibleView } from '$lib/stores';
-	import type { PlannedItem } from '$lib/types';
+	import { foodLibrary } from '$lib/stores';
 
-	import ItemCard from '$atoms/ItemCard.svelte';
-	import PlannerCardTitle from '$atoms/planner/PlannerCardTitle.svelte';
+	// Atoms
 	import SwitchItemsDays from '$atoms/SwitchItemsDays.svelte';
+	import PlannerCardTitle from '$atoms/planner/PlannerCardTitle.svelte';
 	import BtnFinishPlanning from '$atoms/planner/BtnFinishPlanning.svelte';
 	import BtnNewItem from '$atoms/planner/BtnNewItem.svelte';
+	import BtnNewDay from '$atoms/planner/BtnNewDay.svelte';
+	import BtnSaveDay from '$atoms/planner/BtnSaveDay.svelte';
 	import Search from '$atoms/planner/Search.svelte';
+	// Molecules
 	import CardArray from '$molecules/CardArray.svelte';
 
-	export let toggleOverlay: () => void;
+	export let toggleOverlay = () => {};
+	export let newDayPlanning = false;
 
-	const addToPlanningProcess = (id: number, unitIsPtn: boolean, unitAmount: number) => {
-		const newPlannedItem: PlannedItem = {
-			id: plannedItems.maxId + 1,
-			eaten: false,
-			createdAt: new Date(),
-			foodId: id,
-			unitIsPtn: unitIsPtn,
-			unitAmount: unitAmount
-		};
-		plannedItems.add(newPlannedItem);
-	};
+	let showDays = false;
 
 	/**
 	 * Deletes a food item from the food library and sends a request to the server to delete the item.
@@ -57,14 +50,31 @@
 	<!-- Header Row -->
 	<div class="m-1 flex h-6 items-center justify-between">
 		<PlannerCardTitle title="Food Library" color="neutral-300" />
-		<SwitchItemsDays />
+		<SwitchItemsDays bind:isChecked={showDays} />
 	</div>
 	<!-- Library Items -->
-	<CardArray items={['food']} verticalScroll={false} />
+	<CardArray items={[showDays ? 'days' : 'food']} verticalScroll={false} {showDays} />
 	<!-- Bottom Row -->
-	<div class="mb-1.5 flex justify-between">
-		<BtnFinishPlanning {toggleOverlay} />
-		<!-- <Search /> -->
-		<BtnNewItem />
-	</div>
+	{#if newDayPlanning}
+		<form class="relative m-2 flex">
+			<input
+				class="mx-auto h-7 w-[calc(50%)] rounded bg-black/20 px-1.5 font-medium text-neutral-200 focus:outline-none"
+				name="dayName"
+				type="text"
+				placeholder="New day name..."
+				required
+			/>
+			<BtnSaveDay />
+		</form>
+	{:else}
+		<div class="mb-1.5 flex justify-between">
+			<BtnFinishPlanning {toggleOverlay} />
+			<!-- <Search /> -->
+			{#if showDays}
+				<BtnNewDay />
+			{:else}
+				<BtnNewItem />
+			{/if}
+		</div>
+	{/if}
 </div>
