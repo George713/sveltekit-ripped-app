@@ -10,6 +10,19 @@
 	export let items: String[];
 	export let verticalScroll: boolean;
 
+	// Function for adding item to the list of items currently in planning
+	const addToPlanningProcess = (id: number, unitIsPtn: boolean, unitAmount: number) => {
+		const newPlannedItem: PlannedItem = {
+			id: plannedItems.maxId + 1,
+			eaten: false,
+			createdAt: new Date(),
+			foodId: id,
+			unitIsPtn: unitIsPtn,
+			unitAmount: unitAmount
+		};
+		plannedItems.add(newPlannedItem);
+	};
+
 	// Function for adding item to the list of already planned items
 	const addToPlannedItems = async (itemId: number, unitIsPtn: boolean, unitAmount: number) => {
 		// Show spinner
@@ -94,7 +107,7 @@
 				{unitAmount}
 				plusButton={$page.data.dailyProgress.planned
 					? () => addToPlannedItems(id, unitIsPtn, unitAmount)
-					: undefined}
+					: () => addToPlanningProcess(id, unitIsPtn, unitAmount)}
 			/>
 		{/each}
 	{/if}
