@@ -9,7 +9,10 @@ module.exports = {
     "text-blue-300",
     "fill-blue-300",
     "stroke-blue-300",
-    "fill-neutral-300"
+    "fill-neutral-300",
+    "text-neutral-300",
+    "fill-neutral-500",
+    "text-neutral-500"
   ],
   theme: {
     extend: {},
