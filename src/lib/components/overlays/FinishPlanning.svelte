@@ -5,7 +5,7 @@
 </script>
 
 <div
-	class="absolute left-0 top-0 flex h-screen w-screen justify-center bg-black/30 backdrop-blur-[2px]"
+	class="absolute left-0 top-0 z-20 flex h-screen w-screen justify-center bg-black/30 backdrop-blur-[2px]"
 	role="button"
 	tabindex={0}
 	on:click={() => toggleOverlay()}
