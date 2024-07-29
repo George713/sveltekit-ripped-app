@@ -28,9 +28,10 @@
 		estimatesLog,
 		showSpinner,
 		visibleView,
-		visibleOverlay
+		visibleOverlay,
+		foodSets
 	} from '$lib/stores';
-	import type { FoodItem, PlannedItem, EatEstimate } from '$lib/types';
+	import type { FoodItem, PlannedItem, EatEstimate, FoodSet } from '$lib/types';
 	// Molecules
 	import ModalCalories from '$molecules/ModalCalories.svelte';
 	// Organisms
@@ -39,6 +40,7 @@
 	import ModalEatingLog from '$organisms/ModalEatingLog.svelte';
 	import ModalHarvest from '$organisms/ModalHarvest.svelte';
 	import NewItem from '$organisms/NewItem.svelte';
+	import NewDay from '$organisms/NewDay.svelte';
 	import UpdateItem from '$organisms/UpdateItem.svelte';
 	import ModalPlanner from '$organisms/ModalPlanner.svelte';
 	import WeeklyReview from '$organisms/WeeklyReview.svelte';
@@ -53,6 +55,7 @@
 		foodItems: FoodItem[];
 		plannedItems: PlannedItem[];
 		eatEstimates: EatEstimate[];
+		foodSets: FoodSet[];
 	};
 	if (data.foodItems) {
 		foodLibrary.set(data.foodItems);
@@ -62,6 +65,9 @@
 	}
 	if (data.eatEstimates) {
 		estimatesLog.set(data.eatEstimates);
+	}
+	if (data.foodSets) {
+		foodSets.set(data.foodSets);
 	}
 
 	let audioWeighIn: any;
@@ -121,6 +127,8 @@
 		<ModalPlanner />
 	{:else if $visibleView.current == 'newItem'}
 		<NewItem />
+	{:else if $visibleView.current == 'newDay'}
+		<NewDay />
 	{:else if $visibleView.current == 'eat'}
 		<ModalEatingLog />
 	{:else if $visibleView.current == 'foodLib'}

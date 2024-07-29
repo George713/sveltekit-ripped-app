@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { showSpinner, visibleView } from '$lib/stores';
+	import { showSpinner } from '$lib/stores';
 
 	// Atoms
 	import Title from '$atoms/Title.svelte';

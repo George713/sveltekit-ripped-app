@@ -56,7 +56,7 @@
 			</div>
 			<!-- Tracker -->
 			<div class="flex-grow pl-3">
-				<TargetTracker large={true} />
+				<TargetTracker large={true} mode="eating" />
 			</div>
 		</div>
 		<!-- Harvest Button -->

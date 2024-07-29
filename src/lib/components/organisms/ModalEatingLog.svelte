@@ -24,7 +24,7 @@
 		>
 			<div class="m-1 flex justify-between">
 				<PlannerCardTitle title="Daily Selection" color="neutral-500" />
-				<TargetTracker />
+				<TargetTracker mode="eating" />
 			</div>
 			<CardArray items={['planned', 'estimates']} verticalScroll={true} />
 			<EatingLogBottomRow />

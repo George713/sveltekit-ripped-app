@@ -2,26 +2,37 @@
 	import { page } from '$app/stores';
 	import { deserialize } from '$app/forms';
 
-	import { plannedItems, foodLibrary, estimatesLog, showSpinner, visibleView } from '$lib/stores';
+	import {
+		plannedItems,
+		foodLibrary,
+		estimatesLog,
+		showSpinner,
+		visibleView,
+		foodSets,
+		selectedForNewSet
+	} from '$lib/stores';
 	import type { PlannedItem } from '$lib/types';
 
 	import ItemCard from '$atoms/ItemCard.svelte';
+	import SetCard from '$atoms/SetCard.svelte';
 
 	export let items: String[];
 	export let verticalScroll: boolean;
-	export let showDays = false;
+	export let setPlanningMode = false;
+
+	let selection = setPlanningMode ? selectedForNewSet : plannedItems;
 
 	// Function for adding item to the list of items currently in planning
 	const addToPlanningProcess = (id: number, unitIsPtn: boolean, unitAmount: number) => {
 		const newPlannedItem: PlannedItem = {
-			id: plannedItems.maxId + 1,
+			id: selection.maxId + 1,
 			eaten: false,
 			createdAt: new Date(),
 			foodId: id,
 			unitIsPtn: unitIsPtn,
 			unitAmount: unitAmount
 		};
-		plannedItems.add(newPlannedItem);
+		selection.add(newPlannedItem);
 	};
 
 	// Function for adding item to the list of already planned items
@@ -106,7 +117,7 @@
 				{protein}
 				{unitIsPtn}
 				{unitAmount}
-				plusButton={$page.data.dailyProgress.planned
+				plusButton={$page.data.dailyProgress.planned && !setPlanningMode
 					? () => addToPlannedItems(id, unitIsPtn, unitAmount)
 					: () => addToPlanningProcess(id, unitIsPtn, unitAmount)}
 			/>
@@ -155,20 +166,8 @@
 		{/each}
 	{/if}
 	{#if items.includes('days')}
-		abc
-		<!-- {#each $estimatesLog as { id, eaten, kcal, protein }}
-			<ItemCard
-				type="bright"
-				{id}
-				itemName="Estimate"
-				{kcal}
-				{protein}
-				unitIsPtn={true}
-				unitAmount={1}
-				eatingMenu={true}
-				{eaten}
-				eatItem={() => eatItem(id, 'estimate')}
-			/>
-		{/each} -->
+		{#each $foodSets as { id, name }}
+			<SetCard {id} {name} />
+		{/each}
 	{/if}
 </div>

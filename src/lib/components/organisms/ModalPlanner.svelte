@@ -69,7 +69,7 @@
 <Background>
 	<BackgroundPlanel>
 		<Title title="Planner" />
-		<Selection title={'Selected for today'} />
+		<Selection title={'Selected for today'} selection={plannedItems} mode="planning" />
 		<FoodLibraryPlanner {toggleOverlay} />
 		<MinimizeBtn viewTarget="none" />
 	</BackgroundPlanel>
