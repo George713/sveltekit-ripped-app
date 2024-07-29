@@ -21,6 +21,6 @@
 	<p
 		class="absolute right-[13px] grid h-full place-items-center pt-0.5 text-[9px] font-medium text-neutral-500/40 peer-checked:text-neutral-300"
 	>
-		Days
+		Sets
 	</p>
 </label>
