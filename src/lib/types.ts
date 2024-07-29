@@ -19,6 +19,18 @@ export interface PlannedItem {
     unitAmount: number;
 }
 
+export interface FoodSet {
+    id: number;
+    name: string;
+    foodItemsInSet: FoodItemInSet[]
+}
+
+interface FoodItemInSet {
+    foodId: number;
+    unitIsPtn: boolean;
+    unitAmount: number
+}
+
 export interface EatEstimate {
     id: number;
     eaten: boolean;
