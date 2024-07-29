@@ -1,15 +1,48 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { eatenKcal, eatenProtein, plannedKcal, plannedProtein } from '$lib/stores';
+	import {
+		eatenKcal,
+		eatenProtein,
+		plannedKcal,
+		plannedProtein,
+		setKcal,
+		setProtein
+	} from '$lib/stores';
 
 	export let large: boolean = false;
-	export let planningMode: boolean = false;
+	export let mode: string;
 
 	$: targetKcal = $page.data.user.currentCalorieTarget;
 	$: targetProtein = $page.data.dailyProgress.targetProtein;
 
-	$: currentKcal = planningMode ? $plannedKcal : $eatenKcal;
-	$: currentProtein = planningMode ? $plannedProtein : $eatenProtein;
+	$: currentKcal = (() => {
+		switch (mode) {
+			case 'planning':
+				return $plannedKcal;
+			case 'eating':
+				return $eatenKcal;
+			case 'set':
+				return $setKcal;
+			default:
+				return -1; // Default value if mode is not recognized
+		}
+	})();
+
+	$: currentProtein = (() => {
+		switch (mode) {
+			case 'planning':
+				return $plannedProtein;
+			case 'eating':
+				return $eatenProtein;
+			case 'set':
+				return $setProtein;
+			default:
+				return -1; // Default value if mode is not recognized
+		}
+	})();
+
+	// $: currentKcal = planningMode ? $plannedKcal : $eatenKcal;
+	// $: currentProtein = planningMode ? $plannedProtein : $eatenProtein;
 </script>
 
 {#if large}
