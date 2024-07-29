@@ -1,5 +1,5 @@
 import { derived, writable, get } from 'svelte/store';
-import type { EatEstimate, FoodItem, PlannedItem } from './types';
+import type { EatEstimate, FoodItem, PlannedItem, FoodSet } from './types';
 
 const foodLibraryStore = () => {
     const store = writable<FoodItem[]>([]);
@@ -58,21 +58,85 @@ const foodLibraryStore = () => {
 export const foodLibrary = foodLibraryStore()
 
 const plannedItemsStore = () => {
-    const { subscribe, set, update } = writable<PlannedItem[]>([]);
+    const store = writable<PlannedItem[]>([]);
+    const { subscribe, set, update } = store
+
+    /**
+     * Given the id of a FoodSet, adds the items from the set
+     * to the respective store.
+     */
+    const addFromSetById = (id: number) => {
+        const set = get(foodSets).find(set => set.id === id);
+        const index_start = get(store).reduce((maxId, item) => Math.max(item.id, maxId), 0) + 1
+        set?.foodItemsInSet.forEach((food, index) => {
+            const foodItem = foodLibrary.findItemById(food.foodId);
+            if (foodItem) {
+                const newPlannedItem: PlannedItem = {
+                    id: index_start + index,
+                    eaten: false,
+                    createdAt: new Date(),
+                    foodId: foodItem.id,
+                    unitIsPtn: foodItem.unitIsPtn,
+                    unitAmount: foodItem.unitAmount,
+                };
+                update((items) => [...items, newPlannedItem]);
+            }
+        })
+    }
 
     return {
         subscribe,
         set,
         update,
         add: (item: PlannedItem) => update((items) => [...items, item]),
+        addFromSetById,
         remove: (id: number) => update((items) => items.filter((item) => item.id !== id)),
         get maxId() {
             const items = get(this);
             return items.reduce((maxId, item) => Math.max(item.id, maxId), 0);
-        },
+        }
     };
 }
 export const plannedItems = plannedItemsStore()
+export const selectedForNewSet = plannedItemsStore()
+
+const foodSetStore = (foodSets: FoodSet[]) => {
+    const store = writable<FoodSet[]>(foodSets);
+    const { subscribe, set, update } = store
+
+    const findSetById = (id: number) => {
+        const items = get(store);
+        return items.find(item => item.id === id);
+    };
+
+    const totalKcalByIndex = (id: number) => {
+        const set = findSetById(id)
+        return set ? set.foodItemsInSet.reduce((sum, item) =>
+            sum + foodLibrary.getKcalByIndex(item.foodId, item.unitIsPtn, item.unitAmount
+            ), 0) : 0
+    }
+
+    const totalProteinByIndex = (id: number) => {
+        const set = findSetById(id)
+        return set ? set.foodItemsInSet.reduce((sum, item) =>
+            sum + foodLibrary.getProteinByIndex(item.foodId, item.unitIsPtn, item.unitAmount
+            ), 0) : 0
+    }
+
+    return {
+        subscribe,
+        set,
+        update,
+        add: (set: FoodSet) => update((sets) => [...sets, set]),
+        remove: (id: number) => update((sets) => sets.filter((set) => set.id !== id)),
+        findSetById,
+        totalKcalByIndex,
+        totalProteinByIndex
+    }
+}
+export const foodSets = foodSetStore([])
+
+export const activeSetId = writable<number | undefined>(undefined)
 
 export const estimatesLog = writable<EatEstimate[]>([]);
 
@@ -85,6 +149,20 @@ export const plannedKcal = derived([foodLibrary, plannedItems], ([$foodLibrary, 
 
 export const plannedProtein = derived([foodLibrary, plannedItems], ([$foodLibrary, $plannedItems]) => {
     return $plannedItems.reduce((total, item) => {
+        const protein = foodLibrary.getProteinByIndex(item.foodId, item.unitIsPtn, item.unitAmount);
+        return total + protein;
+    }, 0);
+})
+
+export const setKcal = derived([foodLibrary, selectedForNewSet], ([$foodLibrary, $selectedForNewSet]) => {
+    return $selectedForNewSet.reduce((total, item) => {
+        const kcal = foodLibrary.getKcalByIndex(item.foodId, item.unitIsPtn, item.unitAmount);
+        return total + kcal;
+    }, 0);
+})
+
+export const setProtein = derived([foodLibrary, selectedForNewSet], ([$foodLibrary, $selectedForNewSet]) => {
+    return $selectedForNewSet.reduce((total, item) => {
         const protein = foodLibrary.getProteinByIndex(item.foodId, item.unitIsPtn, item.unitAmount);
         return total + protein;
     }, 0);
