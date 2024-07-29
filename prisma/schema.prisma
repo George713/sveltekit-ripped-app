@@ -40,6 +40,7 @@ model User {
   // Planning & Tracking
   foodItems        FoodItem[]
   eatEstimates     EatEstimate[]
+  foodSets         FoodSet[]
   // Measurements
   weights          Weight[]
   bodyfats         BodyFat[]
@@ -95,7 +96,30 @@ model FoodItem {
   user   User   @relation(fields: [userId], references: [id])
   userId String
 
-  PlannedItems PlannedItem[]
+  PlannedItems   PlannedItem[]
+  foodItemInSets FoodItemInSet[]
+}
+
+model FoodSet {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  foodItemsInSet FoodItemInSet[]
+}
+
+model FoodItemInSet {
+  id         Int     @id @default(autoincrement())
+  unitIsPtn  Boolean
+  unitAmount Float
+
+  foodSet FoodSet @relation(fields: [setId], references: [id])
+  setId   Int
+
+  foodItem FoodItem @relation(fields: [foodId], references: [id])
+  foodId   Int
 }
 
 model PlannedItem {
