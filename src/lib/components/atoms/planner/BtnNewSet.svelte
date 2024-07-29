@@ -4,7 +4,7 @@
 
 <button
 	on:click={() => {
-		visibleView.update('newDay');
+		visibleView.update('newSet');
 		selectedForNewSet.set([]);
 	}}
 	class="mx-2 flex items-center rounded-[4px] bg-neutral-700 shadow-[inset_2px_2px_3px_rgba(161,161,161,0.05),inset_-2px_-2px_3px_rgba(0,0,0,0.05)]"

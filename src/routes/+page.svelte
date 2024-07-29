@@ -40,7 +40,7 @@
 	import ModalEatingLog from '$organisms/ModalEatingLog.svelte';
 	import ModalHarvest from '$organisms/ModalHarvest.svelte';
 	import NewItem from '$organisms/NewItem.svelte';
-	import NewDay from '$organisms/NewDay.svelte';
+	import NewSet from '$organisms/NewSet.svelte';
 	import UpdateItem from '$organisms/UpdateItem.svelte';
 	import ModalPlanner from '$organisms/ModalPlanner.svelte';
 	import WeeklyReview from '$organisms/WeeklyReview.svelte';
@@ -127,8 +127,8 @@
 		<ModalPlanner />
 	{:else if $visibleView.current == 'newItem'}
 		<NewItem />
-	{:else if $visibleView.current == 'newDay'}
-		<NewDay />
+	{:else if $visibleView.current == 'newSet'}
+		<NewSet />
 	{:else if $visibleView.current == 'eat'}
 		<ModalEatingLog />
 	{:else if $visibleView.current == 'foodLib'}

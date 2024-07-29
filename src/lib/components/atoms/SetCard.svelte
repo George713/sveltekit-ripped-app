@@ -12,7 +12,7 @@
 		selectedForNewSet.set([]);
 		selectedForNewSet.addFromSetById(id);
 		activeSetId.set(id);
-		visibleView.update('newDay');
+		visibleView.update('newSet');
 	};
 </script>
 
