@@ -269,6 +269,91 @@ const finishPlanning: Action = async ({ locals, request }) => {
 	}
 }
 
+const createSet: Action = async ({ locals, request }) => {
+	const formData = await request.formData()
+	const setName = formData.get('setName')
+	const setItems = formData.get('selectedForNewSet');
+	const setId = formData.get('setId') !== 'false' ? formData.get('setId') : false;
+
+	if (setItems) {
+		if (!setId) {
+			// Create entry in FoodSet table
+			const { id } = await prisma.foodSet.create({
+				data: {
+					name: (setName as string),
+					user: {
+						connect: {
+							id: locals.user.id
+						},
+					},
+				}
+			});
+
+			// Prepare data for FoodSet references
+			const parsedSetItems = JSON.parse(setItems as string)
+			const cleanedSetItems = parsedSetItems.map((item: PlannedItem) => (
+				{ foodId: item.foodId, unitIsPtn: item.unitIsPtn, unitAmount: item.unitAmount, setId: Number(id), }
+			))
+
+			// Create FoodSet references
+			await prisma.foodItemInSet.createMany({
+				data: cleanedSetItems
+			})
+		} else {
+			// Update existing entry
+			await prisma.foodSet.update({
+				where: {
+					id: Number(setId)
+				},
+				data: {
+					name: setName as string
+				}
+			});
+
+			// Delete existing entries in FoodItemInSet for the given setId
+			await prisma.foodItemInSet.deleteMany({
+				where: {
+					setId: Number(setId)
+				}
+			});
+
+			// Prepare data for new set references
+			const parsedSetItems = JSON.parse(setItems as string);
+			const cleanedSetItems = parsedSetItems.map((item: PlannedItem) => (
+				{ foodId: item.foodId, unitIsPtn: item.unitIsPtn, unitAmount: item.unitAmount, setId: Number(setId) }
+			));
+
+			// Create new entries in FoodItemInSet
+			await prisma.foodItemInSet.createMany({
+				data: cleanedSetItems
+			});
+		}
+	}
+}
+
+const deleteSet: Action = async ({ request }) => {
+	const formData = await request.formData()
+	const setId = formData.get('setId');
+
+	if (setId) {
+		const id = Number(setId);
+
+		// Delete all FoodItemInSet records associated with the set
+		await prisma.foodItemInSet.deleteMany({
+			where: {
+				setId: id
+			}
+		});
+
+		// Delete the FoodSet record
+		await prisma.foodSet.delete({
+			where: {
+				id
+			}
+		});
+	}
+}
+
 const eatItem: Action = async ({ request }) => {
 	const formData = await request.formData()
 	const { id, type } = Object.fromEntries(formData.entries());
@@ -422,10 +507,27 @@ export const load: PageServerLoad = async ({ locals }) => {
 			},
 		});
 
+		// Get food sets
+		const foodSets = await prisma.foodSet.findMany({
+			where: { userId: locals.user.id },
+			select: {
+				id: true,
+				name: true,
+				foodItemsInSet: {
+					select: {
+						unitIsPtn: true,
+						unitAmount: true,
+						foodId: true
+					}
+				}
+			}
+		})
+
 		return {
 			foodItems,
 			plannedItems,
 			eatEstimates,
+			foodSets,
 		};
 	}
 }
@@ -439,6 +541,8 @@ export const actions: Actions = {
 	addEstimate,
 	deleteItem,
 	finishPlanning,
+	createSet,
+	deleteSet,
 	eatItem,
 	finishEating,
 	harvestPoints,
