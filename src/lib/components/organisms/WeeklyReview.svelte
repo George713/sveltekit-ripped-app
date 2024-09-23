@@ -16,8 +16,8 @@
 
 <div
 	class="absolute top-0 h-full w-full bg-white"
-	on:click={() => visibleView.update('None')}
-	on:keydown={() => visibleView.update('None')}
+	on:click|self={() => visibleView.update('None')}
+	on:keydown|self={() => visibleView.update('None')}
 	role="button"
 	tabindex="0"
 >
