@@ -1,18 +1,47 @@
 <!-- EnterBodyfat.svelte -->
 <script lang="ts">
-	import Background from '$overlays/Background.svelte';
-
+	import { invalidateAll } from '$app/navigation';
+	import { showSpinner, visibleOverlay, visibleView } from '$lib/stores';
 	import { selectInput, focusElement } from '$lib/utils';
 
+	import Background from '$overlays/Background.svelte';
+
 	export let askGender = true;
+
+	const handleSubmit = async (event: Event) => {
+		// Show spinner
+		$showSpinner = true;
+
+		// Exit overlay for adjusting calories
+		visibleOverlay.set('none');
+
+		// Write new bodyfat to db
+		const formData = new FormData(event.target as HTMLFormElement);
+		await fetch('?/logBodyFat', {
+			method: 'POST',
+			body: formData
+		});
+
+		// Reset page data
+		invalidateAll();
+
+		// Hide spinner
+		$showSpinner = false;
+	};
 </script>
 
 <Background>
 	<div
-		class="absolute bottom-1/4 left-1/2 flex w-[calc(70%)] -translate-x-1/2 -translate-y-1/2 transform flex-col items-center rounded-md bg-slate-200/70 backdrop-blur-xs px-5 py-2"
+		class="backdrop-blur-xs absolute bottom-1/4 left-1/2 flex w-[calc(70%)] -translate-x-1/2 -translate-y-1/2 transform flex-col items-center rounded-md bg-slate-200/70 px-5 py-2"
 	>
 		<span>Body fat measurement</span>
-		<form method="post" action="?/logBodyFat" autocomplete="off" class="mt-3">
+		<form
+			method="post"
+			action="?/logBodyFat"
+			autocomplete="off"
+			on:submit|preventDefault={handleSubmit}
+			class="mt-3"
+		>
 			<!-- Row bodyfat -->
 			<div class="mb-1 flex justify-end">
 				<span class="mr-1">Body fat</span>
