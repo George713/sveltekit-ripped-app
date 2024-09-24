@@ -1,4 +1,4 @@
-import { fail } from '@sveltejs/kit';
+import { fail, json } from '@sveltejs/kit';
 import type { Action, Actions, PageServerLoad } from './$types';
 
 import { prisma } from '$lib/prismaClient.server';
@@ -28,6 +28,13 @@ const logWeight: Action = async ({ locals, request }) => {
 			}
 		}
 	});
+
+	return {
+		rewards: {
+			powerups: 1,
+			collectible: 'statues_hercules'
+		}
+	}
 };
 
 const logCalories: Action = async ({ locals, request }) => {
