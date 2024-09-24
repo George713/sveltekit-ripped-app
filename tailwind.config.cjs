@@ -15,7 +15,11 @@ module.exports = {
     "text-neutral-500"
   ],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        'bounce-sm': 'bounce 1s infinite',
+      },
+    },
   },
   plugins: [],
 }
