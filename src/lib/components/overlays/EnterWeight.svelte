@@ -2,10 +2,12 @@
 	import { createEventDispatcher } from 'svelte';
 	import { page } from '$app/stores';
 	import { invalidateAll } from '$app/navigation';
-	import { showSpinner, visibleOverlay } from '$lib/stores';
+	import { rewards, showSpinner, visibleOverlay } from '$lib/stores';
 	import { focusElement } from '$lib/utils.ts';
 
 	import Background from '$overlays/Background.svelte';
+	import { deserialize } from '$app/forms';
+	import type { Rewards } from '$lib/types';
 
 	const dispatch = createEventDispatcher();
 
@@ -24,10 +26,12 @@
 
 		// Write new calorie target to db
 		const formData = new FormData(event.target as HTMLFormElement);
-		await fetch('/?/logWeight', {
+		const response = await fetch('/?/logWeight', {
 			method: 'POST',
 			body: formData
 		});
+
+		const result = deserialize(await response.text());
 
 		// Reset page data
 		invalidateAll();
@@ -37,12 +41,19 @@
 
 		// Hide spinner
 		$showSpinner = false;
+
+		if (result.type === 'success' && result.data) {
+			// Update reward store
+			rewards.set(result.data.rewards as Rewards);
+			// Display rewards
+			visibleOverlay.set('rewards');
+		}
 	};
 </script>
 
 <Background>
 	<div
-		class="absolute bottom-1/4 left-1/2 flex w-[calc(70%)] -translate-x-1/2 -translate-y-1/2 transform flex-col items-center rounded-md bg-slate-200/70 backdrop-blur-xs px-5 py-2"
+		class="backdrop-blur-xs absolute bottom-1/4 left-1/2 flex w-[calc(70%)] -translate-x-1/2 -translate-y-1/2 transform flex-col items-center rounded-md bg-slate-200/70 px-5 py-2"
 	>
 		<span class="font-semibold">Current Weight</span>
 		<form method="post" autocomplete="off" on:submit|preventDefault={handleSubmit} class="">
@@ -53,7 +64,7 @@
 					type="number"
 					step="0.01"
 					value={$page.data.user.currentWeight}
-					class="ml-2 mx-1 w-14 rounded pr-1 text-right"
+					class="mx-1 ml-2 w-14 rounded pr-1 text-right"
 					name="weight"
 					use:focusElement
 					required
