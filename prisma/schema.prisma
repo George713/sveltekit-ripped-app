@@ -45,6 +45,8 @@ model User {
   weights          Weight[]
   bodyfats         BodyFat[]
   progressPictures ProgressPicture[]
+  // Items
+  collectedItems   CollectedItem[]
 }
 
 model Weight {
@@ -139,6 +141,24 @@ model EatEstimate {
   eaten     Boolean  @default(false)
   kcal      Int
   protein   Int
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+}
+
+model Collectible {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  collectedItems CollectedItem[]
+}
+
+model CollectedItem {
+  id    Int @id @default(autoincrement())
+  count Int @default(0)
+
+  collectible   Collectible @relation(fields: [collectibleId], references: [id])
+  collectibleId Int
 
   user   User   @relation(fields: [userId], references: [id])
   userId String
