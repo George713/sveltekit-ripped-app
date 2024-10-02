@@ -1,12 +1,5 @@
 // src/lib/collectibles.ts
-interface Collectible {
-    set: 'quotes' | 'nuts' | 'sports' | 'statues';
-    name: string;
-    text: string;
-    imgPath: string;
-    thumbPath: string;
-    rarity: 'blue' | 'bronze' | 'silver' | 'gold';
-}
+import type { Collectible } from "$lib/types";
 
 export const collectibles: Collectible[] = [
     {
@@ -142,3 +135,28 @@ export const collectibles: Collectible[] = [
 export const filterBySet = (collectibles: Collectible[], set: string) => {
     return collectibles.filter(collectible => collectible.set === set);
 }
+
+export const getRandomCollectible = (): Collectible => {
+    const rarityChances: { [key: string]: number } = {
+        blue: 0.60,
+        bronze: 0.30,
+        silver: 0.095,
+        gold: 0.005,
+    };
+
+    const random = Math.random();
+    let cumulativeChance = 0;
+    let selectedRarity: 'blue' | 'bronze' | 'silver' | 'gold' = 'blue';
+
+    for (const rarity in rarityChances) {
+        cumulativeChance += rarityChances[rarity];
+        if (random < cumulativeChance) {
+            selectedRarity = rarity as 'blue' | 'bronze' | 'silver' | 'gold';
+            break;
+        }
+    }
+
+    const filteredCollectibles = collectibles.filter(collectible => collectible.rarity === selectedRarity);
+    const randomIndex = Math.floor(Math.random() * filteredCollectibles.length);
+    return filteredCollectibles[randomIndex];
+};

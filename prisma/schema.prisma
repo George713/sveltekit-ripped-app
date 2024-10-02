@@ -148,7 +148,7 @@ model EatEstimate {
 
 model Collectible {
   id   Int    @id @default(autoincrement())
-  name String
+  name String @unique
 
   collectedItems CollectedItem[]
 }
@@ -162,4 +162,6 @@ model CollectedItem {
 
   user   User   @relation(fields: [userId], references: [id])
   userId String
+
+  @@unique([userId, collectibleId])
 }

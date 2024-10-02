@@ -82,7 +82,16 @@ export interface ScheduledEvent {
     remainingDays: number;
 }
 
+export interface Collectible {
+    set: 'quotes' | 'nuts' | 'sports' | 'statues' | '?';
+    name: string;
+    text: string;
+    imgPath: string;
+    thumbPath: string;
+    rarity: 'blue' | 'bronze' | 'silver' | 'gold';
+}
+
 export interface Rewards {
     powerups: number;
-    collectible: string;
+    collectible: Collectible | null;
 }

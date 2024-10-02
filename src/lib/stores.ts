@@ -1,5 +1,5 @@
 import { derived, writable, get } from 'svelte/store';
-import type { EatEstimate, FoodItem, PlannedItem, FoodSet, Rewards } from '$lib/types';
+import type { EatEstimate, FoodItem, PlannedItem, FoodSet, Rewards, Collectible } from '$lib/types';
 
 const foodLibraryStore = () => {
     const store = writable<FoodItem[]>([]);
@@ -220,14 +220,14 @@ export const originItem = writable<number>()
 const rewardStore = () => {
     const { subscribe, set } = writable<Rewards>({
         'powerups': 0,
-        'collectible': ''
+        'collectible': null
     })
 
     return {
         subscribe,
         set,
         reset: () => {
-            set({ powerups: 0, collectible: '' })
+            set({ powerups: 0, collectible: null })
         }
     }
 }
