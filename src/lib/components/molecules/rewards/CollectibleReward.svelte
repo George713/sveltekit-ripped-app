@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { rewards, visibleOverlay } from '$lib/stores';
+	import type { Collectible } from '$lib/types';
 
-	export let collectible: string;
+	export let collectible: Collectible;
 
-	$: collectible_group = collectible.split('_')[0];
+	$: set = collectible.set;
 
 	let iconWidth = 31.92999;
 
@@ -11,7 +12,7 @@
 
 	const spin = () => {
 		let index = 0;
-		switch (collectible_group) {
+		switch (set) {
 			case 'quotes':
 				index = 0;
 				break;
@@ -30,9 +31,16 @@
 		}
 		translateX -= (50 + index) * iconWidth;
 		// Show new collectible after 3.25s (spinnings takes 2s)
-		setTimeout(() => {
-			// Set store value of visibleOverlay to 'collectible'
-			// Assuming you have a store named `visibleOverlayStore`
+		setTimeout(async () => {
+			// Update collectible in db
+			const formData = new FormData();
+			formData.append('collectibleName', collectible.name);
+
+			await fetch('?/collect', {
+				method: 'POST',
+				body: formData
+			});
+
 			visibleOverlay.set('none');
 			rewards.reset();
 		}, 3250);

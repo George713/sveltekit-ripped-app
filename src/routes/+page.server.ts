@@ -1,9 +1,10 @@
-import { fail, json } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 import type { Action, Actions, PageServerLoad } from './$types';
 
 import { prisma } from '$lib/prismaClient.server';
 import { supabase } from '$lib/supabaseClient.server';
 import type { FoodItem, PlannedItem, UpdateDataCalories } from '$lib/types';
+import { getRandomCollectible } from '$lib/collectibles';
 import { getDateDayBegin } from '$lib/utils';
 
 const logWeight: Action = async ({ locals, request }) => {
@@ -29,13 +30,51 @@ const logWeight: Action = async ({ locals, request }) => {
 		}
 	});
 
+	const collectible = getRandomCollectible()
+
 	return {
 		rewards: {
 			powerups: 1,
-			collectible: 'statues_hercules'
+			collectible: collectible,
 		}
 	}
 };
+
+const collect: Action = async ({ locals, request }) => {
+	const data = await request.formData();
+	const collectibleName = data.get('collectibleName') as string;
+
+	if (!collectibleName) {
+		return fail(400, { message: 'Collectible name is required' });
+	}
+
+	// Find the collectible by name
+	const collectible = await prisma.collectible.findUnique({
+		where: { name: collectibleName },
+	});
+
+	if (!collectible) {
+		return fail(404, { message: 'Collectible not found' });
+	}
+
+	// Upsert the collected item for the current user and the collectible
+	await prisma.collectedItem.upsert({
+		where: {
+			userId_collectibleId: {
+				userId: locals.user.id,
+				collectibleId: collectible.id,
+			},
+		},
+		update: {
+			count: { increment: 1 },
+		},
+		create: {
+			count: 1,
+			collectible: { connect: { id: collectible.id } },
+			user: { connect: { id: locals.user.id } },
+		},
+	});
+}
 
 const logCalories: Action = async ({ locals, request }) => {
 	const data = await request.formData();
@@ -556,4 +595,5 @@ export const actions: Actions = {
 	finishReview,
 	reset,
 	setUserTimeZoneOffset,
+	collect,
 };
