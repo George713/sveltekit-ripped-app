@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { rewards, visibleOverlay } from '$lib/stores';
+	import { invalidateAll } from '$app/navigation';
+	import { rewards, visibleOverlay, visibleView } from '$lib/stores';
 	import type { Collectible } from '$lib/types';
 
 	export let collectible: Collectible;
@@ -41,7 +42,10 @@
 				body: formData
 			});
 
+			await invalidateAll();
+
 			visibleOverlay.set('none');
+			visibleView.update('collection');
 			rewards.reset();
 		}, 3250);
 	};

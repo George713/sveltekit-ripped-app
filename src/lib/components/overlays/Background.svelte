@@ -1,9 +1,11 @@
 <script lang="ts">
 	import { visibleOverlay } from '$lib/stores';
+
+	export let opacity = 70;
 </script>
 
 <div
-	class="fixed z-20 top-0 left-0 h-full w-full bg-black bg-opacity-70 backdrop-blur-sm"
+	class="fixed left-0 top-0 z-20 h-full w-full bg-black bg-opacity-{opacity} flex flex-col backdrop-blur-sm"
 	role="button"
 	tabindex={0}
 	on:click|self={() => visibleOverlay.set('none')}

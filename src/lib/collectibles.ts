@@ -136,6 +136,10 @@ export const filterBySet = (collectibles: Collectible[], set: string) => {
     return collectibles.filter(collectible => collectible.set === set);
 }
 
+export const filterByRarity = (collectibles: Collectible[], rarity: string) => {
+    return collectibles.filter(collectible => collectible.rarity === rarity);
+}
+
 export const getRandomCollectible = (): Collectible => {
     const rarityChances: { [key: string]: number } = {
         blue: 0.60,

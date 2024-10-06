@@ -4,7 +4,10 @@
 	export let viewTarget: string;
 </script>
 
-<button on:click={() => visibleView.update(viewTarget)} class="relative mt-auto p-2">
+<button
+	on:click={() => visibleView.update(viewTarget)}
+	class="relative mx-auto mt-auto flex items-center self-end p-2"
+>
 	<svg width="31" height="18" class=" fill-none stroke-gray-400"
 		><path
 			stroke-linecap="round"

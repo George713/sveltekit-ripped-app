@@ -51,6 +51,7 @@
 	import EnterBodyfatOverlay from '$overlays/EnterBodyfat.svelte';
 	import Calendar from '$overlays/Calendar.svelte';
 	import Rewards from '$overlays/Rewards.svelte';
+	import Collection from '$overlays/Collection.svelte';
 
 	export let data: {
 		foodItems: FoodItem[];
@@ -124,6 +125,8 @@
 		<Calendar schedule={$page.data.schedule} />
 	{:else if $visibleOverlay == 'rewards'}
 		<Rewards />
+	{:else if $visibleView.current == 'collection'}
+		<Collection />
 	{:else if $visibleView.current == 'calories'}
 		<ModalCalories />
 	{:else if $visibleView.current == 'planner'}

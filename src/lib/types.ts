@@ -89,6 +89,7 @@ export interface Collectible {
     imgPath: string;
     thumbPath: string;
     rarity: 'blue' | 'bronze' | 'silver' | 'gold';
+    count?: number;
 }
 
 export interface Rewards {

@@ -15,7 +15,9 @@ import {
 
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
 import { JWT_SECRET } from '$env/static/private';
-import type { SupabaseJwt } from '$lib/types.js'
+import type { Collectible, SupabaseJwt } from '$lib/types.js'
+
+import { collectibles } from '$lib/collectibles'
 
 
 export const handle: Handle = async ({ event, resolve }) => {
@@ -144,6 +146,17 @@ export const handle: Handle = async ({ event, resolve }) => {
 					},
 					take: 5
 				},
+				// Collectibles
+				collectedItems: {
+					select: {
+						count: true,
+						collectible: {
+							select: {
+								name: true
+							}
+						}
+					}
+				},
 				// Recurring activity progress
 				lastPlannedOn: true,
 				lastFinishedEatingOn: true,
@@ -171,6 +184,16 @@ export const handle: Handle = async ({ event, resolve }) => {
 					calorieTargets: { take: 0 },
 					bodyfats: { take: 0 },
 					weights: { take: 0 },
+					collectedItems: {
+						select: {
+							count: true,
+							collectible: {
+								select: {
+									name: true
+								}
+							}
+						}
+					},
 					// Recurring activity progress
 					lastPlannedOn: true,
 					lastFinishedEatingOn: true,
@@ -189,6 +212,15 @@ export const handle: Handle = async ({ event, resolve }) => {
 		// Filter out old weight information
 		user.weights = user.weights.filter(weight => weight.createdAt >= getDateDayBegin(user.timeZoneOffset, 4));
 
+		// Add collection counts to collectibles variable
+		const collection = user.collectedItems.map(item => {
+			const collectible = collectibles.find(c => c.name === item.collectible.name);
+			return {
+				...collectible,
+				count: item.count
+			} as Collectible;
+		});
+
 		// User properties
 		event.locals.user = {
 			id: user.id,
@@ -206,6 +238,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			progressPicToday: new Date().toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() === user.progressPicOn ? true : false,
 			reviewToday: new Date().toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() === user.reviewOn ? true : false,
 			enterBodyfatToday: user.bodyfats.length > 0 ? actionIsOlderThanXdays(user.timeZoneOffset, user.bodyfats[0].createdAt, 28) : false,
+			collection: collection,
 		};
 		// Derived value for user
 		event.locals.user.currentStatus = getCurrentCrestLevel(event.locals.user.currentBF, user.isMale)
@@ -226,6 +259,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 			nextReview: getScheduledEvent('weekly', 'Weekly Review', user.timeZoneOffset, user.lastReviewOn, user.reviewOn),
 			nextBodyfatMeasurement: getScheduledEvent('fourWeekly', 'Bodyfat Measurement', user.timeZoneOffset, user.bodyfats.length > 0 ? user.bodyfats[0].createdAt : undefined),
 		}
+		// Collection
+
 	}
 
 	return resolve(event, {

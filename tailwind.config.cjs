@@ -12,10 +12,16 @@ module.exports = {
     "fill-neutral-300",
     "text-neutral-300",
     "fill-neutral-500",
-    "text-neutral-500"
+    "text-neutral-500",
+    "bg-opacity-90",
   ],
   theme: {
     extend: {
+      colors: {
+        bronze: '#cd7f32',
+        silver: '#c0c0c0',
+        gold: '#ffd700',
+      },
       animation: {
         'bounce-sm': 'bounce 1s infinite',
       },
