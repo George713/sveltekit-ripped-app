@@ -90,6 +90,7 @@ export interface Collectible {
     thumbPath: string;
     rarity: 'blue' | 'bronze' | 'silver' | 'gold';
     count?: number;
+    animate?: boolean;
 }
 
 export interface Rewards {

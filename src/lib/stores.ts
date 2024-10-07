@@ -232,3 +232,6 @@ const rewardStore = () => {
     }
 }
 export const rewards = rewardStore()
+
+// Used for controlling animation of item card
+export const newItem = writable<string>()

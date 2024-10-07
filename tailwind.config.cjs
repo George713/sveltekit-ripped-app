@@ -18,12 +18,22 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        bronze: '#cd7f32',
-        silver: '#c0c0c0',
-        gold: '#ffd700',
+        bronze: 'rgba(205, 127, 50, 0.5 )',
+        silver: 'rgba(192, 192, 192, 0.5)',
+        gold: 'rgba(255, 215, 0, 0.5)',
       },
       animation: {
         'bounce-sm': 'bounce 1s infinite',
+      },
+      keyframes: {
+        'border-spin': {
+          '100%': {
+            transform: 'rotate(-360deg)',
+          },
+        },
+      },
+      animation: {
+        'border-spin': 'border-spin 5s linear infinite',
       },
     },
   },

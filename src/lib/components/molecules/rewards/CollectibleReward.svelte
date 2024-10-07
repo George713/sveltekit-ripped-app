@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
-	import { rewards, visibleOverlay, visibleView } from '$lib/stores';
+	import { newItem, rewards, visibleOverlay, visibleView } from '$lib/stores';
 	import type { Collectible } from '$lib/types';
 
 	export let collectible: Collectible;
@@ -47,6 +47,7 @@
 			visibleOverlay.set('none');
 			visibleView.update('collection');
 			rewards.reset();
+			newItem.set(collectible.name);
 		}, 3250);
 	};
 </script>
