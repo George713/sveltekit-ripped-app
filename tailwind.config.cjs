@@ -24,6 +24,7 @@ module.exports = {
       },
       animation: {
         'bounce-sm': 'bounce 1s infinite',
+        'border-spin': 'border-spin 5s linear infinite',
       },
       keyframes: {
         'border-spin': {
@@ -32,9 +33,12 @@ module.exports = {
           },
         },
       },
-      animation: {
-        'border-spin': 'border-spin 5s linear infinite',
+      transitionDuration: {
+        '2000': '2000ms',
       },
+      transitionDelay: {
+        '2000': '2000ms',
+      }
     },
   },
   plugins: [],
