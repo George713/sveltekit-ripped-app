@@ -1,11 +1,16 @@
 <script lang="ts">
+	import { detailedCollectible, visibleView } from '$lib/stores';
 	import type { Collectible } from '$lib/types';
 
 	export let item: Collectible;
 </script>
 
 <!-- Tutorial on animated border: https://www.youtube.com/watch?v=fdLh5pg0nG0&t=6s -->
-<div
+<button
+	on:click={() => {
+		detailedCollectible.set(item);
+		visibleView.update('collectionSpecifics');
+	}}
 	class="relative mx-1 h-20 w-16 overflow-hidden rounded {item.rarity === 'bronze'
 		? 'bg-bronze'
 		: item.rarity === 'silver'
@@ -32,7 +37,7 @@
 			<p class="text-gray-400/50">?</p>
 		{/if}
 	</div>
-</div>
+</button>
 
 <style>
 	.bg-conic-gradient {

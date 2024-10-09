@@ -42,6 +42,7 @@
 	import NewItem from '$organisms/NewItem.svelte';
 	import NewSet from '$organisms/NewSet.svelte';
 	import Collection from '$organisms/Collection.svelte';
+	import CollectionSpecifics from '$organisms/CollectionSpecifics.svelte';
 	import UpdateItem from '$organisms/UpdateItem.svelte';
 	import ModalPlanner from '$organisms/ModalPlanner.svelte';
 	import WeeklyReview from '$organisms/WeeklyReview.svelte';
@@ -127,6 +128,8 @@
 		<Rewards />
 	{:else if $visibleView.current == 'collection'}
 		<Collection />
+	{:else if $visibleView.current == 'collectionSpecifics'}
+		<CollectionSpecifics />
 	{:else if $visibleView.current == 'calories'}
 		<ModalCalories />
 	{:else if $visibleView.current == 'planner'}

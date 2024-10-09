@@ -8,7 +8,7 @@
 </script>
 
 <Background opacity={90}>
-	<Header />
+	<Header header={'Collection'} />
 	<Sets />
 	<MinimizeBtn viewTarget="none" />
 </Background>

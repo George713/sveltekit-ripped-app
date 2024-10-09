@@ -30,6 +30,10 @@
 		setTimeout(() => {
 			toggle = true;
 		}, 0);
+		// This timeout ensures that the reveal only happens once
+		setTimeout(() => {
+			newItem.set('');
+		}, 5000);
 	});
 </script>
 

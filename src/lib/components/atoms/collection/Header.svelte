@@ -1,1 +1,5 @@
-<h1 class="m-8 text-2xl text-gray-400">Collection</h1>
+<script lang="ts">
+	export let header: string;
+</script>
+
+<h1 class="m-8 text-xl text-gray-400">{header}</h1>

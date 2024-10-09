@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 
-	import { visibleOverlay } from '$lib/stores';
+	import { visibleOverlay, visibleView } from '$lib/stores';
 
 	import Sigil from '$atoms/sigils/Sigil.svelte';
 </script>
@@ -9,6 +9,7 @@
 <div class="relative flex h-[calc(50vh)] w-full justify-center bg-slate-100 pt-3">
 	<button
 		class="absolute left-3 flex h-5 w-5 items-center justify-center rounded bg-slate-300 text-[10px] font-bold text-gray-600 shadow-sm"
+		on:click={() => visibleView.update('collection')}
 	>
 		G
 	</button>

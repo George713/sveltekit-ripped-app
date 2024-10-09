@@ -233,7 +233,11 @@ const rewardStore = () => {
 }
 export const rewards = rewardStore()
 
+// Collection
+// ==========
 // Used for controlling animation of item card
 export const newItem = writable<string>()
-
+// Reusable ressource
 export const collectiblesStore = writable<Collectible[]>()
+// Indicator for which item card to show in detailed view
+export const detailedCollectible = writable<Collectible>()
