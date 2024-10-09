@@ -41,6 +41,7 @@
 	import ModalHarvest from '$organisms/ModalHarvest.svelte';
 	import NewItem from '$organisms/NewItem.svelte';
 	import NewSet from '$organisms/NewSet.svelte';
+	import Collection from '$organisms/Collection.svelte';
 	import UpdateItem from '$organisms/UpdateItem.svelte';
 	import ModalPlanner from '$organisms/ModalPlanner.svelte';
 	import WeeklyReview from '$organisms/WeeklyReview.svelte';
@@ -51,7 +52,6 @@
 	import EnterBodyfatOverlay from '$overlays/EnterBodyfat.svelte';
 	import Calendar from '$overlays/Calendar.svelte';
 	import Rewards from '$overlays/Rewards.svelte';
-	import Collection from '$overlays/Collection.svelte';
 
 	export let data: {
 		foodItems: FoodItem[];
