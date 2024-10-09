@@ -8,8 +8,10 @@
 <!-- Tutorial on animated border: https://www.youtube.com/watch?v=fdLh5pg0nG0&t=6s -->
 <button
 	on:click={() => {
-		detailedCollectible.set(item);
-		visibleView.update('collectionSpecifics');
+		if (item.count ?? 0 > 0) {
+			detailedCollectible.set(item);
+			visibleView.update('collectionSpecifics');
+		}
 	}}
 	class="relative mx-1 h-20 w-16 overflow-hidden rounded {item.rarity === 'bronze'
 		? 'bg-bronze'
