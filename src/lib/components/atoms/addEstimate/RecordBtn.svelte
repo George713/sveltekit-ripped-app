@@ -31,14 +31,23 @@
 
 		recognition = new (window as any).webkitSpeechRecognition();
 		recognition.continuous = true;
-		recognition.interimResults = true;
+		recognition.interimResults = false;
 		recognition.lang = 'de-DE';
 		recognition.onresult = (event: any) => {
-			recordedText = Array.from(event.results).reduce(
-				(accumulatedTranscript: string, result: any) =>
-					accumulatedTranscript + result[0].transcript,
-				''
-			);
+			const lastResultIndex = event.results.length - 1;
+			recordedText += event.results[lastResultIndex][0].transcript + ' ';
+
+			/**
+			 * Intended behaviour on desktop is achieved with reduce method
+			 * and `interimResults = true`. However, this does not work on mobile.
+			 * For mobile, `interimResults = false` and a different accumulation
+			 * technique is required.
+			 */
+			// recordedText = Array.from(event.results).reduce(
+			// 	(accumulatedTranscript: string, result: any) =>
+			// 		accumulatedTranscript + result[0].transcript,
+			// 	''
+			// );
 		};
 		recognition.onerror = (event: any) => {
 			console.error('Transcription error:', event.error);
