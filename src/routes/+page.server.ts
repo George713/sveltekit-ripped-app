@@ -242,28 +242,30 @@ const updateItem: Action = async ({ request }) => {
 
 const addEstimate: Action = async ({ locals, request }) => {
 	const formData = await request.formData();
-	const { kcal, protein } = Object.fromEntries(formData.entries());
+	const { name, kcal, protein } = Object.fromEntries(formData.entries());
 
 	// Create entry in db
-	// const newEstimate = await prisma.eatEstimate.create({
-	// 	data: {
-	// 		kcal: parseInt(kcal as string),
-	// 		protein: parseFloat(protein as string),
-	// 		user: {
-	// 			connect: {
-	// 				id: locals.user.id
-	// 			},
-	// 		},
-	// 	}
-	// })
+	const newEstimate = await prisma.eatEstimate.create({
+		data: {
+			name: name as string,
+			kcal: parseInt(kcal as string),
+			protein: parseFloat(protein as string),
+			user: {
+				connect: {
+					id: locals.user.id
+				},
+			},
+		}
+	})
 
-	const newEstimate = {
-		id: 5000,
-		createdAt: new Date,
-		kcal: parseInt(kcal as string),
-		protein: parseFloat(protein as string),
-		eaten: false
-	}
+	// const newEstimate = {
+	// 	id: 5000,
+	// 	createdAt: new Date,
+	// 	kcal: parseInt(kcal as string),
+	// 	protein: parseFloat(protein as string),
+	// 	eaten: false,
+	// 	name: name as string
+	// }
 
 	return {
 		newEstimate

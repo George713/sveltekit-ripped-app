@@ -150,11 +150,11 @@
 		{/each}
 	{/if}
 	{#if items.includes('estimates')}
-		{#each $estimatesLog as { id, eaten, kcal, protein }}
+		{#each $estimatesLog as { id, eaten, kcal, protein, name }}
 			<ItemCard
 				type="bright"
 				{id}
-				itemName="Estimate"
+				itemName={name ? name : 'Estimate'}
 				{kcal}
 				{protein}
 				unitIsPtn={true}
