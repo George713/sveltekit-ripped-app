@@ -248,7 +248,7 @@ const addEstimate: Action = async ({ locals, request }) => {
 	const newEstimate = await prisma.eatEstimate.create({
 		data: {
 			kcal: parseInt(kcal as string),
-			protein: parseInt(protein as string),
+			protein: parseFloat(protein as string),
 			user: {
 				connect: {
 					id: locals.user.id

@@ -140,7 +140,7 @@ model EatEstimate {
   createdAt DateTime @default(now())
   eaten     Boolean  @default(false)
   kcal      Int
-  protein   Int
+  protein   Float
 
   user   User   @relation(fields: [userId], references: [id])
   userId String
