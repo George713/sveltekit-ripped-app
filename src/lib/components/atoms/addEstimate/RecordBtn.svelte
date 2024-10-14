@@ -1,11 +1,12 @@
 <script lang="ts">
 	export let isRecording: boolean;
 	export let recordedText: string;
+	export let tempTranscript: string;
 	export let recordingResult: any;
 
 	let isProcessing = false;
 	let recognition: any;
-	let isRecognitionEnded: boolean = false;
+	let onMobile = true; // Set to `false` for debugging on desktop
 
 	const handleButton = () => {
 		if (!recordingResult) {
@@ -19,68 +20,51 @@
 	const toggleRecording = () => {
 		isRecording = !isRecording;
 		if (isRecording) {
-			recordedText = 'Listening...';
 			startTranscription();
 		} else {
-			stopTranscription();
+			recognition.stop();
 		}
 	};
 
 	const startTranscription = async () => {
-		isRecognitionEnded = false;
-
 		recognition = new (window as any).webkitSpeechRecognition();
 		recognition.continuous = true;
-		recognition.interimResults = false;
+		recognition.interimResults = true;
 		recognition.lang = 'de-DE';
-		recognition.onresult = (event: any) => {
-			const lastResultIndex = event.results.length - 1;
-			recordedText += event.results[lastResultIndex][0].transcript + ' ';
 
-			/**
-			 * Intended behaviour on desktop is achieved with reduce method
-			 * and `interimResults = true`. However, this does not work on mobile.
-			 * For mobile, `interimResults = false` and a different accumulation
-			 * technique is required.
-			 */
-			// recordedText = Array.from(event.results).reduce(
-			// 	(accumulatedTranscript: string, result: any) =>
-			// 		accumulatedTranscript + result[0].transcript,
-			// 	''
-			// );
+		recognition.onresult = (event: any) => {
+			if (onMobile) {
+				const current = event.resultIndex;
+				tempTranscript = event.results[current][0].transcript;
+			} else {
+				tempTranscript = Array.from(event.results).reduce(
+					(accumulator: string, result: any) => accumulator + result[0].transcript,
+					''
+				);
+			}
 		};
 		recognition.onerror = (event: any) => {
 			console.error('Transcription error:', event.error);
 		};
-		/**
-		 * `onend` events occur several times during the live recording, but are
-		 * separate from the manually triggered end of the recording. Here,
-		 * `isRecording` derives from the manual trigger. If the recording is
-		 * over and the recognition has ended, `isRecognitionEnded` is set to true.
-		 */
 		recognition.onend = () => {
-			if (!isRecording) {
-				isRecognitionEnded = true;
+			/**
+			 * `onend` is triggered on desktop only after `recognition.stop()` has been
+			 * called. On mobile it is triggered before, hence a different handling
+			 * is required.
+			 */
+			if (isRecording) {
+				// This section will only be reached on mobile
+				recordedText += ' ' + tempTranscript;
+				tempTranscript = '';
+				recognition.start();
+			} else {
+				recordedText += ' ' + tempTranscript;
+				sendTranscriptToBackend(recordedText);
 			}
 		};
+
+		recordedText = '';
 		recognition.start();
-	};
-
-	const stopTranscription = () => {
-		// Stops recognition
-		if (recognition) {
-			recognition.stop();
-			waitForRecognitionEnd();
-		}
-	};
-
-	const waitForRecognitionEnd = () => {
-		// Once recognition has ended, send `recordedText` to backend.
-		if (isRecognitionEnded) {
-			sendTranscriptToBackend(recordedText);
-		} else {
-			setTimeout(waitForRecognitionEnd, 100); // Check every 100ms
-		}
 	};
 
 	const sendTranscriptToBackend = async (transcript: string) => {

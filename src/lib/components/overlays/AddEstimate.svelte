@@ -12,8 +12,8 @@
 
 	let isRecording = false;
 	let recordingResult: any = false;
-	let recordedText = 'Record using your voice...';
-	$: newText = recordedText != 'Record using your voice...';
+	let tempTranscript = '';
+	let recordedText = '';
 
 	const makeManualEntry = () => {
 		recordingResult = {
@@ -60,8 +60,16 @@
 <Background opacity={90} classAddons="justify-end space-y-3">
 	{#if recordingResult}
 		<RecordedItems {recordingResult} />
-	{:else}
-		<p class="mx-10 my-1 flex justify-center {newText ? '' : 'text-xl'} text-white/70">
+	{:else if !recordingResult && !isRecording && !tempTranscript && !recordedText}
+		<p class="mx-10 my-1 flex justify-center text-xl text-white/70">Record using your voice...</p>
+	{:else if !recordingResult && isRecording && !tempTranscript && !recordedText}
+		<p class="mx-10 my-1 flex justify-center text-white/70">Listening...</p>
+	{:else if !recordingResult && isRecording && tempTranscript}
+		<p class="mx-10 my-1 flex justify-center text-white/70">
+			{tempTranscript}
+		</p>
+	{:else if !recordingResult && !isRecording && recordedText}
+		<p class="mx-10 my-1 flex justify-center text-white/70">
 			{recordedText}
 		</p>
 	{/if}
@@ -72,7 +80,7 @@
 			{/if}
 		</div>
 		<div class="flex basis-1/4 justify-center">
-			<RecordBtn bind:isRecording bind:recordedText bind:recordingResult />
+			<RecordBtn bind:isRecording bind:tempTranscript bind:recordedText bind:recordingResult />
 		</div>
 		<div class="basis-1/4 pl-5">
 			{#if recordingResult}
