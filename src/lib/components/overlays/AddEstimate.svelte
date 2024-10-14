@@ -1,22 +1,44 @@
 <script lang="ts">
 	import { deserialize } from '$app/forms';
 	import { estimatesLog, showSpinner, visibleOverlay } from '$lib/stores';
-	import { selectInput, focusElement } from '$lib/utils';
-
 	import type { EatEstimate } from '$lib/types';
 
+	import AddManuallyBtn from '$atoms/AddManuallyBtn.svelte';
+	import RecordBtn from '$atoms/addEstimate/RecordBtn.svelte';
+	import AcceptBtn from '$atoms/addEstimate/AcceptBtn.svelte';
+	import MinimizeBtn from '$atoms/MinimizeBtn.svelte';
 	import Background from '$overlays/Background.svelte';
+	import RecordedItems from '$molecules/RecordedItems.svelte';
 
-	const handleSubmit = async (event: Event) => {
+	let isRecording = false;
+	let recordingResult: any = false;
+	let recordedText = 'Record using your voice...';
+	$: newText = recordedText != 'Record using your voice...';
+
+	const makeManualEntry = () => {
+		recordingResult = {
+			items: [{ name: 'Estimate', kcal: 0, protein: 0, icon: '📙' }],
+			combinedName: 'Estimate',
+			sumKcal: 0,
+			sumProtein: 0
+		};
+	};
+
+	const submitToServer = async () => {
 		// Show spinner
 		$showSpinner = true;
 
 		// Return to previous modal
 		visibleOverlay.set('none');
 
+		const formData = new FormData();
+		formData.append('kcal', recordingResult.sumKcal);
+		formData.append('protein', recordingResult.sumProtein);
+		formData.append('name', recordingResult.combinedName);
+
 		const response = await fetch('?/addEstimate', {
 			method: 'POST',
-			body: new FormData(event.target as HTMLFormElement)
+			body: formData
 		});
 
 		const result = deserialize(await response.text());
@@ -35,56 +57,28 @@
 	};
 </script>
 
-<Background>
-	<div
-		class="absolute bottom-1/4 left-1/2 flex w-[calc(70%)] -translate-x-1/2 -translate-y-1/2 transform flex-col items-center rounded-md bg-slate-200/70 backdrop-blur-xs px-5 py-2"
-	>
-		<span>Add Estimate</span>
-		<form method="post" autocomplete="off" on:submit|preventDefault={handleSubmit} class="mt-3">
-			<!-- Row Calories -->
-			<div class="mb-1 flex justify-end">
-				<span>Calories</span>
-				<input
-					type="number"
-					value="0"
-					class="mx-1 w-10 rounded pr-1 text-right"
-					name="kcal"
-					on:focus={selectInput}
-					use:focusElement
-				/>
-				<span class="w-7">kcal</span>
-			</div>
-			<!-- Row Protein -->
-			<div class="mb-3 flex justify-end">
-				<span>Protein</span>
-				<input
-					type="number"
-					value="0"
-					step="0.1"
-					class="mx-1 w-10 rounded pr-1 text-right"
-					name="protein"
-					on:focus={selectInput}
-				/>
-				<span class="w-7">g</span>
-			</div>
-			<!-- Submit Button -->
-			<button
-				class="mx-auto flex h-8 items-center rounded-[4px] bg-green-600/80 shadow-[inset_2px_2px_3px_rgba(161,161,161,0.05),inset_-2px_-2px_3px_rgba(0,0,0,0.05)]"
-			>
-				<svg class="ml-1 h-[18px] fill-none stroke-zinc-100 px-1" viewBox="0 0 24 24"
-					><path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="1.5"
-						d="M12 7v10m0-5h5M7 12h2.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-					/></svg
-				>
-				<div
-					class="flex flex-col py-[6px] pr-2 text-[8px] font-bold leading-none tracking-tight text-zinc-100"
-				>
-					<p>Add</p>
-				</div>
-			</button>
-		</form>
+<Background opacity={90} classAddons="justify-end space-y-3">
+	{#if recordingResult}
+		<RecordedItems {recordingResult} />
+	{:else}
+		<p class="mx-10 my-1 flex justify-center {newText ? '' : 'text-xl'} text-white/70">
+			{recordedText}
+		</p>
+	{/if}
+	<div class="flex items-center justify-center">
+		<div class="basis-1/4">
+			{#if !recordingResult}
+				<AddManuallyBtn {makeManualEntry} />
+			{/if}
+		</div>
+		<div class="flex basis-1/4 justify-center">
+			<RecordBtn bind:isRecording bind:recordedText bind:recordingResult />
+		</div>
+		<div class="basis-1/4 pl-5">
+			{#if recordingResult}
+				<AcceptBtn handleClick={submitToServer} />
+			{/if}
+		</div>
 	</div>
+	<MinimizeBtn viewTarget="eat" stroke={'stroke-zinc-700'} />
 </Background>
