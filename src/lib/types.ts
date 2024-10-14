@@ -62,6 +62,7 @@ export interface EatEstimate {
     createdAt: Date;
     kcal: number;
     protein: number;
+    name?: string
 }
 
 export interface WeightData {
