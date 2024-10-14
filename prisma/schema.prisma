@@ -139,6 +139,7 @@ model EatEstimate {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   eaten     Boolean  @default(false)
+  name      String?
   kcal      Int
   protein   Float
 
