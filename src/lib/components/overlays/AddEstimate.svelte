@@ -64,13 +64,9 @@
 		<p class="mx-10 my-1 flex justify-center text-xl text-white/70">Record using your voice...</p>
 	{:else if !recordingResult && isRecording && !recordedText && !tempTranscript}
 		<p class="mx-10 my-1 flex justify-center text-white/70">Listening...</p>
-	{:else if !recordingResult && isRecording && !recordedText && tempTranscript}
-		<p class="mx-10 my-1 flex justify-center text-white/70">
-			{tempTranscript}
-		</p>
 	{:else}
 		<p class="mx-10 my-1 flex justify-center text-white/70">
-			{recordedText}
+			{(recordedText.trim() + ' ' + tempTranscript.trim()).trim()}
 		</p>
 	{/if}
 	<div class="flex items-center justify-center">

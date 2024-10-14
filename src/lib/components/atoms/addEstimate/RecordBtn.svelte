@@ -59,6 +59,7 @@
 				recognition.start();
 			} else {
 				recordedText += ' ' + tempTranscript;
+				tempTranscript = '';
 				sendTranscriptToBackend(recordedText);
 			}
 		};
