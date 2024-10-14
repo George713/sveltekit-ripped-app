@@ -32,7 +32,6 @@
 		recognition.continuous = true;
 		recognition.interimResults = true;
 		recognition.lang = 'de-DE';
-		// recognition.lang = 'en-US';
 
 		recognition.onresult = (event: any) => {
 			if (onMobile) {
@@ -75,9 +74,6 @@
 	const sendTranscriptToBackend = async (transcript: string) => {
 		// Catch empty transcripts
 		if (!transcript.trim()) {
-			console.log('No transcript');
-			// !recordingResult && !isRecording && !tempTranscript && !recordedText
-			console.log(recordingResult, isRecording, tempTranscript, recordedText);
 			return;
 		}
 
@@ -116,15 +112,12 @@
 	};
 </script>
 
-<!-- <button on:click={handleButton}> -->
-<!-- on:mousedown={handleButton}
-	on:mouseup={handleButton} -->
 <!--
-		Type this into console of devTools to prevent opening of context menu
-	 	when testing long touch:
-			```
-			window.oncontextmenu = function() { return false; }
-			```
+	Type this into console of devTools to prevent opening of context menu
+	when testing long touch:
+		```
+		window.oncontextmenu = function() { return false; }
+		```
 	 -->
 <button on:touchstart={handleButton} on:touchend={handleButton}>
 	<svg
