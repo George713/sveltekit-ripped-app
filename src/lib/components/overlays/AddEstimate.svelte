@@ -62,13 +62,13 @@
 		<RecordedItems {recordingResult} />
 	{:else if !recordingResult && !isRecording && !tempTranscript && !recordedText}
 		<p class="mx-10 my-1 flex justify-center text-xl text-white/70">Record using your voice...</p>
-	{:else if !recordingResult && isRecording && !tempTranscript && !recordedText}
+	{:else if !recordingResult && isRecording && !recordedText && !tempTranscript}
 		<p class="mx-10 my-1 flex justify-center text-white/70">Listening...</p>
-	{:else if !recordingResult && isRecording && tempTranscript}
+	{:else if !recordingResult && isRecording && !recordedText && tempTranscript}
 		<p class="mx-10 my-1 flex justify-center text-white/70">
 			{tempTranscript}
 		</p>
-	{:else if !recordingResult && !isRecording && recordedText}
+	{:else}
 		<p class="mx-10 my-1 flex justify-center text-white/70">
 			{recordedText}
 		</p>
