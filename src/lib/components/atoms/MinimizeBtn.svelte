@@ -1,14 +1,18 @@
 <script lang="ts">
-	import { visibleView } from '$lib/stores';
+	import { visibleOverlay, visibleView } from '$lib/stores';
 
 	export let viewTarget: string;
+	export let stroke = 'stroke-gray-400';
 </script>
 
 <button
-	on:click={() => visibleView.update(viewTarget)}
-	class="relative mx-auto mt-auto flex items-center self-end p-2"
+	on:click={() => {
+		visibleView.update(viewTarget);
+		visibleOverlay.set('none');
+	}}
+	class="relative mx-auto flex items-center self-end p-2 pb-4"
 >
-	<svg width="31" height="18" class=" fill-none stroke-gray-400"
+	<svg width="31" height="18" class=" fill-none {stroke}"
 		><path
 			stroke-linecap="round"
 			stroke-width="3"
