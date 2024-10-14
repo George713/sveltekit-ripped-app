@@ -26,7 +26,7 @@ Your response should be in the format of json with the following keys:
   - icon
 - sumKcal
 - sumProtein
-- combinedName: a brief description summarizing the items
+- combinedName: a brief description summarizing the items, max. 30 characters
 
 For \`name\` and \`combinedName\`:
 - abbreviate units
