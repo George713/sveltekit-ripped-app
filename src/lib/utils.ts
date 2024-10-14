@@ -1,13 +1,23 @@
 import type { ScheduledEvent } from "./types";
 
+// For automatically selecting the entire content of an input field
+// For usage, add `on:focous={selectInput}` to input field
 export const selectInput = (event: Event) => {
     const element = event.target as HTMLInputElement;
     element.select()
 }
 
-// For putting the focus automatically on input field
-export const focusElement = (el: HTMLInputElement) => {
-    el.focus();
+// Similar to `selectInput`, but for other elements
+// For usage, add `on:focous={selectInput}` to input field
+export const selectContent = (event: Event) => {
+    window.getSelection()?.selectAllChildren(event.target as HTMLElement);
+};
+
+// For putting the focus automatically on HTMLElement
+// Usage for input fields: add `on:use={focusElement}` to input field
+// Usage for paragraph fields: add `use=focusElement` to paragraph field
+export const focusElement = (el: HTMLInputElement | HTMLParagraphElement) => {
+    el.focus()
 };
 
 /**
