@@ -9,10 +9,11 @@
 	let onMobile = true; // Set to `false` for debugging on desktop
 
 	const handleButton = () => {
+		console.log('click');
 		if (!recordingResult) {
 			toggleRecording();
 		} else {
-			recordedText = 'Record using your voice...';
+			recordedText = '';
 			recordingResult = false;
 		}
 	};
@@ -31,6 +32,7 @@
 		recognition.continuous = true;
 		recognition.interimResults = true;
 		recognition.lang = 'de-DE';
+		// recognition.lang = 'en-US';
 
 		recognition.onresult = (event: any) => {
 			if (onMobile) {
@@ -45,6 +47,7 @@
 		};
 		recognition.onerror = (event: any) => {
 			console.error('Transcription error:', event.error);
+			recognition.stop();
 		};
 		recognition.onend = () => {
 			/**
@@ -60,6 +63,7 @@
 			} else {
 				recordedText += ' ' + tempTranscript;
 				tempTranscript = '';
+				recordedText = recordedText.trim(); // Ensures that " " does not occur
 				sendTranscriptToBackend(recordedText);
 			}
 		};
@@ -69,6 +73,14 @@
 	};
 
 	const sendTranscriptToBackend = async (transcript: string) => {
+		// Catch empty transcripts
+		if (!transcript.trim()) {
+			console.log('No transcript');
+			// !recordingResult && !isRecording && !tempTranscript && !recordedText
+			console.log(recordingResult, isRecording, tempTranscript, recordedText);
+			return;
+		}
+
 		isProcessing = true;
 
 		const formData = new FormData();
@@ -104,7 +116,17 @@
 	};
 </script>
 
-<button on:click={handleButton}>
+<!-- <button on:click={handleButton}> -->
+<!-- on:mousedown={handleButton}
+	on:mouseup={handleButton} -->
+<!--
+		Type this into console of devTools to prevent opening of context menu
+	 	when testing long touch:
+			```
+			window.oncontextmenu = function() { return false; }
+			```
+	 -->
+<button on:touchstart={handleButton} on:touchend={handleButton}>
 	<svg
 		class="h-16 w-16 {isRecording ? 'animate-pulse' : ''} {isProcessing ? 'animate-spin' : ''}"
 		width="63"

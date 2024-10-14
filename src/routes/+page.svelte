@@ -75,6 +75,8 @@
 
 	let audioWeighIn: any;
 
+	visibleView.update('eat');
+
 	// EventHandler for playing sounds
 	const handlePlaySound = (event: CustomEvent) => {
 		switch (event.detail.text) {
