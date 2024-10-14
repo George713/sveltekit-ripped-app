@@ -10,7 +10,7 @@
 		visibleView.update(viewTarget);
 		visibleOverlay.set('none');
 	}}
-	class="relative mx-auto flex items-center self-end p-2 pb-4"
+	class="relative mx-auto mt-auto flex items-center self-end p-2 pb-4"
 >
 	<svg width="31" height="18" class=" fill-none {stroke}"
 		><path
