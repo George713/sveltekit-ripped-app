@@ -21,8 +21,8 @@ In addition, provide me with an icon for each item.
 Your response should be in the format of json with the following keys:
 - items: a list of the various items
   - name: short name or description of each item, max. 16 characters
-  - kcal
-  - protein
+  - kcal: kcal of item, integer value
+  - protein: grams of protein, at maximum 1 decimal digit
   - icon
 - sumKcal
 - sumProtein
