@@ -12,7 +12,7 @@
 	on:keydown={() => toggleOverlay()}
 >
 	<div
-		class="relative top-[calc(56vh)] flex h-48 w-80 flex-col items-center rounded-lg bg-white/60 shadow-lg backdrop-blur-lg"
+		class="relative top-[calc(56dvh)] flex h-48 w-80 flex-col items-center rounded-lg bg-white/60 shadow-lg backdrop-blur-lg"
 	>
 		<span class="mx-2 my-4 pt-2 text-center font-sans font-semibold">{msg}</span>
 		<div class="flex">

@@ -4,7 +4,7 @@
 	import ActionButton from '$atoms/ActionButton.svelte';
 </script>
 
-<div class="relative flex h-[calc(25vh)] w-full items-center justify-center bg-slate-100">
+<div class="relative flex h-[calc(25dvh)] w-full items-center justify-center bg-slate-100">
 	<!-- Weigh-in -->
 	<ActionButton
 		text="W"

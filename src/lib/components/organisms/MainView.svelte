@@ -26,7 +26,7 @@
 	<!-- Sigil with Navigation elements and points -->
 	<SigilNavPoints />
 	<!-- PowerUps, Bars, Tracker, Harvest Button, Progress Picture Button -->
-	<div class="flex h-[calc(25vh)] w-full">
+	<div class="flex h-[calc(25dvh)] w-full">
 		<!-- PowerUps, Bars, Tracker -->
 		<div class="flex h-full w-[calc(66%)] flex-col bg-slate-100">
 			<!-- PowerUps -->

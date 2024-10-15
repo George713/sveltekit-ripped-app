@@ -27,7 +27,7 @@
 	on:keydown={() => visibleView.update('none')}
 >
 	<div
-		class="relative top-[calc(56vh)] flex h-40 w-80 flex-col items-center rounded-lg bg-white/60 shadow-lg backdrop-blur-lg"
+		class="relative top-[calc(56dvh)] flex h-40 w-80 flex-col items-center rounded-lg bg-white/60 shadow-lg backdrop-blur-lg"
 	>
 		<span class="my-4 pt-2 text-center font-sans font-semibold"
 			>Everything I ate today I <br /> entered & I am done eating.</span
