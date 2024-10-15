@@ -1,8 +1,5 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { invalidateAll } from '$app/navigation';
-
-	import { plannedItems } from '$lib/stores';
 
 	// Atoms
 	import BodyfatButton from '$atoms/BodyfatButton.svelte';
@@ -16,20 +13,6 @@
 	import DailyActionBtns from '$molecules/DailyActionBtns.svelte';
 	import InitialInputs from '$molecules/InitialInputs.svelte';
 	import SigilNavPoints from '$molecules/SigilNavPoints.svelte';
-
-	const reset = async () => {
-		const formData = new FormData();
-		const response = await fetch('?/reset', {
-			method: 'POST',
-			body: formData
-		});
-
-		// Clear plannedItem store
-		plannedItems.set([]);
-
-		// Reload page data (so plan button is enabled again)
-		invalidateAll();
-	};
 </script>
 
 <!-- ONBOARDING -->
@@ -78,5 +61,5 @@
 	</div>
 
 	<!-- Weigh, Plan, Finish, Reset Buttons -->
-	<DailyActionBtns {reset} />
+	<DailyActionBtns />
 {/if}

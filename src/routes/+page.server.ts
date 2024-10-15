@@ -473,40 +473,6 @@ const setUserTimeZoneOffset: Action = async ({ locals, request }) => {
 	})
 }
 
-const reset: Action = async ({ locals }) => {
-	const user = await prisma.user.update({
-		where: { id: locals.user.id },
-		data: {
-			lastPlannedOn: new Date("1970-01-01"),
-			lastFinishedEatingOn: new Date("1970-01-01"),
-			lastHarvestOn: new Date("1970-01-01"),
-			lastWeeklyPicOn: new Date("1970-01-01"),
-		}
-	})
-
-	// Delete all PlannedItems associated with the user
-	await prisma.plannedItem.deleteMany({
-		where: { foodItem: { userId: user.id } },
-	});
-
-	// Delete latest record in weight table
-	const latestWeight = await prisma.weight.findFirst({
-		where: { userId: user.id },
-		orderBy: {
-			createdAt: 'desc', // Order by `createdAt` in descending order
-		},
-	});
-
-	if (latestWeight) {
-		// If a record was found, delete it
-		await prisma.weight.delete({
-			where: {
-				id: latestWeight.id,
-			},
-		});
-	}
-}
-
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
 		const dateDayBegin = getDateDayBegin(locals.user.timeZoneOffset)
@@ -603,7 +569,6 @@ export const actions: Actions = {
 	finishEating,
 	harvestPoints,
 	finishReview,
-	reset,
 	setUserTimeZoneOffset,
 	collect,
 };
