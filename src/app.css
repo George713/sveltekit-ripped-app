@@ -1,6 +1,10 @@
+/* Importing Roboto font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 
 /* For Webkit-based browsers (Chrome, Safari and Opera) */
 .scrollbar-hide::-webkit-scrollbar {
@@ -16,4 +20,13 @@
 /* Hide spinners in Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+@layer base {
+  @font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+  }
 }
