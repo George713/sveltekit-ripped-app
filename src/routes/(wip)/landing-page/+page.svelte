@@ -11,7 +11,7 @@
 
 <div class="flex h-screen w-screen flex-col justify-center bg-stone-900 lg:flex-row">
 	<!-- Mockup for Mobile/Tablet -->
-	<div class="my-5 flex h-[calc(50%)] justify-center lg:hidden">
+	<div class="mb-5 mt-2 flex h-[calc(50%)] justify-center lg:hidden">
 		<img class="" src={Mockup} alt="Mockup Mobile" />
 	</div>
 	<!-- Hero content without Mockup -->
