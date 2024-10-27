@@ -28,13 +28,13 @@
 	<title>HYC - Have Your Cookie</title>
 </svelte:head>
 
-{#if !$page.data.user}
+<!-- {#if !$page.data.user}
 	<nav class="flex justify-center bg-slate-400 py-3">
 		<a class="mr-2 bg-cyan-100 px-3" href="/">Home</a>
 		<a class="mx-2 bg-cyan-300 px-3" href="/login">Login</a>
-		<!-- <a class="bg-cyan-500 px-3 ml-2" href="/register">Register</a> -->
+		<a class="bg-cyan-500 px-3 ml-2" href="/register">Register</a>
 	</nav>
-{/if}
+{/if} -->
 
 <main>
 	<slot />
