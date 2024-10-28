@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import '../app.css';
+
+	let { children } = $props();
 
 	const detectSWUpdate = async () => {
 		const registration = await navigator.serviceWorker.ready;
@@ -36,6 +37,4 @@
 	</nav>
 {/if} -->
 
-<main>
-	<slot />
-</main>
+{@render children()}
