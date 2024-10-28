@@ -4,9 +4,7 @@
 
 <div class="mb-2 flex justify-end">
 	<button
-		on:click={() => {
-			visibleOverlay.set('addEstimate');
-		}}
+		onclick={() => visibleOverlay.set('addEstimate')}
 		class="mx-2 flex h-8 items-center rounded-[4px] bg-neutral-400/70 shadow-[inset_2px_2px_3px_rgba(161,161,161,0.05),inset_-2px_-2px_3px_rgba(0,0,0,0.05)]"
 	>
 		<svg class="ml-1 h-[18px] fill-none stroke-zinc-100 px-1" viewBox="0 0 32 32"
@@ -24,9 +22,7 @@
 		</div>
 	</button>
 	<button
-		on:click={() => {
-			visibleView.update('foodLib');
-		}}
+		onclick={() => visibleView.update('foodLib')}
 		class="mx-2 flex h-8 items-center rounded-[4px] bg-neutral-400/70 shadow-[inset_2px_2px_3px_rgba(161,161,161,0.05),inset_-2px_-2px_3px_rgba(0,0,0,0.05)]"
 	>
 		<svg class="ml-1 h-[18px] fill-none stroke-zinc-100 px-1" viewBox="0 0 24 24"
