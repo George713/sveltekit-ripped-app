@@ -89,11 +89,7 @@
 <!-- Benefits -->
 {#snippet benefit(benefit: Benefit)}
 	<div class="relative flex w-96 max-w-full flex-col items-center">
-		<img
-			class="absolute mb-3 h-48 bg-green-500/10 object-contain"
-			src={benefit.img}
-			alt="Benefit"
-		/>
+		<img class="absolute mb-3 h-48 object-contain" src={benefit.img} alt="Benefit" />
 		<div class="mt-40 w-64 text-center">
 			<p class="mb-2 text-xl font-medium">{benefit.title}</p>
 			<p class="text-sm leading-tight">{benefit.text}</p>
@@ -103,7 +99,7 @@
 
 <div class="flex w-full flex-col items-center bg-stone-700 py-7 text-stone-200">
 	<!-- Section Title -->
-	<h2 class="mb-6 text-xl font-medium">Benefits & Features</h2>
+	<h2 class="text-xl font-medium">Benefits & Features</h2>
 	<!-- Benefits -->
 	<div class="flex w-full flex-col items-center lg:flex-row lg:justify-evenly">
 		{@render benefit(benefit1)}
