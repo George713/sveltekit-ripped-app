@@ -87,13 +87,13 @@
 		{
 			question: 'How does it work, exactly?',
 			answer:
-				'<i>Have Your Cookie</i> incorporates design elements typically found in the gaming industry. Special focus was put into assembling a `diet experience` that addresses as many different human motivational pathways as possible. Currently these pathways are covered: <i>our desire for accomplishment, ownership over the journey, creative expression</i> and <i>a hang for novelty</i>.',
+				'<i>Have Your Cookie</i> incorporates design elements typically found in the gaming industry. Special focus was put into assembling a `diet experience` that addresses as many different human motivational pathways as possible. Currently the following pathways are covered: <i>our desire for accomplishment, ownership over the journey, creative expression</i> and <i>a hang for novelty</i>.',
 			id: 3
 		},
 		{
 			question: 'What is planned for the beta test phase?',
 			answer:
-				'During the beta our beta testers (I hope you become one, if you haven’t already) experience the app at its current stage. We constantly gather your feedback and update the app accordingly. Every tester is welcome to send feedback via Discord, email or reddit, but thats ultimately up to you. <br><br>If you are a <b>Beta Tester+</b> (you can tick a box during sign-up to become one), we would love to have a 15min zoom call with you after you got a chance to test the app (this form of feedback is especially value to us and will be honored accordingly when the app goes live).',
+				'During the beta our testers (I hope you become one, if you haven’t already) experience the app at its current stage. We constantly gather your feedback and update the app accordingly. Every tester is welcome to send feedback via Discord, email or reddit, but that’s ultimately up to you. <br><br>If you are a <b>Beta Tester+</b> (you can tick a box during sign-up to become one), we would love to have a 15min zoom call with you after you got a chance to test the app (this form of feedback is especially valuable to us and will be honored accordingly when the app goes live).',
 			id: 4
 		},
 		{
@@ -197,13 +197,15 @@
 		}}
 		class="my-1"
 	>
-		<span
+		<div
 			class="flex items-center space-x-4 text-sm font-semibold {openQestionId == question.id
 				? `text-orange-500`
 				: ``}"
 		>
 			<svg
-				class="h-4 {openQestionId == question.id ? `fill-orange-500` : `fill-stone-200`}"
+				class="h-4 flex-shrink-0 {openQestionId == question.id
+					? `fill-orange-500`
+					: `fill-stone-200`}"
 				viewBox="0 0 16 16"
 				fill="none"
 			>
@@ -214,7 +216,7 @@
 				/>
 			</svg>
 			<span class="text-left">{@html question.question}</span>
-		</span>
+		</div>
 		{#if openQestionId == question.id}
 			<p transition:slide class="ml-8 mt-1 text-left text-sm leading-tight">
 				{@html question.answer}
