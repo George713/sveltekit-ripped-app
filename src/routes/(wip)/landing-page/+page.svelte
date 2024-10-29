@@ -6,7 +6,7 @@
 		SubHeadline,
 		MockupHand,
 		Mockup
-	} from '$lib/components/hero';
+	} from '$lib/components/landingPage/hero';
 </script>
 
 <div class="flex h-screen w-screen flex-col justify-center bg-stone-900 lg:flex-row">
