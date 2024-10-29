@@ -62,7 +62,7 @@
 </script>
 
 <!-- Hero -->
-<div class="flex h-screen w-screen flex-col justify-center bg-stone-900 lg:flex-row">
+<div class="flex h-screen w-full flex-col justify-center bg-stone-900 lg:flex-row">
 	<!-- Mockup for Mobile/Tablet -->
 	<div class="mb-5 mt-2 flex h-[calc(50%)] justify-center lg:hidden">
 		<img class="" src={Mockup} alt="Mockup Mobile" />
@@ -88,8 +88,12 @@
 
 <!-- Benefits -->
 {#snippet benefit(benefit: Benefit)}
-	<div class="relative flex w-96 flex-col items-center">
-		<img class="absolute mb-3 h-48 object-contain" src={benefit.img} alt="Benefit" />
+	<div class="relative flex w-96 max-w-full flex-col items-center">
+		<img
+			class="absolute mb-3 h-48 bg-green-500/10 object-contain"
+			src={benefit.img}
+			alt="Benefit"
+		/>
 		<div class="mt-40 w-64 text-center">
 			<p class="mb-2 text-xl font-medium">{benefit.title}</p>
 			<p class="text-sm leading-tight">{benefit.text}</p>
@@ -97,11 +101,11 @@
 	</div>
 {/snippet}
 
-<div class="flex w-screen flex-col items-center bg-stone-700 py-7 text-stone-200">
+<div class="flex w-full flex-col items-center bg-stone-700 py-7 text-stone-200">
 	<!-- Section Title -->
 	<h2 class="mb-6 text-xl font-medium">Benefits & Features</h2>
 	<!-- Benefits -->
-	<div class="flex w-screen flex-col items-center lg:flex-row lg:justify-evenly">
+	<div class="flex w-full flex-col items-center lg:flex-row lg:justify-evenly">
 		{@render benefit(benefit1)}
 		<div class="mx-auto my-8 h-0.5 w-10 rounded-full bg-stone-600 lg:hidden"></div>
 		{@render benefit(benefit2)}
@@ -126,11 +130,11 @@
 	</div>
 {/snippet}
 
-<div class="flex w-screen flex-col bg-stone-900 py-7 text-stone-200">
+<div class="flex w-full flex-col bg-stone-900 py-7 text-stone-200">
 	<!-- Section Title -->
 	<h2 class="mb-5 text-center text-xl font-medium">What Alpha Testers Say</h2>
 	<!-- Reviews -->
-	<div class="flex w-screen flex-col items-center lg:flex-row lg:justify-evenly">
+	<div class="flex w-full flex-col items-center lg:flex-row lg:justify-evenly">
 		{@render review(review1)}
 		<div class="mx-auto my-8 h-0.5 w-10 rounded-full bg-stone-600 lg:hidden"></div>
 		{@render review(review2)}
