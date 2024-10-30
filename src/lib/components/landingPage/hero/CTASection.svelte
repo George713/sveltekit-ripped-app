@@ -4,7 +4,7 @@
 	let { classAddons = '' }: { classAddons?: string } = $props();
 </script>
 
-<div class="flex flex-col text-sm text-stone-200 {classAddons}  lg:w-96">
+<div class="flex flex-col text-sm text-stone-200 {classAddons} lg:w-96">
 	<!-- Input fields -->
 	<div class="flex space-x-2">
 		<input

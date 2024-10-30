@@ -128,7 +128,7 @@
 		</div>
 	</div>
 	<!-- Mockup Hand for Desktop -->
-	<div class="flex h-full flex-col-reverse">
+	<div class="hidden h-full flex-col-reverse lg:flex">
 		<img
 			class="mr-auto hidden h-[calc(80%)] object-contain lg:block"
 			src={MockupHand}
