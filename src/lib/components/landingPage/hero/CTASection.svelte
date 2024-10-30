@@ -4,17 +4,17 @@
 	let { classAddons = '' }: { classAddons?: string } = $props();
 </script>
 
-<div class="flex flex-col text-sm text-stone-200 {classAddons} lg :w-96 w-full">
+<div class="flex flex-col text-sm text-stone-200 {classAddons}  lg:w-96">
 	<!-- Input fields -->
 	<div class="flex space-x-2">
 		<input
-			class="h-9 w-40 rounded border border-stone-400 bg-transparent px-3 placeholder-stone-400 lg:grow"
+			class="h-9 w-40 grow rounded border border-stone-400 bg-transparent px-3 placeholder-stone-400"
 			type="text"
 			placeholder="First Name"
 			value={firstName}
 		/>
 		<input
-			class="h-9 w-40 rounded border border-stone-400 bg-transparent px-3 placeholder-stone-400 lg:grow"
+			class="h-9 w-40 grow rounded border border-stone-400 bg-transparent px-3 placeholder-stone-400"
 			type="email"
 			placeholder="Email"
 			value={email}

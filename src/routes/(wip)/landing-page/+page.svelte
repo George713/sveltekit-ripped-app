@@ -11,6 +11,7 @@
 	} from '$lib/components/landingPage/hero';
 	import { Benefit1Img, Benefit2Img, Benefit3Img } from '$lib/components/landingPage/benefits';
 	import { JaneDow, Stars } from '$lib/components/landingPage/reviews';
+	import { DirectCTA } from '$lib/components/landingPage/directCTA';
 
 	let openQestionId = $state(0);
 
@@ -122,7 +123,7 @@
 		<div class="flex flex-col">
 			<Headline classAddons="lg:mb-7 mb-4" />
 			<SubHeadline classAddons=" lg:mb-20 mb-4" />
-			<CTASection classAddons="lg:mb-5 mb-3" />
+			<CTASection classAddons="lg:mb-5 mb-3 w-full" />
 			<SocialProof />
 		</div>
 	</div>
@@ -234,5 +235,15 @@
 		{#each questions as question}
 			{@render quest(question)}
 		{/each}
+	</div>
+</div>
+
+<!-- Direct CTA -->
+<div class="flex w-full flex-col justify-center bg-stone-900 lg:flex-row">
+	<div class="mx-[calc(10%)] flex items-center justify-center lg:justify-start">
+		<div class="flex flex-col">
+			<DirectCTA classAddons="lg:mb-5 mb-7 mt-10" />
+			<CTASection classAddons="mb-10 mx-auto" />
+		</div>
 	</div>
 </div>
