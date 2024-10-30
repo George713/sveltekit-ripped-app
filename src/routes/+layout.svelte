@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
 	import '../app.css';
 
 	let { children } = $props();
@@ -21,7 +22,10 @@
 	};
 
 	onMount(() => {
-		detectSWUpdate();
+		// Check if the current route is not '/landing-page'
+		if ($page.url.pathname !== '/landing-page') {
+			detectSWUpdate();
+		}
 	});
 </script>
 
@@ -37,4 +41,4 @@
 	</nav>
 {/if} -->
 
-{@render children()}
+{@render children?.()}
