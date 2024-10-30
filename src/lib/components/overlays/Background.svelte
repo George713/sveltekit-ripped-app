@@ -1,16 +1,35 @@
 <script lang="ts">
-	import { visibleOverlay } from '$lib/stores';
+	import { visibleOverlay, visibleView } from '$lib/stores';
+	import type { Snippet } from 'svelte';
 
-	export let opacity = 70;
-	export let classAddons = '';
+	interface Props {
+		opacity: number;
+		classAddons: string;
+		children: Snippet;
+	}
+
+	let { opacity = 70, classAddons = '', children }: Props = $props();
+	let el: HTMLDivElement;
+
+	const dontPassToChildren = (fn: () => void) => (event: MouseEvent | KeyboardEvent) => {
+		if (event.target === el) {
+			fn();
+		}
+	};
+
+	const returnToMain = () => {
+		visibleOverlay.set('none');
+		visibleView.update('none');
+	};
 </script>
 
 <div
 	class="fixed left-0 top-0 z-20 h-full w-full bg-black bg-opacity-{opacity} flex flex-col backdrop-blur-sm {classAddons}"
 	role="button"
 	tabindex={0}
-	on:click|self={() => visibleOverlay.set('none')}
-	on:keydown|self={() => visibleOverlay.set('none')}
+	bind:this={el}
+	onclick={dontPassToChildren(returnToMain)}
+	onkeydown={dontPassToChildren(returnToMain)}
 >
-	<slot />
+	{@render children?.()}
 </div>
