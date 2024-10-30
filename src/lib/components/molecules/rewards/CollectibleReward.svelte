@@ -46,8 +46,8 @@
 
 			visibleOverlay.set('none');
 			visibleView.update('collection');
-			rewards.reset();
 			newItem.set(collectible.name);
+			rewards.reset();
 		}, 3250);
 	};
 </script>
