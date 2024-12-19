@@ -145,9 +145,9 @@ export const getScheduledEvent = (
         // Add periods until new date is in the future
         while (nextDate < today) {
             if (type === 'weekly') {
-                nextDate.setDate(lastDate.getDate() + 7);
+                nextDate.setDate(nextDate.getDate() + 7);
             } else if (type === 'fourWeekly') {
-                nextDate.setDate(lastDate.getDate() + 28);
+                nextDate.setDate(nextDate.getDate() + 28);
             }
         }
 
