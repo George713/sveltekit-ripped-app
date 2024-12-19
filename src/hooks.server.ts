@@ -231,7 +231,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			currentCalorieTarget: user.calorieTargets.length > 0 ? user.calorieTargets[0].calories : 9999,
 			currentBF: user.bodyfats.length > 0 ? user.bodyfats[0].bodyfat : 999,
 			currentStatus: 'empty',
-			currentWeight: user.weights.length > 0 ? user.weights[0].weight : 999, // userWeight ? userWeight.weight : 999,
+			currentWeight: user.weights.length > 0 ? user.weights[0].weight : 100, // userWeight ? userWeight.weight : 100,
 			initBF: user.bodyfats.length > 0, // whether init body fat measurement was taken
 			initPhoto: user.initPhoto,
 			initCalories: user.calorieTargets.length > 0, // whether init calorie target was entered
