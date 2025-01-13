@@ -3,8 +3,8 @@
 	import type { Snippet } from 'svelte';
 
 	interface Props {
-		opacity: number;
-		classAddons: string;
+		opacity?: number;
+		classAddons?: string;
 		children: Snippet;
 	}
 
