@@ -234,9 +234,27 @@ const updateItem: Action = async ({ request }) => {
 		}
 	});
 
+	// Generate a new filename for the image (if a new image is provided)
+	const filename = 'foodItem_' + updatedItem.id;
+
+	// Delete old image
+	await supabase.storage
+		.from('foodItems')
+		.remove([filename]);
+
+	// Make presignedURL for upload from client
+	const { data, error } = await supabase.storage
+		.from('foodItems')
+		.createSignedUploadUrl(filename)
+
+	if (!data) {
+		throw new Error('Presigned URL could not be generated');
+	}
+
 	return {
 		message: 'Item updated successfully',
-		updatedItem
+		presignedURL: data.signedUrl,
+		updatedItem,
 	}
 };
 

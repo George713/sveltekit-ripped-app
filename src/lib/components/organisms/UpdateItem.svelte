@@ -8,6 +8,7 @@
 	import ItemDetails from '$molecules/ItemDetails.svelte';
 
 	let item: FoodItem | undefined;
+	let imageBlob: Blob;
 
 	onMount(() => {
 		item = foodLibrary.findItemById($originItem);
@@ -29,11 +30,13 @@
 
 		if (result.type === 'success' && result.data) {
 			// Upload image to s3 using presignURL
-			// @ts-ignore
-			// await fetch(result.data.presignedURL, {
-			// 	method: 'PUT',
-			// 	body: imageString
-			// });
+			if (imageBlob) {
+				// @ts-ignore
+				await fetch(result.data.presignedURL, {
+					method: 'PUT',
+					body: imageBlob
+				});
+			}
 			const updatedItem = result.data.updatedItem as FoodItem;
 
 			// Update foodLibrary
@@ -57,6 +60,7 @@
 		title="Update Item"
 		submitBtnText="Update"
 		submitBtnSymbol="plus"
+		bind:imageBlob
 		itemName={item.itemName}
 		foodId={item.id}
 		activeUnitIsPtn={item.unitIsPtn}
