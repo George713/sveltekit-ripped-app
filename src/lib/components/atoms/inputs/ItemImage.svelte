@@ -18,7 +18,7 @@
 <!-- Outer Shape -->
 <div class="relative h-[calc(60%)] w-full">
 	<!-- Image from storage/upload/no image-->
-	{#if foodId}
+	{#if foodId && !image}
 		<img
 			src={`https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${foodId}`}
 			alt="imgUrl"
