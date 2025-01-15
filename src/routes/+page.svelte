@@ -158,4 +158,4 @@
 <SpinnerOverlay showSpinner={$showSpinner} />
 
 <!-- AUDIO -->
-<audio src="/audio/successBell.mp3" bind:this={audioWeighIn} />
+<audio src="/audio/successBell.mp3" bind:this={audioWeighIn}></audio>
