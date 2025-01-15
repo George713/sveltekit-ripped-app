@@ -51,7 +51,7 @@
 		</div>
 	{/if}
 	<!-- Image Overlay for slightly darking it -->
-	<div class="absolute h-[60px] w-full rounded-b bg-black opacity-30" />
+	<div class="absolute h-[60px] w-full rounded-b bg-black opacity-30"></div>
 	<!-- Image -->
 	<img
 		src={foodId
@@ -69,6 +69,7 @@
 			on:click={() => {
 				plusButton();
 			}}
+			aria-label="Add item"
 		>
 			<svg class="h-5 w-5 fill-none stroke-neutral-200/80" viewBox="0 0 24 24">
 				<path
@@ -81,7 +82,11 @@
 		</button>
 	{:else if type === 'bright' && !eatingMenu}
 		<!-- Removing Item -->
-		<button class="absolute right-1 top-0.5" on:click={() => removeFromPlannedItems(id)}>
+		<button
+			class="absolute right-1 top-0.5"
+			on:click={() => removeFromPlannedItems(id)}
+			aria-label="Remove item"
+		>
 			<svg class="h-3 fill-neutral-200/50" viewBox="0 0 24 24">
 				<path
 					fill-rule="evenodd"
@@ -92,7 +97,11 @@
 	{/if}
 	<!-- Image Icon: Edit -->
 	{#if !eatingMenu}
-		<button class="absolute bottom-[calc(40px)] left-[calc(2px)]" on:click={() => updateItem(id)}>
+		<button
+			class="absolute bottom-[calc(40px)] left-[calc(2px)]"
+			on:click={() => updateItem(id)}
+			aria-label="Edit item"
+		>
 			<svg class="h-4 w-4 fill-none stroke-neutral-200/70" viewBox="0 0 24 24">
 				<path
 					stroke-linecap="round"
