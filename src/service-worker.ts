@@ -80,5 +80,8 @@ self.addEventListener('fetch', (event) => {
 self.addEventListener("message", event => {
     if (event.data && event.data.type === "SKIP_WAITING") {
         self.skipWaiting()
+    } else if (event.data && event.data.type === 'INVALIDATE_CACHE' && event.data.url) {
+        // Delete the specified URL from the cache
+        caches.delete(event.data.url)
     }
 })

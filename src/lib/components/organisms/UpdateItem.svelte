@@ -47,6 +47,19 @@
 			});
 		}
 
+		// Clear cache of previous image so that new image is used
+		const imageUrl = `https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${item?.id}`;
+
+		if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+			// Send a message to the active service worker
+			navigator.serviceWorker.controller.postMessage({
+				type: 'INVALIDATE_CACHE',
+				url: imageUrl
+			});
+		} else {
+			console.warn('Service worker not active or not supported.');
+		}
+
 		// Return to previous modal
 		visibleView.update($visibleView.previous);
 
