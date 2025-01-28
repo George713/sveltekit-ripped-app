@@ -4,8 +4,6 @@ layer(base);
 
 @import 'tailwindcss';
 
-@config '../tailwind.config.cjs';
-
 /*
   The default border color has changed to `currentColor` in Tailwind CSS v4,
   so we've added these compatibility styles to make sure everything still
@@ -21,6 +19,16 @@ layer(base);
   ::backdrop,
   ::file-selector-button {
     border-color: var(--color-gray-200, currentColor);
+  }
+
+  /* Override Chrome's autofill styles */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px transparent inset !important; /* Transparent background */
+    -webkit-text-fill-color: theme('colors.stone.400') !important; /* Text color */
+    transition: background-color 5000s ease-in-out 0s; /* Prevent background color change */
   }
 }
 
@@ -39,14 +47,5 @@ layer(base);
   /* Hide spinners in Firefox */
   input[type='number'] {
     -moz-appearance: textfield;
-  }
-}
-
-@layer base {
-  @font-face {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
   }
 }
