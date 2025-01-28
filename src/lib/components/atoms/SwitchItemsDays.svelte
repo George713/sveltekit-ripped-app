@@ -4,7 +4,7 @@
 
 <label
 	for="check"
-	class="relative mr-1 mt-0.5 h-5 w-[78px] cursor-pointer rounded-full bg-neutral-500/40 shadow"
+	class="relative mr-1 mt-0.5 h-5 w-[78px] cursor-pointer rounded-full bg-neutral-500/40 shadow-sm"
 >
 	<input type="checkbox" id="check" bind:checked={isChecked} class="peer sr-only" />
 	<span

@@ -14,7 +14,7 @@
 <Background>
 	<!-- Modal -->
 	<div
-		class="absolute left-0 right-0 top-1/4 mx-5 rounded-lg bg-slate-200/70 pt-2 text-center text-stone-800 shadow"
+		class="absolute left-0 right-0 top-1/4 mx-5 rounded-lg bg-slate-200/70 pt-2 text-center text-stone-800 shadow-sm"
 	>
 		<!-- Heading -->
 		<p class="text-lg font-semibold">Upcoming Events</p>

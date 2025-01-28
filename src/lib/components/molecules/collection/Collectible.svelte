@@ -12,7 +12,7 @@
 	</div>
 	<!-- Image -->
 	<img
-		class="rounded border-2 {item.rarity === 'bronze'
+		class="rounded-sm border-2 {item.rarity === 'bronze'
 			? 'border-bronze'
 			: item.rarity === 'silver'
 				? 'border-silver'

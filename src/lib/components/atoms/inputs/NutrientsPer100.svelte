@@ -14,7 +14,7 @@
 	<div class="flex flex-col justify-end w-1/4 items-center">
 		<p class="text-xs text-center mb-1">default portion size (g)</p>
 		<input
-			class="w-[40px] text-center text-sm focus:outline-none bg-neutral-800/20 rounded py-0.5"
+			class="w-[40px] text-center text-sm focus:outline-hidden bg-neutral-800/20 rounded-sm py-0.5"
 			name="defaultPtnSizeInGram"
 			placeholder="..."
 			type="number"
@@ -23,13 +23,13 @@
 		/>
 	</div>
 	<!-- Right: kcal, protein per 100g -->
-	<div class="flex flex-col text-sm items-end justify-end space-y-1 flex-grow pr-2">
+	<div class="flex flex-col text-sm items-end justify-end space-y-1 grow pr-2">
 		<p class="text-xs text-neutral-200/40">per 100g</p>
 		<!-- kcal -->
 		<div class="flex items-center">
 			<p>kcal:</p>
 			<input
-				class="ml-2 mr-1 w-[40px] text-center focus:outline-none bg-neutral-800/20 rounded py-0.5"
+				class="ml-2 mr-1 w-[40px] text-center focus:outline-hidden bg-neutral-800/20 rounded-sm py-0.5"
 				name="kcalPer100"
 				placeholder="..."
 				type="number"
@@ -42,7 +42,7 @@
 		<div class="flex items-center">
 			<p>protein:</p>
 			<input
-				class="ml-2 mr-1 w-[40px] text-center focus:outline-none bg-neutral-800/20 rounded py-0.5"
+				class="ml-2 mr-1 w-[40px] text-center focus:outline-hidden bg-neutral-800/20 rounded-sm py-0.5"
 				name="proteinPer100"
 				placeholder="... g"
 				type="number"

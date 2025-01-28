@@ -39,7 +39,7 @@
 		>
 			<p class="mx-2 basis-3 text-lg">{item.icon}</p>
 			<p
-				class="grow truncate text-sm focus:outline-none"
+				class="grow truncate text-sm focus:outline-hidden"
 				contenteditable="true"
 				on:focus={selectContent}
 				on:input={(e) => handleInputChange(index, 'name', e)}
@@ -48,7 +48,7 @@
 			</p>
 			<div class="flex w-[82px] justify-end px-3 text-sm">
 				<p
-					class="whitespace-nowrap pr-1 focus:outline-none"
+					class="whitespace-nowrap pr-1 focus:outline-hidden"
 					contenteditable="true"
 					on:focus={selectContent}
 					use:customFocusElement
@@ -61,7 +61,7 @@
 
 			<div class="flex w-[82px] justify-end pr-3 text-sm">
 				<p
-					class="whitespace-nowrap text-end focus:outline-none"
+					class="whitespace-nowrap text-end focus:outline-hidden"
 					contenteditable="true"
 					on:focus={selectContent}
 					on:input={(e) => handleInputChange(index, 'protein', e)}

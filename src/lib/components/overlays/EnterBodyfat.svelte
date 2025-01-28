@@ -49,7 +49,7 @@
 					type="number"
 					value="0"
 					step="0.1"
-					class="mx-1 w-10 rounded pr-1 text-right"
+					class="mx-1 w-10 rounded-sm pr-1 text-right"
 					name="bodyfat"
 					on:focus={selectInput}
 					use:focusElement
@@ -60,7 +60,7 @@
 			{#if askGender}
 				<div class="mb-3 flex justify-end">
 					<span class="mr-1">Gender</span>
-					<select name="isMale" class="mx-1 w-20 rounded pr-1 text-right">
+					<select name="isMale" class="mx-1 w-20 rounded-sm pr-1 text-right">
 						<option value={false} selected>Female</option>
 						<option value={true}>Male</option>
 					</select>

@@ -1,5 +1,5 @@
 <!-- Background -->
-<div class="h-28 w-64 rounded bg-black/50">
+<div class="h-28 w-64 rounded-sm bg-black/50">
 	<!-- Header -->
 	<p class="ml-5 mt-2 font-light text-white">PowerUps</p>
 	<!-- Content -->

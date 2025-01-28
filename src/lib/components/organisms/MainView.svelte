@@ -38,12 +38,12 @@
 				<ProgessBars />
 			</div>
 			<!-- Tracker -->
-			<div class="flex-grow pl-3">
+			<div class="grow pl-3">
 				<TargetTracker large={true} mode="eating" />
 			</div>
 		</div>
 		<!-- Harvest Button -->
-		<div class="flex h-full flex-grow items-center bg-slate-100 px-4">
+		<div class="flex h-full grow items-center bg-slate-100 px-4">
 			<HarvestButton />
 			<!-- Progess Picture Button -->
 			{#if $page.data.user.progressPicToday}

@@ -44,7 +44,7 @@
 				<input
 					type="number"
 					value={$page.data.user.currentCalorieTarget}
-					class="mx-1 w-12 rounded pr-1 text-right"
+					class="mx-1 w-12 rounded-sm pr-1 text-right"
 					name="calories"
 					on:focus={selectInput}
 					use:focusElement

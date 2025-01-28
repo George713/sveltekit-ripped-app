@@ -15,7 +15,7 @@
 </script>
 
 <div
-	class="mb-1 h-[252px] w-[calc(100%-8px)] rounded-sm bg-neutral-100 shadow-[0_1px_1px_rgba(0,0,0,0.25)]"
+	class="mb-1 h-[252px] w-[calc(100%-8px)] rounded-xs bg-neutral-100 shadow-[0_1px_1px_rgba(0,0,0,0.25)]"
 >
 	<div class="m-1 flex justify-between">
 		<PlannerCardTitle {title} color="neutral-500" />

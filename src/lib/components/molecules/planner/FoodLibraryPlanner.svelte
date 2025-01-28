@@ -77,7 +77,7 @@
 </script>
 
 <div
-	class="flex w-[calc(100%-8px)] flex-col rounded-sm bg-neutral-600 shadow-[0_1px_1px_rgba(0,0,0,0.25)]"
+	class="flex w-[calc(100%-8px)] flex-col rounded-xs bg-neutral-600 shadow-[0_1px_1px_rgba(0,0,0,0.25)]"
 >
 	<!-- Header Row -->
 	<div class="m-1 flex h-6 items-center justify-between">
@@ -95,7 +95,7 @@
 				<BtnDeleteSet />
 			{/if}
 			<input
-				class="mx-auto h-7 w-[calc(50%)] rounded bg-black/20 px-1.5 font-medium text-neutral-200 focus:outline-none"
+				class="mx-auto h-7 w-[calc(50%)] rounded-sm bg-black/20 px-1.5 font-medium text-neutral-200 focus:outline-hidden"
 				name="setName"
 				type="text"
 				placeholder="New set name..."

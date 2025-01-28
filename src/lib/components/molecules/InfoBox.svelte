@@ -10,7 +10,7 @@
 </script>
 
 <div
-	class="w-36 h-24 bg-slate-50 rounded-md shadow-[2px_2px_2px_0px_rgba(0,0,0,0.10)] bg-gradient-to-br from-stone-100 flex flex-col"
+	class="w-36 h-24 bg-slate-50 rounded-md shadow-[2px_2px_2px_0px_rgba(0,0,0,0.10)] bg-linear-to-br from-stone-100 flex flex-col"
 >
 	<!-- Top Row (Icon, Main Text, Subtext) -->
 	<div class="flex mt-2 mb-1 pl-1.5">

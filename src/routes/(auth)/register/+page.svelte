@@ -10,7 +10,7 @@
 	<div>
 		<label class="block text-sm font-medium text-gray-700" for="username">Email</label>
 		<input
-			class="w-full rounded-lg border border-gray-300 px-3 py-1 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+			class="w-full rounded-lg border border-gray-300 px-3 py-1 shadow-xs focus:border-indigo-500 focus:outline-hidden focus:ring-1 focus:ring-indigo-500"
 			id="email"
 			name="email"
 			type="email"
@@ -21,7 +21,7 @@
 	<div>
 		<label class="block text-sm font-medium text-gray-700" for="password">Password</label>
 		<input
-			class="w-full rounded-lg border border-gray-300 px-3 py-1 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+			class="w-full rounded-lg border border-gray-300 px-3 py-1 shadow-xs focus:border-indigo-500 focus:outline-hidden focus:ring-1 focus:ring-indigo-500"
 			id="password"
 			name="password"
 			type="password"

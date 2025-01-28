@@ -22,7 +22,7 @@
 		<Title title="Food Library" />
 		<!-- Food Library -->
 		<div
-			class=" flex w-[calc(100%-8px)] grow flex-col rounded-sm bg-neutral-600 shadow-[0_1px_1px_rgba(0,0,0,0.25)]"
+			class=" flex w-[calc(100%-8px)] grow flex-col rounded-xs bg-neutral-600 shadow-[0_1px_1px_rgba(0,0,0,0.25)]"
 		>
 			<div class="m-1 flex h-6 items-center justify-between">
 				<PlannerCardTitle title="Food Library" color="neutral-300" />

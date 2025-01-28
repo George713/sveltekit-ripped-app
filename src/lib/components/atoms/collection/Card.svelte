@@ -13,7 +13,7 @@
 			visibleView.update('collectionSpecifics');
 		}
 	}}
-	class="relative mx-1 h-20 w-16 overflow-hidden rounded {item.rarity === 'bronze'
+	class="relative mx-1 h-20 w-16 overflow-hidden rounded-sm {item.rarity === 'bronze'
 		? 'bg-bronze'
 		: item.rarity === 'silver'
 			? 'bg-silver'
@@ -27,13 +27,13 @@
 		></div>
 	{/if}
 	<div
-		class="absolute left-[1.5px] top-[1.5px] flex h-[calc(100%-3px)] w-[calc(100%-3px)] items-center justify-center rounded bg-gradient-to-b from-slate-900/90 to-black/85 text-xs text-gray-400"
+		class="absolute left-[1.5px] top-[1.5px] flex h-[calc(100%-3px)] w-[calc(100%-3px)] items-center justify-center rounded-sm bg-linear-to-b from-slate-900/90 to-black/85 text-xs text-gray-400"
 	>
 		{#if item.count ?? 0 > 0}
 			<img
 				src={item.thumbPath}
 				alt="thumbnail"
-				class="absolute inset-0 h-full w-full rounded object-cover object-center"
+				class="absolute inset-0 h-full w-full rounded-sm object-cover object-center"
 			/>
 		{:else}
 			<p class="text-gray-400/50">?</p>

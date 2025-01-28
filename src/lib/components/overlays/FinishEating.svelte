@@ -33,7 +33,7 @@
 			>Everything I ate today I <br /> entered & I am done eating.</span
 		>
 		<button
-			class="rounded bg-green-400 px-6 py-2 text-xl font-bold text-gray-700"
+			class="rounded-sm bg-green-400 px-6 py-2 text-xl font-bold text-gray-700"
 			on:click={finishEating}>CONFIRM</button
 		>
 	</div>

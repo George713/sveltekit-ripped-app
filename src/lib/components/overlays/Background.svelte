@@ -24,7 +24,7 @@
 </script>
 
 <div
-	class="fixed left-0 top-0 z-20 h-full w-full bg-black bg-opacity-{opacity} flex flex-col backdrop-blur-sm {classAddons}"
+	class="fixed left-0 top-0 z-20 h-full w-full bg-black bg-opacity-{opacity} flex flex-col backdrop-blur-xs {classAddons}"
 	role="button"
 	tabindex={0}
 	bind:this={el}

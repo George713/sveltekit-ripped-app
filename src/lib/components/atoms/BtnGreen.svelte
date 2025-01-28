@@ -7,12 +7,12 @@
 {#if secondary}
 	<button
 		on:click={onclick}
-		class="w-28 h-14 border-2 rounded border-green-400 text-lg font-medium text-stone-700 shadow-md"
+		class="w-28 h-14 border-2 rounded-sm border-green-400 text-lg font-medium text-stone-700 shadow-md"
 		>{text}</button
 	>
 {:else}
 	<button
 		on:click={onclick}
-		class="w-28 h-14 rounded bg-green-400 text-lg font-bold text-stone-700 shadow-md">{text}</button
+		class="w-28 h-14 rounded-sm bg-green-400 text-lg font-bold text-stone-700 shadow-md">{text}</button
 	>
 {/if}

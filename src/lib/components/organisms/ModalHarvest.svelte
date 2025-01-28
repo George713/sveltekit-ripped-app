@@ -107,7 +107,7 @@
 			<img src="/gcoins.svg" alt="gcoins" />
 		</div>
 		<button
-			class="mx-auto mb-10 mt-20 w-36 rounded bg-green-400 px-6 py-2 text-xl font-bold text-gray-700"
+			class="mx-auto mb-10 mt-20 w-36 rounded-sm bg-green-400 px-6 py-2 text-xl font-bold text-gray-700"
 			on:click={() => harvest(totalPoints)}>HARVEST</button
 		>
 	</div>

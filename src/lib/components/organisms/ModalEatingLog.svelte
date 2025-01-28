@@ -20,7 +20,7 @@
 		<Title title="Eating Log" />
 		<!-- Daily Selection -->
 		<div
-			class="relative mb-1 flex h-[calc(86%)] w-[calc(100%-8px)] flex-col rounded-sm bg-neutral-100 shadow-[0_1px_1px_rgba(0,0,0,0.25)]"
+			class="relative mb-1 flex h-[calc(86%)] w-[calc(100%-8px)] flex-col rounded-xs bg-neutral-100 shadow-[0_1px_1px_rgba(0,0,0,0.25)]"
 		>
 			<div class="m-1 flex justify-between">
 				<PlannerCardTitle title="Daily Selection" color="neutral-500" />

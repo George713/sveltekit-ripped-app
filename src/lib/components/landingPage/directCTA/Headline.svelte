@@ -3,7 +3,7 @@
 </script>
 
 <h1
-	class="hidden text-center text-3xl font-black capitalize !leading-[1.15] text-stone-200 lg:block lg:text-4xl {classAddons}"
+	class="hidden text-center text-3xl font-black capitalize leading-[1.15]! text-stone-200 lg:block lg:text-4xl {classAddons}"
 >
 	<span class="relative">
 		<span class="relative z-10 text-stone-900">Shape</span>
@@ -31,7 +31,7 @@
 </h1>
 
 <h1
-	class="text-center text-3xl font-black capitalize !leading-[1.15] text-stone-200 lg:hidden lg:text-4xl {classAddons}"
+	class="text-center text-3xl font-black capitalize leading-[1.15]! text-stone-200 lg:hidden lg:text-4xl {classAddons}"
 >
 	<span class="relative">
 		<span class="relative z-10 text-stone-900">Shape</span>

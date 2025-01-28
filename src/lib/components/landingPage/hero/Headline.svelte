@@ -3,7 +3,7 @@
 </script>
 
 <h1
-	class=" text-center text-3xl font-black capitalize !leading-[1.15] text-stone-200 lg:text-left lg:text-4xl {classAddons}"
+	class=" text-center text-3xl font-black capitalize leading-[1.15]! text-stone-200 lg:text-left lg:text-4xl {classAddons}"
 >
 	<span class="relative">
 		<span class="relative z-10 text-stone-900">Having Fun</span>

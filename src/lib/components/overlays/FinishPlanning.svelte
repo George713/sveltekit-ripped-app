@@ -17,11 +17,11 @@
 		<span class="mx-2 my-4 pt-2 text-center font-sans font-semibold">{msg}</span>
 		<div class="flex">
 			<button
-				class="mx-2 w-[calc(50%)] rounded border-2 border-green-400 px-2 py-1 text-lg font-bold text-gray-700"
+				class="mx-2 w-[calc(50%)] rounded-sm border-2 border-green-400 px-2 py-1 text-lg font-bold text-gray-700"
 				on:click={finishPlanning}>End planning anyway</button
 			>
 			<button
-				class="mx-2 w-[calc(50%)] rounded bg-green-400 px-2 py-1 text-lg font-bold text-gray-700"
+				class="mx-2 w-[calc(50%)] rounded-sm bg-green-400 px-2 py-1 text-lg font-bold text-gray-700"
 				on:click={toggleOverlay}>Continue Planning</button
 			>
 		</div>

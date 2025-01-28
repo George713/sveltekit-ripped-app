@@ -53,12 +53,12 @@
 </script>
 
 <!-- Background -->
-<div class="relative h-28 w-64 rounded bg-black/50">
+<div class="relative h-28 w-64 rounded-sm bg-black/50">
 	<!-- Header -->
 	<p class="mb-1 ml-5 mt-2 font-light text-white">Collectible</p>
 	<!-- Content -->
 	<div
-		class="absolute bottom-3 right-5 my-auto flex h-[88px] w-16 flex-col items-center rounded border border-yellow-500 bg-yellow-500/5"
+		class="absolute bottom-3 right-5 my-auto flex h-[88px] w-16 flex-col items-center rounded-sm border border-yellow-500 bg-yellow-500/5"
 	>
 		<button on:click={spin} class="mt-2 text-center text-xs text-white/80">Click to collect</button>
 		<div class="m-auto w-9">

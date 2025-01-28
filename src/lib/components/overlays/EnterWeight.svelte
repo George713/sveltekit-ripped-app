@@ -64,7 +64,7 @@
 					type="number"
 					step="0.01"
 					value={$page.data.user.currentWeight}
-					class="mx-1 ml-2 w-14 rounded pr-1 text-right"
+					class="mx-1 ml-2 w-14 rounded-sm pr-1 text-right"
 					name="weight"
 					use:focusElement
 					required
