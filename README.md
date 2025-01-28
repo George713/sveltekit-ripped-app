@@ -29,3 +29,8 @@
 - Onboarding: Let the different actions unlock different aspects
 - Headline on homepage: "F#%! willpower. Have your cookie. And still lose fat!"
 - push notifications + 'if eaten it'
+- Spinning wheel:
+    - have it slow down slower to build more anticipation
+    - add rarity tier to spin elements -> see gold rarity
+- talk about transformation, not gamification (validated 3200 research papers)
+- reference duolingo again
