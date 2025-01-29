@@ -1,11 +1,12 @@
 <script lang="ts">
 	interface Props {
 		id: string;
+		name: string;
 		placeholder: string;
 		type: string;
 	}
 
-	const { id, placeholder, type }: Props = $props();
+	const { id, name, placeholder, type }: Props = $props();
 </script>
 
 <input
@@ -13,5 +14,6 @@
 	{type}
 	{placeholder}
 	{id}
+	{name}
 	required
 />
