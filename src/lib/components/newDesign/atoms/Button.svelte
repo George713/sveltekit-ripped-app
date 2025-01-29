@@ -10,7 +10,7 @@
 
 <button
 	{type}
-	class="h-10 w-3/4 max-w-[270px] rounded-sm bg-indigo-600 px-3 text-[20px] font-semibold text-stone-200"
+	class="h-10 w-3/4 max-w-[270px] rounded-sm bg-indigo-600 px-3 text-xl font-semibold text-stone-200"
 	{onclick}
 >
 	{text}
