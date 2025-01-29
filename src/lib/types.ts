@@ -98,3 +98,10 @@ export interface Rewards {
     powerups: number;
     collectible: Collectible | null;
 }
+
+export interface Toast {
+    type: string;
+    message: string;
+    timeout?: number;
+    id?: number;
+};
