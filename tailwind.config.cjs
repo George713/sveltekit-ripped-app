@@ -17,9 +17,6 @@ module.exports = {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        sans: ['Roboto', 'sans-serif'],
-      },
       colors: {
         bronze: 'rgba(205, 127, 50, 0.5 )',
         silver: 'rgba(192, 192, 192, 0.5)',

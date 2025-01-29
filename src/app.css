@@ -1,8 +1,16 @@
 /* Importing Roboto font */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700;800;900&display=swap')
-layer(base);
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
 
 @import 'tailwindcss';
+
+:root {
+    --font-sans: 'Roboto', sans-serif;
+}
+
+body {
+    @apply font-sans;
+}
 
 /*
   The default border color has changed to `currentColor` in Tailwind CSS v4,
@@ -48,4 +56,9 @@ layer(base);
   input[type='number'] {
     -moz-appearance: textfield;
   }
+}
+
+/* Custom class for applying Bungee font */
+.font-bungee {
+  font-family: 'Bungee', cursive;
 }
