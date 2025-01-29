@@ -27,7 +27,7 @@
 		};
 	}}
 >
-	<AuthInput id="email" name="email" placeholder="Email" type="text" />
+	<AuthInput id="email" name="email" placeholder="Email" type="email" />
 	<AuthInput id="password" name="password" placeholder="Password" type="password" />
 	<Button text="Login" type="submit" />
 </form>
