@@ -2,13 +2,17 @@
 	import { xpManager } from '$lib/stateManagers.svelte';
 </script>
 
-<div class="relative flex flex-col p-3 text-stone-700">
-	<div class="flex justify-between">
+<div class="relative mt-1 flex flex-col p-3 text-stone-700">
+	<div class="mb-[-3px] flex justify-between">
 		<!-- Level -->
-		<div class="font-bungee text-xl">Lv.{xpManager.level}</div>
+		<div class="font-bungee text-xl">
+			Lv.{xpManager.level}
+		</div>
 		<!-- XP numeric -->
 		{#if xpManager.level < 10}
-			<div class="mb-0.5 flex items-end text-xs">{xpManager.currentXP}/{xpManager.requiredXP}</div>
+			<div class="flex items-end pr-0.5 pb-0.5 text-xs">
+				{xpManager.currentXP}/{xpManager.requiredXP}
+			</div>
 		{/if}
 	</div>
 	<!-- XP Bar -->
