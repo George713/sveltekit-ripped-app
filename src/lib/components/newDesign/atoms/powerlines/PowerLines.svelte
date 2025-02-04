@@ -91,7 +91,12 @@
 	<!-- Photo -->
 	<Base svgInfo={singleBent} glow={false} vflip={true} translate={[15, -304]} />
 	<!-- Weigh -->
-	<Base svgInfo={doubleBent} glow={false} translate={[-103, 184]} scale={1.04} />
+	<Base
+		svgInfo={doubleBent}
+		glow={page.data.dailyProgress.weighIn}
+		translate={[-103, 184]}
+		scale={1.04}
+	/>
 	<!-- Plan -->
 	<Base svgInfo={plan} glow={false} translate={[-52, 145]} />
 	<!-- Eat -->
