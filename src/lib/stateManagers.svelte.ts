@@ -1,7 +1,14 @@
 import type { Toast } from '$lib/types'
 
+// Visibility states
+class VisibilityManager {
+    weightOverlay = $state(false);
+    toggleWeightOverlay = () => { this.weightOverlay = !this.weightOverlay }
+}
+export const visibilityManager = new VisibilityManager()
+
 // Manager for Toasts, i.e. info overlays for errors, notes and warnings.
-export class ToastManager {
+class ToastManager {
     // Initialize the toasts array using $state directly in the class field
     toasts = $state<Toast[]>([]);
     maxId = $state(0)
@@ -47,7 +54,7 @@ const XP_TABLE = [
     { level: 10, requiredXP: 0, totalXP: 0 }
 ];
 
-export class XPManager {
+class XPManager {
     // Total XP collected
     totalXP = $state(0)
 
