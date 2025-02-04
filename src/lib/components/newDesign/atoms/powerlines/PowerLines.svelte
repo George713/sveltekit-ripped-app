@@ -72,19 +72,19 @@
 	<!-- Calories -->
 	<Base svgInfo={calories} glow={true} translate={[9, 34]} />
 	<!-- Protein -->
-	<Base svgInfo={protein} glow={true} translate={[-52, 50]} />
+	<Base svgInfo={protein} glow={false} translate={[-52, 50]} />
 	<!-- PowerUps -->
-	<Base svgInfo={powerUps} glow={true} translate={[-134, 79]} rotate={90} />
+	<Base svgInfo={powerUps} glow={false} translate={[-134, 79]} rotate={90} />
 	<!-- Bodyfat -->
-	<Base svgInfo={bodyfat} glow={true} translate={[-10, 79]} rotate={90} />
+	<Base svgInfo={bodyfat} glow={false} translate={[-10, 79]} rotate={90} />
 	<!-- Review -->
-	<Base svgInfo={singleBent} glow={true} translate={[15, 194]} />
+	<Base svgInfo={singleBent} glow={false} translate={[15, 194]} />
 	<!-- Photo -->
-	<Base svgInfo={singleBent} glow={true} vflip={true} translate={[15, -304]} />
+	<Base svgInfo={singleBent} glow={false} vflip={true} translate={[15, -304]} />
 	<!-- Weigh -->
-	<Base svgInfo={doubleBent} glow={true} translate={[-103, 184]} scale={1.04} />
+	<Base svgInfo={doubleBent} glow={false} translate={[-103, 184]} scale={1.04} />
 	<!-- Plan -->
-	<Base svgInfo={plan} glow={true} translate={[-52, 145]} />
+	<Base svgInfo={plan} glow={false} translate={[-52, 145]} />
 	<!-- Eat -->
-	<Base svgInfo={doubleBent} glow={true} hflip={true} translate={[-2, 184]} scale={1.04} />
+	<Base svgInfo={doubleBent} glow={false} hflip={true} translate={[-2, 184]} scale={1.04} />
 </div>

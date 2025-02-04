@@ -4,7 +4,7 @@
 	let shake = $derived(!glow && caloriesReached);
 
 	setTimeout(() => {
-		caloriesReached = true;
+		// caloriesReached = true;
 		// glow = true;
 	}, 1000);
 </script>
