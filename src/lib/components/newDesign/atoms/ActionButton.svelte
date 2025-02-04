@@ -10,9 +10,10 @@
 		size: 'small' | 'big';
 		icon: 'scale' | 'book' | 'cutlery' | 'insignia' | 'chart' | 'camera';
 		glow: boolean;
+		onclick?: () => void;
 	}
 
-	let { size, icon, glow }: Props = $props();
+	let { size, icon, glow, onclick }: Props = $props();
 </script>
 
 {#snippet buttonIcon(icon: string)}
@@ -39,6 +40,7 @@
 		? ` border-white/90`
 		: `border-stone-700`}"
 	style={glow ? 'filter: url(#blue-glow-powerline)' : 'box-shadow: 0 2px 4px rgba(0,0,0,0.4)'}
+	{onclick}
 >
 	{@render buttonIcon(icon)}
 </button>
