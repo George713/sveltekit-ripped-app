@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { page } from '$app/state';
+
 	import Base from './Base.svelte';
 
 	interface SvgInfo {
@@ -8,6 +10,7 @@
 		strokeWidth: number;
 		glowColor: 'blue' | 'yellow';
 		glowLineColor?: string;
+		opacity?: number;
 	}
 
 	let calories: SvgInfo = {
@@ -32,7 +35,8 @@
 		height: 148,
 		path: 'M 25,124 V 70',
 		strokeWidth: 1.5,
-		glowColor: 'blue'
+		glowColor: 'blue',
+		opacity: page.data.user.streakMeter * 20
 	};
 
 	let bodyfat: SvgInfo = {
@@ -74,7 +78,12 @@
 	<!-- Protein -->
 	<Base svgInfo={protein} glow={false} translate={[-52, 50]} />
 	<!-- PowerUps -->
-	<Base svgInfo={powerUps} glow={false} translate={[-134, 79]} rotate={90} />
+	<Base
+		svgInfo={powerUps}
+		glow={page.data.user.streakMeter >= 1}
+		translate={[-134, 79]}
+		rotate={90}
+	/>
 	<!-- Bodyfat -->
 	<Base svgInfo={bodyfat} glow={false} translate={[-10, 79]} rotate={90} />
 	<!-- Review -->
