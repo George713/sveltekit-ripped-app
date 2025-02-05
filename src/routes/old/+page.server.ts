@@ -1,5 +1,5 @@
 import { fail } from '@sveltejs/kit';
-import type { Action, Actions, PageServerLoad } from './$types';
+import type { Action, Actions, PageServerLoad } from '../$types';
 
 import { prisma } from '$lib/prismaClient.server';
 import { supabase } from '$lib/supabaseClient.server';
