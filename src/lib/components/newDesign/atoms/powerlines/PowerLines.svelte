@@ -85,11 +85,28 @@
 		rotate={90}
 	/>
 	<!-- Bodyfat -->
-	<Base svgInfo={bodyfat} glow={false} translate={[-10, 79]} rotate={90} />
+	<Base
+		svgInfo={bodyfat}
+		glow={false}
+		translate={[-10, 79]}
+		rotate={90}
+		hidden={!page.data.user.enterBodyfatToday}
+	/>
 	<!-- Review -->
-	<Base svgInfo={singleBent} glow={false} translate={[15, 194]} />
+	<Base
+		svgInfo={singleBent}
+		glow={false}
+		translate={[15, 194]}
+		hidden={!page.data.user.reviewToday}
+	/>
 	<!-- Photo -->
-	<Base svgInfo={singleBent} glow={false} vflip={true} translate={[15, -304]} />
+	<Base
+		svgInfo={singleBent}
+		glow={false}
+		vflip={true}
+		translate={[15, -304]}
+		hidden={!page.data.user.progressPicToday}
+	/>
 	<!-- Weigh -->
 	<Base
 		svgInfo={doubleBent}
