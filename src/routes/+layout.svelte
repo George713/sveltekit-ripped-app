@@ -23,7 +23,7 @@
 
 	onMount(() => {
 		// Check if the current route is not '/landing-page'
-		if ($page.url.pathname !== '/landing-page') {
+		if ($page.url.pathname !== '/landing-page' && $page.data.user) {
 			detectSWUpdate();
 		}
 	});
