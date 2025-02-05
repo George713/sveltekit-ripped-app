@@ -19,6 +19,7 @@
 		translate?: [number, number];
 		scale?: number;
 		rotate?: number;
+		hidden?: boolean;
 	}
 
 	let {
@@ -28,7 +29,8 @@
 		hflip = false,
 		translate = [0, 0],
 		scale = 1,
-		rotate = 0
+		rotate = 0,
+		hidden = false
 	}: Props = $props();
 </script>
 
@@ -37,7 +39,7 @@
 	height={svgInfo.height}
 	viewBox="0 0 {svgInfo.width} {svgInfo.height}"
 	fill="none"
-	class="absolute {svgInfo.opacity ? `opacity-${svgInfo.opacity}` : ``}"
+	class="absolute {svgInfo.opacity ? `opacity-${svgInfo.opacity}` : ``} {hidden ? 'hidden' : ''}"
 	style="transform: {vflip ? `scaleY(-1)` : ``} {hflip
 		? `scaleX(-1)`
 		: ``} translate({translate[0]}%,{translate[1]}%) scale({scale}) rotate({rotate}deg)"
