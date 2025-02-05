@@ -10,10 +10,12 @@
 		size: 'small' | 'big';
 		icon: 'scale' | 'book' | 'cutlery' | 'insignia' | 'chart' | 'camera';
 		glow: boolean;
+		disabled?: boolean;
+		hidden?: boolean;
 		onclick?: () => void;
 	}
 
-	let { size, icon, glow, onclick }: Props = $props();
+	let { size, icon, glow, disabled = false, hidden = false, onclick }: Props = $props();
 </script>
 
 {#snippet buttonIcon(icon: string)}
@@ -38,9 +40,10 @@
 		? `size-16`
 		: `size-11`} items-center justify-center rounded-[3px] border-3 {glow
 		? ` border-white/90`
-		: `border-stone-700`}"
+		: `border-stone-700`} {hidden ? 'pointer-events-none opacity-0' : ''}"
 	style={glow ? 'filter: url(#blue-glow-powerline)' : 'box-shadow: 0 2px 4px rgba(0,0,0,0.4)'}
 	{onclick}
+	{disabled}
 >
 	{@render buttonIcon(icon)}
 </button>
