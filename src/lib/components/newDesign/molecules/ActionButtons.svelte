@@ -10,8 +10,14 @@
 		size="big"
 		icon="scale"
 		glow={page.data.dailyProgress.weighIn}
+		disabled={page.data.dailyProgress.weighIn}
 		onclick={visibilityManager.toggleWeightOverlay}
 	/>
-	<ActionButton size="big" icon="book" glow={page.data.dailyProgress.planned} />
-	<ActionButton size="big" icon="cutlery" glow={false} />
+	<ActionButton
+		size="big"
+		icon="book"
+		glow={page.data.dailyProgress.planned}
+		disabled={page.data.dailyProgress.planned}
+	/>
+	<ActionButton size="big" icon="cutlery" glow={false} disabled={page.data.dailyProgress.harvest} />
 </div>
