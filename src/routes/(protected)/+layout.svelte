@@ -1,6 +1,4 @@
 <script lang="ts">
-	import '../../app.css';
-
 	import PotentialToasts from '$lib/components/newDesign/molecules/PotentialToasts.svelte';
 
 	let { children } = $props();
