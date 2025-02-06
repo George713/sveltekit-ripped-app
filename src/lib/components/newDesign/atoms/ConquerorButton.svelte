@@ -2,7 +2,7 @@
 	import { page } from '$app/state';
 	import { calorieManager } from '$lib/stateManagers.svelte';
 
-	let alreadyUsed = $state(page.data.user.harvest); // results in glow
+	let alreadyUsed = $state(page.data.dailyProgress.harvest); // results in glow
 	let shake = $derived(!alreadyUsed && calorieManager.inRange);
 </script>
 
