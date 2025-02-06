@@ -93,3 +93,22 @@ class XPManager {
 
 // Export a singleton instance of XPManager
 export const xpManager = new XPManager();
+
+
+// Manager for daily consumption
+class ConsumptionManager {
+    target = $state(0);
+    eaten = $state(0);
+    eatenPct = $derived(this.eaten / this.target);
+    // inRange is only relevant for calories
+    inRange = $derived((this.target - 25 <= this.eaten) && (this.eaten <= this.target + 25) ? true : false)
+
+    constructor(target: number, eaten: number) {
+        this.target = target;
+        this.eaten = eaten;
+    }
+}
+
+// Export singleton instances for tracking calories and protein
+export const calorieManager = new ConsumptionManager(2000, 1500);
+export const proteinManager = new ConsumptionManager(250, 100);

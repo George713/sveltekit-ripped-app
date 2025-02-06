@@ -1,15 +1,11 @@
 <script lang="ts">
+	import { calorieManager, proteinManager } from '$lib/stateManagers.svelte';
+
 	import Bolt from '../icons/Bolt.svelte';
 	import Eggs from '../icons/Eggs.svelte';
-
-	let pct = 20;
-
-	setTimeout(() => {
-		pct = 100;
-	}, 2000);
 </script>
 
-{#snippet bar(color: string)}
+{#snippet bar(color: string, fillPct: number)}
 	<div class="flex space-x-1">
 		<div class="flex w-6 items-center justify-center">
 			{#if color === 'yellow'}
@@ -22,15 +18,15 @@
 		<div class="inner-shadows flex h-5 w-48 items-center rounded bg-stone-900">
 			<div
 				class="{color}-gradient {color}-glow mx-1.5 h-[calc(100%-12px)] rounded-[3px] transition-all duration-2000"
-				style={`width: calc(${color === 'yellow' ? pct : (pct * 2) / 3}% - 8px)`}
+				style={`width: calc(${fillPct * 100}% - 8px)`}
 			></div>
 		</div>
 	</div>
 {/snippet}
 
 <flex class="flex flex-col space-y-2">
-	{@render bar('yellow')}
-	{@render bar('blue')}
+	{@render bar('yellow', calorieManager.eatenPct)}
+	{@render bar('blue', proteinManager.eatenPct)}
 </flex>
 
 <style>

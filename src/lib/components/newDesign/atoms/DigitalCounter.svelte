@@ -1,8 +1,5 @@
 <script lang="ts">
-	let kcal = 1234;
-	let kcalTarget = 2300;
-	let protein = 85;
-	let proteinTarget = 160;
+	import { calorieManager, proteinManager } from '$lib/stateManagers.svelte';
 </script>
 
 <div class="ml-5 flex items-center">
@@ -17,7 +14,9 @@
 		</div>
 		<!-- Digital Counter -->
 		<p class="text-[10px] text-stone-200">
-			{kcal.toLocaleString('en-US')} | {kcalTarget.toLocaleString('en-US')} kcal
+			{Math.floor(calorieManager.eaten).toLocaleString('en-US')} | {Math.floor(
+				calorieManager.target
+			).toLocaleString('en-US')} kcal
 		</p>
 	</div>
 	<!-- Separator -->
@@ -33,7 +32,7 @@
 		</div>
 		<!-- Digital Counter -->
 		<p class="text-[10px] text-stone-200">
-			{protein} | {proteinTarget} g
+			{proteinManager.eaten.toFixed(0)} | {proteinManager.target.toFixed(0)} g
 		</p>
 	</div>
 </div>

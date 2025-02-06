@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import { calorieManager, proteinManager } from '$lib/stateManagers.svelte';
 
 	import Base from './Base.svelte';
 
@@ -74,9 +75,9 @@
 
 <div class="absolute">
 	<!-- Calories -->
-	<Base svgInfo={calories} glow={true} translate={[9, 34]} />
+	<Base svgInfo={calories} glow={calorieManager.inRange} translate={[9, 34]} />
 	<!-- Protein -->
-	<Base svgInfo={protein} glow={false} translate={[-52, 50]} />
+	<Base svgInfo={protein} glow={proteinManager.eatenPct >= 1} translate={[-52, 50]} />
 	<!-- PowerUps -->
 	<Base
 		svgInfo={powerUps}
