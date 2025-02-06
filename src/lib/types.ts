@@ -44,6 +44,15 @@ export interface PlannedItem {
     unitAmount: number;
 }
 
+export interface EstimatedItem {
+    id: number;
+    eaten: boolean;
+    createdAt: Date;
+    kcal: number;
+    protein: number;
+    name?: string
+}
+
 export interface FoodSet {
     id: number;
     name: string;
@@ -54,15 +63,6 @@ interface FoodItemInSet {
     foodId: number;
     unitIsPtn: boolean;
     unitAmount: number
-}
-
-export interface EatEstimate {
-    id: number;
-    eaten: boolean;
-    createdAt: Date;
-    kcal: number;
-    protein: number;
-    name?: string
 }
 
 export interface WeightData {

@@ -1,4 +1,4 @@
-import type { Toast } from '$lib/types'
+import type { EstimatedItem, FoodItem, PlannedItem, Toast } from '$lib/types'
 
 // Visibility states
 class VisibilityManager {
@@ -95,20 +95,87 @@ class XPManager {
 export const xpManager = new XPManager();
 
 
-// Manager for daily consumption
-class ConsumptionManager {
+// CalorieManager for daily consumption
+class CalorieManager {
     target = $state(0);
-    eaten = $state(0);
+    eaten = $derived.by(() => {
+        // Sum calories from plannedItems
+        const plannedCalories = plannedItemManager.itemsEaten.reduce((sum, item) => {
+            const foodItem = foodItemManager.getById(item.foodId);
+            if (foodItem) {
+                return sum + foodItem.kcal;
+            }
+            return sum;
+        }, 0);
+
+        // Sum calories from estimatedItems
+        const estimatedCalories = estimatedItemManager.itemsEaten.reduce((sum, item) => {
+            return sum + item.kcal;
+        }, 0);
+
+        // Return the total calories
+        return plannedCalories + estimatedCalories;
+    });
     eatenPct = $derived(this.eaten / this.target);
     // inRange is only relevant for calories
     inRange = $derived((this.target - 25 <= this.eaten) && (this.eaten <= this.target + 25) ? true : false)
-
-    constructor(target: number, eaten: number) {
-        this.target = target;
-        this.eaten = eaten;
-    }
 }
 
-// Export singleton instances for tracking calories and protein
-export const calorieManager = new ConsumptionManager(2000, 1500);
-export const proteinManager = new ConsumptionManager(250, 100);
+// Export singleton instance for calorieManager
+export const calorieManager = new CalorieManager();
+
+
+// ProteinManager for daily consumption
+class ProteinManager {
+    target = $state(0);
+    eaten = $derived.by(() => {
+        // Sum protein from plannedItems
+        const plannedProtein = plannedItemManager.itemsEaten.reduce((sum, item) => {
+            const foodItem = foodItemManager.getById(item.foodId);
+            if (foodItem) {
+                return sum + foodItem.protein;
+            }
+            return sum;
+        }, 0);
+
+        // Sum protein from estimatedItems
+        const estimatedProtein = estimatedItemManager.itemsEaten.reduce((sum, item) => {
+            return sum + item.protein;
+        }, 0);
+
+        // Return the total calories
+        return plannedProtein + estimatedProtein;
+    });
+    eatenPct = $derived(this.eaten / this.target);
+}
+
+// Export singleton instance for proteinManager
+export const proteinManager = new ProteinManager();
+
+
+// FoodItem Manager
+class FoodItemManager {
+    items = $state<FoodItem[]>([]);
+
+    // Get item by its id
+    getById = (id: number) => {
+        return this.items.find(item => item.id === id)
+    }
+}
+export const foodItemManager = new FoodItemManager()
+
+
+// PlannedItem Manager
+class PlannedItemManager {
+    items = $state<PlannedItem[]>([]);
+    itemsEaten = $derived(this.items.filter(item => item.eaten))
+}
+export const plannedItemManager = new PlannedItemManager()
+
+
+// EstimatedItem Manager
+class EstimatedItemManager {
+    items = $state<EstimatedItem[]>([]);
+    itemsEaten = $derived(this.items.filter(item => item.eaten))
+}
+export const estimatedItemManager = new EstimatedItemManager()
