@@ -132,7 +132,7 @@
 
 	onMount(async () => {
 		try {
-			const response = await fetch('/api/getWeightData');
+			const response = await fetch('/old/api/getWeightData');
 			if (!response.ok) {
 				throw new Error('Failed to fetch weights');
 			}
@@ -237,9 +237,9 @@
 
 {#if option}
 	<div
-		class="w-full h-64 bg-gray-50 rounded-md shadow-[0px_0px_2px_0px_rgba(0,0,0,0.25)]"
+		class="h-64 w-full rounded-md bg-gray-50 shadow-[0px_0px_2px_0px_rgba(0,0,0,0.25)]"
 		use:echarts={option}
 	/>
 {:else}
-	<div class="w-full h-64 bg-gray-50 rounded-md shadow-[0px_0px_2px_0px_rgba(0,0,0,0.25)]" />
+	<div class="h-64 w-full rounded-md bg-gray-50 shadow-[0px_0px_2px_0px_rgba(0,0,0,0.25)]" />
 {/if}
