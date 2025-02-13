@@ -22,5 +22,10 @@
 		onclick={() => goto('/planner')}
 	/>
 	<!-- {page.data.dailyProgress.planned} -->
-	<ActionButton size="big" icon="cutlery" glow={false} disabled={page.data.dailyProgress.harvest} />
+	<ActionButton
+		size="big"
+		icon="cutlery"
+		glow={page.data.dailyProgress.harvest}
+		disabled={page.data.dailyProgress.harvest}
+	/>
 </div>

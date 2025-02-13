@@ -118,5 +118,11 @@
 	<!-- Plan -->
 	<Base svgInfo={plan} glow={page.data.dailyProgress.planned} translate={[-52, 145]} />
 	<!-- Eat -->
-	<Base svgInfo={doubleBent} glow={false} hflip={true} translate={[-2, 184]} scale={1.04} />
+	<Base
+		svgInfo={doubleBent}
+		glow={page.data.dailyProgress.harvest}
+		hflip={true}
+		translate={[-2, 184]}
+		scale={1.04}
+	/>
 </div>
