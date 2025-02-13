@@ -1,4 +1,4 @@
-import type { EstimatedItem, FoodItem, PlannedItem, Toast } from '$lib/types'
+import type { DailySelectionItem, EstimatedItem, FoodItem, PlannedItem, Toast } from '$lib/types'
 
 // Visibility states
 class VisibilityManager {
@@ -179,3 +179,31 @@ class EstimatedItemManager {
     itemsEaten = $derived(this.items.filter(item => item.eaten))
 }
 export const estimatedItemManager = new EstimatedItemManager()
+
+
+// Daily Selection Manager
+class DailySelectionManager {
+    items = $state<DailySelectionItem[]>([]);
+    nextId = $state(0);
+
+    // Add item to daily selection
+    add = (id: number) => {
+        const foodItem = foodItemManager.getById(id);
+        if (foodItem) {
+            const dailySelectionItem: DailySelectionItem = {
+                id: this.nextId++,
+                foodId: foodItem.id,
+                itemName: foodItem.itemName,
+                kcal: foodItem.kcal,
+                protein: foodItem.protein
+            };
+            this.items = [...this.items, dailySelectionItem];
+        }
+    }
+
+    // Remove item from daily selection
+    remove = (id: number) => {
+        this.items = this.items.filter(item => item.id !== id);
+    }
+}
+export const dailySelectionManager = new DailySelectionManager()

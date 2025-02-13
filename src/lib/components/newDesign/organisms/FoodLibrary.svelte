@@ -7,12 +7,12 @@
 	import CardArray from '../molecules/CardArray.svelte';
 </script>
 
-<div class="mx-0.5 flex flex-col">
+<div class="flex w-full flex-col px-0.5">
 	<div class="flex w-full items-end justify-between px-2 pb-[1px]">
 		<SelectionHeader icon="book" text="Food Library" />
 		<SubtleButton text="Sets" />
 	</div>
 	<CardArrayBackground color="light">
-		<CardArray items={foodItemManager.items} />
+		<CardArray items={foodItemManager.items} theme="light" clickMode="addToDailySelection" />
 	</CardArrayBackground>
 </div>

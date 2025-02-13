@@ -53,6 +53,14 @@ export interface EstimatedItem {
     name?: string
 }
 
+export interface DailySelectionItem {
+    id: number;
+    foodId: number;
+    itemName: string;
+    kcal: number;
+    protein: number;
+}
+
 export interface FoodSet {
     id: number;
     name: string;
