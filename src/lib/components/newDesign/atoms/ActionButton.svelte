@@ -36,11 +36,14 @@
 
 <!-- Note: Glow filter is available on the page and need not be imported here.  -->
 <button
-	class="flex {size === 'big'
-		? `size-16`
-		: `size-11`} items-center justify-center rounded-[3px] border-3 {glow
-		? ` border-white/90`
-		: `border-stone-700`} {hidden ? 'pointer-events-none opacity-0' : ''}"
+	class={{
+		'flex items-center justify-center rounded-[3px] border-3': true,
+		'size-16': size === 'big',
+		'size-11': size === 'small',
+		'border-white/90': glow,
+		'border-stone-700': !glow,
+		'pointer-events-none opacity-0': hidden
+	}}
 	style={glow ? 'filter: url(#blue-glow-powerline)' : 'box-shadow: 0 2px 4px rgba(0,0,0,0.4)'}
 	{onclick}
 	{disabled}

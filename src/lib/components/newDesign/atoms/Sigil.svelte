@@ -8,7 +8,10 @@
 
 <div class="flex w-full justify-center">
 	<img
-		class="w-[320px] {rank === 'tbd' ? `opacity-50 blur-[2px]` : ``}"
+		class={{
+			'w-[320px]': true,
+			'opacity-50 blur-[2px]': rank === 'tbd'
+		}}
 		src="/sigils/{rank}.webp"
 		alt="Sigil Crest"
 	/>

@@ -21,18 +21,22 @@
 	<path
 		d={path}
 		style="transform: translate({translateX}%,{translateY}%);"
-		class:opacity-0={!glow}
-		class:opacity-100={glow}
-		class="fill-cyan-100 drop-shadow-[0_0_2px_var(--color-cyan-800),0_0_4px_var(--color-cyan-400)] transition-opacity duration-1000"
+		class={{
+			'fill-cyan-100 drop-shadow-[0_0_2px_var(--color-cyan-800),0_0_4px_var(--color-cyan-400)] transition-opacity duration-1000': true,
+			'opacity-0': !glow,
+			'opacity-100': glow
+		}}
 	/>
 
 	<!-- Non-glowing variant -->
 	<path
 		d={path}
 		style="transform: translate({translateX}%,{translateY}%);"
-		class:opacity-0={glow}
-		class:opacity-100={!glow}
-		class="fill-stone-700 drop-shadow-[0_2px_4px_rgba(20,20,20,1)] transition-opacity duration-1000"
+		class={{
+			'fill-stone-700 drop-shadow-[0_2px_4px_rgba(20,20,20,1)] transition-opacity duration-1000': true,
+			'opacity-0': glow,
+			'opacity-100': !glow
+		}}
 	/>
 {/snippet}
 

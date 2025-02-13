@@ -14,7 +14,7 @@
 		viewBox="0 0 89 101"
 		fill="none"
 		xmlns="http://www.w3.org/2000/svg"
-		class=" {shake ? `shake` : ``}"
+		class={{ shake: shake }}
 	>
 		<!-- Define the inset shadow filter -->
 		<defs>

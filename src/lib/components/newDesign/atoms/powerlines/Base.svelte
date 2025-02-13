@@ -39,7 +39,11 @@
 	height={svgInfo.height}
 	viewBox="0 0 {svgInfo.width} {svgInfo.height}"
 	fill="none"
-	class="absolute {svgInfo.opacity ? `opacity-${svgInfo.opacity}` : ``} {hidden ? 'hidden' : ''}"
+	class={{
+		absolute: true,
+		[`opacity-${svgInfo.opacity}`]: svgInfo.opacity !== undefined,
+		hidden: hidden
+	}}
 	style="transform: {vflip ? `scaleY(-1)` : ``} {hflip
 		? `scaleX(-1)`
 		: ``} translate({translate[0]}%,{translate[1]}%) scale({scale}) rotate({rotate}deg)"

@@ -5,7 +5,7 @@
 	import Eggs from '../icons/Eggs.svelte';
 </script>
 
-{#snippet bar(color: string, fillPct: number)}
+{#snippet bar(color: 'yellow' | 'blue', fillPct: number)}
 	<div class="flex space-x-1">
 		<div class="flex w-6 items-center justify-center">
 			{#if color === 'yellow'}
@@ -17,7 +17,11 @@
 
 		<div class="inner-shadows flex h-5 w-48 items-center rounded bg-stone-900">
 			<div
-				class="{color}-gradient {color}-glow mx-1.5 h-[calc(100%-12px)] rounded-[3px] transition-all duration-2000"
+				class={{
+					'mx-1.5 h-[calc(100%-12px)] rounded-[3px] transition-all duration-2000': true,
+					'yellow-gradient yellow-glow': color === 'yellow',
+					'blue-gradient blue-glow': color === 'blue'
+				}}
 				style={`width: calc(${fillPct * 100}% - 8px)`}
 			></div>
 		</div>
