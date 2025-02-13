@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { visibilityManager } from '$lib/stateManagers.svelte';
+	import { goto } from '$app/navigation';
 
 	import ActionButton from '../atoms/ActionButton.svelte';
 </script>
@@ -17,7 +18,9 @@
 		size="big"
 		icon="book"
 		glow={page.data.dailyProgress.planned}
-		disabled={page.data.dailyProgress.planned}
+		disabled={false}
+		onclick={() => goto('/planner')}
 	/>
+	<!-- {page.data.dailyProgress.planned} -->
 	<ActionButton size="big" icon="cutlery" glow={false} disabled={page.data.dailyProgress.harvest} />
 </div>
