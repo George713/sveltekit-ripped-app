@@ -186,6 +186,9 @@ class DailySelectionManager {
     items = $state<DailySelectionItem[]>([]);
     nextId = $state(0);
 
+    totalKcal = $derived(this.items.reduce((sum, item) => sum + item.kcal, 0))
+    totalProtein = $derived(this.items.reduce((sum, item) => sum + item.protein, 0))
+
     // Add item to daily selection
     add = (id: number) => {
         const foodItem = foodItemManager.getById(id);
