@@ -1,5 +1,12 @@
 <script lang="ts">
-	import { calorieManager, proteinManager } from '$lib/stateManagers.svelte';
+	interface Props {
+		kcalCurrent: number;
+		kcalTarget: number;
+		proteinCurrent: number;
+		proteinTarget: number;
+	}
+
+	const { kcalCurrent, kcalTarget, proteinCurrent, proteinTarget }: Props = $props();
 </script>
 
 <div class="ml-5 flex items-center">
@@ -14,9 +21,9 @@
 		</div>
 		<!-- Digital Counter -->
 		<p class="text-[10px] text-stone-200">
-			{Math.floor(calorieManager.eaten).toLocaleString('en-US')} | {Math.floor(
-				calorieManager.target
-			).toLocaleString('en-US')} kcal
+			{Math.floor(kcalCurrent).toLocaleString('en-US')} | {Math.floor(kcalTarget).toLocaleString(
+				'en-US'
+			)} kcal
 		</p>
 	</div>
 	<!-- Separator -->
@@ -32,7 +39,7 @@
 		</div>
 		<!-- Digital Counter -->
 		<p class="text-[10px] text-stone-200">
-			{proteinManager.eaten.toFixed(0)} | {proteinManager.target.toFixed(0)} g
+			{proteinCurrent.toFixed(0)} | {proteinTarget.toFixed(0)} g
 		</p>
 	</div>
 </div>
