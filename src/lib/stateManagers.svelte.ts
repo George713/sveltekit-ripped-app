@@ -1,4 +1,4 @@
-import type { DailySelectionItem, EstimatedItem, FoodItem, PlannedItem, Toast } from '$lib/types'
+import type { DailySelectionItem, EstimatedItem, FoodItem, FoodSet, PlannedItem, Toast } from '$lib/types'
 
 // Visibility states
 class VisibilityManager {
@@ -210,3 +210,10 @@ class DailySelectionManager {
     }
 }
 export const dailySelectionManager = new DailySelectionManager()
+
+
+// FoodSet Manager
+class FoodSetManager {
+    sets = $state<FoodSet[]>([]);
+}
+export const foodSetManager = new FoodSetManager()

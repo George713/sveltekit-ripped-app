@@ -1,17 +1,24 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import type { DailySelectionItem, FoodItem } from '$lib/types';
+	import { dailySelectionManager } from '$lib/stateManagers.svelte';
+	import type { DailySelectionItem, FoodItem, FoodSet } from '$lib/types';
 	import Card from '../atoms/Card.svelte';
-	import CardAddElement from '../atoms/CardAddElement.svelte';
 
 	interface Props {
-		items: FoodItem[] | DailySelectionItem[];
+		items: FoodItem[] | DailySelectionItem[] | FoodSet[];
+		itemType: 'foodItems' | 'dailySelection' | 'foodSets';
 		theme: 'light' | 'dark';
-		clickMode: 'addToDailySelection' | 'removeFromDailySelection';
+		showNewElementCard?: boolean;
 		verticalScroll?: boolean;
 	}
 
-	let { items, theme, clickMode, verticalScroll = false }: Props = $props();
+	let {
+		items,
+		itemType,
+		theme,
+		showNewElementCard = false,
+		verticalScroll = false
+	}: Props = $props();
 </script>
 
 <div
@@ -21,10 +28,37 @@
 		'h-58 flex-col overflow-x-auto': !verticalScroll
 	}}
 >
-	{#if clickMode === 'addToDailySelection'}
-		<CardAddElement text="New Item" onclick={() => goto('/newItem')} />
+	{#if showNewElementCard}
+		<Card
+			name={itemType === 'foodSets' ? 'New Set' : 'New Item'}
+			{theme}
+			type="newElement"
+			onclick={() => goto(itemType === 'foodSets' ? '/newSet' : '/newItem')}
+		/>
 	{/if}
-	{#each items as item}
-		<Card {item} {theme} {clickMode} />
-	{/each}
+	{#if itemType === 'foodItems'}
+		{#each items as item}
+			<Card
+				imgSrc={`https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${item.id}`}
+				name={(item as FoodItem).itemName}
+				kcal={(item as FoodItem).kcal}
+				protein={(item as FoodItem).protein}
+				{theme}
+				type="item"
+				onclick={() => dailySelectionManager.add(item.id)}
+			/>
+		{/each}
+	{:else if itemType === 'dailySelection'}
+		{#each items as item}
+			<Card
+				imgSrc={`https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${(item as DailySelectionItem).foodId}`}
+				name={(item as DailySelectionItem).itemName}
+				kcal={(item as DailySelectionItem).kcal}
+				protein={(item as DailySelectionItem).protein}
+				{theme}
+				type="item"
+				onclick={() => dailySelectionManager.remove(item.id)}
+			/>
+		{/each}
+	{/if}
 </div>

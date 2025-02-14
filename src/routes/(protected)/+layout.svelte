@@ -5,6 +5,7 @@
 		calorieManager,
 		estimatedItemManager,
 		foodItemManager,
+		foodSetManager,
 		plannedItemManager,
 		proteinManager,
 		xpManager
@@ -21,6 +22,9 @@
 	}
 	if (data.estimatedItems) {
 		estimatedItemManager.items = data.estimatedItems;
+	}
+	if (data.foodSets) {
+		foodSetManager.sets = data.foodSets;
 	}
 
 	onMount(() => {
