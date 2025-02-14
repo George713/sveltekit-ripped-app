@@ -27,6 +27,10 @@ export const load = async ({ fetch, data, depends }) => {
         user: data.user,
         dailyProgress: data.dailyProgress,
         schedule: data.schedule,
-        supabase
+        supabase,
+        foodItems: data.foodItems,
+        plannedItems: data.plannedItems,
+        estimatedItems: data.estimatedItems,
+        foodSets: data.foodSets
     }
 }
