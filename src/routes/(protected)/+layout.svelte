@@ -8,9 +8,11 @@
 		foodSetManager,
 		plannedItemManager,
 		proteinManager,
+		visibilityManager,
 		xpManager
 	} from '$lib/stateManagers.svelte.js';
 	import PotentialToasts from '$lib/components/newDesign/molecules/PotentialToasts.svelte';
+	import SpinnerOverlay from '$lib/components/newDesign/atoms/SpinnerOverlay.svelte';
 
 	let { data, children } = $props();
 
@@ -35,6 +37,9 @@
 </script>
 
 <div class="flex h-screen w-screen flex-col bg-linear-to-br/oklch from-stone-900 to-stone-800">
+	{#if visibilityManager.spinnerOverlay}
+		<SpinnerOverlay />
+	{/if}
 	<PotentialToasts />
 	{@render children?.()}
 </div>

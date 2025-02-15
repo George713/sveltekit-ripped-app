@@ -4,6 +4,9 @@ import type { DailySelectionItem, EstimatedItem, FoodItem, FoodSet, PlannedItem,
 class VisibilityManager {
     weightOverlay = $state(false);
     toggleWeightOverlay = () => { this.weightOverlay = !this.weightOverlay }
+
+    spinnerOverlay = $state(false);
+    toggleSpinnerOverlay = () => { this.spinnerOverlay = !this.spinnerOverlay }
 }
 export const visibilityManager = new VisibilityManager()
 
@@ -33,6 +36,11 @@ class ToastManager {
     removeToast = (toast: Toast) => {
         this.toasts = this.toasts.filter((t) => t.id !== toast.id);
     };
+
+    // Delete all toasts
+    deleteAll = () => {
+        this.toasts = [];
+    }
 }
 
 // Export a singleton instance of ToastManager
@@ -189,6 +197,9 @@ class DailySelectionManager {
     totalKcal = $derived(this.items.reduce((sum, item) => sum + item.kcal, 0))
     totalProtein = $derived(this.items.reduce((sum, item) => sum + item.protein, 0))
 
+    // Check whether the daily selection is within the target calorie range
+    inRange = $derived((calorieManager.target - 25 <= this.totalKcal) && (this.totalKcal <= calorieManager.target + 25) ? true : false)
+
     // Add item to daily selection
     addFoodItem = (id: number) => {
         const foodItem = foodItemManager.getById(id);
@@ -222,6 +233,15 @@ class DailySelectionManager {
     // Remove item from daily selection
     remove = (id: number) => {
         this.items = this.items.filter(item => item.id !== id);
+    }
+
+    // Prepare items for submission to endpoint `finishPlanning`
+    prepareForSubmission = () => {
+        return this.items.map(item => ({
+            foodId: item.foodId,
+            unitIsPtn: true,
+            unitAmount: 1
+        }))
     }
 }
 export const dailySelectionManager = new DailySelectionManager()
