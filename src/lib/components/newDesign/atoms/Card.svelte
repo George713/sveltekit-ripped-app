@@ -2,7 +2,7 @@
 	import Plus from '../icons/Plus.svelte';
 
 	interface Props {
-		imgSrc?: string;
+		imgSrc?: string | string[];
 		name: string;
 		kcal?: number;
 		protein?: number;
@@ -32,6 +32,17 @@
 		}}
 	>
 		<img src={imgSrc} alt="imgUrl" class="absolute h-full w-full object-cover" />
+		<div class="absolute inset-0 bg-black/25"></div>
+	</div>
+{/snippet}
+
+{#snippet imageMosaic(imgSrc: string[])}
+	<div class="image-grid relative h-[62px] w-[88px] overflow-hidden rounded">
+		{#each imgSrc.slice(0, 4) as src, i}
+			<div class="overflow-hidden" style="--i: {i}">
+				<img class="h-full w-full object-cover" {src} alt={`${name} - Variation ${i + 1}`} />
+			</div>
+		{/each}
 		<div class="absolute inset-0 bg-black/25"></div>
 	</div>
 {/snippet}
@@ -91,7 +102,20 @@
 	{#if type === 'newElement'}
 		{@render newElement(name)}
 	{:else if type === 'item' && imgSrc && name && typeof kcal === 'number' && typeof protein === 'number'}
-		{@render image(imgSrc, theme)}
+		{#if typeof imgSrc === 'string'}
+			{@render image(imgSrc, theme)}
+		{:else if Array.isArray(imgSrc)}
+			{@render imageMosaic(imgSrc)}
+		{/if}
 		{@render cardInfo(name, kcal, protein, theme)}
 	{/if}
 </button>
+
+<style>
+	.image-grid {
+		display: grid;
+		gap: 1px;
+		grid-template-columns: repeat(2, 1fr);
+		aspect-ratio: 1;
+	}
+</style>

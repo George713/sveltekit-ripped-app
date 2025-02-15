@@ -190,7 +190,7 @@ class DailySelectionManager {
     totalProtein = $derived(this.items.reduce((sum, item) => sum + item.protein, 0))
 
     // Add item to daily selection
-    add = (id: number) => {
+    addFoodItem = (id: number) => {
         const foodItem = foodItemManager.getById(id);
         if (foodItem) {
             const dailySelectionItem: DailySelectionItem = {
@@ -204,6 +204,21 @@ class DailySelectionManager {
         }
     }
 
+    // Add foodSet to daily selection
+    addFoodSet = (foodSet: FoodSet) => {
+        const dailySelectionItems: DailySelectionItem[] = foodSet.foodItemsInSet.map(item => {
+            const foodItem = foodItemManager.getById(item.foodId);
+            return {
+                id: this.nextId++,
+                foodId: item.foodId,
+                itemName: foodItem?.itemName || 'Error',
+                kcal: foodItem?.kcal || 0,
+                protein: foodItem?.protein || 0
+            };
+        });
+        this.items = [...this.items, ...dailySelectionItems];
+    }
+
     // Remove item from daily selection
     remove = (id: number) => {
         this.items = this.items.filter(item => item.id !== id);
@@ -215,5 +230,33 @@ export const dailySelectionManager = new DailySelectionManager()
 // FoodSet Manager
 class FoodSetManager {
     sets = $state<FoodSet[]>([]);
+
+    getKcal = (foodSet: FoodSet): number => {
+        return foodSet.foodItemsInSet.reduce((acc, item) => {
+            const foodItem = foodItemManager.getById(item.foodId);
+            return acc + (foodItem?.kcal || 0);
+        }, 0);
+    }
+
+    getProtein = (foodSet: FoodSet): number => {
+        return foodSet.foodItemsInSet.reduce((acc, item) => {
+            const foodItem = foodItemManager.getById(item.foodId);
+            return acc + (foodItem?.protein || 0);
+        }, 0);
+    }
+
+    // Get images for food set
+    // If there are 3 or less distinct foods, return the src of a single image
+    // Otherwise, return an array of srcs for the first 4 distinct foods
+    getImages = (foodSet: FoodSet): string | string[] => {
+        const distinctFoodIds = Array.from(new Set(foodSet.foodItemsInSet.map(item => item.foodId)));
+        if (distinctFoodIds.length <= 3) {
+            return `https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${distinctFoodIds[0]}`
+        } else {
+            return distinctFoodIds.slice(0, 4).map(foodId => {
+                return `https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${foodId}`;
+            });
+        }
+    }
 }
 export const foodSetManager = new FoodSetManager()

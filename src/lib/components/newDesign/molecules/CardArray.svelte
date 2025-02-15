@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { dailySelectionManager } from '$lib/stateManagers.svelte';
+	import { dailySelectionManager, foodSetManager } from '$lib/stateManagers.svelte';
 	import type { DailySelectionItem, FoodItem, FoodSet } from '$lib/types';
 	import Card from '../atoms/Card.svelte';
 
@@ -45,7 +45,7 @@
 				protein={(item as FoodItem).protein}
 				{theme}
 				type="item"
-				onclick={() => dailySelectionManager.add(item.id)}
+				onclick={() => dailySelectionManager.addFoodItem(item.id)}
 			/>
 		{/each}
 	{:else if itemType === 'dailySelection'}
@@ -58,6 +58,18 @@
 				{theme}
 				type="item"
 				onclick={() => dailySelectionManager.remove(item.id)}
+			/>
+		{/each}
+	{:else if itemType === 'foodSets'}
+		{#each items as item}
+			<Card
+				imgSrc={foodSetManager.getImages(item as FoodSet)}
+				name={(item as FoodSet).name}
+				kcal={foodSetManager.getKcal(item as FoodSet)}
+				protein={foodSetManager.getProtein(item as FoodSet)}
+				{theme}
+				type="item"
+				onclick={() => dailySelectionManager.addFoodSet(item as FoodSet)}
 			/>
 		{/each}
 	{/if}
