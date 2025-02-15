@@ -6,6 +6,7 @@ const config = {
 	preprocess: [vitePreprocess()],
 	kit: {
 		adapter: adapter(),
+		exclude: ['src/routes/old'],
 		outDir: "public",
 		alias: {
 			"$atoms": "./src/lib/components/atoms",
