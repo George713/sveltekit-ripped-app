@@ -23,7 +23,7 @@
 
 <div
 	class={{
-		'scrollbar-hide ml-2 flex flex-wrap gap-1.5 overflow-visible py-2 pr-2': true,
+		'scrollbar-hide mr-[3px] ml-2 flex flex-wrap gap-1.5 overflow-visible py-2 pr-2': true,
 		'h-1 grow content-start justify-center overflow-y-auto': verticalScroll,
 		'h-58 flex-col overflow-x-auto': !verticalScroll
 	}}
