@@ -16,8 +16,8 @@
 
 {#snippet newElement(name: string)}
 	<!-- Image Placeholder with plus symbol -->
-	<div class="flex h-[62px] w-[88px] rounded bg-stone-500">
-		<Plus />
+	<div class="flex h-[62px] w-[88px] items-center justify-center rounded bg-stone-500">
+		<Plus size="big" />
 	</div>
 	<!-- Label -->
 	<p class="m-auto flex items-center justify-center text-[10px] text-stone-700">{name}</p>

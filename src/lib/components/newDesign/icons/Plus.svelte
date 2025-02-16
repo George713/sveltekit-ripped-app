@@ -1,4 +1,19 @@
-<svg class="m-auto size-8 fill-none stroke-stone-400" viewBox="0 0 24 24">
+<script lang="ts">
+	interface Props {
+		size: 'small' | 'big';
+	}
+
+	let { size }: Props = $props();
+</script>
+
+<svg
+	class={{
+		'fill-none stroke-stone-400': true,
+		'size-6': size === 'small',
+		'size-8': size === 'big'
+	}}
+	viewBox="0 0 24 24"
+>
 	<path
 		stroke-linecap="round"
 		stroke-linejoin="round"
