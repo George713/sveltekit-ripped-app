@@ -53,7 +53,7 @@
 </script>
 
 <div class="mb-1 flex h-screen w-screen flex-col-reverse items-center p-1">
-	<Minimizer onclick={() => goto('/')} />
+	<Minimizer onclick={() => goto('/')} direction="down" />
 	<div class="h-8"></div>
 	<div class="flex w-full justify-end p-2">
 		<Button text="End Planning" variant="secondary" onclick={endPlanning} />
