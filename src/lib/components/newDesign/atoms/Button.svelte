@@ -9,6 +9,7 @@
 		variant?: 'primary' | 'secondary';
 		wide?: boolean;
 		icon?: 'plus' | 'microphone';
+		toggle?: boolean;
 		disabled?: boolean;
 		classAddons?: string;
 	}
@@ -20,6 +21,7 @@
 		variant = 'primary',
 		wide = false,
 		icon,
+		toggle = false,
 		disabled = false,
 		classAddons = ''
 	}: Props = $props();
@@ -29,7 +31,7 @@
 	{#if icon === 'plus'}
 		<Plus size="small" />
 	{:else if icon === 'microphone'}
-		<Microphone />
+		<Microphone {toggle} />
 	{/if}
 {/snippet}
 
@@ -40,7 +42,9 @@
 		[classAddons]: classAddons,
 		'h-10 bg-indigo-600 text-xl font-semibold text-stone-200': variant === 'primary' && !disabled,
 		'h-10 bg-stone-600 text-xl font-semibold text-stone-400': variant === 'primary' && disabled,
-		'border border-stone-700 py-1.5 text-sm text-stone-400': variant === 'secondary',
+		'border border-stone-700 py-1.5 text-sm text-stone-400': variant === 'secondary' && !toggle,
+		'animate-pulse border border-rose-700 py-1.5 text-sm text-rose-700':
+			variant === 'secondary' && toggle,
 		'w-3/4 max-w-[270px]': wide
 	}}
 	{onclick}
