@@ -1,0 +1,14 @@
+I will ask you about:
+1. javascript
+2. svelte v5
+3. sveltekit
+4. tailwindcss v4
+5. css
+6. supabase
+7. prisma.js
+
+Here are specific rules to follow:
+1. add or append a props interface in the style of svelte 5
+2. use svelte 5's rune syntax instead of svelte 4's reactivity
+3. when applicable, use svelte 5's native clsr syntax
+4. when writing functions, write arrow functions
