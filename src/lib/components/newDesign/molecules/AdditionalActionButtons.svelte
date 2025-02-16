@@ -15,7 +15,7 @@
 	<div class="flex flex-col space-y-4">
 		<!-- Review -->
 		<ActionButton
-			glow={false}
+			glow={page.data.dailyProgress.weeklyReview}
 			size="small"
 			icon="chart"
 			disabled={page.data.dailyProgress.weeklyReview}
@@ -23,7 +23,7 @@
 		/>
 		<!-- Photo -->
 		<ActionButton
-			glow={false}
+			glow={page.data.dailyProgress.weeklyPic}
 			size="small"
 			icon="camera"
 			disabled={page.data.dailyProgress.weeklyPic}

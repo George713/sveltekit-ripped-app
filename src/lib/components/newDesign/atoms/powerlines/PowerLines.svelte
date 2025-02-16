@@ -96,14 +96,14 @@
 	<!-- Review -->
 	<Base
 		svgInfo={singleBent}
-		glow={false}
+		glow={page.data.dailyProgress.weeklyReview}
 		translate={[15, 194]}
 		hidden={!page.data.user.reviewToday}
 	/>
 	<!-- Photo -->
 	<Base
 		svgInfo={singleBent}
-		glow={false}
+		glow={page.data.dailyProgress.weeklyPic}
 		vflip={true}
 		translate={[15, -304]}
 		hidden={!page.data.user.progressPicToday}
