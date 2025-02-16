@@ -43,6 +43,6 @@
 			placeholder="Repeat password"
 			type="password"
 		/>
-		<Button text="Register" type="submit" />
+		<Button text="Register" type="submit" wide={true} />
 	{/if}
 </form>

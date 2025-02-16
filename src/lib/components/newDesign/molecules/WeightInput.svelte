@@ -44,6 +44,6 @@
 		<!-- Input -->
 		<WeightInput id="weight" name="weight" placeholder="88.25" type="number" />
 		<!-- Button -->
-		<Button text="Submit" type="submit" />
+		<Button text="Submit" type="submit" wide={true} />
 	</form>
 </div>
