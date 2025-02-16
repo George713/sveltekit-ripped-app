@@ -18,9 +18,9 @@
 		class={{
 			' fill-none stroke-stone-700': true,
 			'rotate-0': direction == 'down',
-			'scale-x-60 rotate-90': direction == 'left',
+			'scale-x-55 rotate-90': direction == 'left',
 			'rotate-180': direction == 'up',
-			'scale-x-60 rotate-270 ': direction == 'right'
+			'scale-x-55 rotate-270 ': direction == 'right'
 		}}
 		><path
 			stroke-linecap="round"
