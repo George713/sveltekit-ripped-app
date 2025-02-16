@@ -3,6 +3,7 @@
 	import ItemName from '$lib/components/newDesign/atoms/inputs/ItemName.svelte';
 	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
 	import PhotoFrame from '$lib/components/newDesign/atoms/PhotoFrame.svelte';
+	import IngredientInput from '$lib/components/newDesign/molecules/IngredientInput.svelte';
 </script>
 
 <!-- Minimizer horizontal -->
@@ -12,7 +13,7 @@
 	</div>
 	<PhotoFrame />
 	<ItemName />
-	<!-- Add & Record Button (grow) -->
+	<IngredientInput />
 	<!-- kcal | protein sums -->
 	<!-- Create Item -->
 </div>
