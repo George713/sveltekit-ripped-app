@@ -1,4 +1,4 @@
-import type { DailySelectionItem, EstimatedItem, FoodItem, FoodSet, PlannedItem, Toast } from '$lib/types'
+import type { DailySelectionItem, EstimatedItem, FoodItem, FoodSet, PlannedItem, RecordedItem, Toast } from '$lib/types'
 
 // Visibility states
 class VisibilityManager {
@@ -280,3 +280,20 @@ class FoodSetManager {
     }
 }
 export const foodSetManager = new FoodSetManager()
+
+
+class IngredientManager {
+    items = $state<RecordedItem[]>([]);
+    totalKcal = $derived(this.items.reduce((sum, item) => sum + item.kcal, 0))
+    totalProtein = $derived(this.items.reduce((sum, item) => sum + item.protein, 0))
+
+    // Add one or multiple items to the ingredient store
+    add = (item: RecordedItem | RecordedItem[]) => {
+        if (Array.isArray(item)) {
+            this.items = [...this.items, ...item];
+        } else {
+            this.items = [...this.items, item];
+        }
+    }
+}
+export const ingredientManager = new IngredientManager()

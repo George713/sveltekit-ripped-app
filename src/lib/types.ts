@@ -114,7 +114,7 @@ export interface Toast {
     id?: number;
 };
 
-interface RecordedItem {
+export interface RecordedItem {
     name: string;
     kcal: number;
     protein: number;
