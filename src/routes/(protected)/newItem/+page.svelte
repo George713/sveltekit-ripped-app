@@ -6,6 +6,7 @@
 	import NutrientSum from '$lib/components/newDesign/atoms/NutrientSum.svelte';
 	import PhotoFrame from '$lib/components/newDesign/atoms/PhotoFrame.svelte';
 	import IngredientInput from '$lib/components/newDesign/molecules/IngredientInput.svelte';
+	import { ingredientManager } from '$lib/stateManagers.svelte';
 </script>
 
 <div class="flex h-screen w-screen flex-col items-center px-6">
@@ -18,9 +19,9 @@
 	<ItemName />
 	<IngredientInput />
 	<div class="mt-3 w-full">
-		<NutrientSum kcal={0} protein={0} />
+		<NutrientSum kcal={ingredientManager.totalKcal} protein={ingredientManager.totalProtein} />
 	</div>
 	<div class="my-6">
-		<Button text="Create Item" onclick={() => {}} disabled={true} />
+		<Button text="Create Item" onclick={() => {}} disabled={ingredientManager.items.length === 0} />
 	</div>
 </div>

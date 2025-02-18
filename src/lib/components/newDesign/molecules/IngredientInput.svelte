@@ -1,18 +1,25 @@
 <script lang="ts">
 	import { audioRecorder } from '$lib/audioRecorder.svelte';
+	import { ingredientManager } from '$lib/stateManagers.svelte';
 	import Button from '../atoms/Button.svelte';
+	import Ingredient from '../atoms/Ingredient.svelte';
 	import FastSpinner from '../icons/FastSpinner.svelte';
 </script>
 
 <div class="flex w-full flex-1 flex-col justify-end">
 	<!-- Ingredient Field -->
-	<div class="mx-1 mb-2">
+	<div class="mb-1">
+		<div class="flex flex-col space-y-1">
+			{#each ingredientManager.items as item}
+				<Ingredient icon={item.icon} name={item.name} kcal={item.kcal} protein={item.protein} />
+			{/each}
+		</div>
 		{#if audioRecorder.isProcessing}
-			<div class="flex justify-center">
+			<div class="mt-1 flex h-9 items-center justify-center">
 				<FastSpinner />
 			</div>
-		{:else}
-			<p class="text-center text-sm text-stone-200">
+		{:else if audioRecorder.isRecording}
+			<p class="mt-1 flex h-9 items-center justify-center text-center text-sm text-stone-200">
 				{#if audioRecorder.isListening}
 					Listening...
 				{:else}
