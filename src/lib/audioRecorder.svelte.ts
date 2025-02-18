@@ -10,6 +10,8 @@
 // `recordedText` + `tempTranscript` = full transcription
 // `recordingResult` = json formatted LLM response containing the estimated calories and proteins
 
+import type { RecordingResult } from "./types";
+
 class AudioRecorder {
     isProcessing = $state(false);
     recognition: any;
@@ -18,7 +20,7 @@ class AudioRecorder {
     isRecording = $state(false);
     recordedText = $state('');
     tempTranscript = $state('');
-    recordingResult = $state(false);
+    recordingResult = $state<RecordingResult | undefined>(undefined);
     isListening = $derived(!this.recordingResult && this.isRecording && !this.recordedText && !this.tempTranscript)
 
     record = () => {
@@ -26,7 +28,7 @@ class AudioRecorder {
             this.toggleRecording();
         } else {
             this.recordedText = '';
-            this.recordingResult = false;
+            this.recordingResult = undefined;
         }
     };
 

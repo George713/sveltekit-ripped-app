@@ -113,3 +113,16 @@ export interface Toast {
     timeout?: number;
     id?: number;
 };
+
+interface RecordedItem {
+    name: string;
+    kcal: number;
+    protein: number;
+    icon: string;
+}
+
+export interface RecordingResult {
+    items: RecordedItem[];
+    sumKcal: number;
+    sumProtein: number;
+}
