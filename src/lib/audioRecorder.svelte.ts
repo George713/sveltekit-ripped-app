@@ -10,6 +10,7 @@
 // `recordedText` + `tempTranscript` = full transcription
 // `recordingResult` = json formatted LLM response containing the estimated calories and proteins
 
+import { ingredientManager } from "./stateManagers.svelte";
 import type { RecordingResult } from "./types";
 
 class AudioRecorder {
@@ -22,6 +23,12 @@ class AudioRecorder {
     tempTranscript = $state('');
     recordingResult = $state<RecordingResult | undefined>(undefined);
     isListening = $derived(!this.recordingResult && this.isRecording && !this.recordedText && !this.tempTranscript)
+
+    callback: (result: RecordingResult) => void = () => { };
+
+    constructor(callback: (result: RecordingResult) => void) {
+        this.callback = callback;
+    }
 
     record = () => {
         if (!this.recordingResult) {
@@ -108,6 +115,10 @@ class AudioRecorder {
                 this.recordingResult = JSON.parse(jsonString);
                 this.tempTranscript = ''
                 this.recordedText = ''
+
+                if (this.callback && typeof this.recordingResult === 'object') {
+                    this.callback(this.recordingResult);
+                }
             } else {
                 console.error('Failed to send audio to backend');
             }
@@ -128,4 +139,9 @@ class AudioRecorder {
     };
 
 }
-export const audioRecorder = new AudioRecorder();
+
+const fillState = (recordingResult: RecordingResult) => {
+    ingredientManager.add(recordingResult.items);
+}
+
+export const audioRecorder = new AudioRecorder(fillState);
