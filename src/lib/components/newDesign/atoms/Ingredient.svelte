@@ -6,15 +6,30 @@
 		name: string;
 		kcal: number;
 		protein: number;
+		shouldFocus: boolean;
 	}
 
-	let { icon, name = $bindable(), kcal = $bindable(), protein = $bindable() }: Props = $props();
+	let {
+		icon,
+		name = $bindable(),
+		kcal = $bindable(),
+		protein = $bindable(),
+		shouldFocus = false
+	}: Props = $props();
+
+	let nameInput: HTMLInputElement;
+
+	$effect(() => {
+		if (shouldFocus) {
+			nameInput?.focus();
+		}
+	});
 </script>
 
 <div
 	class="flex h-9 w-full items-center space-x-1 rounded-[6px] border border-stone-700 px-2 text-sm font-thin text-stone-400"
 >
-	<label for="icon">{icon}</label>
+	<label for="icon" class="size-5">{icon}</label>
 	<input
 		type="text"
 		name="name"
@@ -22,6 +37,7 @@
 		spellcheck="false"
 		onfocus={selectInput}
 		bind:value={name}
+		bind:this={nameInput}
 	/>
 	<input
 		type="number"

@@ -16,6 +16,7 @@
 					bind:name={item.name}
 					bind:kcal={item.kcal}
 					bind:protein={item.protein}
+					shouldFocus={item.shouldFocus}
 				/>
 			{/each}
 		</div>
@@ -35,7 +36,20 @@
 	</div>
 	<!-- Buttons -->
 	<div class="flex space-x-1">
-		<Button text="Add" variant="secondary" icon="plus" classAddons="grow" />
+		<Button
+			text="Add"
+			variant="secondary"
+			icon="plus"
+			classAddons="grow"
+			onclick={() =>
+				ingredientManager.add({
+					icon: '📙',
+					name: 'Estimate',
+					kcal: 0,
+					protein: 0,
+					shouldFocus: true
+				})}
+		/>
 		<Button
 			text="Record"
 			variant="secondary"

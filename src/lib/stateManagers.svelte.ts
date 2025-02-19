@@ -287,12 +287,14 @@ class Ingredient {
     name = $state("")
     kcal = $state(0)
     protein = $state(0)
+    shouldFocus = $state(false)
 
-    constructor(icon: string, name: string, kcal: number, protein: number) {
+    constructor(icon: string, name: string, kcal: number, protein: number, shouldFocus: boolean = false) {
         this.icon = icon
         this.name = name
         this.kcal = kcal
         this.protein = protein
+        this.shouldFocus = shouldFocus
     }
 }
 
@@ -304,7 +306,7 @@ class IngredientManager {
 
     // Add one or multiple items to the ingredient store
     add = (item: RecordedItem | RecordedItem[]) => {
-        const newItems = (Array.isArray(item) ? item : [item]).map(recordedItem => new Ingredient(recordedItem.icon, recordedItem.name, recordedItem.kcal, recordedItem.protein));
+        const newItems = (Array.isArray(item) ? item : [item]).map((recordedItem: RecordedItem) => new Ingredient(recordedItem.icon, recordedItem.name, recordedItem.kcal, recordedItem.protein, recordedItem?.shouldFocus));
         this.items = [...this.items, ...newItems];
     }
 }

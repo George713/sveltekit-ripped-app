@@ -119,6 +119,7 @@ export interface RecordedItem {
     kcal: number;
     protein: number;
     icon: string;
+    shouldFocus: boolean;
 }
 
 export interface RecordingResult {
