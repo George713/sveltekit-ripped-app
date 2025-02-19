@@ -309,5 +309,9 @@ class IngredientManager {
         const newItems = (Array.isArray(item) ? item : [item]).map((recordedItem: RecordedItem) => new Ingredient(recordedItem.icon, recordedItem.name, recordedItem.kcal, recordedItem.protein, recordedItem?.shouldFocus));
         this.items = [...this.items, ...newItems];
     }
+
+    clear = () => {
+        this.items = [];
+    }
 }
 export const ingredientManager = new IngredientManager()
