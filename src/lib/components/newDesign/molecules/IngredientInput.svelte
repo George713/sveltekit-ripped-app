@@ -11,7 +11,12 @@
 	<div class="mb-1">
 		<div class="flex flex-col space-y-1">
 			{#each ingredientManager.items as item}
-				<Ingredient icon={item.icon} name={item.name} kcal={item.kcal} protein={item.protein} />
+				<Ingredient
+					icon={item.icon}
+					bind:name={item.name}
+					bind:kcal={item.kcal}
+					bind:protein={item.protein}
+				/>
 			{/each}
 		</div>
 		{#if audioRecorder.isProcessing}

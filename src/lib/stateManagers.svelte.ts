@@ -282,18 +282,30 @@ class FoodSetManager {
 export const foodSetManager = new FoodSetManager()
 
 
+class Ingredient {
+    icon = $state("")
+    name = $state("")
+    kcal = $state(0)
+    protein = $state(0)
+
+    constructor(icon: string, name: string, kcal: number, protein: number) {
+        this.icon = icon
+        this.name = name
+        this.kcal = kcal
+        this.protein = protein
+    }
+}
+
+
 class IngredientManager {
-    items = $state<RecordedItem[]>([]);
+    items = $state<Ingredient[]>([]);
     totalKcal = $derived(this.items.reduce((sum, item) => sum + item.kcal, 0))
     totalProtein = $derived(this.items.reduce((sum, item) => sum + item.protein, 0))
 
     // Add one or multiple items to the ingredient store
     add = (item: RecordedItem | RecordedItem[]) => {
-        if (Array.isArray(item)) {
-            this.items = [...this.items, ...item];
-        } else {
-            this.items = [...this.items, item];
-        }
+        const newItems = (Array.isArray(item) ? item : [item]).map(recordedItem => new Ingredient(recordedItem.icon, recordedItem.name, recordedItem.kcal, recordedItem.protein));
+        this.items = [...this.items, ...newItems];
     }
 }
 export const ingredientManager = new IngredientManager()
