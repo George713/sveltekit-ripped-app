@@ -39,6 +39,7 @@
 		<Button
 			text="Add"
 			variant="secondary"
+			type="button"
 			icon="plus"
 			classAddons="grow"
 			onclick={() =>
@@ -53,6 +54,7 @@
 		<Button
 			text="Record"
 			variant="secondary"
+			type="button"
 			icon="microphone"
 			classAddons="grow"
 			toggle={audioRecorder.isRecording}
