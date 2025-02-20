@@ -42,6 +42,7 @@
 	<input
 		type="number"
 		name="kcal"
+		step="0.1"
 		class="w-9 text-right focus-visible:outline-none"
 		spellcheck="false"
 		onfocus={selectInput}
@@ -51,6 +52,7 @@
 	<input
 		type="number"
 		name="protein"
+		step="0.1"
 		class="w-7 text-right focus-visible:outline-none"
 		spellcheck="false"
 		onfocus={selectInput}
