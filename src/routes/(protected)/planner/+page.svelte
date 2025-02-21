@@ -60,5 +60,5 @@
 	</div>
 	<FoodLibrary showNewElementCard={true} showSubtleBtn={true} />
 	<div class="h-8"></div>
-	<FoodSelection />
+	<FoodSelection selectionManager={dailySelectionManager} />
 </div>
