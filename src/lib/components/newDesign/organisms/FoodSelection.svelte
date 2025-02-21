@@ -12,7 +12,11 @@
 		<SelectionHeader icon="cutlery" text="Daily Selection" />
 	</div>
 	<CardArrayBackground color="dark">
-		<CardArray items={dailySelectionManager.items} itemType="dailySelection" theme="dark" />
+		<CardArray
+			itemManager={dailySelectionManager}
+			selectionManager={dailySelectionManager}
+			theme="dark"
+		/>
 	</CardArrayBackground>
 	<div class="mt-2 translate-x-[-6%]">
 		<DigitalCounter

@@ -1,5 +1,9 @@
 <script lang="ts">
-	import { foodItemManager, foodSetManager } from '$lib/stateManagers.svelte';
+	import {
+		dailySelectionManager,
+		foodItemManager,
+		foodSetManager
+	} from '$lib/stateManagers.svelte';
 
 	import CardArrayBackground from '../atoms/CardArrayBackground.svelte';
 	import SelectionHeader from '../atoms/SelectionHeader.svelte';
@@ -8,7 +12,7 @@
 
 	let showSets = $state(false);
 	let subtleBtnText = $derived(showSets ? 'Items' : 'Sets');
-	let items = $derived(showSets ? foodSetManager.sets : foodItemManager.items);
+	let itemManager = $derived(showSets ? foodSetManager : foodItemManager);
 </script>
 
 <div class="flex w-full flex-col px-0.5">
@@ -18,8 +22,8 @@
 	</div>
 	<CardArrayBackground color="light">
 		<CardArray
-			{items}
-			itemType={showSets ? 'foodSets' : 'foodItems'}
+			{itemManager}
+			selectionManager={dailySelectionManager}
 			theme="light"
 			showNewElementCard={true}
 		/>

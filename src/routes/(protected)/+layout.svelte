@@ -26,7 +26,7 @@
 		estimatedItemManager.items = data.estimatedItems;
 	}
 	if (data.foodSets) {
-		foodSetManager.sets = data.foodSets;
+		foodSetManager.items = data.foodSets;
 	}
 
 	onMount(() => {

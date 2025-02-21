@@ -1,24 +1,26 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { dailySelectionManager, foodSetManager } from '$lib/stateManagers.svelte';
+	import { SelectionManager, FoodItemManager, FoodSetManager } from '$lib/stateManagers.svelte';
 	import type { DailySelectionItem, FoodItem, FoodSet } from '$lib/types';
 	import Card from '../atoms/Card.svelte';
 
 	interface Props {
-		items: FoodItem[] | DailySelectionItem[] | FoodSet[];
-		itemType: 'foodItems' | 'dailySelection' | 'foodSets';
+		itemManager: FoodItemManager | FoodSetManager | SelectionManager;
+		selectionManager: SelectionManager;
 		theme: 'light' | 'dark';
 		showNewElementCard?: boolean;
 		verticalScroll?: boolean;
 	}
 
 	let {
-		items,
-		itemType,
+		itemManager,
+		selectionManager,
 		theme,
 		showNewElementCard = false,
 		verticalScroll = false
 	}: Props = $props();
+
+	let managerType = $derived(itemManager.constructor.name);
 </script>
 
 <div
@@ -30,14 +32,14 @@
 >
 	{#if showNewElementCard}
 		<Card
-			name={itemType === 'foodSets' ? 'New Set' : 'New Item'}
+			name={managerType === 'FoodSetManager' ? 'New Set' : 'New Item'}
 			{theme}
 			type="newElement"
-			onclick={() => goto(itemType === 'foodSets' ? '/newSet' : '/newItem')}
+			onclick={() => goto(managerType === 'FoodSetManager' ? '/newSet' : '/newItem')}
 		/>
 	{/if}
-	{#if itemType === 'foodItems'}
-		{#each items as item}
+	{#if managerType === 'FoodItemManager'}
+		{#each itemManager.items as item}
 			<Card
 				imgSrc={`https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${item.id}`}
 				name={(item as FoodItem).itemName}
@@ -45,11 +47,12 @@
 				protein={(item as FoodItem).protein}
 				{theme}
 				type="item"
-				onclick={() => dailySelectionManager.addFoodItem(item.id)}
+				onclick={() => selectionManager.addFoodItem(item.id)}
 			/>
 		{/each}
-	{:else if itemType === 'dailySelection'}
-		{#each items as item}
+	{/if}
+	{#if managerType === 'SelectionManager'}
+		{#each itemManager.items as item}
 			<Card
 				imgSrc={`https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${(item as DailySelectionItem).foodId}`}
 				name={(item as DailySelectionItem).itemName}
@@ -57,19 +60,20 @@
 				protein={(item as DailySelectionItem).protein}
 				{theme}
 				type="item"
-				onclick={() => dailySelectionManager.remove(item.id)}
+				onclick={() => selectionManager.remove(item.id)}
 			/>
 		{/each}
-	{:else if itemType === 'foodSets'}
-		{#each items as item}
+	{/if}
+	{#if managerType === 'FoodSetManager'}
+		{#each itemManager.items as item}
 			<Card
-				imgSrc={foodSetManager.getImages(item as FoodSet)}
+				imgSrc={(itemManager as FoodSetManager).getImages(item as FoodSet)}
 				name={(item as FoodSet).name}
-				kcal={foodSetManager.getKcal(item as FoodSet)}
-				protein={foodSetManager.getProtein(item as FoodSet)}
+				kcal={(itemManager as FoodSetManager).getKcal(item as FoodSet)}
+				protein={(itemManager as FoodSetManager).getProtein(item as FoodSet)}
 				{theme}
 				type="item"
-				onclick={() => dailySelectionManager.addFoodSet(item as FoodSet)}
+				onclick={() => selectionManager.addFoodSet(item as FoodSet)}
 			/>
 		{/each}
 	{/if}

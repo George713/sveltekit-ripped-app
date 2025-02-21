@@ -162,7 +162,7 @@ export const proteinManager = new ProteinManager();
 
 
 // FoodItem Manager
-class FoodItemManager {
+export class FoodItemManager {
     items = $state<FoodItem[]>([]);
 
     // Get item by its id
@@ -190,7 +190,7 @@ export const estimatedItemManager = new EstimatedItemManager()
 
 
 // Daily Selection Manager
-class DailySelectionManager {
+export class SelectionManager {
     items = $state<DailySelectionItem[]>([]);
     nextId = $state(0);
 
@@ -244,12 +244,12 @@ class DailySelectionManager {
         }))
     }
 }
-export const dailySelectionManager = new DailySelectionManager()
+export const dailySelectionManager = new SelectionManager()
 
 
 // FoodSet Manager
-class FoodSetManager {
-    sets = $state<FoodSet[]>([]);
+export class FoodSetManager {
+    items = $state<FoodSet[]>([]);
 
     getKcal = (foodSet: FoodSet): number => {
         return foodSet.foodItemsInSet.reduce((acc, item) => {
