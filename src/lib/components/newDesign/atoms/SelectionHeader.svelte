@@ -1,13 +1,15 @@
 <script lang="ts">
+	import { setSelectionManager } from '$lib/stateManagers.svelte';
 	import Book from '../icons/Book.svelte';
 	import Cutlery from '../icons/Cutlery.svelte';
 
 	interface Props {
 		icon: 'book' | 'cutlery';
 		text: string;
+		asInput?: boolean;
 	}
 
-	let { icon, text }: Props = $props();
+	let { icon, text, asInput = false }: Props = $props();
 </script>
 
 {#snippet symbol(variant: 'book' | 'cutlery')}
@@ -20,5 +22,15 @@
 
 <div class="flex items-center space-x-1.5">
 	{@render symbol(icon)}
-	<p class="font-medium text-stone-400">{text}</p>
+	{#if asInput}
+		<input
+			class="font-medium text-stone-200 placeholder-stone-400 focus:outline-hidden"
+			type="text"
+			placeholder="Set Name..."
+			bind:value={setSelectionManager.name}
+			required
+		/>
+	{:else}
+		<p class="font-medium text-stone-400">{text}</p>
+	{/if}
 </div>

@@ -12,17 +12,9 @@
 	});
 
 	const handleSubmit = async () => {
-		// if (!itemName) {
-		// 	return;
-		// }
-		// if (!imageBlob) {
-		// 	toastManager.addToast({
-		// 		type: 'error',
-		// 		message: 'An image is required for new items.',
-		// 		timeout: 5000
-		// 	});
-		// 	return;
-		// }
+		if (!setSelectionManager.name) {
+			return;
+		}
 
 		visibilityManager.toggleSpinnerOverlay();
 
@@ -56,7 +48,7 @@
 	};
 </script>
 
-<div class="flex h-screen w-screen flex-col items-center px-6">
+<form class="flex h-screen w-screen flex-col items-center px-6">
 	<div class="justify-left mt-2 flex w-full translate-x-[-18px]">
 		<Minimizer onclick={() => goto('/planner?showSets=true')} direction="left" />
 	</div>
@@ -70,6 +62,6 @@
 			selectionManager={setSelectionManager}
 		/>
 		<div class="h-8"></div>
-		<FoodSelection selectionManager={setSelectionManager} />
+		<FoodSelection selectionManager={setSelectionManager} headerAsInput={true} />
 	</div>
-</div>
+</form>
