@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import { foodItemManager, foodSetManager, SelectionManager } from '$lib/stateManagers.svelte';
 
 	import CardArrayBackground from '../atoms/CardArrayBackground.svelte';
@@ -14,7 +15,7 @@
 
 	let { showNewElementCard, showSubtleBtn, selectionManager }: Props = $props();
 
-	let showSets = $state(false);
+	let showSets = $state(page.url.searchParams.get('showSets') === 'true');
 	let subtleBtnText = $derived(showSets ? 'Items' : 'Sets');
 	let itemManager = $derived(showSets ? foodSetManager : foodItemManager);
 </script>

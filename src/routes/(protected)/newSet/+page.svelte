@@ -50,7 +50,7 @@
 		// 	foodItemManager.items = [...foodItemManager.items, newItem];
 		// }
 
-		goto('/planner');
+		goto('/planner?showSets=true');
 
 		visibilityManager.toggleSpinnerOverlay();
 	};
@@ -58,7 +58,7 @@
 
 <div class="flex h-screen w-screen flex-col items-center px-6">
 	<div class="justify-left mt-2 flex w-full translate-x-[-18px]">
-		<Minimizer onclick={() => goto('/planner')} direction="left" />
+		<Minimizer onclick={() => goto('/planner?showSets=true')} direction="left" />
 	</div>
 	<div class="mb-1 flex h-screen w-screen flex-col-reverse items-center p-1">
 		<div class="my-6">
