@@ -92,6 +92,7 @@
 {/snippet}
 
 <button
+	type="button"
 	{onclick}
 	class={{
 		'flex h-[105px] w-[90px] flex-col items-center overflow-visible rounded p-[1px] drop-shadow-[2px_2px_2px_rgba(0,0,0,0.3)]': true,
