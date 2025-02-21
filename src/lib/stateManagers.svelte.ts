@@ -193,6 +193,7 @@ export const estimatedItemManager = new EstimatedItemManager()
 export class SelectionManager {
     items = $state<DailySelectionItem[]>([]);
     nextId = $state(0);
+    name = $state("")
 
     totalKcal = $derived(this.items.reduce((sum, item) => sum + item.kcal, 0))
     totalProtein = $derived(this.items.reduce((sum, item) => sum + item.protein, 0))
@@ -246,6 +247,7 @@ export class SelectionManager {
 
     clear = () => {
         this.items = [];
+        this.name = "";
     }
 }
 export const dailySelectionManager = new SelectionManager()
