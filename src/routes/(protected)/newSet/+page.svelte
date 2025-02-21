@@ -11,8 +11,10 @@
 		setSelectionManager.clear();
 	});
 
+	let newSetIsReady = $derived(setSelectionManager.name && setSelectionManager.items.length > 1);
+
 	const handleSubmit = async () => {
-		if (!setSelectionManager.name) {
+		if (!newSetIsReady) {
 			return;
 		}
 
@@ -54,7 +56,7 @@
 	</div>
 	<div class="mb-1 flex h-screen w-screen flex-col-reverse items-center p-1">
 		<div class="my-6">
-			<Button text="Create Set" onclick={handleSubmit} />
+			<Button text="Create Set" onclick={handleSubmit} disabled={!newSetIsReady} />
 		</div>
 		<FoodLibrary
 			showNewElementCard={false}

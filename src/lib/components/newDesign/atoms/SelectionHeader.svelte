@@ -26,7 +26,7 @@
 		<input
 			class="font-medium text-stone-200 placeholder-stone-400 focus:outline-hidden"
 			type="text"
-			placeholder="Set Name..."
+			placeholder="Enter set name here..."
 			bind:value={setSelectionManager.name}
 			required
 		/>
