@@ -58,7 +58,11 @@
 	<div class="flex w-full justify-end p-2">
 		<Button text="End Planning" variant="secondary" onclick={endPlanning} />
 	</div>
-	<FoodLibrary showNewElementCard={true} showSubtleBtn={true} />
+	<FoodLibrary
+		showNewElementCard={true}
+		showSubtleBtn={true}
+		selectionManager={dailySelectionManager}
+	/>
 	<div class="h-8"></div>
 	<FoodSelection selectionManager={dailySelectionManager} />
 </div>

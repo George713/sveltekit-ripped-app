@@ -1,9 +1,5 @@
 <script lang="ts">
-	import {
-		dailySelectionManager,
-		foodItemManager,
-		foodSetManager
-	} from '$lib/stateManagers.svelte';
+	import { foodItemManager, foodSetManager, SelectionManager } from '$lib/stateManagers.svelte';
 
 	import CardArrayBackground from '../atoms/CardArrayBackground.svelte';
 	import SelectionHeader from '../atoms/SelectionHeader.svelte';
@@ -13,9 +9,10 @@
 	interface Props {
 		showNewElementCard: boolean;
 		showSubtleBtn: boolean;
+		selectionManager: SelectionManager;
 	}
 
-	let { showNewElementCard, showSubtleBtn }: Props = $props();
+	let { showNewElementCard, showSubtleBtn, selectionManager }: Props = $props();
 
 	let showSets = $state(false);
 	let subtleBtnText = $derived(showSets ? 'Items' : 'Sets');
@@ -30,11 +27,6 @@
 		{/if}
 	</div>
 	<CardArrayBackground color="light">
-		<CardArray
-			{itemManager}
-			selectionManager={dailySelectionManager}
-			theme="light"
-			{showNewElementCard}
-		/>
+		<CardArray {itemManager} {selectionManager} theme="light" {showNewElementCard} />
 	</CardArrayBackground>
 </div>
