@@ -245,7 +245,7 @@ export class SelectionManager {
     }
 }
 export const dailySelectionManager = new SelectionManager()
-
+export const setSelectionManager = new SelectionManager()
 
 // FoodSet Manager
 export class FoodSetManager {
