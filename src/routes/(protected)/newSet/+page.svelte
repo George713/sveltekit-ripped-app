@@ -5,6 +5,11 @@
 	import FoodLibrary from '$lib/components/newDesign/organisms/FoodLibrary.svelte';
 	import FoodSelection from '$lib/components/newDesign/organisms/FoodSelection.svelte';
 	import { setSelectionManager, visibilityManager } from '$lib/stateManagers.svelte';
+	import { onDestroy } from 'svelte';
+
+	onDestroy(() => {
+		setSelectionManager.clear();
+	});
 
 	const handleSubmit = async () => {
 		// if (!itemName) {

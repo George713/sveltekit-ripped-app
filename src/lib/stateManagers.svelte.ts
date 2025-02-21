@@ -243,6 +243,10 @@ export class SelectionManager {
             unitAmount: 1
         }))
     }
+
+    clear = () => {
+        this.items = [];
+    }
 }
 export const dailySelectionManager = new SelectionManager()
 export const setSelectionManager = new SelectionManager()
