@@ -18,6 +18,12 @@
 	let showSets = $state(page.url.searchParams.get('showSets') === 'true');
 	let subtleBtnText = $derived(showSets ? 'Items' : 'Sets');
 	let itemManager = $derived(showSets ? foodSetManager : foodItemManager);
+
+	// Log the state of itemManager and its dependencies
+	console.log('showSets:', showSets);
+	console.log('itemManager:', itemManager);
+	console.log('foodItemManager:', foodItemManager);
+	console.log('foodSetManager:', foodSetManager);
 	// let itemManager = $derived.by(() => {
 	// 	const manager = showSets ? foodSetManager : foodItemManager;
 	// 	console.log(manager);
