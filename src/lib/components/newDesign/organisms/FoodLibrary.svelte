@@ -18,6 +18,8 @@
 	let showSets = $state(page.url.searchParams.get('showSets') === 'true');
 	let subtleBtnText = $derived(showSets ? 'Items' : 'Sets');
 	let itemManager = $derived(showSets ? foodSetManager : foodItemManager);
+
+	$inspect(itemManager);
 </script>
 
 <div class="flex w-full flex-col px-0.5">
