@@ -17,9 +17,7 @@
 	let { data, children } = $props();
 
 	if (data.foodItems) {
-		// Assign data to managers and log the assignment
 		foodItemManager.items = data.foodItems;
-		// console.log('foodItemManager.items assigned:', foodItemManager.items);
 	}
 	if (data.plannedItems) {
 		plannedItemManager.items = data.plannedItems;
@@ -28,18 +26,8 @@
 		estimatedItemManager.items = data.estimatedItems;
 	}
 	if (data.foodSets) {
-		// Assign data to managers and log the assignment
 		foodSetManager.items = data.foodSets;
-		// console.log('foodSetManager.items assigned:', foodSetManager.items);
 	}
-
-	// Log the data fetched for the managers
-	// console.log('Data fetched for foodItemManager:', data.foodItems);
-	// console.log('Data fetched for foodSetManager:', data.foodSets);
-
-	// Log the state of the managers after initialization
-	console.log('foodItemManager initialized:', foodItemManager);
-	console.log('foodSetManager initialized:', foodSetManager);
 
 	onMount(() => {
 		xpManager.totalXP = page.data.user.pointBalance;
