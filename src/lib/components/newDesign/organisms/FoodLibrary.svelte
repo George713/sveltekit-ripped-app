@@ -21,7 +21,7 @@
 
 	// Log the state of itemManager and its dependencies
 	console.log('showSets:', showSets);
-	console.log('itemManager:', itemManager);
+	console.log('itemManager:', itemManager.items);
 	console.log('foodItemManager:', foodItemManager.items);
 	console.log('foodSetManager:', foodSetManager.items);
 	// let itemManager = $derived.by(() => {
