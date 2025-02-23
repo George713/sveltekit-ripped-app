@@ -29,6 +29,10 @@
 		foodSetManager.items = data.foodSets;
 	}
 
+	// Log the state of the managers after initialization
+	console.log('foodItemManager initialized:', foodItemManager);
+	console.log('foodSetManager initialized:', foodSetManager);
+
 	onMount(() => {
 		xpManager.totalXP = page.data.user.pointBalance;
 		calorieManager.target = page.data.user.currentCalorieTarget;
