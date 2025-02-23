@@ -163,6 +163,8 @@ export const proteinManager = new ProteinManager();
 
 // FoodItem Manager
 export class FoodItemManager {
+    // Classname required as XXX.constructor.name changes during build (see `minification`)
+    classname = "FoodItemManager"
     items = $state<FoodItem[]>([]);
 
     // Get item by its id
@@ -191,6 +193,7 @@ export const estimatedItemManager = new EstimatedItemManager()
 
 // Daily Selection Manager
 export class SelectionManager {
+    classname = "SelectionManager"
     items = $state<DailySelectionItem[]>([]);
     nextId = $state(0);
     name = $state("")
@@ -255,6 +258,7 @@ export const setSelectionManager = new SelectionManager()
 
 // FoodSet Manager
 export class FoodSetManager {
+    classname = "FoodSetManager"
     items = $state<FoodSet[]>([]);
 
     getKcal = (foodSet: FoodSet): number => {
