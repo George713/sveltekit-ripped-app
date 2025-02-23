@@ -20,7 +20,11 @@
 		verticalScroll = false
 	}: Props = $props();
 
-	let managerType = $derived(itemManager.constructor.name);
+	// let managerType = $derived(itemManager.constructor.name);
+	let managerType = $derived.by(() => {
+		console.log(itemManager.constructor.name);
+		return itemManager.constructor.name;
+	});
 </script>
 
 <div
