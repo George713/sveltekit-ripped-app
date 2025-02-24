@@ -288,6 +288,10 @@ export class FoodSetManager {
             });
         }
     }
+
+    addSet(newSet: FoodSet) {
+        this.items = [...this.items, newSet];
+    }
 }
 export const foodSetManager = new FoodSetManager()
 

@@ -1,10 +1,16 @@
 <script lang="ts">
+	import { deserialize } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import Button from '$lib/components/newDesign/atoms/Button.svelte';
 	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
 	import FoodLibrary from '$lib/components/newDesign/organisms/FoodLibrary.svelte';
 	import FoodSelection from '$lib/components/newDesign/organisms/FoodSelection.svelte';
-	import { setSelectionManager, visibilityManager } from '$lib/stateManagers.svelte';
+	import {
+		setSelectionManager,
+		visibilityManager,
+		foodSetManager
+	} from '$lib/stateManagers.svelte';
+	import type { FoodSet } from '$lib/types';
 	import { onDestroy } from 'svelte';
 
 	onDestroy(() => {
@@ -20,29 +26,29 @@
 
 		visibilityManager.toggleSpinnerOverlay();
 
-		// const formData = new FormData();
-		// formData.append('name', itemName);
-		// formData.append('kcal', ingredientManager.totalKcal.toFixed(0));
-		// formData.append('protein', ingredientManager.totalProtein.toFixed(1));
+		const formData = new FormData();
+		formData.append('name', setSelectionManager.name);
+		formData.append('items', JSON.stringify(setSelectionManager.prepareForSubmission()));
 
-		// const response = await fetch('?/newItem', {
-		// 	method: 'POST',
-		// 	body: formData
-		// });
+		const response = await fetch('?/newSet', {
+			method: 'POST',
+			body: formData
+		});
 
-		// const result = deserialize(await response.text());
+		const result = deserialize(await response.text());
 
-		// if (result.type === 'success' && result.data) {
-		// 	// Upload image to s3 using presignURL
-		// 	// @ts-ignore
-		// 	await fetch(result.data.presignedURL, {
-		// 		method: 'PUT',
-		// 		body: imageBlob
-		// 	});
-
-		// 	const newItem = result.data.newItem as FoodItem;
-		// 	foodItemManager.items = [...foodItemManager.items, newItem];
-		// }
+		if (result.type === 'success' && result.data) {
+			const newSet = {
+				id: result.data.setId,
+				name: setSelectionManager.name,
+				foodItemsInSet: setSelectionManager.items.map((item) => ({
+					foodId: item.foodId,
+					unitIsPtn: true,
+					unitAmount: 1
+				}))
+			};
+			foodSetManager.addSet(newSet as FoodSet);
+		}
 
 		goto('/planner?showSets=true');
 
