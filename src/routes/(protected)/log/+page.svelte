@@ -4,6 +4,7 @@
 	import DigitalCounter from '$lib/components/newDesign/atoms/DigitalCounter.svelte';
 	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
 	import SelectionHeader from '$lib/components/newDesign/atoms/SelectionHeader.svelte';
+	import AddButtons from '$lib/components/newDesign/molecules/AddButtons.svelte';
 	import CardArray from '$lib/components/newDesign/molecules/CardArray.svelte';
 	import { calorieManager, plannedItemManager, proteinManager } from '$lib/stateManagers.svelte';
 </script>
@@ -13,8 +14,9 @@
 		<div class="flex w-full items-end justify-between px-2 pb-[1px]">
 			<SelectionHeader icon="cutlery" text="Daily Log" />
 		</div>
-		<CardArrayBackground color="dark" classAddons="py-2">
+		<CardArrayBackground color="dark" classAddons="pt-2 pb-4 flex-col">
 			<CardArray itemManager={plannedItemManager} theme="dark" verticalScroll={true} />
+			<AddButtons />
 		</CardArrayBackground>
 	</div>
 	<DigitalCounter
