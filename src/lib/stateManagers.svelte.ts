@@ -181,11 +181,21 @@ export class PlannedItemManager {
     items = $state<PlannedItem[]>([]);
     itemsEaten = $derived(this.items.filter(item => item.eaten))
 
+    eatItem = (id: number) => {
+        this.items = this.items.map(item => {
+            if (item.id === id) {
+                return { ...item, eaten: true };
+            }
+            return item;
+        });
+    }
+
     getEnrichedItems = () => {
         return this.items.map(item => {
             const foodItem = foodItemManager.getById(item.foodId);
             return {
-                id: item.foodId,
+                id: item.id,
+                foodId: item.foodId,
                 name: foodItem?.itemName || '',
                 kcal: foodItem?.kcal || 0,
                 protein: foodItem?.protein || 0,

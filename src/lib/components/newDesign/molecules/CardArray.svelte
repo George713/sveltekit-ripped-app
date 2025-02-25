@@ -31,7 +31,7 @@
 <div
 	class={{
 		'scrollbar-hide mr-[3px] ml-2 flex flex-wrap gap-1.5 overflow-visible py-2 pr-2': true,
-		'mb-3 max-h-120 grow content-start justify-center overflow-y-auto ': verticalScroll,
+		'mb-3 max-h-120 content-start justify-center overflow-y-auto ': verticalScroll,
 		'h-58 flex-col overflow-x-auto': !verticalScroll
 	}}
 >
@@ -85,14 +85,28 @@
 	{#if managerType === 'PlannedItemManager'}
 		{#each (itemManager as PlannedItemManager).getEnrichedItems() as item}
 			<Card
-				imgSrc={`https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${item.id}`}
+				imgSrc={`https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${item.foodId}`}
 				name={item.name}
 				kcal={item.kcal}
 				protein={item.protein}
 				eaten={item.eaten}
 				{theme}
 				type="item"
-				onclick={() => {}}
+				onclick={async () => {
+					if (item.eaten) {
+						return;
+					}
+
+					(itemManager as PlannedItemManager).eatItem(item.id);
+
+					const formData = new FormData();
+					formData.append('id', item.id.toString());
+					formData.append('type', 'planned');
+					fetch('?/eatItem', {
+						method: 'POST',
+						body: formData
+					});
+				}}
 			/>
 		{/each}
 	{/if}
