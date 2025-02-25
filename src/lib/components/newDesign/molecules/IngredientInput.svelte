@@ -1,9 +1,16 @@
 <script lang="ts">
 	import { audioRecorder } from '$lib/audioRecorder.svelte';
 	import { ingredientManager } from '$lib/stateManagers.svelte';
+	import type { SvelteComponent } from 'svelte';
 	import Button from '../atoms/Button.svelte';
 	import Ingredient from '../atoms/Ingredient.svelte';
 	import FastSpinner from '../icons/FastSpinner.svelte';
+
+	interface Props {
+		hidden3rdBtn?: boolean;
+	}
+
+	const { hidden3rdBtn = false }: Props = $props();
 </script>
 
 <div class="flex w-full flex-1 flex-col justify-end">
@@ -35,13 +42,18 @@
 		{/if}
 	</div>
 	<!-- Buttons -->
-	<div class="flex space-x-1">
+	<div
+		class={{
+			'flex space-x-1': true,
+			'justify-end': hidden3rdBtn
+		}}
+	>
 		<Button
 			text="Add"
 			variant="secondary"
 			type="button"
 			icon="plus"
-			classAddons="grow"
+			classAddons={hidden3rdBtn ? 'basis-1/3' : 'grow'}
 			onclick={() =>
 				ingredientManager.add({
 					icon: '📙',
@@ -56,7 +68,7 @@
 			variant="secondary"
 			type="button"
 			icon="microphone"
-			classAddons="grow"
+			classAddons={hidden3rdBtn ? 'basis-1/3' : 'grow'}
 			toggle={audioRecorder.isRecording}
 			onclick={audioRecorder.record}
 		/>

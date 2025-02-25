@@ -5,8 +5,11 @@
 	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
 	import SelectionHeader from '$lib/components/newDesign/atoms/SelectionHeader.svelte';
 	import AddButtons from '$lib/components/newDesign/molecules/AddButtons.svelte';
+	import AddOverlay from '$lib/components/newDesign/molecules/AddOverlay.svelte';
 	import CardArray from '$lib/components/newDesign/molecules/CardArray.svelte';
 	import { calorieManager, plannedItemManager, proteinManager } from '$lib/stateManagers.svelte';
+
+	let showAddOverlay = $state(false);
 </script>
 
 <div class="mb-1 flex h-screen w-screen flex-col items-center justify-end space-y-4 p-1">
@@ -16,7 +19,7 @@
 		</div>
 		<CardArrayBackground color="dark" classAddons="pt-2 pb-4 flex-col">
 			<CardArray itemManager={plannedItemManager} theme="dark" verticalScroll={true} />
-			<AddButtons />
+			<AddButtons bind:showAddOverlay />
 		</CardArrayBackground>
 	</div>
 	<DigitalCounter
@@ -27,3 +30,6 @@
 	/>
 	<Minimizer onclick={() => goto('/')} direction="down" />
 </div>
+{#if showAddOverlay}
+	<AddOverlay bind:showAddOverlay />
+{/if}
