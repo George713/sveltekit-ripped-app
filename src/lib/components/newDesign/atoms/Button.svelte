@@ -41,7 +41,7 @@
 <button
 	{type}
 	class={{
-		'flex items-center justify-center space-x-1 rounded-sm px-5': true,
+		'flex items-center justify-center space-x-1 rounded-sm': true,
 		[classAddons]: classAddons,
 		'h-10 bg-indigo-600 text-xl font-semibold text-stone-200': variant === 'primary' && !disabled,
 		'h-10 bg-stone-600 text-xl font-semibold text-stone-400': variant === 'primary' && disabled,

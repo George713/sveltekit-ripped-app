@@ -62,7 +62,12 @@
 	</div>
 	<div class="mb-1 flex h-screen w-screen flex-col-reverse items-center p-1">
 		<div class="my-6">
-			<Button text="Create Set" onclick={handleSubmit} disabled={!newSetIsReady} />
+			<Button
+				text="Create Set"
+				onclick={handleSubmit}
+				disabled={!newSetIsReady}
+				classAddons="px-4"
+			/>
 		</div>
 		<FoodLibrary
 			showNewElementCard={false}

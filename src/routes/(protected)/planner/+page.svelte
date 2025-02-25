@@ -56,7 +56,7 @@
 	<Minimizer onclick={() => goto('/')} direction="down" />
 	<div class="h-8"></div>
 	<div class="flex w-full justify-end p-2">
-		<Button text="End Planning" variant="secondary" onclick={endPlanning} />
+		<Button text="End Planning" variant="secondary" onclick={endPlanning} classAddons="px-5" />
 	</div>
 	<FoodLibrary
 		showNewElementCard={true}

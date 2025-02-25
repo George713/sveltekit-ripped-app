@@ -96,6 +96,7 @@
 			text="Create Item"
 			onclick={handleSubmit}
 			disabled={ingredientManager.items.length === 0}
+			classAddons="px-4"
 		/>
 	</div>
 </form>
