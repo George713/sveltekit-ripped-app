@@ -6,12 +6,13 @@
 		name: string;
 		kcal?: number;
 		protein?: number;
+		eaten?: boolean;
 		theme: 'light' | 'dark';
 		type: 'item' | 'newElement';
 		onclick?: () => void;
 	}
 
-	let { imgSrc, name, kcal, protein, theme, type, onclick }: Props = $props();
+	let { imgSrc, name, kcal, protein, eaten = false, theme, type, onclick }: Props = $props();
 </script>
 
 {#snippet newElement(name: string)}
@@ -97,7 +98,8 @@
 	class={{
 		'flex h-[105px] w-[90px] flex-col items-center overflow-visible rounded p-[1px] drop-shadow-[2px_2px_2px_rgba(0,0,0,0.3)]': true,
 		'bg-stone-400': theme === 'light',
-		'border border-stone-600 bg-stone-800': theme === 'dark'
+		'border border-stone-600 bg-stone-800': theme === 'dark',
+		'opacity-25': eaten
 	}}
 >
 	{#if type === 'newElement'}
