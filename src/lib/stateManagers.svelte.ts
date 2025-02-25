@@ -176,9 +176,23 @@ export const foodItemManager = new FoodItemManager()
 
 
 // PlannedItem Manager
-class PlannedItemManager {
+export class PlannedItemManager {
+    classname = "PlannedItemManager"
     items = $state<PlannedItem[]>([]);
     itemsEaten = $derived(this.items.filter(item => item.eaten))
+
+    getEnrichedItems = () => {
+        return this.items.map(item => {
+            const foodItem = foodItemManager.getById(item.foodId);
+            return {
+                id: item.foodId,
+                name: foodItem?.itemName || '',
+                kcal: foodItem?.kcal || 0,
+                protein: foodItem?.protein || 0,
+                eaten: item.eaten,
+            };
+        });
+    }
 }
 export const plannedItemManager = new PlannedItemManager()
 
