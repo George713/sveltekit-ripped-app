@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Book from '../icons/Book.svelte';
 	import Microphone from '../icons/Microphone.svelte';
 	import Plus from '../icons/Plus.svelte';
 
@@ -8,7 +9,7 @@
 		onclick?: () => void;
 		variant?: 'primary' | 'secondary';
 		wide?: boolean;
-		icon?: 'plus' | 'microphone';
+		icon?: 'plus' | 'microphone' | 'book';
 		toggle?: boolean;
 		disabled?: boolean;
 		classAddons?: string;
@@ -27,11 +28,13 @@
 	}: Props = $props();
 </script>
 
-{#snippet symbol(icon?: 'plus' | 'microphone')}
+{#snippet symbol(icon?: 'plus' | 'microphone' | 'book')}
 	{#if icon === 'plus'}
 		<Plus size="small" />
 	{:else if icon === 'microphone'}
 		<Microphone {toggle} />
+	{:else if icon === 'book'}
+		<Book scale={0.5} fill="fill-stone-400" />
 	{/if}
 {/snippet}
 
