@@ -27,5 +27,6 @@
 		icon="cutlery"
 		glow={page.data.dailyProgress.harvest}
 		disabled={page.data.dailyProgress.harvest}
+		onclick={() => goto('/log')}
 	/>
 </div>
