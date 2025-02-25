@@ -20,5 +20,24 @@ export const actions = {
                 data: { eaten: true }
             })
         }
+    },
+    addEstimate: async ({ locals, request }) => {
+        const formData = await request.formData();
+        const { kcal, protein } = Object.fromEntries(formData.entries());
+
+        const newEstimate = await prisma.eatEstimate.create({
+            data: {
+                name: "Estimate",
+                kcal: parseInt(kcal as string),
+                protein: parseFloat(protein as string),
+                user: {
+                    connect: {
+                        id: locals.user.id
+                    },
+                },
+            }
+        })
+
+        return { success: true, id: newEstimate.id }
     }
 } satisfies Actions;

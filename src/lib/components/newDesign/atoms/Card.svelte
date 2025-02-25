@@ -104,11 +104,13 @@
 >
 	{#if type === 'newElement'}
 		{@render newElement(name)}
-	{:else if type === 'item' && imgSrc && name && typeof kcal === 'number' && typeof protein === 'number'}
+	{:else if type === 'item' && name && typeof kcal === 'number' && typeof protein === 'number'}
 		{#if typeof imgSrc === 'string'}
 			{@render image(imgSrc, theme)}
 		{:else if Array.isArray(imgSrc)}
 			{@render imageMosaic(imgSrc)}
+		{:else}
+			{@render image('https://placehold.co/90x60?text=Estimate&font=roboto', theme)}
 		{/if}
 		{@render cardInfo(name, kcal, protein, theme)}
 	{/if}

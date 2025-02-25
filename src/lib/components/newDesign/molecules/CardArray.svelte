@@ -4,9 +4,10 @@
 		SelectionManager,
 		FoodItemManager,
 		FoodSetManager,
-		PlannedItemManager
+		PlannedItemManager,
+		estimatedItemManager
 	} from '$lib/stateManagers.svelte';
-	import type { DailySelectionItem, FoodItem, FoodSet, PlannedItem } from '$lib/types';
+	import type { DailySelectionItem, FoodItem, FoodSet } from '$lib/types';
 	import Card from '../atoms/Card.svelte';
 
 	interface Props {
@@ -102,6 +103,32 @@
 					const formData = new FormData();
 					formData.append('id', item.id.toString());
 					formData.append('type', 'planned');
+					fetch('?/eatItem', {
+						method: 'POST',
+						body: formData
+					});
+				}}
+			/>
+		{/each}
+		<!-- Also display estimates as plannedItems are only shown on the log route -->
+		{#each estimatedItemManager.items as item}
+			<Card
+				name="Estimate"
+				kcal={item.kcal}
+				protein={item.protein}
+				eaten={item.eaten}
+				{theme}
+				type="item"
+				onclick={async () => {
+					if (item.eaten) {
+						return;
+					}
+
+					estimatedItemManager.eatItem(item.id);
+
+					const formData = new FormData();
+					formData.append('id', item.id.toString());
+					formData.append('type', 'estimate');
 					fetch('?/eatItem', {
 						method: 'POST',
 						body: formData

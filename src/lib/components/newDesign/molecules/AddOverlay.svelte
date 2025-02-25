@@ -1,11 +1,12 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import { ingredientManager } from '$lib/stateManagers.svelte';
+	import { estimatedItemManager, ingredientManager } from '$lib/stateManagers.svelte';
+	import { onDestroy } from 'svelte';
 	import BackgroundSemiTransparent from '../atoms/BackgroundSemiTransparent.svelte';
 	import Button from '../atoms/Button.svelte';
 	import Minimizer from '../atoms/Minimizer.svelte';
 	import NutrientSum from '../atoms/NutrientSum.svelte';
 	import IngredientInput from './IngredientInput.svelte';
+	import { deserialize } from '$app/forms';
 
 	interface Props {
 		showAddOverlay: boolean;
@@ -13,7 +14,34 @@
 
 	let { showAddOverlay = $bindable() }: Props = $props();
 
-	const handleSubmit = () => {};
+	onDestroy(() => {
+		ingredientManager.clear();
+	});
+
+	const handleSubmit = async () => {
+		const formData = new FormData();
+		formData.append('kcal', ingredientManager.totalKcal.toString());
+		formData.append('protein', ingredientManager.totalProtein.toString());
+
+		const response = await fetch('?/addEstimate', {
+			method: 'POST',
+			body: formData
+		});
+
+		const result = deserialize(await response.text());
+
+		if (result.type === 'success' && result.data) {
+			estimatedItemManager.addItem({
+				id: result.data.id as number,
+				eaten: false,
+				createdAt: new Date(),
+				kcal: ingredientManager.totalKcal,
+				protein: ingredientManager.totalProtein
+			});
+		}
+
+		showAddOverlay = false;
+	};
 </script>
 
 <BackgroundSemiTransparent>

@@ -211,6 +211,19 @@ export const plannedItemManager = new PlannedItemManager()
 class EstimatedItemManager {
     items = $state<EstimatedItem[]>([]);
     itemsEaten = $derived(this.items.filter(item => item.eaten))
+
+    addItem = (item: EstimatedItem) => {
+        this.items = [...this.items, item];
+    }
+
+    eatItem = (id: number) => {
+        this.items = this.items.map(item => {
+            if (item.id === id) {
+                return { ...item, eaten: true };
+            }
+            return item;
+        });
+    }
 }
 export const estimatedItemManager = new EstimatedItemManager()
 
