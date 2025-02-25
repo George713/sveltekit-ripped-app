@@ -3,17 +3,19 @@
 
 	interface Props {
 		color: 'light' | 'dark';
+		classAddons?: string;
 		children: Snippet;
 	}
 
-	let { color, children }: Props = $props();
+	let { color, classAddons = '', children }: Props = $props();
 </script>
 
 <div
 	class={{
 		'flex w-full overflow-hidden rounded-[10px] shadow-[inset_-2px_-2px_4px_rgba(0,0,0,0.25),inset_2px_2px_2px_rgba(255,255,255,0.2)] drop-shadow-[2px_2px_4px_rgba(0,0,0,0.25)]': true,
 		'light-gradient': color === 'light',
-		'dark-gradient': color === 'dark'
+		'dark-gradient': color === 'dark',
+		[classAddons]: classAddons
 	}}
 >
 	{@render children?.()}
