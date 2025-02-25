@@ -29,34 +29,40 @@
 <div
 	class="flex h-9 w-full items-center space-x-1 rounded-[6px] border border-stone-700 px-2 text-sm font-thin text-stone-400"
 >
-	<label for="icon" class="size-5">{icon}</label>
+	<label for={'name_' + name} class="size-5">{icon}</label>
 	<input
 		type="text"
+		id={'name_' + name}
 		name="name"
 		class="grow focus-visible:outline-none"
 		spellcheck="false"
+		autocomplete="off"
 		onfocus={selectInput}
 		bind:value={name}
 		bind:this={nameInput}
 	/>
 	<input
 		type="number"
+		id={'kcal_' + name}
 		name="kcal"
 		step="0.1"
 		class="w-9 text-right focus-visible:outline-none"
 		spellcheck="false"
+		autocomplete="off"
 		onfocus={selectInput}
 		bind:value={kcal}
 	/>
-	<label for="kcal">kcal</label>
+	<label for={'kcal_' + name}>kcal</label>
 	<input
 		type="number"
+		id={'protein_' + name}
 		name="protein"
 		step="0.1"
 		class="w-7 text-right focus-visible:outline-none"
 		spellcheck="false"
+		autocomplete="off"
 		onfocus={selectInput}
 		bind:value={protein}
 	/>
-	<label for="protein" class="pr-4">g</label>
+	<label for={'protein_' + name} class="pr-4">g</label>
 </div>
