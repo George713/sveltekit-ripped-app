@@ -12,11 +12,12 @@
 
 import { ingredientManager } from "./stateManagers.svelte";
 import type { RecordingResult } from "./types";
+import { PUBLIC_ONMOBILE } from '$env/static/public';
 
 class AudioRecorder {
     isProcessing = $state(false);
     recognition: any;
-    onMobile = false; // Set to `false` for debugging on desktop
+    onMobile = PUBLIC_ONMOBILE;
 
     isRecording = $state(false);
     recordedText = $state('');
