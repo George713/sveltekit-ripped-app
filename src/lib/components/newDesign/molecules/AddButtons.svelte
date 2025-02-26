@@ -13,7 +13,7 @@
 	<Button
 		text="FoodLib"
 		icon="book"
-		onclick={() => goto('/foodLibrary')}
+		onclick={() => goto('/foodLib')}
 		variant="secondary"
 		classAddons="flex-1"
 	/>

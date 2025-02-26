@@ -1,19 +1,21 @@
 <script lang="ts">
+	import { deserialize } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import {
 		SelectionManager,
 		FoodItemManager,
 		FoodSetManager,
 		PlannedItemManager,
-		estimatedItemManager
+		estimatedItemManager,
+		visibilityManager
 	} from '$lib/stateManagers.svelte';
-	import type { DailySelectionItem, FoodItem, FoodSet } from '$lib/types';
+	import type { DailySelectionItem, FoodItem, FoodSet, PlannedItem } from '$lib/types';
 	import Card from '../atoms/Card.svelte';
 
 	interface Props {
 		itemManager: FoodItemManager | FoodSetManager | SelectionManager | PlannedItemManager;
 		theme: 'light' | 'dark';
-		selectionManager?: SelectionManager;
+		selectionManager?: SelectionManager | PlannedItemManager;
 		showNewElementCard?: boolean;
 		verticalScroll?: boolean;
 	}
@@ -26,7 +28,8 @@
 		verticalScroll = false
 	}: Props = $props();
 
-	let managerType = $derived(itemManager.classname);
+	let itemManagerType = $derived(itemManager.classname);
+	let selectionManagerType = $derived(selectionManager?.classname);
 </script>
 
 <div
@@ -38,13 +41,13 @@
 >
 	{#if showNewElementCard}
 		<Card
-			name={managerType === 'FoodSetManager' ? 'New Set' : 'New Item'}
+			name={itemManagerType === 'FoodSetManager' ? 'New Set' : 'New Item'}
 			{theme}
 			type="newElement"
-			onclick={() => goto(managerType === 'FoodSetManager' ? '/newSet' : '/newItem')}
+			onclick={() => goto(itemManagerType === 'FoodSetManager' ? '/newSet' : '/newItem')}
 		/>
 	{/if}
-	{#if managerType === 'FoodItemManager'}
+	{#if itemManagerType === 'FoodItemManager'}
 		{#each itemManager.items as item}
 			<Card
 				imgSrc={`https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${item.id}`}
@@ -53,11 +56,44 @@
 				protein={(item as FoodItem).protein}
 				{theme}
 				type="item"
-				onclick={() => selectionManager?.addFoodItem(item.id)}
+				onclick={async () => {
+					if (selectionManagerType === 'SelectionManager') {
+						(selectionManager as SelectionManager).addFoodItem(item.id);
+					} else if (selectionManager && selectionManagerType === 'PlannedItemManager') {
+						visibilityManager.toggleSpinnerOverlay();
+
+						const formData = new FormData();
+						formData.append(
+							'item',
+							JSON.stringify({
+								foodId: item.id,
+								unitIsPtn: true,
+								unitAmount: (item as FoodItem).unitAmount
+							})
+						);
+
+						const response = await fetch('?/addToLog', {
+							method: 'POST',
+							body: formData
+						});
+
+						const result = deserialize(await response.text());
+
+						if (result.type === 'success' && result.data) {
+							(selectionManager as PlannedItemManager).items = [
+								...(selectionManager as PlannedItemManager).items,
+								result.data.item as PlannedItem
+							];
+						}
+
+						visibilityManager.toggleSpinnerOverlay();
+						goto('/log');
+					}
+				}}
 			/>
 		{/each}
 	{/if}
-	{#if managerType === 'SelectionManager'}
+	{#if itemManagerType === 'SelectionManager'}
 		{#each itemManager.items as item}
 			<Card
 				imgSrc={`https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${(item as DailySelectionItem).foodId}`}
@@ -66,11 +102,11 @@
 				protein={(item as DailySelectionItem).protein}
 				{theme}
 				type="item"
-				onclick={() => selectionManager?.remove(item.id)}
+				onclick={() => (selectionManager as SelectionManager)?.remove(item.id)}
 			/>
 		{/each}
 	{/if}
-	{#if managerType === 'FoodSetManager'}
+	{#if itemManagerType === 'FoodSetManager'}
 		{#each itemManager.items as item}
 			<Card
 				imgSrc={(itemManager as FoodSetManager).getImages(item as FoodSet)}
@@ -79,11 +115,11 @@
 				protein={(itemManager as FoodSetManager).getProtein(item as FoodSet)}
 				{theme}
 				type="item"
-				onclick={() => selectionManager?.addFoodSet(item as FoodSet)}
+				onclick={() => (selectionManager as SelectionManager)?.addFoodSet(item as FoodSet)}
 			/>
 		{/each}
 	{/if}
-	{#if managerType === 'PlannedItemManager'}
+	{#if itemManagerType === 'PlannedItemManager'}
 		{#each (itemManager as PlannedItemManager).getEnrichedItems() as item}
 			<Card
 				imgSrc={`https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${item.foodId}`}
