@@ -16,9 +16,12 @@
 	import IngredientInput from '$lib/components/newDesign/molecules/IngredientInput.svelte';
 	import { deserialize } from '$app/forms';
 	import type { FoodItem } from '$lib/types';
+	import { page } from '$app/state';
 
 	let itemName = $state('');
 	let imageBlob = $state<Blob | null>(null);
+
+	const origin = $state(page.url.searchParams.get('origin') || '/');
 
 	onDestroy(() => {
 		ingredientManager.clear();
@@ -63,7 +66,7 @@
 			foodItemManager.items = [...foodItemManager.items, newItem];
 		}
 
-		goto('/planner');
+		goto(origin);
 
 		visibilityManager.toggleSpinnerOverlay();
 	};
@@ -71,7 +74,7 @@
 
 <form class="flex h-screen w-screen flex-col items-center px-6">
 	<div class="justify-left mt-2 flex w-full translate-x-[-18px]">
-		<Minimizer onclick={() => goto('/planner')} direction="left" />
+		<Minimizer onclick={() => goto(origin)} direction="left" />
 	</div>
 	<div class="mt-2 mb-1">
 		<PhotoFrame bind:imageBlob />

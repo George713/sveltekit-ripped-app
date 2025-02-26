@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { deserialize } from '$app/forms';
 	import { goto } from '$app/navigation';
+	import { page } from '$app/state';
 	import {
 		SelectionManager,
 		FoodItemManager,
@@ -28,6 +29,7 @@
 		verticalScroll = false
 	}: Props = $props();
 
+	const currentPath = $state(page.url.pathname);
 	let itemManagerType = $derived(itemManager.classname);
 	let selectionManagerType = $derived(selectionManager?.classname);
 </script>
@@ -44,7 +46,8 @@
 			name={itemManagerType === 'FoodSetManager' ? 'New Set' : 'New Item'}
 			{theme}
 			type="newElement"
-			onclick={() => goto(itemManagerType === 'FoodSetManager' ? '/newSet' : '/newItem')}
+			onclick={() =>
+				goto(itemManagerType === 'FoodSetManager' ? '/newSet' : `/newItem?origin=${currentPath}`)}
 		/>
 	{/if}
 	{#if itemManagerType === 'FoodItemManager'}
