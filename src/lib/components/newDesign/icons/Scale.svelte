@@ -22,6 +22,7 @@
 		class={{
 			'fill-white/90': glow,
 			'fill-stone-700': !glow && color === 'fill-stone-700',
+			'fill-indigo-500': !glow && color === 'fill-indigo-500',
 			'fill-indigo-600': !glow && color === 'fill-indigo-600'
 		}}
 	/>
@@ -33,6 +34,7 @@
 		class={{
 			'fill-white/90': glow,
 			'fill-stone-700': !glow && color === 'fill-stone-700',
+			'fill-indigo-500': !glow && color === 'fill-indigo-500',
 			'fill-indigo-600': !glow && color === 'fill-indigo-600'
 		}}
 	/>
@@ -42,6 +44,7 @@
 		class={{
 			'fill-white/90': glow,
 			'fill-stone-700': !glow && color === 'fill-stone-700',
+			'fill-indigo-500': !glow && color === 'fill-indigo-500',
 			'fill-indigo-600': !glow && color === 'fill-indigo-600'
 		}}
 	/>

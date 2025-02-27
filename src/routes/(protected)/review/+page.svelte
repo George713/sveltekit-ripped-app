@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { page } from '$app/state';
+	import InfoCard from '$lib/components/newDesign/molecules/InfoCard.svelte';
 	import WeightChart from '$lib/components/newDesign/molecules/WeightChart.svelte';
 
 	let { data } = $props();
@@ -58,3 +60,21 @@
 </script>
 
 <WeightChart scaleWeight={weights} {trendWeight} periodInDays={30} />
+<div class="mt-3 flex w-full justify-center space-x-4">
+	<InfoCard
+		icon="bolt"
+		color="amber"
+		mainText="Calorie Target"
+		subText="per day"
+		value={page.data.user.currentCalorieTarget}
+		unit="kcal"
+	/>
+	<InfoCard
+		icon="scale"
+		color="indigo"
+		mainText="Weight Trend"
+		subText="past 14 days"
+		value={trendWeight[trendWeight.length - 1][1] - trendWeight[trendWeight.length - 15][1]}
+		unit="kg"
+	/>
+</div>
