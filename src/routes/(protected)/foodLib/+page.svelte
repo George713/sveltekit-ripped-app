@@ -18,7 +18,7 @@
 		<div class="flex w-full items-end justify-between px-2 pb-[1px]">
 			<SelectionHeader icon="book" text="Food Library" />
 		</div>
-		<CardArrayBackground color="light" classAddons="pt-2 pb-4 flex-col">
+		<CardArrayBackground color="light" classAddons="pt-2 pb-4 flex-col w-full">
 			<CardArray
 				itemManager={foodItemManager}
 				selectionManager={plannedItemManager}

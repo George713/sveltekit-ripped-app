@@ -27,7 +27,7 @@
 			<SubtleButton text={subtleBtnText} onclick={() => (showSets = !showSets)} />
 		{/if}
 	</div>
-	<CardArrayBackground color="light">
+	<CardArrayBackground color="light" classAddons="w-full">
 		<CardArray {itemManager} {selectionManager} theme="light" {showNewElementCard} />
 	</CardArrayBackground>
 </div>

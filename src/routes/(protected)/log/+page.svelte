@@ -17,7 +17,7 @@
 		<div class="flex w-full items-end justify-between px-2 pb-[1px]">
 			<SelectionHeader icon="cutlery" text="Daily Log" />
 		</div>
-		<CardArrayBackground color="dark" classAddons="pt-2 pb-4 flex-col">
+		<CardArrayBackground color="dark" classAddons="pt-2 pb-4 flex-col w-full">
 			<CardArray itemManager={plannedItemManager} theme="dark" verticalScroll={true} />
 			<AddButtons bind:showAddOverlay />
 		</CardArrayBackground>

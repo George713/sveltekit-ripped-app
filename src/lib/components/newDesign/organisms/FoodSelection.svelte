@@ -18,7 +18,7 @@
 	<div class="flex w-full items-end justify-between px-2 pb-[1px]">
 		<SelectionHeader icon="cutlery" text="Daily Selection" asInput={headerAsInput} />
 	</div>
-	<CardArrayBackground color="dark">
+	<CardArrayBackground color="dark" classAddons="w-full">
 		<CardArray itemManager={selectionManager} {selectionManager} theme="dark" />
 	</CardArrayBackground>
 	<div class="mt-2 translate-x-[-6%]">
