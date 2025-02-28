@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import InfoCard from '$lib/components/newDesign/molecules/InfoCard.svelte';
+	import TwoWeekTracker from '$lib/components/newDesign/molecules/TwoWeekTracker.svelte';
 	import WeightChart from '$lib/components/newDesign/molecules/WeightChart.svelte';
 
 	let { data } = $props();
@@ -60,21 +61,27 @@
 </script>
 
 <WeightChart scaleWeight={weights} {trendWeight} periodInDays={30} />
-<div class="mt-3 flex w-full justify-center space-x-4">
-	<InfoCard
-		icon="bolt"
-		color="amber"
-		mainText="Calorie Target"
-		subText="per day"
-		value={page.data.user.currentCalorieTarget}
-		unit="kcal"
-	/>
-	<InfoCard
-		icon="scale"
-		color="indigo"
-		mainText="Weight Trend"
-		subText="past 14 days"
-		value={trendWeight[trendWeight.length - 1][1] - trendWeight[trendWeight.length - 15][1]}
-		unit="kg"
-	/>
+<div class="mt-3 flex flex-col">
+	<div class="flex w-full justify-center space-x-4">
+		<InfoCard
+			icon="bolt"
+			color="amber"
+			mainText="Calorie Target"
+			subText="per day"
+			value={page.data.user.currentCalorieTarget}
+			unit="kcal"
+		/>
+		<InfoCard
+			icon="scale"
+			color="indigo"
+			mainText="Weight Trend"
+			subText="past 14 days"
+			value={trendWeight[trendWeight.length - 1][1] - trendWeight[trendWeight.length - 15][1]}
+			unit="kg"
+		/>
+	</div>
+	<div class="mt-1 flex w-full justify-end px-4">
+		<button class="text-xs font-medium text-stone-600">Tracking success --></button>
+	</div>
 </div>
+<TwoWeekTracker twoWeekData={data.twoWeekData} />
