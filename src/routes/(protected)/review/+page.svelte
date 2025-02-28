@@ -5,6 +5,8 @@
 	import WeightChart from '$lib/components/newDesign/molecules/WeightChart.svelte';
 
 	let { data } = $props();
+	let showTracker = $state(false);
+	let touchStartX = $state(0);
 
 	const weights = $derived.by((): [Date, number][] => {
 		return data.weights.map((weight) => [weight.createdAt as Date, weight.weight as number]);
@@ -58,30 +60,80 @@
 
 		return ema;
 	});
+
+	const handleTouchStart = (e: TouchEvent) => {
+		touchStartX = e.touches[0].clientX;
+	};
+
+	const handleTouchMove = (e: TouchEvent) => {
+		const touchEndX = e.touches[0].clientX;
+		const diffX = touchEndX - touchStartX;
+
+		// If swiping left on InfoCard (and not showing tracker yet)
+		if (diffX < -50 && !showTracker) {
+			showTracker = true;
+			touchStartX = touchEndX;
+		}
+
+		// If swiping right on TwoWeekTracker (and showing tracker)
+		if (diffX > 50 && showTracker) {
+			showTracker = false;
+			touchStartX = touchEndX;
+		}
+	};
+
+	const toggleTracker = () => {
+		showTracker = !showTracker;
+	};
 </script>
 
 <WeightChart scaleWeight={weights} {trendWeight} periodInDays={30} />
-<div class="mt-3 flex flex-col">
-	<div class="flex w-full justify-center space-x-4">
-		<InfoCard
-			icon="bolt"
-			color="amber"
-			mainText="Calorie Target"
-			subText="per day"
-			value={page.data.user.currentCalorieTarget}
-			unit="kcal"
-		/>
-		<InfoCard
-			icon="scale"
-			color="indigo"
-			mainText="Weight Trend"
-			subText="past 14 days"
-			value={trendWeight[trendWeight.length - 1][1] - trendWeight[trendWeight.length - 15][1]}
-			unit="kg"
-		/>
+
+<div class="relative w-full overflow-x-clip bg-red-500/20">
+	<!-- InfoCard Section -->
+	<div
+		class="absolute mt-3 flex w-full flex-col transition-transform duration-800"
+		style="transform: translateX({showTracker ? '-100%' : '0'});"
+		ontouchstart={handleTouchStart}
+		ontouchmove={handleTouchMove}
+	>
+		<div class="flex w-full justify-center space-x-4">
+			<InfoCard
+				icon="bolt"
+				color="amber"
+				mainText="Calorie Target"
+				subText="per day"
+				value={page.data.user.currentCalorieTarget}
+				unit="kcal"
+			/>
+			<InfoCard
+				icon="scale"
+				color="indigo"
+				mainText="Weight Trend"
+				subText="past 14 days"
+				value={trendWeight[trendWeight.length - 1][1] - trendWeight[trendWeight.length - 15][1]}
+				unit="kg"
+			/>
+		</div>
+		<div class="mt-2 flex w-full justify-end px-4">
+			<button class="text-xs font-medium text-stone-600" onclick={toggleTracker}>
+				Tracking Success &rarr;
+			</button>
+		</div>
 	</div>
-	<div class="mt-1 flex w-full justify-end px-4">
-		<button class="text-xs font-medium text-stone-600">Tracking success --></button>
+
+	<!-- TwoWeekTracker Section -->
+	<div
+		class="absolute mt-3 flex w-full flex-col transition-transform duration-800"
+		style="transform: translateX({showTracker ? '0' : '100%'});"
+		ontouchstart={handleTouchStart}
+		ontouchmove={handleTouchMove}
+	>
+		<TwoWeekTracker twoWeekData={data.twoWeekData} />
+		<div class="mt-2 flex w-full justify-start px-4">
+			<button class="text-xs font-medium text-stone-600" onclick={toggleTracker}>
+				&larr; Back to Info
+			</button>
+		</div>
 	</div>
 </div>
-<TwoWeekTracker twoWeekData={data.twoWeekData} />

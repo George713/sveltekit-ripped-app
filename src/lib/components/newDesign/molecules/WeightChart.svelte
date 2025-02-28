@@ -133,5 +133,5 @@
 </script>
 
 <CardArrayBackground color="dark" classAddons="w-full">
-	<div bind:this={chartContainer} class="" style="width: 100%; height: 270px;"></div>
+	<div bind:this={chartContainer} class="" style="width: 100%; height: 250px;"></div>
 </CardArrayBackground>
