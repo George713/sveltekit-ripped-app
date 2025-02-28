@@ -18,10 +18,10 @@
 		size="big"
 		icon="book"
 		glow={page.data.dailyProgress.planned}
-		disabled={false}
+		disabled={page.data.dailyProgress.planned}
 		onclick={() => goto('/planner')}
 	/>
-	<!-- {page.data.dailyProgress.planned} -->
+
 	<ActionButton
 		size="big"
 		icon="cutlery"
