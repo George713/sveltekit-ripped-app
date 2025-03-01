@@ -6,6 +6,9 @@
 	 *
 	 * The chart only shows data for the last 30 days, and linearly interpolates
 	 * any missing data points.
+
+	 * Note: When refreshing the page, the chart causes an error. To fix this,
+	 * clear the cache.
 	 *
 	 * @prop {Array<{ weight: number; createdAt: Date }>} weights - An array of
 	 *     objects containing the user's weight and the date at which the weight
@@ -133,10 +136,12 @@
 	});
 </script>
 
-<div class="flex items-center space-x-2 px-3 py-0.5">
-	<Graph scale={1.1} />
-	<p class="font-medium text-stone-400">Weight Progress</p>
+<div class="flex flex-col">
+	<div class="flex items-center space-x-2 px-3 py-0.5">
+		<Graph scale={1.1} />
+		<p class="font-medium text-stone-400">Weight Progress</p>
+	</div>
+	<CardArrayBackground color="dark" classAddons="w-full">
+		<div bind:this={chartContainer} class="" style="width: 100%; height: 250px;"></div>
+	</CardArrayBackground>
 </div>
-<CardArrayBackground color="dark" classAddons="w-full">
-	<div bind:this={chartContainer} class="" style="width: 100%; height: 250px;"></div>
-</CardArrayBackground>
