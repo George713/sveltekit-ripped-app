@@ -11,9 +11,9 @@
 {#snippet statusSquare(status: 'success' | 'failure' | 'unknown', size: 'small' | 'big')}
 	<div
 		class={{
-			'flex items-center justify-center rounded text-stone-400': true,
-			'size-4 text-[10px]': size === 'small',
-			'size-5 text-sm': size === 'big',
+			'flex justify-center rounded text-stone-400': true,
+			'size-4 items-end text-[10px]': size === 'small',
+			'size-5 items-center text-sm': size === 'big',
 			'bg-emerald-600': status === 'success',
 			'bg-rose-900': status === 'failure',
 			'bg-stone-600': status === 'unknown'
@@ -24,7 +24,7 @@
 {/snippet}
 
 {#snippet squareWithText(text: string, status: 'success' | 'failure' | 'unknown')}
-	<div class="flex items-center space-x-1">
+	<div class="flex items-end space-x-1">
 		{@render statusSquare(status, 'small')}
 		<p class="text-[10px] text-stone-400">{text}</p>
 	</div>
