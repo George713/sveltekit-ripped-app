@@ -42,7 +42,7 @@
 <div class="relative w-full overflow-x-clip">
 	<!-- InfoCards -->
 	<div
-		class="absolute mt-3 flex w-full flex-col transition-transform duration-800"
+		class="absolute flex w-full flex-col transition-transform duration-800"
 		style="transform: translateX({showTracker ? '-100%' : '0'});"
 		ontouchstart={handleTouchStart}
 		ontouchmove={handleTouchMove}
@@ -74,7 +74,7 @@
 
 	<!-- Tracking Success -->
 	<div
-		class="absolute mt-3 flex w-full flex-col transition-transform duration-800"
+		class="absolute flex w-full flex-col transition-transform duration-800"
 		style="transform: translateX({showTracker ? '0' : '100%'});"
 		ontouchstart={handleTouchStart}
 		ontouchmove={handleTouchMove}
