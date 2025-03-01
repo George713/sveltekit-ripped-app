@@ -15,6 +15,7 @@
 	import { echarts } from '$lib/echarts';
 	import { onMount } from 'svelte';
 	import CardArrayBackground from '../atoms/CardArrayBackground.svelte';
+	import Graph from '../icons/Graph.svelte';
 
 	interface Props {
 		scaleWeight: [Date, number][];
@@ -132,6 +133,10 @@
 	});
 </script>
 
+<div class="flex items-center space-x-2 px-3 py-0.5">
+	<Graph scale={1.1} />
+	<p class="font-medium text-stone-400">Weight Progress</p>
+</div>
 <CardArrayBackground color="dark" classAddons="w-full">
 	<div bind:this={chartContainer} class="" style="width: 100%; height: 250px;"></div>
 </CardArrayBackground>
