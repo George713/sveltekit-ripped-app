@@ -136,7 +136,7 @@
 	});
 </script>
 
-<div class="flex flex-col">
+<div class="flex w-full flex-col">
 	<div class="flex items-center space-x-2 px-3 py-0.5">
 		<Graph scale={1.1} />
 		<p class="font-medium text-stone-400">Weight Progress</p>

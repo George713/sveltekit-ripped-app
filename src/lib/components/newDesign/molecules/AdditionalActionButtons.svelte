@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 	import ActionButton from '../atoms/ActionButton.svelte';
 </script>
@@ -20,6 +21,7 @@
 			icon="chart"
 			disabled={page.data.dailyProgress.weeklyReview}
 			hidden={!page.data.user.reviewToday}
+			onclick={() => goto('/review')}
 		/>
 		<!-- Photo -->
 		<ActionButton

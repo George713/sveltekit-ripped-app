@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
 	import WeightChart from '$lib/components/newDesign/molecules/WeightChart.svelte';
 	import ReviewInfo from '$lib/components/newDesign/organisms/ReviewInfo.svelte';
 
@@ -66,27 +68,81 @@
 	const trend14days = $derived(
 		trendWeight[trendWeight.length - 1][1] - trendWeight[trendWeight.length - 15][1]
 	);
-	const rateOfLoss = $derived(trend14days / trendWeight[trendWeight.length - 15][1]);
+	const rateOfLoss = $derived(-trend14days / trendWeight[trendWeight.length - 15][1]);
+	const category = $derived.by(() => {
+		// rateOfLoss is the change in weight as a percentage of the weight 14 days ago
+		// Category ranges are as follows:
+		//  - gain: rateOfLoss < 0%
+		//  - slow: 0 <= rateOfLoss < 0.25%
+		//  - good: < 0.25% <= rateOfLoss < 0.5%
+		//  - fast: 0.5% <= rateOfLoss < 1%
+		//  - tooFast: rateOfLoss > 1%
+
+		return rateOfLoss < 0
+			? 'gain'
+			: rateOfLoss < 0.25 / 100
+				? 'slow'
+				: rateOfLoss < 0.5 / 100
+					? 'good'
+					: rateOfLoss < 1 / 100
+						? 'fast'
+						: 'tooFast';
+	});
 	const reviewText = $derived.by(() => {
 		if (measurements14days < 3) {
 			return "We don't have enough data to make a recommendation yet. Keep tracking your weight a little bit more often.";
 		} else {
-			if (rateOfLoss > 0) {
+			if (category === 'gain') {
 				return "If you stuck to your diet, it's time to tinker with your intake.";
-			} else if (rateOfLoss > -0.25 / 100 && rateOfLoss < 0) {
+			} else if (category === 'slow') {
 				return 'Your weightloss is still going (nice!), although it could be faster.';
-			} else if (rateOfLoss > -0.5 / 100 && rateOfLoss <= -0.25 / 100) {
+			} else if (category === 'good') {
 				return 'You are losing weight primarily from fat. Keep going like this!';
-			} else if (rateOfLoss > -1 / 100 && rateOfLoss <= -0.5 / 100) {
+			} else if (category === 'fast') {
 				return 'You are losing weight quite quickly. If there are still big rolls, keep at it. Otherwise consider slowing down a bit.';
-			} else
+			} else if (category === 'tooFast') {
 				return 'You are shedding pounds! Only continue at this pace if you are obese. Otherwise: Slow down!';
+			}
 		}
 	});
+
+	const adjustBtnIsPrimary = $derived(category === 'gain' || category === 'tooFast');
+
+	const keepTarget = async () => {
+		// TODO
+	};
+
+	const adjustTarget = async () => {
+		// TODO
+	};
 </script>
 
-<div class="mt-5 flex flex-col space-y-3 px-2">
+{#snippet buttonPrimary(text: string, onclick: () => void)}
+	<button class="h-11 w-32 rounded bg-indigo-600 text-center font-semibold text-stone-200" {onclick}
+		>{text}</button
+	>
+{/snippet}
+
+{#snippet buttonSecondary(text: string, onclick: () => void)}
+	<button class="h-11 w-32 rounded border border-stone-700 text-center text-stone-400" {onclick}
+		>{text}</button
+	>
+{/snippet}
+
+<div class="mt-5 flex h-full w-full flex-col items-center space-y-3.5 px-2">
 	<WeightChart scaleWeight={weights} {trendWeight} periodInDays={30} />
 	<ReviewInfo {trend14days} twoWeekData={data.twoWeekData} />
-	<p class="p-7 text-center font-medium text-stone-200">{reviewText}</p>
+	<p class="p-10 text-center font-medium text-stone-200">{reviewText}</p>
+	<div class="flex w-full justify-center space-x-2">
+		{#if adjustBtnIsPrimary}
+			{@render buttonSecondary('Keep Target', keepTarget)}
+			{@render buttonPrimary('Adjust Target', adjustTarget)}
+		{:else}
+			{@render buttonSecondary('Adjust Target', adjustTarget)}
+			{@render buttonPrimary('Keep Target', keepTarget)}
+		{/if}
+	</div>
+</div>
+<div class="mb-1.5 flex w-full justify-center">
+	<Minimizer onclick={() => goto('/')} direction="down" />
 </div>
