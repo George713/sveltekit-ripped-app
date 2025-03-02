@@ -9,7 +9,7 @@
 
 <button
 	aria-label="Return to Main Screen"
-	{onclick}
+	ontouchstart={onclick}
 	type="button"
 	class="flex size-8 items-center justify-center"
 >
