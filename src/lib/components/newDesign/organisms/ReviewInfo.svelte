@@ -4,11 +4,11 @@
 	import TwoWeekTracker from '../molecules/TwoWeekTracker.svelte';
 
 	interface Props {
-		trendWeight: [Date, number][];
+		trend14days: number;
 		twoWeekData: Array<'success' | 'failure' | 'unknown'>;
 	}
 
-	let { trendWeight, twoWeekData }: Props = $props();
+	let { trend14days, twoWeekData }: Props = $props();
 
 	let showTracker = $state(false);
 	let touchStartX = $state(0);
@@ -39,7 +39,7 @@
 	};
 </script>
 
-<div class="relative w-full overflow-x-clip">
+<div class="relative min-h-31 w-full overflow-x-clip">
 	<!-- InfoCards -->
 	<div
 		class="absolute flex w-full flex-col transition-transform duration-800"
@@ -61,7 +61,7 @@
 				color="indigo"
 				mainText="Weight Trend"
 				subText="past 14 days"
-				value={trendWeight[trendWeight.length - 1][1] - trendWeight[trendWeight.length - 15][1]}
+				value={trend14days}
 				unit="kg"
 			/>
 		</div>

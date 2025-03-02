@@ -56,7 +56,37 @@
 
 		return ema;
 	});
+
+	// Review Text
+	const measurements14days = $derived.by(() => {
+		const twoWeeksAgo = new Date();
+		twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
+		return weights.filter((weight) => weight[0] >= twoWeeksAgo).length;
+	});
+	const trend14days = $derived(
+		trendWeight[trendWeight.length - 1][1] - trendWeight[trendWeight.length - 15][1]
+	);
+	const rateOfLoss = $derived(trend14days / trendWeight[trendWeight.length - 15][1]);
+	const reviewText = $derived.by(() => {
+		if (measurements14days < 3) {
+			return "We don't have enough data to make a recommendation yet. Keep tracking your weight a little bit more often.";
+		} else {
+			if (rateOfLoss > 0) {
+				return "If you stuck to your diet, it's time to tinker with your intake.";
+			} else if (rateOfLoss > -0.25 / 100 && rateOfLoss < 0) {
+				return 'Your weightloss is still going (nice!), although it could be faster.';
+			} else if (rateOfLoss > -0.5 / 100 && rateOfLoss <= -0.25 / 100) {
+				return 'You are losing weight primarily from fat. Keep going like this!';
+			} else if (rateOfLoss > -1 / 100 && rateOfLoss <= -0.5 / 100) {
+				return 'You are losing weight quite quickly. If there are still big rolls, keep at it. Otherwise consider slowing down a bit.';
+			} else
+				return 'You are shedding pounds! Only continue at this pace if you are obese. Otherwise: Slow down!';
+		}
+	});
 </script>
 
-<WeightChart scaleWeight={weights} {trendWeight} periodInDays={30} />
-<ReviewInfo {trendWeight} twoWeekData={data.twoWeekData} />
+<div class="mt-5 flex flex-col space-y-3 px-2">
+	<WeightChart scaleWeight={weights} {trendWeight} periodInDays={30} />
+	<ReviewInfo {trend14days} twoWeekData={data.twoWeekData} />
+	<p class="p-7 text-center font-medium text-stone-200">{reviewText}</p>
+</div>
