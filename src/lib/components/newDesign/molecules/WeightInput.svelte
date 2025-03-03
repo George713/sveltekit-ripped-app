@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { applyAction, enhance } from '$app/forms';
+	import { invalidateAll } from '$app/navigation';
+	import { page } from '$app/state';
 
 	import { toastManager, visibilityManager } from '$lib/stateManagers.svelte';
 
@@ -35,6 +37,7 @@
 					// Otherwise redirect as planned
 					await applyAction(result);
 					visibilityManager.toggleWeightOverlay();
+					invalidateAll();
 				}
 			};
 		}}
@@ -42,7 +45,12 @@
 		<!-- Header -->
 		<ColoredHeader text="Enter your Weight" />
 		<!-- Input -->
-		<WeightInput id="weight" name="weight" placeholder="88.25" type="number" />
+		<WeightInput
+			id="weight"
+			name="weight"
+			placeholder={page.data.user.currentWeight.toFixed(2)}
+			type="number"
+		/>
 		<!-- Button -->
 		<Button text="Submit" type="submit" wide={true} />
 	</form>
