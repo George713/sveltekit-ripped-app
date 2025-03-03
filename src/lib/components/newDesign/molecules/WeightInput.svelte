@@ -7,7 +7,7 @@
 
 	import Button from '../atoms/Button.svelte';
 	import ColoredHeader from '../atoms/ColoredHeader.svelte';
-	import WeightInput from '../atoms/inputs/WeightInput.svelte';
+	import Input from '../atoms/inputs/Input.svelte';
 	import Scale from '../icons/Scale.svelte';
 </script>
 
@@ -45,11 +45,12 @@
 		<!-- Header -->
 		<ColoredHeader text="Enter your Weight" />
 		<!-- Input -->
-		<WeightInput
+		<Input
 			id="weight"
 			name="weight"
 			placeholder={page.data.user.currentWeight.toFixed(2)}
 			type="number"
+			unit="kg"
 		/>
 		<!-- Button -->
 		<Button text="Submit" type="submit" wide={true} />

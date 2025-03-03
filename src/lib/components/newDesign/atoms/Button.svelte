@@ -6,7 +6,7 @@
 	interface Props {
 		text: string;
 		type?: 'submit' | 'button' | 'reset' | null | undefined;
-		onclick?: () => void;
+		onclick?: () => void | ((value: number | undefined) => void);
 		variant?: 'primary' | 'secondary';
 		wide?: boolean;
 		icon?: 'plus' | 'microphone' | 'book';

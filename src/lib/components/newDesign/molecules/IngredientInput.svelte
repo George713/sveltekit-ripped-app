@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { audioRecorder } from '$lib/audioRecorder.svelte';
 	import { ingredientManager } from '$lib/stateManagers.svelte';
-	import type { SvelteComponent } from 'svelte';
 	import Button from '../atoms/Button.svelte';
 	import Ingredient from '../atoms/Ingredient.svelte';
 	import FastSpinner from '../icons/FastSpinner.svelte';

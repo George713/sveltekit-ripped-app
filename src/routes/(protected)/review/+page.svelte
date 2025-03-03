@@ -1,8 +1,11 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { page } from '$app/state';
 	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
 	import WeightChart from '$lib/components/newDesign/molecules/WeightChart.svelte';
+	import CalorieOverlay from '$lib/components/newDesign/organisms/CalorieOverlay.svelte';
 	import ReviewInfo from '$lib/components/newDesign/organisms/ReviewInfo.svelte';
+	import { calorieManager, toastManager, visibilityManager } from '$lib/stateManagers.svelte.js';
 
 	let { data } = $props();
 
@@ -109,11 +112,49 @@
 	const adjustBtnIsPrimary = $derived(category === 'gain' || category === 'tooFast');
 
 	const keepTarget = async () => {
-		// TODO
+		try {
+			await fetch('?/keepTarget', { method: 'POST' });
+
+			page.data.dailyProgress.weeklyReview = true;
+			goto('/');
+		} catch (error) {
+			toastManager.addToast({
+				type: 'error',
+				message:
+					'Something went wrong. Check that you have internet, refresh the page and try adjusting again.',
+				timeout: 10000
+			});
+			return;
+		}
 	};
 
-	const adjustTarget = async () => {
-		// TODO
+	const adjustTarget = async (calories: number | undefined) => {
+		if (calories === undefined) {
+			return;
+		}
+
+		const formData = new FormData();
+		formData.append('calories', calories.toString());
+		try {
+			await fetch('?/adjustTarget', {
+				method: 'POST',
+				body: formData
+			});
+
+			page.data.dailyProgress.weeklyReview = true;
+			page.data.user.currentCalorieTarget = calories;
+			calorieManager.target = calories;
+			visibilityManager.toggleCalorieOverlay();
+			goto('/');
+		} catch (error) {
+			visibilityManager.toggleCalorieOverlay();
+			toastManager.addToast({
+				type: 'error',
+				message:
+					'Something went wrong. Check that you have internet, refresh the page and try adjusting again.',
+				timeout: 10000
+			});
+		}
 	};
 </script>
 
@@ -136,9 +177,9 @@
 	<div class="flex w-full justify-center space-x-2">
 		{#if adjustBtnIsPrimary}
 			{@render buttonSecondary('Keep Target', keepTarget)}
-			{@render buttonPrimary('Adjust Target', adjustTarget)}
+			{@render buttonPrimary('Adjust Target', visibilityManager.toggleCalorieOverlay)}
 		{:else}
-			{@render buttonSecondary('Adjust Target', adjustTarget)}
+			{@render buttonSecondary('Adjust Target', visibilityManager.toggleCalorieOverlay)}
 			{@render buttonPrimary('Keep Target', keepTarget)}
 		{/if}
 	</div>
@@ -146,3 +187,7 @@
 <div class="mb-1.5 flex w-full justify-center">
 	<Minimizer onclick={() => goto('/')} direction="down" />
 </div>
+
+{#if visibilityManager.calorieOverlay}
+	<CalorieOverlay {adjustTarget} />
+{/if}

@@ -7,6 +7,9 @@ class VisibilityManager {
 
     spinnerOverlay = $state(false);
     toggleSpinnerOverlay = () => { this.spinnerOverlay = !this.spinnerOverlay }
+
+    calorieOverlay = $state(false);
+    toggleCalorieOverlay = () => { this.calorieOverlay = !this.calorieOverlay }
 }
 export const visibilityManager = new VisibilityManager()
 

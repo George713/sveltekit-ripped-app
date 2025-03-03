@@ -1,4 +1,5 @@
 import { prisma } from '$lib/prismaClient.server';
+import { fail, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
@@ -74,3 +75,39 @@ export const load: PageServerLoad = async ({ locals }) => {
 
     return { weights, twoWeekData };
 };
+
+export const actions: Actions = {
+    keepTarget: async ({ locals }) => {
+        await prisma.user.update({
+            where: {
+                id: locals.user.id
+            },
+            data: {
+                lastReviewOn: new Date()
+            }
+        });
+    },
+    adjustTarget: async ({ locals, request }) => {
+        const data = await request.formData();
+        let calories: any = data.get('calories');
+
+        // Check if 'calories' is a number
+        if (isNaN(calories)) {
+            return fail(400);
+        } else {
+            calories = parseFloat(calories);
+        }
+
+        await prisma.user.update({
+            where: {
+                id: locals.user.id
+            },
+            data: {
+                calorieTargets: {
+                    create: [{ calories }]
+                },
+                lastReviewOn: new Date()
+            }
+        });
+    }
+}

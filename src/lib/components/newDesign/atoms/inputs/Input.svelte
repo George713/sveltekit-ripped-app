@@ -6,9 +6,12 @@
 		name: string;
 		placeholder: string;
 		type: string;
+		unit: string;
+		step?: string;
+		value?: number | undefined;
 	}
 
-	const { id, name, placeholder, type }: Props = $props();
+	let { id, name, placeholder, type, unit, step = '0.01', value = $bindable() }: Props = $props();
 </script>
 
 <div
@@ -20,9 +23,10 @@
 		{placeholder}
 		{id}
 		{name}
-		step="0.01"
+		{step}
+		bind:value
 		use:focusElement
 		required
 	/>
-	<span class="flex items-center text-stone-400">kg</span>
+	<span class="flex items-center text-stone-400">{unit}</span>
 </div>
