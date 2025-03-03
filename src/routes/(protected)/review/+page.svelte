@@ -76,20 +76,23 @@
 		// rateOfLoss is the change in weight as a percentage of the weight 14 days ago
 		// Category ranges are as follows:
 		//  - gain: rateOfLoss < 0%
-		//  - slow: 0 <= rateOfLoss < 0.25%
+		//  - tooSlow: 0 <= rateOfLoss < 0.1%
+		//  - slow: 0.1% <= rateOfLoss < 0.25%
 		//  - good: < 0.25% <= rateOfLoss < 0.5%
 		//  - fast: 0.5% <= rateOfLoss < 1%
 		//  - tooFast: rateOfLoss > 1%
 
 		return rateOfLoss < 0
 			? 'gain'
-			: rateOfLoss < 0.25 / 100
-				? 'slow'
-				: rateOfLoss < 0.5 / 100
-					? 'good'
-					: rateOfLoss < 1 / 100
-						? 'fast'
-						: 'tooFast';
+			: rateOfLoss < 0.1 / 100
+				? 'tooSlow'
+				: rateOfLoss < 0.25 / 100
+					? 'slow'
+					: rateOfLoss < 0.5 / 100
+						? 'good'
+						: rateOfLoss < 1 / 100
+							? 'fast'
+							: 'tooFast';
 	});
 	const reviewText = $derived.by(() => {
 		if (measurements14days < 3) {
@@ -97,6 +100,8 @@
 		} else {
 			if (category === 'gain') {
 				return "If you stuck to your diet, it's time to tinker with your intake.";
+			} else if (category === 'tooSlow') {
+				return 'Your weightloss has become very slow. Consider lowering your calories.';
 			} else if (category === 'slow') {
 				return 'Your weightloss is still going (nice!), although it could be faster.';
 			} else if (category === 'good') {
@@ -109,7 +114,9 @@
 		}
 	});
 
-	const adjustBtnIsPrimary = $derived(category === 'gain' || category === 'tooFast');
+	const adjustBtnIsPrimary = $derived(
+		category === 'gain' || category === 'tooSlow' || category === 'tooFast'
+	);
 
 	const keepTarget = async () => {
 		try {
