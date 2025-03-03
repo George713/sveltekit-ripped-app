@@ -43,8 +43,8 @@
 		// Return to main screen
 		if (response.ok) {
 			// TODO: Add xp to xpManager
-			await goto('/');
 			invalidateAll();
+			await goto('/');
 		}
 
 		// Hide spinner
