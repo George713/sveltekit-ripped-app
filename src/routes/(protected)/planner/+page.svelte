@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto, invalidateAll } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	import Button from '$lib/components/newDesign/atoms/Button.svelte';
 	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
 	import FoodLibrary from '$lib/components/newDesign/organisms/FoodLibrary.svelte';
@@ -43,8 +43,7 @@
 		// Return to main screen
 		if (response.ok) {
 			// TODO: Add xp to xpManager
-			invalidateAll();
-			await goto('/');
+			goto('/', { invalidateAll: true });
 		}
 
 		// Hide spinner
