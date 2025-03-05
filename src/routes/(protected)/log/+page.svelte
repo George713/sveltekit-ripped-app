@@ -12,12 +12,12 @@
 	let showAddOverlay = $state(false);
 </script>
 
-<div class="mb-1 flex h-screen w-screen flex-col items-center justify-end space-y-4 p-1">
-	<div class="">
-		<div class="flex w-full items-end justify-between px-2 pb-[1px]">
+<div class="flex h-full w-full flex-col items-center space-y-4 p-1">
+	<div class="mt-4 flex w-full grow flex-col overflow-hidden">
+		<div class="flex w-full">
 			<SelectionHeader icon="cutlery" text="Daily Log" />
 		</div>
-		<CardArrayBackground color="dark" classAddons="pt-2 pb-4 flex-col w-full">
+		<CardArrayBackground color="dark" classAddons="pt-2 pb-4 flex-col w-full h-full">
 			<CardArray itemManager={plannedItemManager} theme="dark" verticalScroll={true} />
 			<AddButtons bind:showAddOverlay />
 		</CardArrayBackground>
@@ -28,7 +28,10 @@
 		proteinCurrent={proteinManager.eaten}
 		proteinTarget={proteinManager.target}
 	/>
-	<Minimizer onclick={() => goto('/')} direction="down" />
+
+	<div class="mb-0.5 flex w-full justify-center">
+		<Minimizer onclick={() => goto('/')} direction="down" />
+	</div>
 </div>
 {#if showAddOverlay}
 	<AddOverlay bind:showAddOverlay />
