@@ -12,6 +12,7 @@
 		icon="insignia"
 		disabled={page.data.user.enterBodyfatToday}
 		hidden={!page.data.user.enterBodyfatToday}
+		onclick={() => goto('/bodyfat')}
 	/>
 	<div class="flex flex-col space-y-4">
 		<!-- Review -->
