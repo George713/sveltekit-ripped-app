@@ -4,6 +4,7 @@
 	import { fade, slide } from 'svelte/transition';
 
 	import { selectInput, focusElement } from '$lib/utils';
+	import { visibilityManager } from '$lib/stateManagers.svelte';
 
 	import Sigil from '$lib/components/newDesign/atoms/Sigil.svelte';
 	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
@@ -46,6 +47,33 @@
 				450
 			);
 		}
+	};
+
+	const onSubmit = async () => {
+		visibilityManager.toggleSpinnerOverlay();
+
+		const bodyfat = calculateBF().toFixed(1);
+
+		const formData = new FormData();
+		formData.append('heightCm', height.toString());
+		formData.append('neckCm', neck.toString());
+		formData.append('waistCm', waist.toString());
+		if (hip > 0) {
+			formData.append('hipCm', hip.toString());
+		}
+		formData.append('bodyfat', bodyfat);
+
+		try {
+			await fetch('?/addNavyMeasurement', {
+				method: 'POST',
+				body: formData
+			});
+			console.log(bodyfat);
+		} catch (error) {
+			// Handle error
+		}
+
+		visibilityManager.toggleSpinnerOverlay();
 	};
 </script>
 
@@ -128,7 +156,7 @@
 			class="rounded bg-indigo-600 px-4 py-3 font-bold text-stone-200 disabled:bg-stone-600 disabled:text-stone-400"
 			disabled={isInputEmpty}
 			transition:fade
-			onclick={() => console.log(calculateBF())}
+			onclick={onSubmit}
 		>
 			Calculate BF%
 		</button>
