@@ -1,19 +1,32 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
+	import { fade, slide } from 'svelte/transition';
+
+	import { selectInput, focusElement } from '$lib/utils';
+
 	import Sigil from '$lib/components/newDesign/atoms/Sigil.svelte';
 	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
 	import Crest from '$lib/components/newDesign/icons/Crest.svelte';
 	import Arrow from '$lib/components/newDesign/icons/Arrow.svelte';
-	import { fade, slide } from 'svelte/transition';
-	import { selectInput } from '$lib/utils';
 
-	let progressState = $state(0);
-	let height = $state(183);
-	let neck = $state(0);
-	let waist = $state(0);
-	let hip = $state(80);
+	let { data } = $props();
 
-	const isInputEmpty = $derived(progressState === 0 ? neck === 0 : waist === 0);
+	let progressState = $state((data.heightCm || 0) > 0 ? 1 : 0);
+	let height = $state(data.heightCm || 0);
+	let neck = $state(data.neckCm || 0);
+	let waist = $state(data.waistCm || 0);
+	let hip = $state(data.hipCm || 0);
+
+	const isInputEmpty = $derived(
+		progressState === 0
+			? height === 0
+			: progressState === 1
+				? neck === 0
+				: progressState === 2
+					? waist === 0
+					: hip === 0
+	);
 
 	const updateValue = (id: string, value: number) => {
 		if (id === 'height') height = value;
@@ -22,8 +35,8 @@
 		else if (id === 'hip') hip = value;
 	};
 
-	const calculateBF = (gender: 'male' | 'female') => {
-		if (gender === 'male') {
+	const calculateBF = () => {
+		if (page.data.user.isMale) {
 			return (
 				495 / (1.0324 - 0.19077 * Math.log10(waist - neck) + 0.15456 * Math.log10(height)) - 450
 			);
@@ -58,6 +71,7 @@
 					min="0"
 					max="300"
 					onfocus={selectInput}
+					use:focusElement
 					class="w-13 border-none text-right focus-visible:outline-none"
 					{value}
 					oninput={(e) => updateValue(id, parseFloat(e.currentTarget.value))}
@@ -86,33 +100,35 @@
 </div>
 
 <div class="flex grow flex-col justify-end space-y-4">
-	{@render input('Step #1:', 'Measure your height (in cm):', 'height', false, height)}
-	{@render input(
-		'Step #2:',
-		"Measure the circumference around your neck just below Adam's apple (in cm):",
-		'neck',
-		progressState === 0,
-		neck
-	)}
+	{@render input('Step #1:', 'Measure your height (in cm):', 'height', progressState === 0, height)}
 	{#if progressState >= 1}
+		{@render input(
+			'Step #2:',
+			"Measure the circumference around your neck just below Adam's apple (in cm):",
+			'neck',
+			progressState === 1,
+			neck
+		)}
+	{/if}
+	{#if progressState >= 2}
 		{@render input(
 			'Step #3:',
 			'Measure the circumference around your navel (in cm). Relax your arms and don’t suck in your stomach:',
 			'waist',
-			progressState === 1,
+			progressState === 2,
 			waist
 		)}
 	{/if}
 </div>
 <div class="mt-16 mb-14 flex w-full justify-center">
-	{#if progressState < 1}
+	{#if progressState < 2}
 		<Arrow disabled={isInputEmpty} onclick={() => progressState++} />
 	{:else}
 		<button
 			class="rounded bg-indigo-600 px-4 py-3 font-bold text-stone-200 disabled:bg-stone-600 disabled:text-stone-400"
 			disabled={isInputEmpty}
 			transition:fade
-			onclick={() => console.log(calculateBF('male'))}
+			onclick={() => console.log(calculateBF())}
 		>
 			Calculate BF%
 		</button>

@@ -61,6 +61,11 @@ model Weight {
 model BodyFat {
   id        Int      @id @default(autoincrement())
   bodyfat   Float
+  heightCm  Float?
+  neckCm    Float?
+  waistCm   Float?
+  hipCm     Float?
+  method    String?
   createdAt DateTime @default(now())
 
   user   User   @relation(fields: [userId], references: [id])
