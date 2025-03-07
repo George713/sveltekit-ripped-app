@@ -1,12 +1,18 @@
 <script lang="ts">
-	import { estimatedItemManager, ingredientManager } from '$lib/stateManagers.svelte';
 	import { onDestroy } from 'svelte';
+	import { deserialize } from '$app/forms';
+
+	import {
+		estimatedItemManager,
+		ingredientManager,
+		visibilityManager
+	} from '$lib/stateManagers.svelte';
+
 	import BackgroundSemiTransparent from '../atoms/BackgroundSemiTransparent.svelte';
 	import Button from '../atoms/Button.svelte';
 	import Minimizer from '../atoms/Minimizer.svelte';
 	import NutrientSum from '../atoms/NutrientSum.svelte';
 	import IngredientInput from './IngredientInput.svelte';
-	import { deserialize } from '$app/forms';
 
 	interface Props {
 		showAddOverlay: boolean;
@@ -19,6 +25,8 @@
 	});
 
 	const handleSubmit = async () => {
+		visibilityManager.toggleSpinnerOverlay();
+
 		const formData = new FormData();
 		formData.append('kcal', ingredientManager.totalKcal.toString());
 		formData.append('protein', ingredientManager.totalProtein.toString());
@@ -41,6 +49,8 @@
 		}
 
 		showAddOverlay = false;
+
+		visibilityManager.toggleSpinnerOverlay();
 	};
 </script>
 
