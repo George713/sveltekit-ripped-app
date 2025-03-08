@@ -13,12 +13,12 @@
 	} from '$lib/stateManagers.svelte';
 </script>
 
-<div class="mb-1 flex h-screen w-screen flex-col items-center justify-end space-y-4 p-1">
-	<div class="">
+<div class="flex h-full w-full flex-col items-center space-y-4 p-1">
+	<div class="mt-4 flex w-full grow flex-col overflow-hidden">
 		<div class="flex w-full items-end justify-between px-2 pb-[1px]">
 			<SelectionHeader icon="book" text="Food Library" />
 		</div>
-		<CardArrayBackground color="light" classAddons="pt-2 pb-4 flex-col w-full">
+		<CardArrayBackground color="light" classAddons="py-2 flex-col w-full h-full">
 			<CardArray
 				itemManager={foodItemManager}
 				selectionManager={plannedItemManager}
@@ -34,5 +34,8 @@
 		proteinCurrent={proteinManager.eaten}
 		proteinTarget={proteinManager.target}
 	/>
-	<Minimizer onclick={() => goto('/')} direction="down" />
+
+	<div class="mb-0.5 flex w-full justify-center">
+		<Minimizer onclick={() => goto('/')} direction="down" />
+	</div>
 </div>
