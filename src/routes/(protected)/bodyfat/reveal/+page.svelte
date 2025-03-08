@@ -8,21 +8,39 @@
 	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
 	import Sigil from '$lib/components/newDesign/atoms/Sigil.svelte';
 
-	let bodyfat = $state(page.data.user.currentBF);
+	type RankType = 'tbd' | 'wood' | 'bronze' | 'silver' | 'gold' | 'platinum';
+
+	const isValidRank = (rank: string): rank is RankType => {
+		return ['tbd', 'wood', 'bronze', 'silver', 'gold', 'platinum'].includes(rank);
+	};
+
+	const rawPreviousRank = page.url.searchParams.get('previousRank') || 'wood';
+	const previousRank: RankType = isValidRank(rawPreviousRank) ? rawPreviousRank : 'wood';
+	const newRank = 'silver' as RankType; //page.data.user.currentStatus
+	const rankChanged = previousRank !== newRank;
+	let showPreviousRank = $state(true);
+
+	const oldBodyfat = parseFloat(page.url.searchParams.get('oldBodyfat') || '0');
+	const newBodyfat = 15.2; //page.data.user.currentBF;
+	let bodyfat = $state(oldBodyfat);
 	let change = $state(0);
 
 	onMount(() => {
 		setTimeout(() => {
-			const newBodyfat = parseFloat(page.url.searchParams.get('newBodyfat') || '0');
-			change = newBodyfat - bodyfat;
+			change = newBodyfat - oldBodyfat;
 			setTimeout(() => {
 				bodyfat = newBodyfat;
+				if (rankChanged) {
+					setTimeout(() => {
+						showPreviousRank = false;
+					}, 2500);
+				}
 			}, 2500);
 		}, 500);
 	});
 </script>
 
-{#snippet rankInfo(rank: 'wood' | 'bronze' | 'silver' | 'gold' | 'platinum', range: string)}
+{#snippet rankInfo(rank: RankType, range: string)}
 	<div class="flex w-full items-center justify-center px-8">
 		<div class="flex w-1/3 justify-center">
 			<Sigil {rank} size="small" />
@@ -32,9 +50,24 @@
 	</div>
 {/snippet}
 
-<div class="mt-10 mb-5">
-	<Sigil rank={page.data.user.currentStatus} />
+<div class="relative mt-10 mb-5 flex h-[213px] w-full items-center justify-center">
+	<div
+		class="absolute inset-0 flex items-center justify-center transition-opacity delay-500 duration-3000"
+		class:opacity-100={showPreviousRank}
+		class:opacity-0={!showPreviousRank}
+	>
+		<Sigil rank={previousRank} />
+	</div>
+
+	<div
+		class="absolute inset-0 flex items-center justify-center transition-opacity delay-3500 duration-6000"
+		class:opacity-0={showPreviousRank}
+		class:opacity-100={!showPreviousRank}
+	>
+		<Sigil rank={newRank} />
+	</div>
 </div>
+
 <div class="mb-8 flex flex-col justify-center space-y-2 text-right">
 	<div class="flex items-center">
 		<p class="w-1/2 leading-5 font-medium text-stone-200">Your current body fat percentage is:</p>
