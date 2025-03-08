@@ -4,6 +4,7 @@
 	import { page } from '$app/state';
 
 	import NumberFlow, { continuous } from '@number-flow/svelte';
+	import { Fireworks } from '@fireworks-js/svelte';
 
 	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
 	import Sigil from '$lib/components/newDesign/atoms/Sigil.svelte';
@@ -25,6 +26,8 @@
 	let bodyfat = $state(oldBodyfat);
 	let change = $state(0);
 
+	let showFireworks = $state(false);
+
 	onMount(() => {
 		setTimeout(() => {
 			change = newBodyfat - oldBodyfat;
@@ -33,12 +36,73 @@
 				if (rankChanged) {
 					setTimeout(() => {
 						showPreviousRank = false;
+						setTimeout(() => {
+							showFireworks = true;
+						}, 4000);
 					}, 2500);
+				} else if (change < 0) {
+					showFireworks = true;
 				}
 			}, 2500);
 		}, 500);
 	});
+
+	// Fireworks options
+	const fireworksOptions = {
+		acceleration: 1.01,
+		brightness: {
+			min: 50,
+			max: 80
+		},
+		decay: {
+			min: 0.015,
+			max: 0.03
+		},
+		delay: {
+			min: 30,
+			max: 60
+		},
+		explosion: 7,
+		flickering: 50,
+		gravity: 1.5,
+		hue: {
+			min: 0,
+			max: 360
+		},
+		intensity: rankChanged ? 18 : 8,
+		friction: 0.95,
+		opacity: 0.5,
+		particles: 90,
+		traceLength: 3,
+		traceSpeed: 10,
+		rocketsPoint: {
+			min: 50,
+			max: 50
+		},
+		lineWidth: {
+			explosion: {
+				min: 1,
+				max: 3
+			},
+			trace: {
+				min: 1,
+				max: 2
+			}
+		},
+		lineStyle: 'round' as const,
+		mouse: {
+			click: false,
+			move: false,
+			max: 1
+		}
+	};
 </script>
+
+{#if showFireworks}
+	<div class="pointer-events-none fixed inset-0 z-50">
+		<Fireworks options={fireworksOptions} style="width: 100%; height: 100%;" />
+	</div>
+{/if}
 
 {#snippet rankInfo(rank: RankType, range: string)}
 	<div class="flex w-full items-center justify-center px-8">
