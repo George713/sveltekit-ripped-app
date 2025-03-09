@@ -120,7 +120,7 @@
 
 	const keepTarget = async () => {
 		try {
-			await fetch('?/keepTarget', { method: 'POST' });
+			await fetch('?/keepTarget', { method: 'POST', body: new FormData() });
 
 			page.data.dailyProgress.weeklyReview = true;
 			goto('/');
