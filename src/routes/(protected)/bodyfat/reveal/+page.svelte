@@ -19,10 +19,14 @@
 	const previousRank: RankType = isValidRank(rawPreviousRank) ? rawPreviousRank : 'wood';
 	const newRank = 'silver' as RankType; //page.data.user.currentStatus
 	const rankChanged = previousRank !== newRank;
+	const rankImproved =
+		['wood', 'bronze', 'silver', 'gold', 'platinum'].indexOf(newRank) >
+		['wood', 'bronze', 'silver', 'gold', 'platinum'].indexOf(previousRank);
+
 	let showPreviousRank = $state(true);
 
 	const oldBodyfat = parseFloat(page.url.searchParams.get('oldBodyfat') || '0');
-	const newBodyfat = 15.2; //page.data.user.currentBF;
+	const newBodyfat = 14.8; //page.data.user.currentBF;
 	let bodyfat = $state(oldBodyfat);
 	let change = $state(0);
 
@@ -36,9 +40,11 @@
 				if (rankChanged) {
 					setTimeout(() => {
 						showPreviousRank = false;
-						setTimeout(() => {
-							showFireworks = true;
-						}, 4000);
+						if (rankImproved) {
+							setTimeout(() => {
+								showFireworks = true;
+							}, 4000);
+						}
 					}, 2500);
 				} else if (change < 0) {
 					showFireworks = true;
@@ -62,19 +68,19 @@
 			min: 30,
 			max: 60
 		},
-		explosion: 7,
+		explosion: rankImproved ? 7 : 2,
 		flickering: 50,
 		gravity: 1.5,
 		hue: {
 			min: 0,
 			max: 360
 		},
-		intensity: rankChanged ? 18 : 8,
+		intensity: rankImproved ? 18 : 6,
 		friction: 0.95,
 		opacity: 0.5,
 		particles: 90,
 		traceLength: 3,
-		traceSpeed: 10,
+		traceSpeed: rankImproved ? 10 : 5,
 		rocketsPoint: {
 			min: 50,
 			max: 50
