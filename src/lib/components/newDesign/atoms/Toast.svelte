@@ -3,37 +3,49 @@
 
 	import type { Toast } from '$lib/types';
 	import Attention from '../icons/Attention.svelte';
+	import Envelope from '../icons/Envelope.svelte';
 
 	interface Props {
 		toast: Toast;
 	}
 
 	let { toast }: Props = $props();
+
+	const header = $state(
+		toast.type === 'error' ? 'Error' : toast.type === 'note' ? "Founder's Note" : 'Attention'
+	);
 </script>
 
 <div
 	transition:fade
 	class={{
-		'flex w-full flex-col rounded-lg border bg-black/60 p-4 backdrop-blur-xs': true,
+		'flex w-full flex-col rounded-lg border bg-black/80 p-4 backdrop-blur-xs': true,
 		'border-rose-700': toast.type == 'error',
-		'border-amber-500': toast.type == 'attention'
+		'border-amber-500': toast.type == 'attention',
+		'border-emerald-500': toast.type == 'note'
 	}}
 >
-	<Attention color={toast.type === 'error' ? 'rose' : 'amber'} classAddons="absolute" />
+	{#if toast.type === 'note'}
+		<Envelope classAddons="absolute size-9 -translate-x-1 -translate-y-2" />
+	{:else}
+		<Attention color={toast.type === 'error' ? 'rose' : 'amber'} classAddons="absolute" />
+	{/if}
 	<p
 		class={{
 			'mx-10 mb-2 leading-5 font-bold': true,
 			'text-rose-700': toast.type == 'error',
-			'text-amber-500': toast.type == 'attention'
+			'text-amber-500': toast.type == 'attention',
+			'text-emerald-500': toast.type == 'note'
 		}}
 	>
-		{toast.type.charAt(0).toUpperCase() + toast.type.slice(1)}
+		{header}
 	</p>
 	<p
 		class={{
 			'mx-10 ': true,
 			'text-rose-700': toast.type == 'error',
-			'text-amber-500': toast.type == 'attention'
+			'text-amber-500': toast.type == 'attention',
+			'text-emerald-500': toast.type == 'note'
 		}}
 	>
 		{toast.message}
