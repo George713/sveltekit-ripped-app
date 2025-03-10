@@ -8,6 +8,8 @@
 
 	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
 	import Sigil from '$lib/components/newDesign/atoms/Sigil.svelte';
+	import Envelope from '$lib/components/newDesign/icons/Envelope.svelte';
+	import { toastManager } from '$lib/stateManagers.svelte';
 
 	type RankType = 'tbd' | 'wood' | 'bronze' | 'silver' | 'gold' | 'platinum';
 
@@ -31,6 +33,7 @@
 	let change = $state(0);
 
 	let showFireworks = $state(false);
+	let showEnvelope = $state(false);
 
 	onMount(() => {
 		setTimeout(() => {
@@ -43,6 +46,7 @@
 						if (rankImproved) {
 							setTimeout(() => {
 								showFireworks = true;
+								showEnvelope = true;
 							}, 4000);
 						}
 					}, 2500);
@@ -202,5 +206,22 @@
 </div>
 
 <div class="mb-1.5 flex w-full justify-center">
-	<Minimizer onclick={() => goto('/')} direction="down" />
+	{#if showEnvelope}
+		<button
+			class=""
+			type="button"
+			onclick={() => {
+				showEnvelope = false;
+				toastManager.addToast({
+					type: 'note',
+					message: `I see you just left the ${previousRank} percentages! Take it from someone who is also fighting the battle against fat: Congratulations! This is truly amazing. Job well done! :-)`,
+					timeout: 60000
+				});
+			}}
+		>
+			<Envelope shake={true} />
+		</button>
+	{:else}
+		<Minimizer onclick={() => goto('/')} direction="down" />
+	{/if}
 </div>
