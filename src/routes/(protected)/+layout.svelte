@@ -16,18 +16,13 @@
 
 	let { data, children } = $props();
 
-	if (data.foodItems) {
+	// Using Svelte 5 $effect rune for reactivity when data changes, e.g. through invalidation
+	$effect.pre(() => {
 		foodItemManager.items = data.foodItems;
-	}
-	if (data.plannedItems) {
 		plannedItemManager.items = data.plannedItems;
-	}
-	if (data.estimatedItems) {
 		estimatedItemManager.items = data.estimatedItems;
-	}
-	if (data.foodSets) {
 		foodSetManager.items = data.foodSets;
-	}
+	});
 
 	onMount(() => {
 		xpManager.totalXP = page.data.user.pointBalance;

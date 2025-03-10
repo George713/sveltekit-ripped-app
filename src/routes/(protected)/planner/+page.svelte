@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import { goto, invalidate } from '$app/navigation';
 	import Button from '$lib/components/newDesign/atoms/Button.svelte';
 	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
 	import FoodLibrary from '$lib/components/newDesign/organisms/FoodLibrary.svelte';
@@ -43,7 +43,12 @@
 		// Return to main screen
 		if (response.ok) {
 			// TODO: Add xp to xpManager
-			await goto('/', { invalidateAll: true });
+
+			// Explicitly invalidate all data dependencies
+			await invalidate('layoutLoad'); // Invalidates the load from `layout.server.ts` specifically
+
+			// Then navigate home
+			await goto('/');
 		}
 
 		// Hide spinner

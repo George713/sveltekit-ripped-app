@@ -6,7 +6,10 @@ import { getDateDayBegin } from '$lib/utils';
 import { prisma } from '$lib/prismaClient.server';
 
 
-export const load: LayoutServerLoad = async ({ locals }) => {
+export const load: LayoutServerLoad = async ({ locals, depends }) => {
+	// Register dependencies for invalidation
+	depends('layoutLoad');
+
 	if (!locals.user) {
 		throw redirect(302, '/login')
 	}
