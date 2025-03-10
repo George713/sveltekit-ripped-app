@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 
@@ -19,7 +19,7 @@
 
 	const rawPreviousRank = page.url.searchParams.get('previousRank') || 'wood';
 	const previousRank: RankType = isValidRank(rawPreviousRank) ? rawPreviousRank : 'wood';
-	const newRank = 'silver' as RankType; //page.data.user.currentStatus
+	const newRank = page.data.user.currentStatus;
 	const rankChanged = previousRank !== newRank;
 	const rankImproved =
 		['wood', 'bronze', 'silver', 'gold', 'platinum'].indexOf(newRank) >
@@ -28,7 +28,7 @@
 	let showPreviousRank = $state(true);
 
 	const oldBodyfat = parseFloat(page.url.searchParams.get('oldBodyfat') || '0');
-	const newBodyfat = 14.8; //page.data.user.currentBF;
+	const newBodyfat = page.data.user.currentBF;
 	let bodyfat = $state(oldBodyfat);
 	let change = $state(0);
 
@@ -55,6 +55,10 @@
 				}
 			}, 2500);
 		}, 500);
+	});
+
+	onDestroy(() => {
+		toastManager.deleteAll();
 	});
 
 	// Fireworks options
