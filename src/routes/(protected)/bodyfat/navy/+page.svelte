@@ -68,7 +68,13 @@
 				method: 'POST',
 				body: formData
 			});
-			console.log(bodyfat);
+			goto(
+				'/bodyfat/reveal?oldBodyfat=' +
+					page.data.user.currentBF +
+					'&previousRank=' +
+					page.data.user.currentStatus,
+				{ invalidateAll: true }
+			);
 		} catch (error) {
 			// Handle error
 		}
