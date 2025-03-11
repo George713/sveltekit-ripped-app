@@ -76,21 +76,21 @@
 		// rateOfLoss is the change in weight as a percentage of the weight 14 days ago
 		// Category ranges are as follows:
 		//  - gain: rateOfLoss < 0%
-		//  - tooSlow: 0 <= rateOfLoss < 0.1%
-		//  - slow: 0.1% <= rateOfLoss < 0.25%
-		//  - good: < 0.25% <= rateOfLoss < 0.5%
-		//  - fast: 0.5% <= rateOfLoss < 1%
-		//  - tooFast: rateOfLoss > 1%
+		//  - tooSlow: 0 <= rateOfLoss < 0.2%
+		//  - slow: 0.2% <= rateOfLoss < 0.5%
+		//  - good: < 0.5% <= rateOfLoss < 1%
+		//  - fast: 1% <= rateOfLoss < 2%
+		//  - tooFast: rateOfLoss > 2%
 
 		return rateOfLoss < 0
 			? 'gain'
-			: rateOfLoss < 0.1 / 100
+			: rateOfLoss < 0.2 / 100
 				? 'tooSlow'
-				: rateOfLoss < 0.25 / 100
+				: rateOfLoss < 0.5 / 100
 					? 'slow'
-					: rateOfLoss < 0.5 / 100
+					: rateOfLoss < 1 / 100
 						? 'good'
-						: rateOfLoss < 1 / 100
+						: rateOfLoss < 2 / 100
 							? 'fast'
 							: 'tooFast';
 	});
