@@ -14,5 +14,6 @@ Here are specific rules to follow:
 3. when applicable, use svelte 5's native clsr syntax
 4. when writing functions, write arrow functions
 5. when writing sql, put table references in double quotes and make sure the column names match the prisma schema
+6. When declaring a "Props" interface, apply it like this: ```let { data }: Props = $props();```
 
 When writing svelte 5, consult the documentation of svelte 5 in the file `svelte5-docs.md`.
