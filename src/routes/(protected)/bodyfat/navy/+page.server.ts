@@ -4,7 +4,7 @@ import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
     const bodyFat = await prisma.bodyFat.findFirst({
-        where: { userId: locals.user.id, method: 'bia' },
+        where: { userId: locals.user.id, method: 'navy' },
         select: {
             heightCm: true,
             neckCm: true,
