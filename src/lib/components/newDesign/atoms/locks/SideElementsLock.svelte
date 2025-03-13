@@ -1,4 +1,9 @@
 <script lang="ts">
+	interface Props {
+		unlocked: boolean;
+	}
+
+	const { unlocked }: Props = $props();
 </script>
 
 <svg
@@ -11,6 +16,10 @@
 >
 	<foreignObject x="-6" y="-10" width="184" height="442"
 		><div
+			class={{
+				'transition-opacity duration-2500': true,
+				'opacity-0': unlocked
+			}}
 			style="backdrop-filter:blur(15px);clip-path:url(#bgblur_0_1465_1818_clip_path);height:100%;width:100%"
 		></div></foreignObject
 	><g filter="url(#filter0_d_1465_1818)" data-figma-bg-blur-radius="30">

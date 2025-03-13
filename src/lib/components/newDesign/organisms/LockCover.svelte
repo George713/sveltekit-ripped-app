@@ -41,9 +41,9 @@
 	let unlockControls = $state(false);
 	let unlockAddons = $state(false);
 	// State for controlling the rotation of the locks
-	let turnLockRank = $state(false);
-	let turnLockControls = $state(false);
-	let turnLockAddons = $state(false);
+	let startUnlockAnimationRank = $state(false);
+	let startUnlockAnimationControls = $state(false);
+	let startUnlockAnimationAddons = $state(false);
 
 	// Update dimensions and calculate scale
 	const updateDimensions = () => {
@@ -67,7 +67,9 @@
 
 	$effect(() => {
 		if (page.url.searchParams.get('unlockRank') === 'true') {
-			turnLockRank = true;
+			setTimeout(() => {
+				startUnlockAnimationRank = true;
+			}, 1000);
 			setTimeout(() => {
 				unlockRank = true;
 				fetch('?/unlockRank', {
@@ -78,7 +80,9 @@
 		}
 
 		if (page.url.searchParams.get('unlockControls') === 'true') {
-			turnLockControls = true;
+			setTimeout(() => {
+				startUnlockAnimationControls = true;
+			}, 1000);
 			setTimeout(() => {
 				unlockControls = true;
 				fetch('?/unlockControls', {
@@ -89,7 +93,9 @@
 		}
 
 		if (page.url.searchParams.get('unlockAddons') === 'true') {
-			turnLockAddons = true;
+			setTimeout(() => {
+				startUnlockAnimationAddons = true;
+			}, 1000);
 			setTimeout(() => {
 				unlockAddons = true;
 				fetch('?/unlockAddons', {
@@ -123,7 +129,7 @@
 				out:fly={{ y: -1000, duration: 4500, opacity: 1, easing: cubicIn }}
 			>
 				<div class="origin-top-left" style="transform: scale({scaleX},{scaleY});">
-					<SigilLock />
+					<SigilLock unlocked={startUnlockAnimationRank} />
 				</div>
 
 				<div
@@ -131,13 +137,18 @@
 					style="transform: translate({210 + offsetXElement1}px, {-150 +
 						offsetYElement1}px) scale({scaleX})"
 				>
-					<Lock text="Unlock Rank" onclick={() => goto('/unlock/rank')} isRotated={turnLockRank} />
+					<Lock
+						text="Unlock Rank"
+						onclick={() => goto('/unlock/rank')}
+						isRotated={startUnlockAnimationRank}
+					/>
 				</div>
 			</div>
 		{/if}
 	{/if}
 
 	<!-- ControlsLock at bottom -->
+
 	{#if !unlockProgress?.unlockedControls}
 		{#if !unlockControls}
 			<div
@@ -145,7 +156,7 @@
 				out:fly={{ x: -500, duration: 4500, opacity: 1, easing: cubicIn }}
 			>
 				<div class="origin-bottom-left" style="transform: scale({scaleX},{scaleY});">
-					<ControlsLock />
+					<ControlsLock unlocked={startUnlockAnimationControls} />
 				</div>
 
 				<div
@@ -156,7 +167,7 @@
 					<Lock
 						text="Unlock Controls"
 						onclick={() => goto('/unlock/controls')}
-						isRotated={turnLockControls}
+						isRotated={startUnlockAnimationControls}
 					/>
 				</div>
 			</div>
@@ -171,7 +182,7 @@
 				out:fly={{ x: 500, duration: 4500, opacity: 1, easing: cubicIn }}
 			>
 				<div class="origin-bottom-right" style="transform: scale({scaleX},{scaleY});">
-					<SideElementsLock />
+					<SideElementsLock unlocked={startUnlockAnimationAddons} />
 				</div>
 
 				<div
@@ -183,7 +194,7 @@
 						text="Unlock Addons"
 						smallText={true}
 						onclick={() => goto('/unlock/addons')}
-						isRotated={turnLockAddons}
+						isRotated={startUnlockAnimationAddons}
 					/>
 				</div>
 			</div>

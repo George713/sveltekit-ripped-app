@@ -1,4 +1,9 @@
 <script lang="ts">
+	interface Props {
+		unlocked: boolean;
+	}
+
+	const { unlocked }: Props = $props();
 </script>
 
 <svg
@@ -9,11 +14,16 @@
 	xmlns="http://www.w3.org/2000/svg"
 	xmlns:xlink="http://www.w3.org/1999/xlink"
 >
-	<foreignObject x="-30" y="-30" width="420" height="424"
-		><div
+	<foreignObject x="-30" y="-30" width="420" height="424">
+		<div
+			class={{
+				'transition-opacity duration-2500': true,
+				'opacity-0': unlocked
+			}}
 			style="backdrop-filter:blur(15px);clip-path:url(#bgblur_0_1465_1786_clip_path);height:100%;width:100%"
-		></div></foreignObject
-	><g filter="url(#filter0_d_1465_1786)" data-figma-bg-blur-radius="30">
+		></div>
+	</foreignObject>
+	<g filter="url(#filter0_d_1465_1786)" data-figma-bg-blur-radius="30">
 		<path
 			d="M0 0H360V364H186C180.477 364 176 359.523 176 354V301.046C176 297.872 174.494 294.888 171.941 293.002L4.05867 168.998C1.50616 167.113 0 164.128 0 160.954V0Z"
 			fill="url(#paint0_linear_1465_1786)"
