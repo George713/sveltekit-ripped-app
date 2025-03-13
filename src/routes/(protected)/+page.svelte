@@ -15,6 +15,8 @@
 	import { cubicIn } from 'svelte/easing';
 	import { goto } from '$app/navigation';
 
+	const { data } = $props();
+
 	// Reference dimensions from design (360x740)
 	const DESIGN_WIDTH = 360;
 	const DESIGN_HEIGHT = 740;
@@ -45,18 +47,30 @@
 			turnLockRank = true;
 			setTimeout(() => {
 				unlockRank = true;
+				fetch('?/unlockRank', {
+					method: 'POST',
+					body: new FormData()
+				});
 			}, 2500);
 		}
 		if (page.url.searchParams.get('unlockControls') === 'true') {
 			turnLockControls = true;
 			setTimeout(() => {
 				unlockControls = true;
+				fetch('?/unlockControls', {
+					method: 'POST',
+					body: new FormData()
+				});
 			}, 2500);
 		}
 		if (page.url.searchParams.get('unlockAddons') === 'true') {
 			turnLockAddons = true;
 			setTimeout(() => {
 				unlockAddons = true;
+				fetch('?/unlockAddons', {
+					method: 'POST',
+					body: new FormData()
+				});
 			}, 2500);
 		}
 	});
@@ -104,71 +118,77 @@
 <!-- Wrapper with responsive positioning for all lock elements -->
 <div class="fixed inset-0 h-full w-full overflow-hidden">
 	<!-- SigilLock at top -->
-	{#if !unlockRank}
-		<div
-			class="absolute top-0 left-0"
-			out:fly={{ y: -1000, duration: 4500, opacity: 1, easing: cubicIn }}
-		>
-			<div style="transform: scale({scaleX}, {scaleY});">
-				<SigilLock />
-			</div>
-
+	{#if !data.unlockProgress?.unlockedRank}
+		{#if !unlockRank}
 			<div
-				class="absolute z-10"
-				style="transform: translate({210 + offsetXElement1}px, {-150 +
-					offsetYElement1}px) scale({scaleX})"
+				class="absolute top-0 left-0"
+				out:fly={{ y: -1000, duration: 4500, opacity: 1, easing: cubicIn }}
 			>
-				<Lock text="Unlock Rank" onclick={() => goto('/unlock/rank')} isRotated={turnLockRank} />
+				<div style="transform: scale({scaleX}, {scaleY});">
+					<SigilLock />
+				</div>
+
+				<div
+					class="absolute z-10"
+					style="transform: translate({210 + offsetXElement1}px, {-150 +
+						offsetYElement1}px) scale({scaleX})"
+				>
+					<Lock text="Unlock Rank" onclick={() => goto('/unlock/rank')} isRotated={turnLockRank} />
+				</div>
 			</div>
-		</div>
+		{/if}
 	{/if}
 
 	<!-- ControlsLock at bottom -->
-	{#if !unlockControls}
-		<div
-			class="absolute bottom-0 left-0"
-			out:fly={{ x: -500, duration: 4500, opacity: 1, easing: cubicIn }}
-		>
-			<div style="transform: scale({scaleX}, {scaleY});">
-				<ControlsLock />
-			</div>
-
+	{#if !data.unlockProgress?.unlockedControls}
+		{#if !unlockControls}
 			<div
-				class="absolute z-10"
-				style="transform: translate({30 + offsetXElement2}px, {-120 -
-					offsetYElement2}px) scale({scaleX})"
+				class="absolute bottom-0 left-0"
+				out:fly={{ x: -500, duration: 4500, opacity: 1, easing: cubicIn }}
 			>
-				<Lock
-					text="Unlock Controls"
-					onclick={() => goto('/unlock/controls')}
-					isRotated={turnLockControls}
-				/>
+				<div style="transform: scale({scaleX}, {scaleY});">
+					<ControlsLock />
+				</div>
+
+				<div
+					class="absolute z-10"
+					style="transform: translate({30 + offsetXElement2}px, {-120 -
+						offsetYElement2}px) scale({scaleX})"
+				>
+					<Lock
+						text="Unlock Controls"
+						onclick={() => goto('/unlock/controls')}
+						isRotated={turnLockControls}
+					/>
+				</div>
 			</div>
-		</div>
+		{/if}
 	{/if}
 
 	<!-- SideElementsLock at bottom right -->
-	{#if !unlockAddons}
-		<div
-			class="absolute right-0 bottom-0"
-			out:fly={{ x: 500, duration: 4500, opacity: 1, easing: cubicIn }}
-		>
-			<div style="transform: scale({scaleX}, {scaleY});">
-				<SideElementsLock />
-			</div>
-
+	{#if !data.unlockProgress?.unlockedAddons}
+		{#if !unlockAddons}
 			<div
-				class="absolute z-10"
-				style="transform: translate({40 - offsetXElement3}px, {-237 -
-					offsetYElement3}px) scale({scaleX})"
+				class="absolute right-0 bottom-0"
+				out:fly={{ x: 500, duration: 4500, opacity: 1, easing: cubicIn }}
 			>
-				<Lock
-					text="Unlock Addons"
-					smallText={true}
-					onclick={() => goto('/unlock/addons')}
-					isRotated={turnLockAddons}
-				/>
+				<div style="transform: scale({scaleX}, {scaleY});">
+					<SideElementsLock />
+				</div>
+
+				<div
+					class="absolute z-10"
+					style="transform: translate({40 - offsetXElement3}px, {-237 -
+						offsetYElement3}px) scale({scaleX})"
+				>
+					<Lock
+						text="Unlock Addons"
+						smallText={true}
+						onclick={() => goto('/unlock/addons')}
+						isRotated={turnLockAddons}
+					/>
+				</div>
 			</div>
-		</div>
+		{/if}
 	{/if}
 </div>
