@@ -27,8 +27,11 @@ model User {
   reviewOn      String @default("SUN")
 
   // Progress Player Journey
-  pointBalance Int     @default(0)
-  initPhoto    Boolean @default(false)
+  pointBalance     Int     @default(0)
+  initPhoto        Boolean @default(false)
+  unlockedRank     Boolean @default(false)
+  unlockedControls Boolean @default(false)
+  unlockedAddons   Boolean @default(false)
 
   // Auxiliary
   timeZoneOffset Int @default(0)
