@@ -44,7 +44,6 @@
 	let turnLockRank = $state(false);
 	let turnLockControls = $state(false);
 	let turnLockAddons = $state(false);
-	$inspect(scaleX, scaleY);
 
 	// Update dimensions and calculate scale
 	const updateDimensions = () => {
@@ -123,7 +122,7 @@
 				class="absolute top-0 left-0"
 				out:fly={{ y: -1000, duration: 4500, opacity: 1, easing: cubicIn }}
 			>
-				<div style="transform: scale({scaleX}, {scaleY});">
+				<div class="origin-top-left" style="transform: scale({scaleX},{scaleY});">
 					<SigilLock />
 				</div>
 
@@ -145,7 +144,7 @@
 				class="absolute bottom-0 left-0"
 				out:fly={{ x: -500, duration: 4500, opacity: 1, easing: cubicIn }}
 			>
-				<div style="transform: scale({scaleX}, {scaleY});">
+				<div class="origin-bottom-left" style="transform: scale({scaleX},{scaleY});">
 					<ControlsLock />
 				</div>
 
@@ -171,7 +170,7 @@
 				class="absolute right-0 bottom-0"
 				out:fly={{ x: 500, duration: 4500, opacity: 1, easing: cubicIn }}
 			>
-				<div style="transform: scale({scaleX}, {scaleY});">
+				<div class="origin-bottom-right" style="transform: scale({scaleX},{scaleY});">
 					<SideElementsLock />
 				</div>
 
