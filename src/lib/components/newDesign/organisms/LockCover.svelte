@@ -120,7 +120,14 @@
 </script>
 
 <!-- Wrapper with responsive positioning for all lock elements -->
-<div class="fixed inset-0 h-full w-full overflow-hidden">
+<!-- Reason for pointer-events-none conditional: The only relevant pieces with which the
+  user can interact, are hidden behind the controls lock. -->
+<div
+	class={{
+		'fixed inset-0 h-full w-full overflow-hidden': true,
+		'pointer-events-none': unlockProgress?.unlockedControls || unlockControls
+	}}
+>
 	<!-- SigilLock at top -->
 	{#if !unlockProgress?.unlockedRank}
 		{#if !unlockRank}
@@ -133,7 +140,7 @@
 				</div>
 
 				<div
-					class="absolute z-10"
+					class="pointer-events-auto absolute z-10"
 					style="transform: translate({210 + offsetXElement1}px, {-150 +
 						offsetYElement1}px) scale({scaleX})"
 				>
@@ -160,7 +167,7 @@
 				</div>
 
 				<div
-					class="absolute z-10"
+					class="pointer-events-auto absolute z-10"
 					style="transform: translate({30 + offsetXElement2}px, {-120 -
 						offsetYElement2}px) scale({scaleX})"
 				>
@@ -186,7 +193,7 @@
 				</div>
 
 				<div
-					class="absolute z-10"
+					class="pointer-events-auto absolute z-10"
 					style="transform: translate({40 - offsetXElement3}px, {-237 -
 						offsetYElement3}px) scale({scaleX})"
 				>
