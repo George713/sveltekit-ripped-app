@@ -17,6 +17,9 @@
 
 	let { data }: Props = $props();
 
+	// When the user chooses bia method to unlock their sigil
+	const unlockProcess = $derived(page.url.searchParams.get('unlock') === 'true');
+
 	let inputValue = $state(data.bodyfat !== null ? data.bodyfat : '');
 	let inputElement: HTMLInputElement;
 
@@ -40,13 +43,19 @@
 				method: 'POST',
 				body: formData
 			});
-			goto(
-				'/bodyfat/reveal?oldBodyfat=' +
-					page.data.user.currentBF +
-					'&previousRank=' +
-					page.data.user.currentStatus,
-				{ invalidateAll: true }
-			);
+			if (unlockProcess) {
+				goto('/bodyfat/reveal?oldBodyfat=50' + '&previousRank=tbd', {
+					invalidateAll: true
+				});
+			} else {
+				goto(
+					'/bodyfat/reveal?oldBodyfat=' +
+						page.data.user.currentBF +
+						'&previousRank=' +
+						page.data.user.currentStatus,
+					{ invalidateAll: true }
+				);
+			}
 		} catch (error) {
 			// Handle error
 		}
@@ -56,11 +65,16 @@
 
 <div class="relative mt-3 flex w-full items-center justify-center">
 	<div class="absolute left-2">
-		<Minimizer direction="left" onclick={() => goto('/bodyfat')} />
+		<Minimizer
+			direction="left"
+			onclick={() => goto(unlockProcess ? '/unlock/rank?step=6' : '/bodyfat')}
+		/>
 	</div>
 	<div class="flex items-center justify-center space-x-2">
 		<Crest color="fill-stone-400" />
-		<p class="font-medium text-stone-400">Update your Body Fat</p>
+		<p class="font-medium text-stone-400">
+			{unlockProcess ? 'Unlock your Crest' : 'Update your Body Fat'}
+		</p>
 	</div>
 </div>
 <div class="mt-10 flex -translate-x-4 transform items-center justify-center space-x-4">
@@ -97,7 +111,7 @@
 	<p class="font-bold text-stone-200">Body fat percentage:</p>
 
 	<div class="flex w-full justify-center">
-		<div class="flex w-24 space-x-1 rounded border border-stone-400 p-2">
+		<div class="flex w-24 space-x-1 rounded border border-stone-400 p-2 text-stone-200">
 			<input
 				id="bodyfat"
 				type="number"
