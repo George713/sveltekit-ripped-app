@@ -18,10 +18,10 @@
 		method = selected;
 
 		const target = {
-			navy: '/link1',
-			bia: '/link2',
-			comparison: '/link3',
-			doItLater: '/link4'
+			navy: '/bodyfat/navy?unlock=true',
+			bia: '/bodyfat/bia?unlock=true',
+			comparison: '/bodyfat/comparison',
+			doItLater: '/'
 		}[method];
 
 		setTimeout(() => {
