@@ -33,8 +33,10 @@
 	let showFireworks = $state(false);
 	let showEnvelope = $state(false);
 
+	const initialUnlock = previousRank === 'tbd';
+
 	const message = $derived(
-		previousRank === 'tbd'
+		initialUnlock
 			? `I started off well in the wood percentages, but I am on my way to Bronze right now. Meet you in ${newRank === 'Platinum' ? 'Platinum' : 'Gold'}? ;-)`
 			: `I see you just left the ${previousRank} percentages! Take it from someone who is also fighting the battle against fat: Congratulations! This is truly amazing. Job well done! :-)`
 	);
@@ -51,7 +53,7 @@
 							if (rankImproved) {
 								setTimeout(() => {
 									// Show fireworks not during initial unlock process
-									if (previousRank !== 'tbd') {
+									if (!initialUnlock) {
 										showFireworks = true;
 									}
 									showEnvelope = true;
@@ -62,7 +64,7 @@
 						showFireworks = true;
 					}
 				},
-				previousRank !== 'tbd' ? 2500 : 0
+				initialUnlock ? 0 : 2500
 			); // Roll percentages immediately after initial unlock
 		}, 500);
 	});
@@ -179,7 +181,7 @@
 			}}
 		/>
 	</div>
-	{#if previousRank !== 'tbd'}
+	{#if !initialUnlock}
 		<div class="flex">
 			<p class="w-1/2 font-medium text-stone-400">Change:</p>
 			<NumberFlow
@@ -238,6 +240,15 @@
 			<Envelope shake={true} />
 		</button>
 	{:else}
-		<Minimizer onclick={() => goto('/')} direction="down" />
+		<Minimizer
+			onclick={() => {
+				if (initialUnlock) {
+					goto('/?unlockRank=true');
+				} else {
+					goto('/');
+				}
+			}}
+			direction="down"
+		/>
 	{/if}
 </div>
