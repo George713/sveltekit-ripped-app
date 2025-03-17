@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { page } from '$app/state';
 	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
 	import Sigil from '$lib/components/newDesign/atoms/Sigil.svelte';
 	import Arrow from '$lib/components/newDesign/icons/Arrow.svelte';
@@ -7,7 +8,7 @@
 	import { innerHeight } from 'svelte/reactivity/window';
 	import { fade, slide } from 'svelte/transition';
 
-	let progressState = $state(0);
+	let progressState = $state(Number(page.url.searchParams.get('step')) || 0);
 	let sex = $state<'male' | 'female' | undefined>(undefined);
 	let method = $state<'navy' | 'bia' | 'comparison' | 'doItLater' | undefined>(undefined);
 

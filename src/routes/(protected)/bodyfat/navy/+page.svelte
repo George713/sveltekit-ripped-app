@@ -13,6 +13,9 @@
 
 	let { data } = $props();
 
+	// When the user chooses navy method to unlock their sigil
+	let unlockProcess = $state(page.url.searchParams.get('unlock') === 'true');
+
 	let progressState = $state((data.heightCm || 0) > 0 ? 1 : 0);
 	let height = $state(data.heightCm || 0);
 	let neck = $state(data.neckCm || 0);
@@ -118,11 +121,16 @@
 
 <div class="relative mt-3 flex w-full items-center justify-center">
 	<div class="absolute left-2">
-		<Minimizer direction="left" onclick={() => goto('/bodyfat')} />
+		<Minimizer
+			direction="left"
+			onclick={() => goto(unlockProcess ? '/unlock/rank?step=6' : '/bodyfat')}
+		/>
 	</div>
 	<div class="flex items-center justify-center space-x-2">
 		<Crest color="fill-stone-400" />
-		<p class="font-medium text-stone-400">Update your Body Fat</p>
+		<p class="font-medium text-stone-400">
+			{unlockProcess ? 'Unlock your Crest' : 'Update your Body Fat'}
+		</p>
 	</div>
 </div>
 <div class="mt-10 flex -translate-x-4 transform items-center justify-center space-x-4">
