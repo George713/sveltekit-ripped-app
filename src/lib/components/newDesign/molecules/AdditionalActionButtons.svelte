@@ -10,7 +10,7 @@
 		glow={false}
 		size="small"
 		icon="insignia"
-		disabled={page.data.user.enterBodyfatToday}
+		disabled={!page.data.user.enterBodyfatToday}
 		hidden={!page.data.user.enterBodyfatToday}
 		onclick={() => goto('/bodyfat')}
 	/>
