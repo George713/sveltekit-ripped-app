@@ -1,7 +1,9 @@
 <script lang="ts">
 </script>
 
-<div class="absolute top-0 z-30 flex h-full w-full items-center justify-center bg-slate-600/60">
+<div
+	class="absolute top-0 z-30 flex h-full w-full items-center justify-center bg-slate-600/60 backdrop-blur-xs"
+>
 	<svg
 		aria-hidden="true"
 		class="h-8 w-8 animate-spin fill-blue-600"
