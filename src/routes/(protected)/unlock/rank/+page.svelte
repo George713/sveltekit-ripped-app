@@ -32,8 +32,6 @@
 	};
 </script>
 
-<!-- <button onclick={() => goto('/?unlockRank=true')}> Back </button> -->
-
 {#snippet btn(text: string, onclick: () => void, selected: boolean)}
 	<button
 		class={{
