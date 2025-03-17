@@ -14,7 +14,7 @@
 	let { data } = $props();
 
 	// When the user chooses navy method to unlock their sigil
-	let unlockProcess = $state(page.url.searchParams.get('unlock') === 'true');
+	const unlockProcess = $derived(page.url.searchParams.get('unlock') === 'true');
 
 	let progressState = $state((data.heightCm || 0) > 0 ? 1 : 0);
 	let height = $state(data.heightCm || 0);
