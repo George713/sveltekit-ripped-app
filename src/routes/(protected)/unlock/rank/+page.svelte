@@ -4,9 +4,10 @@
 	import Sigil from '$lib/components/newDesign/atoms/Sigil.svelte';
 	import Arrow from '$lib/components/newDesign/icons/Arrow.svelte';
 	import Crest from '$lib/components/newDesign/icons/Crest.svelte';
+	import { innerHeight } from 'svelte/reactivity/window';
 	import { fade, slide } from 'svelte/transition';
 
-	let progressState = $state(5);
+	let progressState = $state(0);
 	let sex = $state<'male' | 'female' | undefined>(undefined);
 	let method = $state<'navy' | 'bia' | 'comparison' | 'doItLater' | undefined>(undefined);
 
@@ -87,27 +88,32 @@
 				</div>
 			</div>
 		{/if}
-		{#if progressState >= 3 && progressState <= 5}
-			<p
-				class={{
-					'text-stone-200': progressState === 3,
-					'text-stone-600': progressState !== 3
-				}}
-				transition:slide={{ duration: 1000 }}
-			>
-				There are different techniques for estimating your body fat percentage.
-			</p>
+		{#if progressState >= 3}
+			<!-- innerHeight is used to handle different screen sizes -->
+			{#if (innerHeight.current as number) > 779 || progressState < 6}
+				<p
+					class={{
+						'text-stone-200': progressState === 3,
+						'text-stone-600': progressState !== 3
+					}}
+					transition:slide={{ duration: 1000 }}
+				>
+					There are different techniques for estimating your body fat percentage.
+				</p>
+			{/if}
 		{/if}
 		{#if progressState >= 4}
-			<p
-				class={{
-					'text-stone-200': progressState === 4,
-					'text-stone-600': progressState !== 4
-				}}
-				transition:slide={{ duration: 1000 }}
-			>
-				We recommend using the Navy method (requires a measurement tape) for its consistency...
-			</p>
+			{#if (innerHeight.current as number) > 720 || progressState < 6}
+				<p
+					class={{
+						'text-stone-200': progressState === 4,
+						'text-stone-600': progressState !== 4
+					}}
+					transition:slide={{ duration: 1000 }}
+				>
+					We recommend using the Navy method (requires a measurement tape) for its consistency...
+				</p>
+			{/if}
 		{/if}
 		{#if progressState >= 5}
 			<p
