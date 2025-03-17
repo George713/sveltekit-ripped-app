@@ -81,6 +81,10 @@ export const uploadToS3 = async (fileBlob: Blob, presignedURL: string) => {
 }
 
 export const getCurrentCrestLevel = (bodyfatPercentage: number, isMale: boolean) => {
+    // This if clause triggers when no measurement has been taken yet
+    if (bodyfatPercentage === 999) {
+        return "tbd";
+    }
     if (isMale) {
         if (bodyfatPercentage >= 20) {
             return "wood";
@@ -106,7 +110,8 @@ export const getCurrentCrestLevel = (bodyfatPercentage: number, isMale: boolean)
             return "platinum";
         }
     }
-    return "notEvaluatedYet"
+    // Default return to ensure the function always returns a string
+    return "tbd";
 }
 
 export const calculateBasePoints = (currentStatus: string) => {
