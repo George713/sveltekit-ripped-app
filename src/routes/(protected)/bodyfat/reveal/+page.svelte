@@ -16,7 +16,6 @@
 	const isValidRank = (rank: string): rank is RankType => {
 		return ['tbd', 'wood', 'bronze', 'silver', 'gold', 'platinum'].includes(rank);
 	};
-
 	const rawPreviousRank = page.url.searchParams.get('previousRank') || 'wood';
 	const previousRank: RankType = isValidRank(rawPreviousRank) ? rawPreviousRank : 'wood';
 	const newRank = page.data.user.currentStatus;
@@ -26,7 +25,6 @@
 		['wood', 'bronze', 'silver', 'gold', 'platinum'].indexOf(previousRank);
 
 	let showPreviousRank = $state(true);
-
 	const oldBodyfat = parseFloat(page.url.searchParams.get('oldBodyfat') || '0');
 	const newBodyfat = page.data.user.currentBF;
 	let bodyfat = $state(oldBodyfat);
@@ -35,25 +33,37 @@
 	let showFireworks = $state(false);
 	let showEnvelope = $state(false);
 
+	const message = $derived(
+		previousRank === 'tbd'
+			? `I started off well in the wood percentages, but I am on my way to Bronze right now. Meet you in ${newRank === 'Platinum' ? 'Platinum' : 'Gold'}? ;-)`
+			: `I see you just left the ${previousRank} percentages! Take it from someone who is also fighting the battle against fat: Congratulations! This is truly amazing. Job well done! :-)`
+	);
+
 	onMount(() => {
 		setTimeout(() => {
 			change = newBodyfat - oldBodyfat;
-			setTimeout(() => {
-				bodyfat = newBodyfat;
-				if (rankChanged) {
-					setTimeout(() => {
-						showPreviousRank = false;
-						if (rankImproved) {
-							setTimeout(() => {
-								showFireworks = true;
-								showEnvelope = true;
-							}, 4000);
-						}
-					}, 2500);
-				} else if (change < 0) {
-					showFireworks = true;
-				}
-			}, 2500);
+			setTimeout(
+				() => {
+					bodyfat = newBodyfat;
+					if (rankChanged) {
+						setTimeout(() => {
+							showPreviousRank = false;
+							if (rankImproved) {
+								setTimeout(() => {
+									// Show fireworks not during initial unlock process
+									if (previousRank !== 'tbd') {
+										showFireworks = true;
+									}
+									showEnvelope = true;
+								}, 4000);
+							}
+						}, 2500);
+					} else if (change < 0) {
+						showFireworks = true;
+					}
+				},
+				previousRank !== 'tbd' ? 2500 : 0
+			); // Roll percentages immediately after initial unlock
 		}, 500);
 	});
 
@@ -169,35 +179,37 @@
 			}}
 		/>
 	</div>
-	<div class="flex">
-		<p class="w-1/2 font-medium text-stone-400">Change:</p>
-		<NumberFlow
-			plugins={[continuous]}
-			class={{
-				'w-1/3 text-right': true,
-				'text-stone-400': change === 0,
-				'text-emerald-500': change < 0,
-				'text-rose-700': change > 0
-			}}
-			trend={+1}
-			value={change}
-			style="percent"
-			prefix={change > 0 ? '+' : ''}
-			format={{ minimumFractionDigits: 1, maximumFractionDigits: 1 }}
-			suffix="%"
-			spinTiming={{
-				// Used for the digit spin animations.
-				// Will fall back to `transformTiming` if unset:
-				duration: 2000,
-				easing: 'ease-in-out'
-			}}
-			opacityTiming={{
-				// Used for fading in/out characters:
-				duration: 750,
-				easing: 'ease-out'
-			}}
-		/>
-	</div>
+	{#if previousRank !== 'tbd'}
+		<div class="flex">
+			<p class="w-1/2 font-medium text-stone-400">Change:</p>
+			<NumberFlow
+				plugins={[continuous]}
+				class={{
+					'w-1/3 text-right': true,
+					'text-stone-400': change === 0,
+					'text-emerald-500': change < 0,
+					'text-rose-700': change > 0
+				}}
+				trend={+1}
+				value={change}
+				style="percent"
+				prefix={change > 0 ? '+' : ''}
+				format={{ minimumFractionDigits: 1, maximumFractionDigits: 1 }}
+				suffix="%"
+				spinTiming={{
+					// Used for the digit spin animations.
+					// Will fall back to `transformTiming` if unset:
+					duration: 2000,
+					easing: 'ease-in-out'
+				}}
+				opacityTiming={{
+					// Used for fading in/out characters:
+					duration: 750,
+					easing: 'ease-out'
+				}}
+			/>
+		</div>
+	{/if}
 </div>
 <div
 	class="flex grow -translate-x-[2%] flex-col items-center space-y-2 text-xl text-white opacity-70"
@@ -218,7 +230,7 @@
 				showEnvelope = false;
 				toastManager.addToast({
 					type: 'note',
-					message: `I see you just left the ${previousRank} percentages! Take it from someone who is also fighting the battle against fat: Congratulations! This is truly amazing. Job well done! :-)`,
+					message: message,
 					timeout: 60000
 				});
 			}}

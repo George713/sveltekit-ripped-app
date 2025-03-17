@@ -71,13 +71,19 @@
 				method: 'POST',
 				body: formData
 			});
-			goto(
-				'/bodyfat/reveal?oldBodyfat=' +
-					page.data.user.currentBF +
-					'&previousRank=' +
-					page.data.user.currentStatus,
-				{ invalidateAll: true }
-			);
+			if (unlockProcess) {
+				goto('/bodyfat/reveal?oldBodyfat=50' + '&previousRank=tbd', {
+					invalidateAll: true
+				});
+			} else {
+				goto(
+					'/bodyfat/reveal?oldBodyfat=' +
+						page.data.user.currentBF +
+						'&previousRank=' +
+						page.data.user.currentStatus,
+					{ invalidateAll: true }
+				);
+			}
 		} catch (error) {
 			// Handle error
 		}
