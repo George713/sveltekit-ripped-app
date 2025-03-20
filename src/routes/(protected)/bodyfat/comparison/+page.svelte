@@ -1,0 +1,133 @@
+<script lang="ts">
+	import { goto } from '$app/navigation';
+	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
+	import Sigil from '$lib/components/newDesign/atoms/Sigil.svelte';
+	import Arrow from '$lib/components/newDesign/icons/Arrow.svelte';
+	import Crest from '$lib/components/newDesign/icons/Crest.svelte';
+	import { Carousel, CarouselItem } from '$lib/components/newDesign/molecules/carousel';
+	import { sineInOut, sineOut } from 'svelte/easing';
+	import { innerHeight } from 'svelte/reactivity/window';
+	import { slide } from 'svelte/transition';
+
+	let progressState = $state(0);
+
+	// Image item type
+	interface ImageItem {
+		src: string;
+		alt: string;
+		value: string;
+	}
+
+	// Images for the carousel
+	const images: ImageItem[] = [
+		{ src: '/comparison/men/sub10.webp', alt: 'Sub 10% body fat', value: 'sub10' },
+		{ src: '/comparison/men/10to12.webp', alt: '10-12% body fat', value: '10to12' },
+		{ src: '/comparison/men/12to15.webp', alt: '12-15% body fat', value: '12to15' },
+		{ src: '/comparison/men/15to20.webp', alt: '15-20% body fat', value: '15to20' },
+		{ src: '/comparison/men/20plus.webp', alt: '20+% body fat', value: '20plus' }
+	];
+
+	let selectedIndex = $state(4);
+</script>
+
+<div class="relative mt-3 flex w-full items-center justify-center">
+	<div class="absolute left-2">
+		<Minimizer direction="left" onclick={() => goto('/unlock/rank?step=6')} />
+	</div>
+	<div class="flex items-center justify-center space-x-2">
+		<Crest color="fill-stone-400" />
+		<p class="font-medium text-stone-400">Unlock your Crest</p>
+	</div>
+</div>
+<div class="mt-10 flex -translate-x-4 transform items-center justify-center space-x-4">
+	<Sigil rank="tbd" size="small" />
+	<div class="flex flex-col font-medium text-stone-200">
+		<p>By</p>
+		<p class="text-2xl">Comparison</p>
+	</div>
+</div>
+
+<div
+	class={{
+		'flex flex-none grow flex-col items-center justify-end transition-all delay-1000 duration-1000 ease-in-out': true
+	}}
+>
+	<div class="px-14 text-sm">
+		<!-- When all elements are visible, hide first paragraph if screen is too small. -->
+		{#if !(progressState === 3 && (innerHeight.current as number) < 724)}
+			<p
+				class={{
+					'transition-colors duration-1000': true,
+					'text-stone-200': progressState === 0,
+					'text-stone-600': progressState !== 0
+				}}
+				out:slide={{ duration: 1000 }}
+			>
+				A rough estimate of our body fat levels can gathered by comparing our current composition to
+				that of others.
+			</p>
+		{/if}
+		{#if progressState >= 1}
+			<p
+				class={{
+					'mt-4 transition-colors duration-1000': true,
+					'text-stone-200': progressState === 1,
+					'text-stone-600': progressState !== 1
+				}}
+				in:slide={{ duration: 1000, easing: sineInOut }}
+			>
+				In a moment you can match a body composition best describing your current stage.
+			</p>
+		{/if}
+		{#if progressState >= 2}
+			<p
+				class={{
+					'mt-4 transition-colors duration-2000': true,
+					'text-stone-200': progressState === 2,
+					'text-stone-600': progressState !== 2
+				}}
+				in:slide={{ duration: 2000 }}
+			>
+				Keep in mind that this is just an estimate to get you started. Every four weeks a new
+				measurement can be entered using more precise methods.
+			</p>
+		{/if}
+	</div>
+	{#if progressState !== 3}
+		<div class="mt-8 mb-4" out:slide={{ duration: 1000 }}>
+			<Arrow onclick={() => progressState++} />
+		</div>
+	{/if}
+</div>
+{#if progressState === 3}
+	<div class="mt-4 mb-8 w-full" transition:slide={{ duration: 1000 }}>
+		<Carousel bind:selectedIndex>
+			{#each images as image, index}
+				<CarouselItem {index}>
+					<img src={image.src} alt={image.alt} class="rounded-[5px]" />
+				</CarouselItem>
+			{/each}
+
+			<!-- Alternative card -->
+			<CarouselItem index={images.length}>
+				<div
+					class="flex h-[140px] w-[120px] flex-col items-center justify-center space-y-4 p-2 text-center"
+				>
+					<p class="text-xs text-stone-200">
+						If you think you are beyond this scale, this is fine.
+					</p>
+					<p class="text-xs text-stone-200">Just select this card.</p>
+				</div>
+			</CarouselItem>
+		</Carousel>
+
+		<div class="mt-4 flex w-full justify-center">
+			<button
+				class="rounded bg-indigo-600 px-5 py-2 font-bold text-stone-200 disabled:bg-stone-600 disabled:text-stone-400"
+				onclick={() => {}}
+			>
+				Confirm
+			</button>
+		</div>
+	</div>
+{/if}
