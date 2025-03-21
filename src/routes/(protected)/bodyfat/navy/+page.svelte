@@ -94,9 +94,9 @@
 
 {#snippet input(header: string, text: string, id: string, active: boolean, value: number)}
 	<div
-		transition:slide={{ duration: 750 }}
+		transition:slide={{ duration: 1000 }}
 		class={{
-			'flex w-full flex-col space-y-4 px-14': true,
+			'flex w-full flex-col space-y-4 px-14 transition-colors duration-1000': true,
 			'text-stone-200': active,
 			'text-stone-600': !active
 		}}
@@ -168,14 +168,16 @@
 		)}
 	{/if}
 </div>
-<div class="mt-16 mb-14 flex w-full justify-center">
+<div class="mb-14 flex flex-col items-center">
 	{#if progressState < 2}
-		<Arrow disabled={isInputEmpty} onclick={() => progressState++} />
+		<div class="mt-16" transition:slide={{ duration: 1000 }}>
+			<Arrow disabled={isInputEmpty} onclick={() => progressState++} />
+		</div>
 	{:else}
 		<button
-			class="rounded bg-indigo-600 px-4 py-3 font-bold text-stone-200 disabled:bg-stone-600 disabled:text-stone-400"
+			class="mt-10 rounded bg-indigo-600 px-4 py-3 font-bold text-stone-200 disabled:bg-stone-600 disabled:text-stone-400"
 			disabled={isInputEmpty}
-			transition:fade
+			transition:slide={{ duration: 1000 }}
 			onclick={onSubmit}
 		>
 			Calculate BF%
