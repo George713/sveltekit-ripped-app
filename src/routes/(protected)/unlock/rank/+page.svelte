@@ -52,16 +52,15 @@
 		<Crest />
 		<p class="font-medium text-stone-200">Unlock your Crest</p>
 	</div>
-	<div
-		class="flex w-full grow flex-col justify-end space-y-4 px-14 text-sm"
-		transition:slide={{ duration: 1000 }}
-	>
+	<div class="flex w-full grow flex-col justify-end px-14 text-sm">
 		{#if progressState >= 0 && progressState <= 2}
 			<p
 				class={{
+					'transition-colors duration-1000': true,
 					'text-stone-200': progressState === 0,
 					'text-stone-600': progressState !== 0
 				}}
+				out:slide={{ duration: 1000 }}
 			>
 				Many people strive for a lower weight, when it is lower body fat they should be aiming for.
 			</p>
@@ -69,6 +68,7 @@
 		{#if progressState >= 1 && progressState <= 2}
 			<p
 				class={{
+					'mt-4 transition-colors duration-1000': true,
 					'text-stone-200': progressState === 1,
 					'text-stone-600': progressState !== 1
 				}}
@@ -78,7 +78,7 @@
 			</p>
 		{/if}
 		{#if progressState === 2}
-			<div class="space-y-4 text-stone-200" transition:slide={{ duration: 1000 }}>
+			<div class="mt-4 space-y-4 text-stone-200" transition:slide={{ duration: 2000 }}>
 				<p>What a healthy body fat percentage is depends on your sex.</p>
 				<p class="font-medium">I am:</p>
 				<div class="flex justify-center space-x-2">
@@ -87,36 +87,36 @@
 				</div>
 			</div>
 		{/if}
-		{#if progressState >= 3}
-			<!-- innerHeight is used to handle different screen sizes -->
-			{#if (innerHeight.current as number) > 779 || progressState < 6}
-				<p
-					class={{
-						'text-stone-200': progressState === 3,
-						'text-stone-600': progressState !== 3
-					}}
-					transition:slide={{ duration: 1000 }}
-				>
-					There are different techniques for estimating your body fat percentage.
-				</p>
-			{/if}
+		<!-- innerHeight is used to handle different screen sizes -->
+		{#if progressState >= 3 && ((innerHeight.current as number) > 779 || progressState < 6)}
+			<p
+				class={{
+					'transition-colors duration-1000': true,
+					'text-stone-200': progressState === 3,
+					'text-stone-600': progressState !== 3
+				}}
+				in:slide={{ duration: 1000 }}
+				out:slide={{ duration: 2000 }}
+			>
+				There are different techniques for estimating your body fat percentage.
+			</p>
 		{/if}
-		{#if progressState >= 4}
-			{#if (innerHeight.current as number) > 720 || progressState < 6}
-				<p
-					class={{
-						'text-stone-200': progressState === 4,
-						'text-stone-600': progressState !== 4
-					}}
-					transition:slide={{ duration: 1000 }}
-				>
-					We recommend using the Navy method (requires a measurement tape) for its consistency...
-				</p>
-			{/if}
+		{#if progressState >= 4 && ((innerHeight.current as number) > 720 || progressState < 6)}
+			<p
+				class={{
+					'mt-4 transition-colors duration-1000': true,
+					'text-stone-200': progressState === 4,
+					'text-stone-600': progressState !== 4
+				}}
+				transition:slide={{ duration: 1000 }}
+			>
+				We recommend using the Navy method (requires a measurement tape) for its consistency...
+			</p>
 		{/if}
 		{#if progressState >= 5}
 			<p
 				class={{
+					'mt-4 transition-colors duration-1000': true,
 					'text-stone-200': progressState === 5,
 					'text-stone-600': progressState !== 5
 				}}
@@ -126,7 +126,7 @@
 			</p>
 		{/if}
 		{#if progressState === 6}
-			<div class="space-y-4 text-stone-200" transition:slide={{ duration: 1000 }}>
+			<div class="mt-4 space-y-4 text-stone-200" transition:slide={{ duration: 2000 }}>
 				<p>
 					If you don’t have either available right now, you can also guess your body fat percentage
 					by comparing with reference pictures.
@@ -144,9 +144,14 @@
 		}}
 	>
 		{#if progressState < 6}
-			<Arrow disabled={progressState === 2 && sex === undefined} onclick={() => progressState++} />
+			<div transition:slide={{ duration: 2000 }}>
+				<Arrow
+					disabled={progressState === 2 && sex === undefined}
+					onclick={() => progressState++}
+				/>
+			</div>
 		{:else}
-			<div class="space-y-2" transition:fade={{ delay: 1000 }}>
+			<div class="space-y-2" transition:slide={{ duration: 2000 }}>
 				<div class="flex justify-center space-x-2">
 					{@render btn('Navy', () => selectMethod('navy'), method === 'navy')}
 					{@render btn('BIA', () => selectMethod('bia'), method === 'bia')}
