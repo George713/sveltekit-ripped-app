@@ -51,6 +51,7 @@
 				// Swipe right - show previous item
 				carouselManager.selectedItemIndex--;
 			}
+			selectedIndex = carouselManager.selectedItemIndex;
 		}
 
 		isDragging = false;
