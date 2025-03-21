@@ -4,9 +4,16 @@
 		smallText?: boolean;
 		onclick?: () => void;
 		isRotated?: boolean;
+		isHighlighted?: boolean;
 	}
 
-	const { text, smallText = false, onclick, isRotated = false }: Props = $props();
+	const {
+		text,
+		smallText = false,
+		onclick,
+		isRotated = false,
+		isHighlighted = false
+	}: Props = $props();
 </script>
 
 <button class="flex flex-col items-center" {onclick}>
@@ -28,8 +35,65 @@
 		class="opacity-80 transition-transform duration-2500 ease-in-out"
 		class:rotate-90={isRotated}
 	>
+		<defs>
+			<linearGradient id="shineGradient" x1="-100%" y1="-100%" x2="100%" y2="100%">
+				<stop offset="-50%" stop-color="rgba(238, 238, 238, 0.01)" />
+				<stop offset="0%" stop-color="rgba(238, 238, 238, 0.01)" />
+				<stop offset="50%" stop-color="rgba(245, 245, 245, 0.2)" />
+				<stop offset="100%" stop-color="rgba(238, 238, 238, 0.01)" />
+				<stop offset="150%" stop-color="rgba(238, 238, 238, 0.01)" />
+				<animate
+					attributeName="x1"
+					values="-100%;100%"
+					dur="3.0s"
+					begin="0s"
+					repeatCount="indefinite"
+					keyTimes="0;1"
+					keySplines="0.1 0.8 0.9 1"
+					calcMode="spline"
+				/>
+				<animate
+					attributeName="y1"
+					values="-100%;100%"
+					dur="3.0s"
+					begin="0s"
+					repeatCount="indefinite"
+					keyTimes="0;1"
+					keySplines="0.1 0.8 0.9 1"
+					calcMode="spline"
+				/>
+				<animate
+					attributeName="x2"
+					values="0%;200%"
+					dur="3.0s"
+					begin="0s"
+					repeatCount="indefinite"
+					keyTimes="0;1"
+					keySplines="0.1 0.8 0.9 1"
+					calcMode="spline"
+				/>
+				<animate
+					attributeName="y2"
+					values="0%;200%"
+					dur="3.0s"
+					begin="0s"
+					repeatCount="indefinite"
+					keyTimes="0;1"
+					keySplines="0.1 0.8 0.9 1"
+					calcMode="spline"
+				/>
+			</linearGradient>
+		</defs>
 		<g style="mix-blend-mode:color-dodge" filter="url(#filter0_ii_1486_1790)">
 			<circle cx="35" cy="35" r="34.5" class="fill-stone-700 stroke-stone-600" />
+			<circle
+				cx="35"
+				cy="35"
+				r="34.5"
+				fill="url(#shineGradient)"
+				opacity="0.5"
+				class={{ hidden: !isHighlighted }}
+			/>
 			<circle cx="35" cy="35" r="31.5" class="stroke-stone-600" />
 			<circle cx="35" cy="35" r="28.5" class="stroke-stone-600" />
 			<circle cx="35" cy="35" r="25.5" class="stroke-stone-600" />
@@ -38,6 +102,14 @@
 		</g>
 		<g style="mix-blend-mode:color-dodge" filter="url(#filter1_ii_1486_1790)">
 			<circle cx="35" cy="35" r="22" class="fill-stone-700" />
+			<circle
+				cx="35"
+				cy="35"
+				r="22"
+				fill="url(#shineGradient)"
+				opacity="0.5"
+				class={{ hidden: !isHighlighted }}
+			/>
 			<circle cx="35" cy="35" r="18.5" class="stroke-stone-600" />
 			<circle cx="35" cy="35" r="15.5" class="stroke-stone-600" />
 			<circle cx="35" cy="35" r="12.5" class="stroke-stone-600" />

@@ -148,6 +148,7 @@
 						text="Unlock Rank"
 						onclick={() => goto('/unlock/rank')}
 						isRotated={startUnlockAnimationRank}
+						isHighlighted={!startUnlockAnimationRank}
 					/>
 				</div>
 			</div>
@@ -155,7 +156,6 @@
 	{/if}
 
 	<!-- ControlsLock at bottom -->
-
 	{#if !unlockProgress?.unlockedControls}
 		{#if !unlockControls}
 			<div
