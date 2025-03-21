@@ -40,8 +40,7 @@ export const actions: Actions = {
                 neckCm,
                 hipCm,
                 bodyfat,
-                method: 'navy',
-                createdAt: new Date()
+                method: 'navy'
             }
         });
     }

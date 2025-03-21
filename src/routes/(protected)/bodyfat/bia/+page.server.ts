@@ -27,8 +27,7 @@ export const actions: Actions = {
             data: {
                 userId: locals.user.id,
                 bodyfat,
-                method: 'bia',
-                createdAt: new Date()
+                method: 'bia'
             }
         });
     }
