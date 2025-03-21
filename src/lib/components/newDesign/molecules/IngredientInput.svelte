@@ -31,7 +31,7 @@
 				<FastSpinner />
 			</div>
 		{:else if audioRecorder.isRecording}
-			<p class="mt-1 flex h-9 items-center justify-center text-center text-sm text-stone-200">
+			<p class="mt-1 flex min-h-9 items-center justify-center text-center text-sm text-stone-200">
 				{#if audioRecorder.isListening}
 					Listening...
 				{:else}
