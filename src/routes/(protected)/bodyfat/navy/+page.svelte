@@ -92,9 +92,16 @@
 	};
 </script>
 
-{#snippet input(header: string, text: string, id: string, active: boolean, value: number)}
+{#snippet input(
+	header: string,
+	text: string,
+	id: string,
+	active: boolean,
+	value: number,
+	disableTransition: boolean = false // by disabling the transition for the first element, loading the page looks nicer
+)}
 	<div
-		in:slide={{ duration: 1000 }}
+		in:slide={{ duration: disableTransition ? 0 : 1000 }}
 		class={{
 			'flex w-full flex-col space-y-4 px-14 transition-colors duration-1000': true,
 			'text-stone-200': active,
@@ -148,7 +155,14 @@
 </div>
 
 <div class="flex grow flex-col justify-end space-y-4">
-	{@render input('Step #1:', 'Measure your height (in cm):', 'height', progressState === 0, height)}
+	{@render input(
+		'Step #1:',
+		'Measure your height (in cm):',
+		'height',
+		progressState === 0,
+		height,
+		true
+	)}
 	{#if progressState >= 1}
 		{@render input(
 			'Step #2:',

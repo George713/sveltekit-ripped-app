@@ -99,7 +99,6 @@
 			'text-stone-200': progressState === 0,
 			'text-stone-600': progressState !== 0
 		}}
-		in:slide={{ duration: 1000 }}
 	>
 		During the bioelectrical impedance analysis (BIA) a weak electrical current flows through the
 		body.
