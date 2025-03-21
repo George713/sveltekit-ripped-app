@@ -31,7 +31,7 @@
 		{ src: '/comparison/men/38plus.webp', alt: '38+% body fat', value: '40' }
 	];
 
-	let progressState = $state(3);
+	let progressState = $state(0);
 	let selectedIndex = $state(6);
 	const bodyfat = $derived(selectedIndex === images.length ? '45' : images[selectedIndex].value);
 
