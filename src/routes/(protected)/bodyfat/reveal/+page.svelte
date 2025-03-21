@@ -16,6 +16,7 @@
 	const isValidRank = (rank: string): rank is RankType => {
 		return ['tbd', 'wood', 'bronze', 'silver', 'gold', 'platinum'].includes(rank);
 	};
+	const isEstimation = page.url.searchParams.get('estimation') === 'true';
 	const rawPreviousRank = page.url.searchParams.get('previousRank') || 'wood';
 	const previousRank: RankType = isValidRank(rawPreviousRank) ? rawPreviousRank : 'wood';
 	const newRank = page.data.user.currentStatus;
@@ -160,13 +161,16 @@
 
 <div class="mb-8 flex flex-col justify-center space-y-2 text-right">
 	<div class="flex items-center">
-		<p class="w-1/2 leading-5 font-medium text-stone-200">Your current body fat percentage is:</p>
+		<p class="w-1/2 leading-5 font-medium text-stone-200">
+			Your current body fat percentage is{isEstimation ? ' roughly' : ''}:
+		</p>
 		<NumberFlow
 			plugins={[continuous]}
 			class="font-bungee w-1/3 text-right text-2xl text-stone-200 drop-shadow-[0px_2px_0px_rgba(79,70,229,1),0px_-2px_0px_rgba(79,70,229,1),2px_0px_0px_rgba(79,70,229,1),-2px_2px_0px_rgba(79,70,229,1)]"
 			value={bodyfat}
 			style="percent"
 			format={{ minimumFractionDigits: 1, maximumFractionDigits: 1 }}
+			prefix={isEstimation ? '~' : ''}
 			suffix="%"
 			spinTiming={{
 				// Used for the digit spin animations.
