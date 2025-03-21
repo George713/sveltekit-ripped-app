@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { innerHeight } from 'svelte/reactivity/window';
 	import { sineInOut } from 'svelte/easing';
@@ -19,21 +20,38 @@
 	}
 
 	// Images for the carousel
-	const images: ImageItem[] = [
-		{ src: '/comparison/men/sub10.webp', alt: 'Sub 10% body fat', value: '9.9' },
-		{ src: '/comparison/men/10to12.webp', alt: '10-12% body fat', value: '11' },
-		{ src: '/comparison/men/12to15.webp', alt: '12-15% body fat', value: '14' },
-		{ src: '/comparison/men/15to20.webp', alt: '15-20% body fat', value: '18' },
-		{ src: '/comparison/men/20to22.webp', alt: '20-22% body fat', value: '21' },
-		{ src: '/comparison/men/22to28.webp', alt: '22-28% body fat', value: '26' },
-		{ src: '/comparison/men/28to33.webp', alt: '28-33% body fat', value: '31' },
-		{ src: '/comparison/men/33to38.webp', alt: '33-38% body fat', value: '36' },
-		{ src: '/comparison/men/38plus.webp', alt: '38+% body fat', value: '40' }
-	];
+	const images: ImageItem[] = page.data.user.isMale
+		? [
+				{ src: '/comparison/men/sub10.webp', alt: 'Sub 10% body fat', value: '9.9' },
+				{ src: '/comparison/men/10to12.webp', alt: '10-12% body fat', value: '11' },
+				{ src: '/comparison/men/12to15.webp', alt: '12-15% body fat', value: '14' },
+				{ src: '/comparison/men/15to20.webp', alt: '15-20% body fat', value: '18' },
+				{ src: '/comparison/men/20to22.webp', alt: '20-22% body fat', value: '21' },
+				{ src: '/comparison/men/22to28.webp', alt: '22-28% body fat', value: '26' },
+				{ src: '/comparison/men/28to33.webp', alt: '28-33% body fat', value: '31' },
+				{ src: '/comparison/men/33to38.webp', alt: '33-38% body fat', value: '36' },
+				{ src: '/comparison/men/38plus.webp', alt: '38+% body fat', value: '40' }
+			]
+		: [
+				{ src: '/comparison/women/sub14.webp', alt: 'Sub 14% body fat', value: '13.9' },
+				{ src: '/comparison/women/15.webp', alt: 'Around 15% body fat', value: '15' },
+				{ src: '/comparison/women/20.webp', alt: 'Around 20% body fat', value: '20' },
+				{ src: '/comparison/women/25.webp', alt: 'Around 25% body fat', value: '25' },
+				{ src: '/comparison/women/30.webp', alt: 'Around 30% body fat', value: '30' },
+				{ src: '/comparison/women/35.webp', alt: 'Around 35% body fat', value: '35' },
+				{ src: '/comparison/women/40.webp', alt: 'Around 40% body fat', value: '40' },
+				{ src: '/comparison/women/45.webp', alt: '45+% body fat', value: '45' }
+			];
 
 	let progressState = $state(0);
 	let selectedIndex = $state(6);
-	const bodyfat = $derived(selectedIndex === images.length ? '45' : images[selectedIndex].value);
+	const bodyfat = $derived(
+		selectedIndex === images.length
+			? page.data.user.isMale
+				? '45'
+				: '50'
+			: images[selectedIndex].value
+	);
 
 	const onSubmit = async () => {
 		visibilityManager.toggleSpinnerOverlay();
