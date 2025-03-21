@@ -1,15 +1,15 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { innerHeight } from 'svelte/reactivity/window';
+	import { sineInOut } from 'svelte/easing';
+	import { slide } from 'svelte/transition';
+
 	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
 	import Sigil from '$lib/components/newDesign/atoms/Sigil.svelte';
 	import Arrow from '$lib/components/newDesign/icons/Arrow.svelte';
 	import Crest from '$lib/components/newDesign/icons/Crest.svelte';
 	import { Carousel, CarouselItem } from '$lib/components/newDesign/molecules/carousel';
-	import { sineInOut, sineOut } from 'svelte/easing';
-	import { innerHeight } from 'svelte/reactivity/window';
-	import { slide } from 'svelte/transition';
-
-	let progressState = $state(0);
+	import { visibilityManager } from '$lib/stateManagers.svelte';
 
 	// Image item type
 	interface ImageItem {
@@ -20,14 +20,38 @@
 
 	// Images for the carousel
 	const images: ImageItem[] = [
-		{ src: '/comparison/men/sub10.webp', alt: 'Sub 10% body fat', value: 'sub10' },
-		{ src: '/comparison/men/10to12.webp', alt: '10-12% body fat', value: '10to12' },
-		{ src: '/comparison/men/12to15.webp', alt: '12-15% body fat', value: '12to15' },
-		{ src: '/comparison/men/15to20.webp', alt: '15-20% body fat', value: '15to20' },
-		{ src: '/comparison/men/20plus.webp', alt: '20+% body fat', value: '20plus' }
+		{ src: '/comparison/men/sub10.webp', alt: 'Sub 10% body fat', value: '9.9' },
+		{ src: '/comparison/men/10to12.webp', alt: '10-12% body fat', value: '11' },
+		{ src: '/comparison/men/12to15.webp', alt: '12-15% body fat', value: '14' },
+		{ src: '/comparison/men/15to20.webp', alt: '15-20% body fat', value: '18' },
+		{ src: '/comparison/men/20to22.webp', alt: '20-22% body fat', value: '21' },
+		{ src: '/comparison/men/22to28.webp', alt: '22-28% body fat', value: '26' },
+		{ src: '/comparison/men/28to33.webp', alt: '28-33% body fat', value: '31' },
+		{ src: '/comparison/men/33to38.webp', alt: '33-38% body fat', value: '36' },
+		{ src: '/comparison/men/38plus.webp', alt: '38+% body fat', value: '40' }
 	];
 
-	let selectedIndex = $state(4);
+	let progressState = $state(3);
+	let selectedIndex = $state(6);
+	const bodyfat = $derived(selectedIndex === images.length ? '45' : images[selectedIndex].value);
+
+	const onSubmit = async () => {
+		visibilityManager.toggleSpinnerOverlay();
+		const formData = new FormData();
+		formData.append('bodyfat', bodyfat);
+		try {
+			await fetch('?/addBFComparison', {
+				method: 'POST',
+				body: formData
+			});
+			goto('/bodyfat/reveal?oldBodyfat=50' + '&previousRank=tbd' + '&estimation=true', {
+				invalidateAll: true
+			});
+		} catch (error) {
+			// Handle error
+		}
+		visibilityManager.toggleSpinnerOverlay();
+	};
 </script>
 
 <div class="relative mt-3 flex w-full items-center justify-center">
@@ -124,7 +148,7 @@
 		<div class="mt-4 flex w-full justify-center">
 			<button
 				class="rounded bg-indigo-600 px-5 py-2 font-bold text-stone-200 disabled:bg-stone-600 disabled:text-stone-400"
-				onclick={() => {}}
+				onclick={onSubmit}
 			>
 				Confirm
 			</button>
