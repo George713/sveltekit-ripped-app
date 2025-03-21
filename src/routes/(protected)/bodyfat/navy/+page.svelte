@@ -94,7 +94,7 @@
 
 {#snippet input(header: string, text: string, id: string, active: boolean, value: number)}
 	<div
-		transition:slide={{ duration: 1000 }}
+		in:slide={{ duration: 1000 }}
 		class={{
 			'flex w-full flex-col space-y-4 px-14 transition-colors duration-1000': true,
 			'text-stone-200': active,
