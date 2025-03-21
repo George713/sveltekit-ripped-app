@@ -89,20 +89,11 @@ export const handle: Handle = async ({ event, resolve }) => {
 		}
 	}
 
-	const session = await event.locals.getSession()
-
-	/**
-	 * Only authenticated users can access these paths and their sub-paths.
-	 * 
-	 * If you'd rather do this in your routes, see (authenticated)/app/+page.server.ts
-	 * for an example.
-	 */
-	// const auth_protected_paths = new Set(['']) //new Set(['app', 'self'])
-	// if (!session && auth_protected_paths.has(event.url.pathname.split('/')[1]))
-	// 	redirect(307, '/login')
+	// Is this needed?
+	// const session = await event.locals.getSession()
 
 	// Get user data
-	const { data, error } = await event.locals.supabase.auth.getUser()
+	const { data } = await event.locals.supabase.auth.getUser()
 
 	if (data.user) {
 		let user = await prisma.user.findUnique({
@@ -210,7 +201,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		}
 
 		// Filter out old weight information
-		user.weights = user.weights.filter(weight => weight.createdAt >= getDateDayBegin(user.timeZoneOffset, 4));
+		user.weights = user.weights.filter(weight => weight.createdAt >= getDateDayBegin(user!.timeZoneOffset, 4));
 
 		// Add collection counts to collectibles variable
 		const collection = user.collectedItems.map(item => {
