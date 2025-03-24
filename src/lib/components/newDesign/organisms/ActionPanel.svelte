@@ -11,7 +11,9 @@
 	<TrackingWidget />
 	<PowerLines />
 	<PowerUps />
-	<ConquerorButton />
+	<button class="absolute" style="transform: translate(2%,143%)">
+		<ConquerorButton />
+	</button>
 	<AdditionalActionButtons />
 	<ActionButtons />
 </div>
