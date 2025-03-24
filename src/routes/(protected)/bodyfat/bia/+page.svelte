@@ -27,7 +27,8 @@
 	let progressState = $state(0);
 
 	let inputValue = $state(data.bodyfat !== null ? data.bodyfat : '');
-	let inputElement: HTMLInputElement;
+	// Starts as undefined, will be set to HTMLInputElement when mounted
+	let inputElement = $state<HTMLInputElement | undefined>(undefined);
 
 	// When the component mounts, focus and select the input
 	onMount(() => {
