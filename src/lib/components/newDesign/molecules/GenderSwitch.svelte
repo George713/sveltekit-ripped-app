@@ -27,7 +27,7 @@
 	>
 		<Switch.Thumb
 			class={{
-				'block size-7 rounded-full bg-indigo-600 drop-shadow-[2px_2px_4px_rgba(0,0,0,0.5)] transition-transform duration-250': true,
+				'block size-7 rounded-full bg-indigo-600 drop-shadow-[2px_2px_4px_rgba(0,0,0,0.25)] transition-transform duration-250': true,
 				'translate-x-1': isMale,
 				'translate-x-7': !isMale
 			}}
