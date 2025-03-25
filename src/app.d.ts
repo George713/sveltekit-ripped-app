@@ -21,7 +21,7 @@ declare global {
 				currentWeight: number;
 				currentCalorieTarget: number;
 				initBF: boolean;
-				initPhoto: boolean;
+				initPhotos: boolean;
 				initCalories: boolean;
 				progressPicToday: boolean;
 				reviewToday: boolean;
@@ -34,6 +34,7 @@ declare global {
 				planned: boolean;
 				eaten: boolean;
 				harvest: boolean;
+				initPhotos: boolean;
 				weeklyPic: boolean;
 				weeklyReview: boolean;
 			};
