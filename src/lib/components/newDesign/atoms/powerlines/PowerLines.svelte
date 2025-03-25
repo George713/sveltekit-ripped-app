@@ -103,10 +103,10 @@
 	<!-- Photo -->
 	<Base
 		svgInfo={singleBent}
-		glow={page.data.dailyProgress.weeklyPic}
+		glow={page.data.dailyProgress.weeklyPic || page.data.dailyProgress.initPhotos}
 		vflip={true}
 		translate={[15, -304]}
-		hidden={!page.data.user.progressPicToday}
+		hidden={page.data.schedule.nextProgressPic.remainingDays > 0}
 	/>
 	<!-- Weigh -->
 	<Base

@@ -26,11 +26,11 @@
 		/>
 		<!-- Photo -->
 		<ActionButton
-			glow={page.data.dailyProgress.weeklyPic}
+			glow={page.data.dailyProgress.weeklyPic || page.data.dailyProgress.initPhotos}
 			size="small"
 			icon="camera"
-			disabled={page.data.dailyProgress.weeklyPic}
-			hidden={!page.data.user.progressPicToday}
+			disabled={page.data.dailyProgress.weeklyPic || page.data.dailyProgress.initPhotos}
+			hidden={page.data.schedule.nextProgressPic.remainingDays > 0}
 		/>
 	</div>
 </div>

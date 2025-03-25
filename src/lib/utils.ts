@@ -141,7 +141,7 @@ export const getScheduledEvent = (
     const today = getDateDayBegin(timeZoneOffset)
     let nextDate: Date
 
-    if (!lastDate) {
+    if (!lastDate || lastDate.getTime() === new Date('1970-01-01').getTime()) {
         nextDate = today
     } else {
         // Initialize loop with last date

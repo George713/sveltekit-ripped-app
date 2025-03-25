@@ -137,6 +137,16 @@ export const handle: Handle = async ({ event, resolve }) => {
 					},
 					take: 5
 				},
+				// Progress Pictures
+				progressPictures: {
+					orderBy: {
+						createdAt: 'desc'
+					},
+					select: {
+						type: true,
+						createdAt: true
+					}
+				},
 				// Collectibles
 				collectedItems: {
 					select: {
@@ -175,6 +185,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 					calorieTargets: { take: 0 },
 					bodyfats: { take: 0 },
 					weights: { take: 0 },
+					// Progress Pictures
+					progressPictures: { take: 0 },
+					// Collectibles
 					collectedItems: {
 						select: {
 							count: true,
@@ -224,7 +237,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			currentStatus: 'tbd',
 			currentWeight: user.weights.length > 0 ? user.weights[0].weight : 100, // userWeight ? userWeight.weight : 100,
 			initBF: user.bodyfats.length > 0, // whether init body fat measurement was taken
-			initPhoto: user.initPhoto,
+			initPhotos: user.progressPictures.some(pic => pic.type === 'initial') && user.progressPictures.some(pic => pic.type === 'goofy'),
 			initCalories: user.calorieTargets.length > 0, // whether init calorie target was entered
 			progressPicToday: new Date().toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() === user.progressPicOn ? true : false,
 			reviewToday: new Date().toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() === user.reviewOn ? true : false,
@@ -241,17 +254,35 @@ export const handle: Handle = async ({ event, resolve }) => {
 			planned: user.lastPlannedOn > dateDayBegin,
 			eaten: user.lastFinishedEatingOn > dateDayBegin,
 			harvest: user.lastHarvestOn > dateDayBegin,
+			initPhotos: user.progressPictures.some(pic => pic.type === 'initial' && pic.createdAt > dateDayBegin) &&
+				user.progressPictures.some(pic => pic.type === 'goofy' && pic.createdAt > dateDayBegin),
 			weeklyPic: user.lastWeeklyPicOn > dateDayBegin,
 			weeklyReview: user.lastReviewOn > dateDayBegin,
 		}
 		// Upcoming Events
 		event.locals.schedule = {
-			nextProgressPic: getScheduledEvent('weekly', 'Progress Picture', user.timeZoneOffset, user.lastWeeklyPicOn, user.progressPicOn),
-			nextReview: getScheduledEvent('weekly', 'Weekly Review', user.timeZoneOffset, user.lastReviewOn, user.reviewOn),
-			nextBodyfatMeasurement: getScheduledEvent('fourWeekly', 'Bodyfat Measurement', user.timeZoneOffset, user.bodyfats.length > 0 ? user.bodyfats[0].createdAt : undefined),
+			nextProgressPic: getScheduledEvent(
+				'weekly', /* type */
+				'Progress Picture', /* name */
+				user.timeZoneOffset, /* timeZoneOffset */
+				user.progressPictures.find(pic => pic.type === 'weekly')?.createdAt, /* lastDate */
+				user.progressPicOn /* fixedWeekDay */
+			),
+			nextReview: getScheduledEvent(
+				'weekly', /* type */
+				'Weekly Review', /* name */
+				user.timeZoneOffset, /* timeZoneOffset */
+				user.lastReviewOn, /* lastDate */
+				user.reviewOn /* fixedWeekDay */
+			),
+			nextBodyfatMeasurement: getScheduledEvent(
+				'fourWeekly', /* type */
+				'Bodyfat Measurement', /* name */
+				user.timeZoneOffset, /* timeZoneOffset */
+				user.bodyfats.length > 0 ? user.bodyfats[0].createdAt : undefined /* lastDate */
+			),
 		}
 		// Collection
-
 	}
 
 	return resolve(event, {
