@@ -5,11 +5,16 @@
 @import 'tailwindcss';
 
 :root {
-    --font-sans: 'Roboto', sans-serif;
+  --font-sans: 'Roboto', sans-serif;
 }
 
 body {
-    @apply font-sans;
+  @apply font-sans;
+}
+
+body,
+html {
+  @apply bg-stone-800 min-h-screen;
 }
 
 /*
@@ -21,6 +26,7 @@ body {
   color utility to any element that depends on these defaults.
 */
 @layer base {
+
   *,
   ::after,
   ::before,
@@ -34,13 +40,17 @@ body {
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
   input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 1000px transparent inset !important; /* Transparent background */
-    -webkit-text-fill-color: theme('colors.stone.400') !important; /* Text color */
-    transition: background-color 5000s ease-in-out 0s; /* Prevent background color change */
+    -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+    /* Transparent background */
+    -webkit-text-fill-color: theme('colors.stone.400') !important;
+    /* Text color */
+    transition: background-color 5000s ease-in-out 0s;
+    /* Prevent background color change */
   }
 }
 
 @layer utilities {
+
   /* For Webkit-based browsers (Chrome, Safari and Opera) */
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
@@ -48,8 +58,10 @@ body {
 
   /* For IE, Edge and Firefox */
   .scrollbar-hide {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
   }
 
   /* Hide spinners in Firefox */
