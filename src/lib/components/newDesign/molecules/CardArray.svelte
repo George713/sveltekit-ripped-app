@@ -122,6 +122,7 @@
 			/>
 		{/each}
 	{/if}
+	<!-- Visible only on log route -->
 	{#if itemManagerType === 'PlannedItemManager'}
 		{#each (itemManager as PlannedItemManager).getEnrichedItems() as item}
 			<Card
@@ -137,7 +138,7 @@
 						return;
 					}
 
-					(itemManager as PlannedItemManager).eatItem(item.id);
+					(itemManager as PlannedItemManager).eatItem(item.id, item.kcal);
 
 					const formData = new FormData();
 					formData.append('id', item.id.toString());
@@ -163,7 +164,7 @@
 						return;
 					}
 
-					estimatedItemManager.eatItem(item.id);
+					estimatedItemManager.eatItem(item.id, item.kcal);
 
 					const formData = new FormData();
 					formData.append('id', item.id.toString());

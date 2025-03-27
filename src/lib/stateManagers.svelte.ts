@@ -237,7 +237,8 @@ export class PlannedItemManager {
     items = $state<PlannedItem[]>([]);
     itemsEaten = $derived(this.items.filter(item => item.eaten))
 
-    eatItem = (id: number) => {
+    eatItem = (id: number, kcal: number) => {
+        xpManager.addXP(BASE_XP * (kcal / calorieManager.target));
         this.items = this.items.map(item => {
             if (item.id === id) {
                 return { ...item, eaten: true };
@@ -272,7 +273,8 @@ class EstimatedItemManager {
         this.items = [...this.items, item];
     }
 
-    eatItem = (id: number) => {
+    eatItem = (id: number, kcal: number) => {
+        xpManager.addXP(BASE_XP * (kcal / calorieManager.target) / 2); // Eating estimates only yields half XP
         this.items = this.items.map(item => {
             if (item.id === id) {
                 return { ...item, eaten: true };
