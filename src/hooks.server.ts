@@ -95,6 +95,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 	// Get user data
 	const { data } = await event.locals.supabase.auth.getUser()
 
+	// TODO: clear vaultXP on first login on new day
+
 	if (data.user) {
 		let user = await prisma.user.findUnique({
 			where: {
@@ -105,6 +107,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 				isMale: true,
 				timeZoneOffset: true,
 				pointBalance: true,
+				vaultXP: true,
 				// current calorie target
 				calorieTargets: {
 					orderBy: {
@@ -182,6 +185,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 					isMale: true,
 					timeZoneOffset: true,
 					pointBalance: true,
+					vaultXP: true,
 					calorieTargets: { take: 0 },
 					bodyfats: { take: 0 },
 					weights: { take: 0 },
@@ -231,6 +235,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			isMale: user.isMale,
 			timeZoneOffset: user.timeZoneOffset,
 			pointBalance: user.pointBalance,
+			vaultXP: user.vaultXP,
 			streakMeter: user.weights.length,
 			currentCalorieTarget: user.calorieTargets.length > 0 ? user.calorieTargets[0].calories : 9999,
 			currentBF: user.bodyfats.length > 0 ? user.bodyfats[0].bodyfat : 999,

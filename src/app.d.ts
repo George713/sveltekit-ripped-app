@@ -15,6 +15,7 @@ declare global {
 				isMale: boolean;
 				timeZoneOffset: number;
 				pointBalance: number;
+				vaultXP: number;
 				streakMeter: number;
 				currentBF: number;
 				currentStatus: string;

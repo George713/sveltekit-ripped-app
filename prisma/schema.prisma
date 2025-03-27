@@ -28,6 +28,7 @@ model User {
 
   // Progress Player Journey
   pointBalance     Int     @default(0)
+  vaultXP          Int     @default(0)
   initPhoto        Boolean @default(false)
   unlockedRank     Boolean @default(false)
   unlockedControls Boolean @default(false)
@@ -82,8 +83,8 @@ enum ProgressPictureType {
 }
 
 model ProgressPicture {
-  id        Int                @id @default(autoincrement())
-  createdAt DateTime           @default(now())
+  id        Int                 @id @default(autoincrement())
+  createdAt DateTime            @default(now())
   type      ProgressPictureType @default(weekly)
 
   user   User   @relation(fields: [userId], references: [id])
