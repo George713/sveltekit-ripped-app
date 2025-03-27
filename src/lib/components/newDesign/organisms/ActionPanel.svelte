@@ -14,22 +14,7 @@
 	<TrackingWidget />
 	<PowerLines />
 	<PowerUps />
-	<ConquerorButton
-		onclick={() => {
-			xpGained = 5;
-			setTimeout(() => {
-				xpGained = undefined;
-				setTimeout(() => {
-					briefGlow = true;
-					setTimeout(() => {
-						briefGlow = false;
-					}, 200);
-				}, 800);
-			}, 2000);
-		}}
-		{xpGained}
-		{briefGlow}
-	/>
+	<ConquerorButton />
 	<AdditionalActionButtons />
 	<ActionButtons />
 </div>

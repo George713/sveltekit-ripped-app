@@ -1,8 +1,7 @@
 <script lang="ts">
+	import { afterNavigate } from '$app/navigation';
 	import { page } from '$app/state';
 	import { calorieManager } from '$lib/stateManagers.svelte';
-	import { cubicOut } from 'svelte/easing';
-	import { fade } from 'svelte/transition';
 
 	interface Props {
 		scale?: number;
@@ -33,6 +32,10 @@
 			});
 		};
 	};
+
+	afterNavigate(() => {
+		runAnimationSequence();
+	});
 </script>
 
 <!-- Note: Style tag will be overwritten by `shake` class when `calorieManager.inRange` is true. -->
@@ -43,7 +46,6 @@
 			'xp-display font-bungee absolute z-10 flex h-full w-full -translate-x-0.5 items-center justify-center text-xl text-cyan-500 opacity-0': true,
 			'drop-shadow-[1px_1px_0px_rgba(165,243,252,1),1px_-0.5px_0px_rgba(165,243,252,1),-0.5px_1px_0px_rgba(165,243,252,1),-0.5px_-0.5px_0px_rgba(165,243,252,1),0px_0px_2px_rgba(0,213,255,0.75),0px_0px_4px_rgba(0,213,255,0.75),0px_0px_6px_rgba(0,213,255,0.75)]': true
 		}}
-		out:fade={{ duration: 1500, easing: cubicOut }}
 	>
 		+55 XP
 	</div>
