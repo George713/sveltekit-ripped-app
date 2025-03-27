@@ -95,8 +95,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 	// Get user data
 	const { data } = await event.locals.supabase.auth.getUser()
 
-	// TODO: clear vaultXP on first login on new day
-
 	if (data.user) {
 		let user = await prisma.user.findUnique({
 			where: {
@@ -216,6 +214,14 @@ export const handle: Handle = async ({ event, resolve }) => {
 				}
 			});
 		}
+		const dateDayBegin = getDateDayBegin(user.timeZoneOffset)
+		// Clear vaultXP on first login on new day
+		if (data.user.updated_at && new Date(data.user.updated_at) < dateDayBegin) {
+			await prisma.user.update({
+				where: { id: user.id },
+				data: { vaultXP: 0 }
+			});
+		}
 
 		// Filter out old weight information
 		user.weights = user.weights.filter(weight => weight.createdAt >= getDateDayBegin(user!.timeZoneOffset, 4));
@@ -252,7 +258,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 		// Derived value for user
 		event.locals.user.currentStatus = getCurrentCrestLevel(event.locals.user.currentBF, user.isMale)
 		// Daily Progress
-		const dateDayBegin = getDateDayBegin(user.timeZoneOffset)
 		event.locals.dailyProgress = {
 			weighIn: user.weights[0] ? user.weights[0].createdAt > dateDayBegin : false, // condition required for when user is new
 			targetProtein: Math.round(event.locals.user.currentWeight * 1.6),
