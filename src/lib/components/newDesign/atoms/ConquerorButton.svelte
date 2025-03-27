@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { afterNavigate } from '$app/navigation';
 	import { page } from '$app/state';
-	import { calorieManager } from '$lib/stateManagers.svelte';
+	import { calorieManager, xpManager } from '$lib/stateManagers.svelte';
 
 	interface Props {
 		scale?: number;
@@ -11,6 +11,7 @@
 
 	let alreadyUsed = $state(page.data.dailyProgress.harvest); // results in glow
 	let shake = $derived(!alreadyUsed && calorieManager.inRange);
+	let xpGained = $state(0);
 
 	const runAnimationSequence = () => {
 		const xpElement = document.querySelector('.xp-display');
@@ -34,12 +35,12 @@
 	};
 
 	afterNavigate(() => {
-		runAnimationSequence();
+		xpGained = xpManager.extractCachedVaultXP();
+		if (xpGained > 0) runAnimationSequence();
 	});
 </script>
 
 <!-- Note: Style tag will be overwritten by `shake` class when `calorieManager.inRange` is true. -->
-
 <button class="absolute" style="transform: translate(2%,143%)" onclick={runAnimationSequence}>
 	<div
 		class={{
@@ -47,7 +48,7 @@
 			'drop-shadow-[1px_1px_0px_rgba(165,243,252,1),1px_-0.5px_0px_rgba(165,243,252,1),-0.5px_1px_0px_rgba(165,243,252,1),-0.5px_-0.5px_0px_rgba(165,243,252,1),0px_0px_2px_rgba(0,213,255,0.75),0px_0px_4px_rgba(0,213,255,0.75),0px_0px_6px_rgba(0,213,255,0.75)]': true
 		}}
 	>
-		+55 XP
+		+{xpGained} XP
 	</div>
 	<svg
 		width={89 * scale}
