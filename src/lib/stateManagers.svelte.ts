@@ -51,6 +51,8 @@ export const toastManager = new ToastManager();
 
 
 // Manager for XP and level
+// Base XP for eating target kcal of one day
+const BASE_XP = 250;
 // XP levels configuration - define your table here (easy to update)
 const XP_TABLE = [
     { level: 1, requiredXP: 15, totalXP: 15 },
@@ -64,10 +66,20 @@ const XP_TABLE = [
     { level: 9, requiredXP: 2000, totalXP: 5665 },
     { level: 10, requiredXP: 0, totalXP: 0 }
 ];
+const MAX_XP = XP_TABLE[XP_TABLE.length - 2].totalXP;
 
 class XPManager {
-    // Total XP collected
-    totalXP = $state(0)
+    // XP gain explained:
+    // Several actions yield XP. A small amount it awared directly, a larger amount is stored in the vault.
+    // The XP in the vault can be extracted when the daily calorie target is reached.
+    // For handling the XP animations, XP is first put into two caches (vault and direct).
+
+    totalXP = $state(0); // tracks user's total XP
+    vaultXP = $state(0); // XP stored in the vault
+
+    // XP cache for handling animation on main screen
+    xpCacheVault = $state(0);
+    xpCacheDirect = $state(0);
 
     // Current Level
     level = $derived.by(() => {
@@ -90,15 +102,56 @@ class XPManager {
     progressPct = $derived(this.level < 10 ? this.currentXP / this.requiredXP * 100 : 100)
 
     // Adding XP
-    addXP = (gainedXP: number) => {
-        // Calculate newXP by adding gainedXP to current totalXP
-        const newXP = this.totalXP + gainedXP;
+    addXP = async (gainedXP: number) => {
+        // Distribute XP between vault and direct
+        const gainedVaultXP = Math.round(gainedXP * 3 / 4);
+        const gainedDirectXP = Math.round(gainedXP * 1 / 4);
 
-        // Get maxXP as the totalXP of the second last entry in XP_TABLE (basically last level-up)
-        const maxXP = XP_TABLE[XP_TABLE.length - 2].totalXP
+        // Set cache for animation
+        this.xpCacheVault += gainedVaultXP;
+        this.xpCacheDirect += gainedDirectXP;
 
-        // Set totalXP to the smaller value between newXP and maxXP
-        this.totalXP = Math.min(newXP, maxXP);
+        // Update total XP and vault XP. This will NOT cause an animation on main screen yet.
+        // The animations are triggered by the extract methods below. Here, the XP are stored
+        // to the db regards of animations, in case the user leaves the app and never sees the
+        // animation.
+        const newVaultXP = this.vaultXP + gainedVaultXP;
+        const wouldBeNewTotalXP = this.totalXP + gainedDirectXP;
+        const newTotalXP = Math.min(wouldBeNewTotalXP, MAX_XP);
+
+        if (newVaultXP > this.vaultXP) {
+            const response = await fetch('/api/updateXP', {
+                method: 'POST',
+                body: JSON.stringify({
+                    totalXP: newTotalXP,
+                    vaultXP: newVaultXP
+                }),
+                headers: { 'Content-Type': 'application/json' }
+            });
+            if (!response.ok) {
+                console.error('Failed to update XP in database');
+            }
+        }
+    }
+
+    extractCachedVaultXP = () => {
+        const cachedVaultXP = this.xpCacheVault;
+        this.xpCacheVault = 0;
+        return cachedVaultXP;
+    }
+
+    extractCachedDirectXP = () => {
+        const cachedDirectXP = this.xpCacheDirect;
+        this.xpCacheDirect = 0;
+        // Update totalXP. This will cause an animation on main screen
+        const wouldBeNewTotalXP = this.totalXP + cachedDirectXP;
+        const newTotalXP = Math.min(wouldBeNewTotalXP, MAX_XP);
+        if (newTotalXP > this.totalXP) {
+            this.totalXP = newTotalXP;
+            return cachedDirectXP;
+        } else {
+            return 0;
+        }
     }
 }
 
