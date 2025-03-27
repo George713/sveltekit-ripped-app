@@ -111,20 +111,12 @@ class XPManager {
         this.xpCacheVault += gainedVaultXP;
         this.xpCacheDirect += gainedDirectXP;
 
-        // Update total XP and vault XP. This will NOT cause an animation on main screen yet.
-        // The animations are triggered by the extract methods below. Here, the XP are stored
-        // to the db regards of animations, in case the user leaves the app and never sees the
-        // animation.
-        const newVaultXP = this.vaultXP + gainedVaultXP;
-        const wouldBeNewTotalXP = this.totalXP + gainedDirectXP;
-        const newTotalXP = Math.min(wouldBeNewTotalXP, MAX_XP);
-
-        if (newVaultXP > this.vaultXP) {
+        if (gainedVaultXP > 0) {
             const response = await fetch('/api/updateXP', {
                 method: 'POST',
                 body: JSON.stringify({
-                    totalXP: newTotalXP,
-                    vaultXP: newVaultXP
+                    gainedDirectXP,
+                    gainedVaultXP
                 }),
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -137,17 +129,15 @@ class XPManager {
     extractCachedVaultXP = () => {
         const cachedVaultXP = this.xpCacheVault;
         this.xpCacheVault = 0;
+        this.vaultXP += cachedVaultXP;
         return cachedVaultXP;
     }
 
     extractCachedDirectXP = () => {
         const cachedDirectXP = this.xpCacheDirect;
         this.xpCacheDirect = 0;
-        // Update totalXP. This will cause an animation on main screen
-        const wouldBeNewTotalXP = this.totalXP + cachedDirectXP;
-        const newTotalXP = Math.min(wouldBeNewTotalXP, MAX_XP);
-        if (newTotalXP > this.totalXP) {
-            this.totalXP = newTotalXP;
+        if (this.totalXP < MAX_XP) {
+            this.totalXP += cachedDirectXP;
             return cachedDirectXP;
         } else {
             return 0;
@@ -181,6 +171,7 @@ class CalorieManager {
         return plannedCalories + estimatedCalories;
     });
     eatenPct = $derived(this.eaten / this.target);
+    underTarget = $derived(this.eaten <= this.target + 25);
     // inRange is only relevant for calories
     inRange = $derived((this.target - 25 <= this.eaten) && (this.eaten <= this.target + 25) ? true : false)
 }
@@ -238,13 +229,15 @@ export class PlannedItemManager {
     itemsEaten = $derived(this.items.filter(item => item.eaten))
 
     eatItem = (id: number, kcal: number) => {
-        xpManager.addXP(BASE_XP * (kcal / calorieManager.target));
         this.items = this.items.map(item => {
             if (item.id === id) {
                 return { ...item, eaten: true };
             }
             return item;
         });
+        if (calorieManager.underTarget) {
+            xpManager.addXP(BASE_XP * (kcal / calorieManager.target));
+        }
     }
 
     getEnrichedItems = () => {
@@ -274,13 +267,15 @@ class EstimatedItemManager {
     }
 
     eatItem = (id: number, kcal: number) => {
-        xpManager.addXP(BASE_XP * (kcal / calorieManager.target) / 2); // Eating estimates only yields half XP
         this.items = this.items.map(item => {
             if (item.id === id) {
                 return { ...item, eaten: true };
             }
             return item;
         });
+        if (calorieManager.underTarget) {
+            xpManager.addXP(BASE_XP * (kcal / calorieManager.target) / 2); // Eating estimates only yields half XP
+        }
     }
 }
 export const estimatedItemManager = new EstimatedItemManager()
