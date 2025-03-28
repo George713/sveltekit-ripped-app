@@ -32,7 +32,7 @@
 	{/if}
 	<p
 		class={{
-			'mx-10 mb-2 leading-5 font-bold': true,
+			'mb-2 ml-10 leading-5 font-bold': true,
 			'text-rose-700': toast.type == 'error',
 			'text-amber-500': toast.type == 'attention',
 			'text-emerald-500': toast.type == 'note'
@@ -42,7 +42,7 @@
 	</p>
 	<p
 		class={{
-			'mx-10 ': true,
+			'mr-2 ml-10 whitespace-pre-line': true,
 			'text-rose-700': toast.type == 'error',
 			'text-amber-500': toast.type == 'attention',
 			'text-emerald-500': toast.type == 'note'

@@ -18,7 +18,7 @@
 		if (!dailySelectionManager.inRange && !notificationSent) {
 			toastManager.addToast({
 				type: 'attention',
-				message: `You get extra XP for having planned items in the range of +-25 kcal of your caloric target (${calorieManager.target} kcal).`,
+				message: `You get extra XP for having planned items in the range of ±25 kcal of your caloric target (${calorieManager.target} kcal).`,
 				timeout: 6000
 			});
 			notificationSent = true;
