@@ -108,7 +108,7 @@ export interface Rewards {
 }
 
 export interface Toast {
-    type: string;
+    type: 'error' | 'attention' | 'note';
     message: string;
     timeout?: number;
     id?: number;
