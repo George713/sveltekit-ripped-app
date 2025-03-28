@@ -1,5 +1,15 @@
 <script lang="ts">
+	import { afterNavigate } from '$app/navigation';
+
 	import { xpManager } from '$lib/stateManagers.svelte';
+	import NumberFlow, { continuous } from '@number-flow/svelte';
+
+	afterNavigate(() => {
+		// Timeout is set so that the vault animation (in ConquerorButton) finishes first
+		setTimeout(() => {
+			const xpGained = xpManager.extractCachedDirectXP();
+		}, 3000);
+	});
 </script>
 
 <div class="relative mt-1 flex flex-col p-3 text-stone-700">
@@ -10,8 +20,38 @@
 		</div>
 		<!-- XP numeric -->
 		{#if xpManager.level < 10}
-			<div class="flex items-end pr-0.5 pb-0.5 text-xs">
-				{xpManager.currentXP}/{xpManager.requiredXP}
+			<div class="mr-0.5 mb-0.25 flex items-end text-xs">
+				<NumberFlow
+					plugins={[continuous]}
+					value={xpManager.currentXP}
+					spinTiming={{
+						// Used for the digit spin animations.
+						// Will fall back to `transformTiming` if unset:
+						duration: 2000,
+						easing: 'ease-in-out'
+					}}
+					opacityTiming={{
+						// Used for fading in/out characters:
+						duration: 750,
+						easing: 'ease-out'
+					}}
+				/>
+				<NumberFlow
+					plugins={[continuous]}
+					value={xpManager.requiredXP}
+					prefix="/"
+					spinTiming={{
+						// Used for the digit spin animations.
+						// Will fall back to `transformTiming` if unset:
+						duration: 2000,
+						easing: 'ease-in-out'
+					}}
+					opacityTiming={{
+						// Used for fading in/out characters:
+						duration: 750,
+						easing: 'ease-out'
+					}}
+				/>
 			</div>
 		{/if}
 	</div>

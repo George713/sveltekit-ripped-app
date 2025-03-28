@@ -38,10 +38,14 @@
 		xpGained = xpManager.extractCachedVaultXP();
 		if (xpGained > 0) runAnimationSequence();
 	});
+
+	const handleClick = () => {
+		runAnimationSequence();
+	};
 </script>
 
 <!-- Note: Style tag will be overwritten by `shake` class when `calorieManager.inRange` is true. -->
-<button class="absolute" style="transform: translate(2%,143%)" onclick={runAnimationSequence}>
+<button class="absolute" style="transform: translate(2%,143%)" onclick={handleClick}>
 	<div
 		class={{
 			'xp-display font-bungee absolute z-10 flex h-full w-full -translate-x-0.5 items-center justify-center text-xl text-cyan-500 opacity-0': true,

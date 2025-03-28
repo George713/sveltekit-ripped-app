@@ -74,6 +74,7 @@ class XPManager {
     // The XP in the vault can be extracted when the daily calorie target is reached.
     // For handling the XP animations, XP is first put into two caches (vault and direct).
 
+    // The following two properties are filled during initial load within the layout
     totalXP = $state(0); // tracks user's total XP
     vaultXP = $state(0); // XP stored in the vault
 
