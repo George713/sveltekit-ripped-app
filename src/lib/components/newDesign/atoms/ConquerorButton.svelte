@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { afterNavigate } from '$app/navigation';
 	import { page } from '$app/state';
-	import { calorieManager, xpManager } from '$lib/stateManagers.svelte';
+	import { calorieManager, toastManager, xpManager } from '$lib/stateManagers.svelte';
 
 	interface Props {
 		scale?: number;
@@ -13,7 +13,7 @@
 	let shake = $derived(!alreadyUsed && calorieManager.inRange);
 	let xpGained = $state(0);
 
-	const runAnimationSequence = () => {
+	const runAnimationSequence = ({ flash }: { flash: 'flash' | 'openVault' }) => {
 		const xpElement = document.querySelector('.xp-display');
 		const glowElement = document.querySelector('.glow-element');
 
@@ -27,25 +27,43 @@
 		);
 
 		xpAnimation.onfinish = () => {
-			glowElement!.animate([{ opacity: 0 }, { opacity: 1 }, { opacity: 0 }], {
-				duration: 1000,
-				easing: 'ease-out'
-			});
+			if (flash === 'flash') {
+				glowElement!.animate([{ opacity: 0 }, { opacity: 1 }, { opacity: 0 }], {
+					duration: 1000,
+					easing: 'ease-out'
+				});
+			} else if (flash === 'openVault') {
+				alreadyUsed = true;
+			}
 		};
 	};
 
 	afterNavigate(() => {
 		xpGained = xpManager.extractCachedVaultXP();
-		if (xpGained > 0) runAnimationSequence();
+		if (xpGained > 0) runAnimationSequence({ flash: 'flash' });
 	});
 
-	const handleClick = () => {
-		runAnimationSequence();
+	const handleClick = async () => {
+		if (calorieManager.underTarget && !calorieManager.inRange) {
+			toastManager.addToast({
+				type: 'attention',
+				message: `Eat within ±25 kcal of your target calories to open the vault.\n\n Vault content: ${xpManager.vaultXP} XP`,
+				timeout: 6000
+			});
+		} else if (calorieManager.inRange && !alreadyUsed) {
+			xpGained = (await xpManager.openVault()) || 0;
+			if (xpGained > 0) runAnimationSequence({ flash: 'openVault' });
+		}
 	};
 </script>
 
 <!-- Note: Style tag will be overwritten by `shake` class when `calorieManager.inRange` is true. -->
-<button class="absolute" style="transform: translate(2%,143%)" onclick={handleClick}>
+<button
+	class="absolute"
+	style="transform: translate(2%,143%)"
+	onclick={handleClick}
+	disabled={alreadyUsed}
+>
 	<div
 		class={{
 			'xp-display font-bungee absolute z-10 flex h-full w-full -translate-x-0.5 items-center justify-center text-xl text-cyan-500 opacity-0': true,

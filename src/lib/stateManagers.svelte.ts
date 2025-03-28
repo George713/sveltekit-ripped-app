@@ -102,6 +102,20 @@ class XPManager {
     // Percentage of XP required for next level
     progressPct = $derived(this.level < 10 ? this.currentXP / this.requiredXP * 100 : 100)
 
+    // Private method to update XP in database
+    _updateXPInDatabase = async (gainedDirectXP: number, gainedVaultXP: number, openVault: boolean) => {
+        const response = await fetch('/api/updateXP', {
+            method: 'POST',
+            body: JSON.stringify({
+                gainedDirectXP,
+                gainedVaultXP,
+                openVault
+            }),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        return response.ok;
+    }
+
     // Adding XP
     addXP = async (gainedXP: number) => {
         // Distribute XP between vault and direct
@@ -113,17 +127,7 @@ class XPManager {
         this.xpCacheDirect += gainedDirectXP;
 
         if (gainedVaultXP > 0) {
-            const response = await fetch('/api/updateXP', {
-                method: 'POST',
-                body: JSON.stringify({
-                    gainedDirectXP,
-                    gainedVaultXP
-                }),
-                headers: { 'Content-Type': 'application/json' }
-            });
-            if (!response.ok) {
-                console.error('Failed to update XP in database');
-            }
+            await this._updateXPInDatabase(gainedDirectXP, gainedVaultXP, false);
         }
     }
 
@@ -144,6 +148,24 @@ class XPManager {
             return 0;
         }
     }
+
+    openVault = async () => {
+        const gainedDirectXP = this.vaultXP
+
+        const success = await this._updateXPInDatabase(gainedDirectXP, -gainedDirectXP, true); // resets vault
+        if (!success) {
+            toastManager.addToast({
+                type: 'error',
+                message: 'Failed to open vault. Bad internet connection?',
+                timeout: 6000
+            });
+        } else {
+            this.vaultXP = 0;
+            this.totalXP += gainedDirectXP;
+            return gainedDirectXP;
+        }
+    }
+
 }
 
 // Export a singleton instance of XPManager

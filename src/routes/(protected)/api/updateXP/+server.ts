@@ -3,7 +3,7 @@ import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
 export const POST: RequestHandler = async ({ locals, request }) => {
-    const { gainedDirectXP, gainedVaultXP } = await request.json();
+    const { gainedDirectXP, gainedVaultXP, openVault } = await request.json();
 
     const user = await prisma.user.update({
         where: {
@@ -15,7 +15,8 @@ export const POST: RequestHandler = async ({ locals, request }) => {
             },
             vaultXP: {
                 increment: gainedVaultXP
-            }
+            },
+            ...(openVault ? { lastHarvestOn: new Date() } : {})
         }
     });
 
