@@ -159,6 +159,12 @@ export const handle: Handle = async ({ event, resolve }) => {
 						}
 					}
 				},
+				dailyProgress: {
+					orderBy: {
+						createdAt: 'desc'
+					},
+					take: 1
+				},
 				// Recurring activity progress
 				lastPlannedOn: true,
 				lastFinishedEatingOn: true,
@@ -200,6 +206,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 							}
 						}
 					},
+					dailyProgress: { take: 0 },
 					// Recurring activity progress
 					lastPlannedOn: true,
 					lastFinishedEatingOn: true,
@@ -215,6 +222,19 @@ export const handle: Handle = async ({ event, resolve }) => {
 			});
 		}
 		const dateDayBegin = getDateDayBegin(user.timeZoneOffset)
+
+		// Create new daily progress if none exists for current day
+		if (user.dailyProgress.length === 0 || user.dailyProgress[0].createdAt < dateDayBegin) {
+			const newDailyProgress = await prisma.dailyProgress.create({
+				data: {
+					userId: user.id,
+					targetCalories: user.calorieTargets[0].calories,
+					targetProtein: Math.round(user.weights[0].weight * 1.6)
+				}
+			});
+			user.dailyProgress.push(newDailyProgress);
+		}
+
 		// Clear vaultXP on first login on new day
 		if (data.user.updated_at && new Date(data.user.updated_at) < dateDayBegin) {
 			await prisma.user.update({

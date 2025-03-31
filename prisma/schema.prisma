@@ -39,6 +39,8 @@ model User {
 
   // RELATED TABLES 
   // ================================
+  // Daily Progress
+  dailyProgress    DailyProgress[]
   // Targets
   calorieTargets   CalorieTarget[]
   // Planning & Tracking
@@ -51,6 +53,28 @@ model User {
   progressPictures ProgressPicture[]
   // Items
   collectedItems   CollectedItem[]
+}
+
+model DailyProgress {
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime @default(now())
+
+  targetCalories   Int @default(0)
+  targetProtein    Int @default(0)
+  consumedCalories Int @default(0)
+  consumedProtein  Int @default(0)
+  xpGained         Int @default(0)
+  vaultXP          Int @default(0)
+
+  weighIn     Boolean @default(false)
+  planned     Boolean @default(false)
+  vaultOpened Boolean @default(false)
+  progressPic Boolean @default(false)
+  review      Boolean @default(false)
+  bodyfat     Boolean @default(false)
+
+  @@unique([userId, createdAt])
 }
 
 model Weight {
