@@ -3,7 +3,7 @@ import type { RequestHandler } from './$types';
 
 import OpenAI from "openai";
 
-import { PUBLIC_DEEPSEEK_API_KEY } from '$env/static/public';
+import { PUBLIC_DEEPSEEK_API_KEY, PUBLIC_MISTRAL_API_KEY } from '$env/static/public';
 
 const SYSTEM_PROMPT = `
 I will give you a list of items I have eaten. I want you to tell me the calories and protein amounts of each item.
@@ -38,17 +38,20 @@ Return just the json, nothing else.
 `
 
 const openai = new OpenAI({
-    baseURL: 'https://api.deepseek.com',
-    apiKey: PUBLIC_DEEPSEEK_API_KEY
+    // baseURL: 'https://api.deepseek.com',
+    // apiKey: PUBLIC_DEEPSEEK_API_KEY
+    baseURL: 'https://openrouter.ai/api/v1',
+    apiKey: PUBLIC_MISTRAL_API_KEY
 });
 
 const invokeLLM = async (transcript: string) => {
     const completion = await openai.chat.completions.create({
+        // model: "deepseek-chat",
+        model: "mistralai/mistral-small-3.1-24b-instruct:free",
         messages: [
             { role: "system", content: SYSTEM_PROMPT },
             { role: "user", content: transcript }
         ],
-        model: "deepseek-chat",
     });
 
     return completion.choices[0].message.content

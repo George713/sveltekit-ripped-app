@@ -104,6 +104,9 @@ class AudioRecorder {
         const formData = new FormData();
         formData.append('transcript', transcript);
 
+        // const startTime = performance.now();
+        // console.log('Starting API call to process voice...');
+
         try {
             const response = await fetch('/api/processVoice', {
                 method: 'POST',
@@ -126,6 +129,10 @@ class AudioRecorder {
         } catch (error) {
             console.error('Error sending audio to backend:', error);
         }
+
+        // const endTime = performance.now();
+        // const processingTime = endTime - startTime;
+        // console.log(`Voice processing completed in ${processingTime.toFixed(2)} ms`);
 
         this.isProcessing = false;
     };

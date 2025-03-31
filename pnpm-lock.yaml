@@ -40,7 +40,7 @@ importers:
         version: 9.0.2
       openai:
         specifier: ^4.68.4
-        version: 4.68.4
+        version: 4.68.4(zod@3.24.2)
       vite:
         specifier: ^5.4.10
         version: 5.4.10(@types/node@22.8.1)(lightningcss@1.29.1)
@@ -2057,6 +2057,9 @@ packages:
   zimmerframe@1.1.2:
     resolution: {integrity: sha512-rAbqEGa8ovJy4pyBxZM70hg4pE6gDgaQ0Sl9M3enG3I0d6H4XSAM3GeNGLKnsBpuijUow064sf7ww1nutC5/3w==}
 
+  zod@3.24.2:
+    resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
+
   zrender@5.6.0:
     resolution: {integrity: sha512-uzgraf4njmmHAbEUxMJ8Oxg+P3fT04O+9p7gY+wJRVxo8Ge+KmYv0WJev945EH4wFuc4OY2NLXz46FZrWS9xJg==}
 
@@ -3469,7 +3472,7 @@ snapshots:
     dependencies:
       wrappy: 1.0.2
 
-  openai@4.68.4:
+  openai@4.68.4(zod@3.24.2):
     dependencies:
       '@types/node': 18.19.59
       '@types/node-fetch': 2.6.11
@@ -3478,6 +3481,8 @@ snapshots:
       form-data-encoder: 1.7.2
       formdata-node: 4.4.1
       node-fetch: 2.7.0
+    optionalDependencies:
+      zod: 3.24.2
     transitivePeerDependencies:
       - encoding
 
@@ -3823,6 +3828,9 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   zimmerframe@1.1.2: {}
+
+  zod@3.24.2:
+    optional: true
 
   zrender@5.6.0:
     dependencies:
