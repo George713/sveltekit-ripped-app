@@ -267,8 +267,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 		};
 		// Derived value for user
 		event.locals.user.currentStatus = getCurrentCrestLevel(event.locals.user.currentBF, user.isMale)
-		// Daily Progress
-		event.locals.dailyProgress = user.dailyProgress[0]
+		// Daily Progress - take the last entry from the array
+		event.locals.dailyProgress = user.dailyProgress[user.dailyProgress.length - 1]
 		// Upcoming Events
 		event.locals.schedule = {
 			nextProgressPic: getScheduledEvent(
