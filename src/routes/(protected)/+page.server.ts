@@ -31,16 +31,35 @@ const logWeight: Action = async ({ locals, request }) => {
         weight = parseFloat(weight);
     }
 
-    // Create weight entry for current user
-    await prisma.user.update({
-        where: {
-            id: locals.user.id
-        },
-        data: {
-            weights: {
-                create: [{ weight }]
+    // Use transaction to combine both operations
+    // Atomicity - Either both operations succeed or both fail together, ensuring data consistency
+    // Simplified Error Handling - You only need to catch errors once for the entire transaction
+    // Reduced Network Requests - The transaction is sent as a single database operation, which can be more efficient
+    await prisma.$transaction(async (tx) => {
+        // Create weight entry for current user
+        await tx.user.update({
+            where: {
+                id: locals.user.id
+            },
+            data: {
+                weights: {
+                    create: [{ weight }]
+                }
             }
-        }
+        });
+
+        // Update daily progress
+        await tx.dailyProgress.update({
+            where: {
+                userId_createdAt: {
+                    userId: locals.user.id,
+                    createdAt: locals.dailyProgress.createdAt
+                }
+            },
+            data: {
+                weighIn: true
+            }
+        });
     });
 
     // const collectible = getRandomCollectible()
