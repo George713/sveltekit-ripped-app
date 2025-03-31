@@ -244,6 +244,17 @@ export class FoodItemManager {
 }
 export const foodItemManager = new FoodItemManager()
 
+const updateConsumatedInDatabase = async ({ calories, protein }: { calories: number, protein: number }) => {
+    const response = await fetch('/api/updateConsumated', {
+        method: 'POST',
+        body: JSON.stringify({
+            calories,
+            protein,
+        }),
+        headers: { 'Content-Type': 'application/json' }
+    });
+    return response.ok;
+}
 
 // PlannedItem Manager
 export class PlannedItemManager {
@@ -252,12 +263,15 @@ export class PlannedItemManager {
     itemsEaten = $derived(this.items.filter(item => item.eaten))
 
     eatItem = (id: number, kcal: number) => {
+        let foodItem;
         this.items = this.items.map(item => {
             if (item.id === id) {
+                foodItem = foodItemManager.getById(item.foodId);
                 return { ...item, eaten: true };
             }
             return item;
         });
+        updateConsumatedInDatabase({ calories: foodItem!.kcal, protein: foodItem!.protein });
         if (calorieManager.underTarget) {
             xpManager.addXP(BASE_XP * (kcal / calorieManager.target));
         }
@@ -290,12 +304,15 @@ class EstimatedItemManager {
     }
 
     eatItem = (id: number, kcal: number) => {
+        let estimatedItem;
         this.items = this.items.map(item => {
             if (item.id === id) {
+                estimatedItem = item;
                 return { ...item, eaten: true };
             }
             return item;
         });
+        updateConsumatedInDatabase({ calories: estimatedItem!.kcal, protein: estimatedItem!.protein });
         if (calorieManager.underTarget) {
             xpManager.addXP(BASE_XP * (kcal / calorieManager.target) / 2); // Eating estimates only yields half XP
         }
