@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { draw } from 'svelte/transition';
+	import { cubicInOut } from 'svelte/easing';
 	import Glow from './Glow.svelte';
 
 	interface SvgInfo {
@@ -50,6 +52,9 @@
 		? `scaleX(-1)`
 		: ``} translate({translate[0]}%,{translate[1]}%) scale({scale}) rotate({rotate}deg)"
 >
+	<!-- Not-Glowing Path -->
+	<path d={svgInfo.path} stroke="#44403c" stroke-opacity="1" stroke-width={svgInfo.strokeWidth} />
+	<!-- Glowing Path -->
 	{#if glow}
 		<Glow color={svgInfo.glowColor} {glowStrength}>
 			<path
@@ -57,9 +62,8 @@
 				stroke={svgInfo.glowLineColor ? svgInfo.glowLineColor : 'white'}
 				stroke-opacity="1"
 				stroke-width={svgInfo.strokeWidth}
+				transition:draw={{ duration: 2500, easing: cubicInOut }}
 			/>
 		</Glow>
-	{:else}
-		<path d={svgInfo.path} stroke="#44403c" stroke-opacity="1" stroke-width={svgInfo.strokeWidth} />
 	{/if}
 </svg>
