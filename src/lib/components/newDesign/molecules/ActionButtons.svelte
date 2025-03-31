@@ -25,8 +25,8 @@
 	<ActionButton
 		size="big"
 		icon="cutlery"
-		glow={page.data.dailyProgress.harvest}
-		disabled={page.data.dailyProgress.harvest}
+		glow={page.data.dailyProgress.vaultOpened}
+		disabled={page.data.dailyProgress.vaultOpened}
 		onclick={() => goto('/log')}
 	/>
 </div>

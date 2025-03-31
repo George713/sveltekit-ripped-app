@@ -20,19 +20,19 @@
 	<div class="flex flex-col space-y-4">
 		<!-- Review -->
 		<ActionButton
-			glow={page.data.dailyProgress.weeklyReview}
+			glow={page.data.dailyProgress.review}
 			size="small"
 			icon="chart"
-			disabled={page.data.dailyProgress.weeklyReview}
+			disabled={page.data.dailyProgress.review}
 			hidden={!page.data.user.reviewToday}
 			onclick={() => goto('/review')}
 		/>
 		<!-- Photo -->
 		<ActionButton
-			glow={page.data.dailyProgress.weeklyPic || page.data.dailyProgress.initPhotos}
+			glow={page.data.dailyProgress.progressPic}
 			size="small"
 			icon="camera"
-			disabled={page.data.dailyProgress.weeklyPic || page.data.dailyProgress.initPhotos}
+			disabled={page.data.dailyProgress.progressPic}
 			hidden={page.data.schedule.nextProgressPic.remainingDays > 0}
 			onclick={() => inputElement.click()}
 		/>

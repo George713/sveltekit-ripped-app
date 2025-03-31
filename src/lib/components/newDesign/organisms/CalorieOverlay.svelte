@@ -40,7 +40,7 @@
 			<Input
 				id="calories"
 				name="calories"
-				placeholder={page.data.user.currentCalorieTarget.toString()}
+				placeholder={page.data.dailyProgress.targetCalories.toString()}
 				type="number"
 				unit="kcal"
 				step="1"

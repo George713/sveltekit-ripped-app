@@ -9,7 +9,7 @@
 
 	let { scale = 1 }: Props = $props();
 
-	let alreadyUsed = $state(page.data.dailyProgress.harvest); // results in glow
+	let alreadyUsed = $state(page.data.dailyProgress.vaultOpened); // results in glow
 	let shake = $derived(!alreadyUsed && calorieManager.inRange);
 	let xpGained = $state(0);
 

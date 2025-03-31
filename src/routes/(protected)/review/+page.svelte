@@ -122,7 +122,7 @@
 		try {
 			await fetch('?/keepTarget', { method: 'POST', body: new FormData() });
 
-			page.data.dailyProgress.weeklyReview = true;
+			page.data.dailyProgress.review = true;
 			goto('/');
 		} catch (error) {
 			toastManager.addToast({
@@ -148,8 +148,8 @@
 				body: formData
 			});
 
-			page.data.dailyProgress.weeklyReview = true;
-			page.data.user.currentCalorieTarget = calories;
+			page.data.dailyProgress.review = true;
+			page.data.dailyProgress.targetCalories = calories;
 			calorieManager.target = calories;
 			visibilityManager.toggleCalorieOverlay();
 			goto('/');

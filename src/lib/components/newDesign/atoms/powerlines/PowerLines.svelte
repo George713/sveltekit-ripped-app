@@ -88,7 +88,7 @@
 	<!-- Bodyfat -->
 	<Base
 		svgInfo={bodyfat}
-		glow={false}
+		glow={page.data.dailyProgress.bodyfat}
 		translate={[-10, 79]}
 		rotate={90}
 		hidden={!page.data.user.enterBodyfatToday}
@@ -96,14 +96,14 @@
 	<!-- Review -->
 	<Base
 		svgInfo={singleBent}
-		glow={page.data.dailyProgress.weeklyReview}
+		glow={page.data.dailyProgress.review}
 		translate={[15, 194]}
 		hidden={!page.data.user.reviewToday}
 	/>
 	<!-- Photo -->
 	<Base
 		svgInfo={singleBent}
-		glow={page.data.dailyProgress.weeklyPic || page.data.dailyProgress.initPhotos}
+		glow={page.data.dailyProgress.progressPic}
 		vflip={true}
 		translate={[15, -304]}
 		hidden={page.data.schedule.nextProgressPic.remainingDays > 0}
@@ -120,7 +120,7 @@
 	<!-- Eat -->
 	<Base
 		svgInfo={doubleBent}
-		glow={page.data.dailyProgress.harvest}
+		glow={page.data.dailyProgress.vaultOpened}
 		hflip={true}
 		translate={[-2, 184]}
 		scale={1.04}

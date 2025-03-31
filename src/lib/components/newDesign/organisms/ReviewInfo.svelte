@@ -53,7 +53,7 @@
 				color="amber"
 				mainText="Calorie Target"
 				subText="per day"
-				value={page.data.user.currentCalorieTarget}
+				value={page.data.dailyProgress.targetCalories}
 				unit="kcal"
 			/>
 			<InfoCard

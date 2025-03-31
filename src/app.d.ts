@@ -15,12 +15,10 @@ declare global {
 				isMale: boolean;
 				timeZoneOffset: number;
 				pointBalance: number;
-				vaultXP: number;
 				streakMeter: number;
 				currentBF: number;
 				currentStatus: string;
 				currentWeight: number;
-				currentCalorieTarget: number;
 				initBF: boolean;
 				initPhotos: boolean;
 				initCalories: boolean;
@@ -30,14 +28,18 @@ declare global {
 				collection: Collectible[];
 			};
 			dailyProgress: {
-				weighIn: boolean;
+				targetCalories: number;
 				targetProtein: number;
+				consumedCalories: number;
+				consumedProtein: number;
+				xpGained: number;
+				vaultXP: number;
+				weighIn: boolean;
 				planned: boolean;
-				eaten: boolean;
-				harvest: boolean;
-				initPhotos: boolean;
-				weeklyPic: boolean;
-				weeklyReview: boolean;
+				vaultOpened: boolean;
+				progressPic: boolean;
+				review: boolean;
+				bodyfat: boolean;
 			};
 			schedule: {
 				nextProgressPic: ScheduledEvent;

@@ -26,8 +26,8 @@
 
 	onMount(() => {
 		xpManager.totalXP = page.data.user.pointBalance;
-		xpManager.vaultXP = page.data.user.vaultXP;
-		calorieManager.target = page.data.user.currentCalorieTarget;
+		xpManager.vaultXP = page.data.dailyProgress.vaultXP;
+		calorieManager.target = page.data.dailyProgress.targetCalories;
 		proteinManager.target = page.data.dailyProgress.targetProtein;
 	});
 </script>

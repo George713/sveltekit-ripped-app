@@ -235,14 +235,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 			user.dailyProgress.push(newDailyProgress);
 		}
 
-		// Clear vaultXP on first login on new day
-		if (data.user.updated_at && new Date(data.user.updated_at) < dateDayBegin) {
-			await prisma.user.update({
-				where: { id: user.id },
-				data: { vaultXP: 0 }
-			});
-		}
-
 		// Filter out old weight information
 		user.weights = user.weights.filter(weight => weight.createdAt >= getDateDayBegin(user!.timeZoneOffset, 4));
 
@@ -261,9 +253,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			isMale: user.isMale,
 			timeZoneOffset: user.timeZoneOffset,
 			pointBalance: user.pointBalance,
-			vaultXP: user.vaultXP,
 			streakMeter: user.weights.length,
-			currentCalorieTarget: user.calorieTargets.length > 0 ? user.calorieTargets[0].calories : 9999,
 			currentBF: user.bodyfats.length > 0 ? user.bodyfats[0].bodyfat : 999,
 			currentStatus: 'tbd',
 			currentWeight: user.weights.length > 0 ? user.weights[0].weight : 100, // userWeight ? userWeight.weight : 100,
@@ -278,17 +268,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		// Derived value for user
 		event.locals.user.currentStatus = getCurrentCrestLevel(event.locals.user.currentBF, user.isMale)
 		// Daily Progress
-		event.locals.dailyProgress = {
-			weighIn: user.weights[0] ? user.weights[0].createdAt > dateDayBegin : false, // condition required for when user is new
-			targetProtein: Math.round(event.locals.user.currentWeight * 1.6),
-			planned: user.lastPlannedOn > dateDayBegin,
-			eaten: user.lastFinishedEatingOn > dateDayBegin,
-			harvest: user.lastHarvestOn > dateDayBegin,
-			initPhotos: user.progressPictures.some(pic => pic.type === 'initial' && pic.createdAt > dateDayBegin) &&
-				user.progressPictures.some(pic => pic.type === 'goofy' && pic.createdAt > dateDayBegin),
-			weeklyPic: user.lastWeeklyPicOn > dateDayBegin,
-			weeklyReview: user.lastReviewOn > dateDayBegin,
-		}
+		event.locals.dailyProgress = user.dailyProgress[0]
 		// Upcoming Events
 		event.locals.schedule = {
 			nextProgressPic: getScheduledEvent(
