@@ -9,15 +9,27 @@ export const actions = {
         const formData = await request.formData()
         const items = JSON.parse(formData.get('items') as string) as PlannedItem[]
 
-        // Create items
-        await prisma.plannedItem.createMany({
-            data: items
+        // Use transaction to combine both operations
+        await prisma.$transaction(async (tx) => {
+            // Create items
+            await tx.plannedItem.createMany({
+                data: items
+            });
+
+            // Update daily progress
+            await tx.dailyProgress.update({
+                where: {
+                    userId_createdAt: {
+                        userId: locals.user.id,
+                        createdAt: locals.dailyProgress.createdAt
+                    }
+                },
+                data: {
+                    planned: true
+                }
+            });
         });
 
-        // Update last planned date
-        await prisma.user.update({
-            where: { id: locals.user.id },
-            data: { lastPlannedOn: new Date() }
-        })
+        return { success: true }
     }
 } satisfies Actions;
