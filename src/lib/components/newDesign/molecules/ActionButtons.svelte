@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { visibilityManager } from '$lib/stateManagers.svelte';
+	import { visibilityManager, calorieManager } from '$lib/stateManagers.svelte';
 	import { goto } from '$app/navigation';
 
 	import ActionButton from '../atoms/ActionButton.svelte';
@@ -25,7 +25,8 @@
 	<ActionButton
 		size="big"
 		icon="cutlery"
-		glow={page.data.dailyProgress.vaultOpened}
+		glow={calorieManager.underTarget}
+		glowStrength={calorieManager.glowStrength}
 		disabled={page.data.dailyProgress.vaultOpened}
 		onclick={() => goto('/log')}
 	/>

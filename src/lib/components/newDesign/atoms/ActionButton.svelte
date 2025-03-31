@@ -10,12 +10,21 @@
 		size: 'small' | 'big';
 		icon: 'scale' | 'book' | 'cutlery' | 'insignia' | 'chart' | 'camera';
 		glow: boolean;
+		glowStrength?: '20' | '40' | '60' | '80' | '100';
 		disabled?: boolean;
 		hidden?: boolean;
 		onclick?: () => void;
 	}
 
-	let { size, icon, glow, disabled = false, hidden = false, onclick }: Props = $props();
+	let {
+		size,
+		icon,
+		glow,
+		glowStrength = '100',
+		disabled = false,
+		hidden = false,
+		onclick
+	}: Props = $props();
 </script>
 
 {#snippet buttonIcon(icon: string)}
@@ -44,7 +53,9 @@
 		'border-stone-700': !glow,
 		'pointer-events-none opacity-0': hidden
 	}}
-	style={glow ? 'filter: url(#blue-glow-powerline)' : 'box-shadow: 0 2px 4px rgba(0,0,0,0.4)'}
+	style={glow
+		? 'filter: url(#blue-glow-powerline' + `-${glowStrength})`
+		: 'box-shadow: 0 2px 4px rgba(0,0,0,0.4)'}
 	{onclick}
 	{disabled}
 >

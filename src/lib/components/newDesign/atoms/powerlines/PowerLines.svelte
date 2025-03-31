@@ -121,6 +121,7 @@
 	<Base
 		svgInfo={doubleBent}
 		glow={page.data.dailyProgress.vaultOpened}
+		glowStrength={calorieManager.glowStrength}
 		hflip={true}
 		translate={[-2, 184]}
 		scale={1.04}

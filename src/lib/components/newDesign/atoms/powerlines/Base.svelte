@@ -14,6 +14,7 @@
 	interface Props {
 		svgInfo: SvgInfo;
 		glow: boolean;
+		glowStrength?: '20' | '40' | '60' | '80' | '100';
 		vflip?: boolean;
 		hflip?: boolean;
 		translate?: [number, number];
@@ -25,6 +26,7 @@
 	let {
 		svgInfo,
 		glow,
+		glowStrength = '100',
 		vflip = false,
 		hflip = false,
 		translate = [0, 0],
@@ -49,7 +51,7 @@
 		: ``} translate({translate[0]}%,{translate[1]}%) scale({scale}) rotate({rotate}deg)"
 >
 	{#if glow}
-		<Glow color={svgInfo.glowColor}>
+		<Glow color={svgInfo.glowColor} {glowStrength}>
 			<path
 				d={svgInfo.path}
 				stroke={svgInfo.glowLineColor ? svgInfo.glowLineColor : 'white'}
