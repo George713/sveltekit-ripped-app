@@ -23,6 +23,21 @@ export const focusElement = (el: HTMLInputElement | HTMLParagraphElement) => {
 /**
  * Calculates the datetime of the logical beginning of the current day or from x days ago.
  * Reminder: HYC's days run from 3am to 3am in the user's local timezone.
+ * Example 1: User in UTC+0 (London)
+ *      3am local time = 3am UTC
+ *      The user's "day" starts at 3am UTC
+ *      At 2:30am UTC, it's still "yesterday" for the user
+ *      At 3:30am UTC, it's now "today" for the user
+ * Example 2: User in UTC-5 (Eastern US)
+ *      3am local time = 8am UTC
+ *      The user's "day" starts at 8am UTC
+ *      At 7:30am UTC, it's still "yesterday" for the user
+ *      At 8:30am UTC, it's now "today" for the user
+ * Example 3: User in UTC+9 (Japan)
+ *      3am local time = 6pm (18:00) UTC
+ *      The user's "day" starts at 18:00 UTC
+ *      At 17:30 UTC, it's still "yesterday" for the user
+ *      At 18:30 UTC, it's now "today" for the user
  */
 export const getDateDayBegin = (timeZoneOffset: number, xDays: number = 0) => {
     const beginningHour = (3 - timeZoneOffset + 24) % 24 // Add 24 so that expression in front of modulo is always positive
