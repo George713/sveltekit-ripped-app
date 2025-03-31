@@ -119,14 +119,14 @@ class XPManager {
     // Adding XP
     addXP = async (gainedXP: number) => {
         // Distribute XP between vault and direct
-        const gainedVaultXP = Math.round(gainedXP * 3 / 4);
+        const gainedVaultXP = calorieManager.underTarget ? Math.round(gainedXP * 3 / 4) : 0;
         const gainedDirectXP = Math.round(gainedXP * 1 / 4);
 
         // Set cache for animation
         this.xpCacheVault += gainedVaultXP;
         this.xpCacheDirect += gainedDirectXP;
 
-        if (gainedVaultXP > 0) {
+        if (gainedVaultXP > 0 || gainedDirectXP > 0) {
             await this._updateXPInDatabase(gainedDirectXP, gainedVaultXP, false);
         }
     }
@@ -291,6 +291,8 @@ export class PlannedItemManager {
         updateConsumatedInDatabase({ calories: foodItem!.kcal, protein: foodItem!.protein });
         if (calorieManager.underTarget) {
             xpManager.addXP(BASE_XP * (kcal / calorieManager.target));
+        } else {
+            xpManager.addXP(BASE_XP * (kcal / calorieManager.target) / 4);
         }
     }
 
@@ -332,6 +334,8 @@ class EstimatedItemManager {
         updateConsumatedInDatabase({ calories: estimatedItem!.kcal, protein: estimatedItem!.protein });
         if (calorieManager.underTarget) {
             xpManager.addXP(BASE_XP * (kcal / calorieManager.target) / 2); // Eating estimates only yields half XP
+        } else {
+            xpManager.addXP(BASE_XP * (kcal / calorieManager.target) / 8);
         }
     }
 }
