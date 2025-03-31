@@ -28,6 +28,7 @@ declare global {
 				collection: Collectible[];
 			};
 			dailyProgress: {
+				createdAt: Date;
 				targetCalories: number;
 				targetProtein: number;
 				consumedCalories: number;
