@@ -1,7 +1,10 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
+	import { uploadProgressPic } from '$lib/imageHandler.svelte';
 	import ActionButton from '../atoms/ActionButton.svelte';
+
+	let inputElement: HTMLInputElement;
 </script>
 
 <div class="absolute flex items-center space-x-3" style="transform: translate(115%, 134%)">
@@ -31,6 +34,16 @@
 			icon="camera"
 			disabled={page.data.dailyProgress.weeklyPic || page.data.dailyProgress.initPhotos}
 			hidden={page.data.schedule.nextProgressPic.remainingDays > 0}
+			onclick={() => inputElement.click()}
 		/>
 	</div>
 </div>
+
+<input
+	bind:this={inputElement}
+	onchange={(event) => uploadProgressPic(event, 'weekly')}
+	type="file"
+	accept="image/*"
+	capture="user"
+	hidden
+/>
