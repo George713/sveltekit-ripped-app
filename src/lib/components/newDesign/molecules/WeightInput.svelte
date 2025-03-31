@@ -49,6 +49,7 @@
 			id="weight"
 			name="weight"
 			placeholder={page.data.user.currentWeight.toFixed(2)}
+			value={page.data.user.currentWeight.toFixed(2)}
 			type="number"
 			unit="kg"
 		/>

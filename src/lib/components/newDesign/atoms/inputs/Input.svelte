@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { focusElement } from '$lib/utils';
+	import { focusElement, selectInput } from '$lib/utils';
 
 	interface Props {
 		id: string;
@@ -26,6 +26,7 @@
 		{step}
 		bind:value
 		use:focusElement
+		onfocus={selectInput}
 		required
 	/>
 	<span class="flex items-center text-stone-400">{unit}</span>

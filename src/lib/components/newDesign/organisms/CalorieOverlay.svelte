@@ -14,7 +14,7 @@
 
 	const { adjustTarget }: Props = $props();
 
-	let newCalories = $state<number | undefined>(undefined);
+	let newCalories = $state(page.data.dailyProgress.targetCalories);
 </script>
 
 <BackgroundSemiTransparent
