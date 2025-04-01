@@ -1,7 +1,10 @@
 <script lang="ts">
-	import { selectInput } from '$lib/utils.svelte';
+	import { ingredientManager } from '$lib/stateManagers.svelte';
+	import { selectInput, SwipeDetector } from '$lib/utils.svelte';
+	import { fly } from 'svelte/transition';
 
 	interface Props {
+		id: number;
 		icon: string;
 		name: string;
 		kcal: number;
@@ -10,6 +13,7 @@
 	}
 
 	let {
+		id,
 		icon,
 		name = $bindable(),
 		kcal = $bindable(),
@@ -18,6 +22,12 @@
 	}: Props = $props();
 
 	let nameInput: HTMLInputElement;
+
+	const swipeDetector = new SwipeDetector({
+		threshold: 50,
+		onSwipeLeft: () => {},
+		onSwipeRight: () => ingredientManager.remove(id)
+	});
 
 	$effect(() => {
 		if (shouldFocus) {
@@ -28,6 +38,10 @@
 
 <div
 	class="flex h-9 w-full items-center space-x-1 rounded-[6px] border border-stone-700 px-2 text-sm font-thin text-stone-400"
+	ontouchstart={swipeDetector.handleTouchStart}
+	ontouchmove={swipeDetector.handleTouchMove}
+	in:fly={{ x: -20, duration: 750 }}
+	out:fly={{ x: 20, duration: 750 }}
 >
 	<label for={'name_' + name} class="size-5">{icon}</label>
 	<input

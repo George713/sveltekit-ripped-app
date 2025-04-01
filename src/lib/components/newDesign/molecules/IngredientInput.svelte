@@ -16,8 +16,9 @@
 	<!-- Ingredient Field -->
 	<div class="mb-1">
 		<div class="flex flex-col space-y-1">
-			{#each ingredientManager.items as item}
+			{#each ingredientManager.items as item (item.id)}
 				<Ingredient
+					id={item.id}
 					icon={item.icon}
 					bind:name={item.name}
 					bind:kcal={item.kcal}

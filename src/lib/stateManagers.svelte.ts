@@ -439,6 +439,8 @@ export const foodSetManager = new FoodSetManager()
 
 
 class Ingredient {
+    static nextId = 0;
+    id = $state(0)
     icon = $state("")
     name = $state("")
     kcal = $state(0)
@@ -446,6 +448,7 @@ class Ingredient {
     shouldFocus = $state(false)
 
     constructor(icon: string, name: string, kcal: number, protein: number, shouldFocus: boolean = false) {
+        this.id = Ingredient.nextId++;
         this.icon = icon
         this.name = name
         this.kcal = kcal
@@ -464,6 +467,10 @@ class IngredientManager {
     add = (item: RecordedItem | RecordedItem[]) => {
         const newItems = (Array.isArray(item) ? item : [item]).map((recordedItem: RecordedItem) => new Ingredient(recordedItem.icon, recordedItem.name, recordedItem.kcal, recordedItem.protein, recordedItem?.shouldFocus));
         this.items = [...this.items, ...newItems];
+    }
+
+    remove = (id: number) => {
+        this.items = this.items.filter(item => item.id !== id);
     }
 
     clear = () => {
