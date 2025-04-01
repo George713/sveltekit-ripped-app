@@ -263,6 +263,7 @@ export class PlannedItemManager {
     itemsEaten = $derived(this.items.filter(item => item.eaten))
 
     eatItem = (id: number, kcal: number) => {
+        const initialProteinPct = proteinManager.eatenPct;
         let foodItem;
         this.items = this.items.map(item => {
             if (item.id === id) {
@@ -279,7 +280,7 @@ export class PlannedItemManager {
         }
         animationManager.eatPowerline = true;
         animationManager.caloriePowerline = calorieManager.inRange;
-        animationManager.proteinPowerline = proteinManager.eatenPct >= 1;
+        animationManager.proteinPowerline = initialProteinPct < 1 ? proteinManager.eatenPct >= 1 : animationManager.proteinPowerline;
     }
 
     getEnrichedItems = () => {
@@ -309,6 +310,7 @@ class EstimatedItemManager {
     }
 
     eatItem = (id: number, kcal: number) => {
+        const initialProteinPct = proteinManager.eatenPct;
         let estimatedItem;
         this.items = this.items.map(item => {
             if (item.id === id) {
@@ -325,7 +327,7 @@ class EstimatedItemManager {
         }
         animationManager.eatPowerline = true;
         animationManager.caloriePowerline = calorieManager.inRange;
-        animationManager.proteinPowerline = proteinManager.eatenPct >= 1;
+        animationManager.proteinPowerline = initialProteinPct < 1 ? proteinManager.eatenPct >= 1 : animationManager.proteinPowerline;
     }
 }
 export const estimatedItemManager = new EstimatedItemManager()
