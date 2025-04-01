@@ -27,7 +27,7 @@
 	let protein: SvgInfo = {
 		width: 49.5,
 		height: 148,
-		path: 'M 25,75 V 24',
+		path: 'M 25,24 V 75',
 		strokeWidth: 1.5,
 		glowColor: 'blue'
 	};
