@@ -1,6 +1,6 @@
 import { invalidateAll } from '$app/navigation';
 import { uploadToS3 } from "$lib/utils";
-import { visibilityManager } from "$lib/stateManagers.svelte";
+import { animationManager, visibilityManager } from "$lib/stateManagers.svelte";
 
 export const uploadProgressPic = async (event: Event, type: 'initial' | 'goofy' | 'weekly') => {
     const maxWidth = 1080; // max. width of image taken
@@ -72,6 +72,8 @@ export const uploadProgressPic = async (event: Event, type: 'initial' | 'goofy' 
         if (type === 'goofy' || type === 'weekly') {
             await invalidateAll();
         }
+
+        animationManager.progressPicPowerline = true;
 
         visibilityManager.toggleSpinnerOverlay();
     }

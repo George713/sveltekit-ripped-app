@@ -5,7 +5,12 @@
 	import WeightChart from '$lib/components/newDesign/molecules/WeightChart.svelte';
 	import CalorieOverlay from '$lib/components/newDesign/organisms/CalorieOverlay.svelte';
 	import ReviewInfo from '$lib/components/newDesign/organisms/ReviewInfo.svelte';
-	import { calorieManager, toastManager, visibilityManager } from '$lib/stateManagers.svelte.js';
+	import {
+		animationManager,
+		calorieManager,
+		toastManager,
+		visibilityManager
+	} from '$lib/stateManagers.svelte.js';
 
 	let { data } = $props();
 
@@ -123,6 +128,7 @@
 			await fetch('?/keepTarget', { method: 'POST', body: new FormData() });
 
 			page.data.dailyProgress.review = true;
+			animationManager.reviewPowerline = true;
 			goto('/');
 		} catch (error) {
 			toastManager.addToast({
@@ -152,6 +158,7 @@
 			page.data.dailyProgress.targetCalories = calories;
 			calorieManager.target = calories;
 			visibilityManager.toggleCalorieOverlay();
+			animationManager.reviewPowerline = true;
 			goto('/');
 		} catch (error) {
 			visibilityManager.toggleCalorieOverlay();

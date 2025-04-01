@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
-	import { fade, slide } from 'svelte/transition';
+	import { slide } from 'svelte/transition';
 
 	import { selectInput, focusElement } from '$lib/utils';
-	import { visibilityManager } from '$lib/stateManagers.svelte';
+	import { animationManager, visibilityManager } from '$lib/stateManagers.svelte';
 
 	import Sigil from '$lib/components/newDesign/atoms/Sigil.svelte';
 	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
@@ -71,6 +71,7 @@
 				method: 'POST',
 				body: formData
 			});
+			animationManager.bodyfatPowerline = true;
 			if (unlockProcess) {
 				goto('/bodyfat/reveal?oldBodyfat=50' + '&previousRank=tbd', {
 					invalidateAll: true

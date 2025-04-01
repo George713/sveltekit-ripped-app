@@ -5,6 +5,7 @@
 	import FoodLibrary from '$lib/components/newDesign/organisms/FoodLibrary.svelte';
 	import FoodSelection from '$lib/components/newDesign/organisms/FoodSelection.svelte';
 	import {
+		animationManager,
 		calorieManager,
 		dailySelectionManager,
 		toastManager,
@@ -46,6 +47,9 @@
 
 			// Explicitly invalidate all data dependencies
 			await invalidate('layoutLoad'); // Invalidates the load from `layout.server.ts` specifically
+
+			// Show powerline animation
+			animationManager.planPowerline = true;
 
 			// Then navigate home
 			await goto('/');

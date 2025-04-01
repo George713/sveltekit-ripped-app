@@ -10,7 +10,7 @@
 	import Arrow from '$lib/components/newDesign/icons/Arrow.svelte';
 	import Crest from '$lib/components/newDesign/icons/Crest.svelte';
 	import { Carousel, CarouselItem } from '$lib/components/newDesign/molecules/carousel';
-	import { visibilityManager } from '$lib/stateManagers.svelte';
+	import { animationManager, visibilityManager } from '$lib/stateManagers.svelte';
 
 	// Image item type
 	interface ImageItem {
@@ -68,6 +68,7 @@
 		} catch (error) {
 			// Handle error
 		}
+		animationManager.bodyfatPowerline = true;
 		visibilityManager.toggleSpinnerOverlay();
 	};
 </script>

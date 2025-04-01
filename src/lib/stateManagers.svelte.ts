@@ -277,6 +277,9 @@ export class PlannedItemManager {
         } else {
             xpManager.addXP(BASE_XP * (kcal / calorieManager.target) / 4);
         }
+        animationManager.eatPowerline = true;
+        animationManager.caloriePowerline = calorieManager.inRange;
+        animationManager.proteinPowerline = proteinManager.eatenPct >= 1;
     }
 
     getEnrichedItems = () => {
@@ -320,6 +323,9 @@ class EstimatedItemManager {
         } else {
             xpManager.addXP(BASE_XP * (kcal / calorieManager.target) / 8);
         }
+        animationManager.eatPowerline = true;
+        animationManager.caloriePowerline = calorieManager.inRange;
+        animationManager.proteinPowerline = proteinManager.eatenPct >= 1;
     }
 }
 export const estimatedItemManager = new EstimatedItemManager()
@@ -463,3 +469,27 @@ class IngredientManager {
     }
 }
 export const ingredientManager = new IngredientManager()
+
+
+class AnimationManager {
+    weighInPowerline = $state(false);
+    planPowerline = $state(false);
+    eatPowerline = $state(false);
+    caloriePowerline = $state(false);
+    proteinPowerline = $state(false);
+    progressPicPowerline = $state(false);
+    reviewPowerline = $state(false);
+    bodyfatPowerline = $state(false);
+
+    reset = () => {
+        this.weighInPowerline = false;
+        this.planPowerline = false;
+        this.eatPowerline = false;
+        this.caloriePowerline = false;
+        this.proteinPowerline = false;
+        this.progressPicPowerline = false;
+        this.reviewPowerline = false;
+        this.bodyfatPowerline = false;
+    }
+}
+export const animationManager = new AnimationManager();

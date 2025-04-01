@@ -3,7 +3,7 @@
 	import { invalidateAll } from '$app/navigation';
 	import { page } from '$app/state';
 
-	import { toastManager, visibilityManager } from '$lib/stateManagers.svelte';
+	import { animationManager, toastManager, visibilityManager } from '$lib/stateManagers.svelte';
 
 	import Button from '../atoms/Button.svelte';
 	import ColoredHeader from '../atoms/ColoredHeader.svelte';
@@ -36,6 +36,7 @@
 				} else {
 					// Otherwise redirect as planned
 					await applyAction(result);
+					animationManager.weighInPowerline = true;
 					visibilityManager.toggleWeightOverlay();
 					invalidateAll();
 				}

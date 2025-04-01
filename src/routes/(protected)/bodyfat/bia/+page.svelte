@@ -4,7 +4,7 @@
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 
-	import { visibilityManager } from '$lib/stateManagers.svelte';
+	import { animationManager, visibilityManager } from '$lib/stateManagers.svelte';
 	import { focusElement, selectInput } from '$lib/utils';
 
 	import Arrow from '$lib/components/newDesign/icons/Arrow.svelte';
@@ -51,6 +51,7 @@
 				method: 'POST',
 				body: formData
 			});
+			animationManager.bodyfatPowerline = true;
 			if (unlockProcess) {
 				goto('/bodyfat/reveal?oldBodyfat=50' + '&previousRank=tbd', {
 					invalidateAll: true

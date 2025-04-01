@@ -16,6 +16,7 @@
 	interface Props {
 		svgInfo: SvgInfo;
 		glowStrength: number;
+		animate: boolean;
 		vflip?: boolean;
 		hflip?: boolean;
 		translate?: [number, number];
@@ -26,7 +27,8 @@
 
 	let {
 		svgInfo,
-		glowStrength = 0,
+		glowStrength,
+		animate,
 		vflip = false,
 		hflip = false,
 		translate = [0, 0],
@@ -34,6 +36,22 @@
 		rotate = 0,
 		hidden = false
 	}: Props = $props();
+
+	// Custom transition function that only applies draw when `animate` is true
+	const triggeredDraw = (node: SVGElement & { getTotalLength(): number }, params: any) => {
+		if (!animate) {
+			// No-op transition when `animate` is false
+			return {
+				delay: 0,
+				duration: 0,
+				easing: cubicInOut,
+				css: () => ''
+			};
+		}
+
+		// Use the standard draw transition when `animate` is true
+		return draw(node, params);
+	};
 </script>
 
 <svg
@@ -60,7 +78,7 @@
 				stroke={svgInfo.glowLineColor ? svgInfo.glowLineColor : 'white'}
 				stroke-opacity="1"
 				stroke-width={svgInfo.strokeWidth}
-				in:draw={{ duration: 2500, easing: cubicInOut }}
+				in:triggeredDraw={{ duration: 2500, easing: cubicInOut }}
 			/>
 		</Glow>
 	</g>
