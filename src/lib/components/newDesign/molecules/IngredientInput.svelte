@@ -35,7 +35,7 @@
 				{#if audioRecorder.isListening}
 					Listening...
 				{:else}
-					{(audioRecorder.recordedText.trim() + ' ' + audioRecorder.tempTranscript.trim()).trim()}
+					{(audioRecorder.recordedText.trim() + ', ' + audioRecorder.tempTranscript.trim()).trim()}
 				{/if}
 			</p>
 		{/if}
