@@ -2,6 +2,7 @@
 	import { page } from '$app/state';
 	import InfoCard from '../molecules/InfoCard.svelte';
 	import TwoWeekTracker from '../molecules/TwoWeekTracker.svelte';
+	import { SwipeDetector } from '$lib/utils.svelte';
 
 	interface Props {
 		trend14days: number;
@@ -11,32 +12,11 @@
 	let { trend14days, twoWeekData }: Props = $props();
 
 	let showTracker = $state(false);
-	let touchStartX = $state(0);
-
-	const handleTouchStart = (e: TouchEvent) => {
-		touchStartX = e.touches[0].clientX;
-	};
-
-	const handleTouchMove = (e: TouchEvent) => {
-		const touchEndX = e.touches[0].clientX;
-		const diffX = touchEndX - touchStartX;
-
-		// If swiping left on InfoCard (and not showing tracker yet)
-		if (diffX < -50 && !showTracker) {
-			showTracker = true;
-			touchStartX = touchEndX;
-		}
-
-		// If swiping right on TwoWeekTracker (and showing tracker)
-		if (diffX > 50 && showTracker) {
-			showTracker = false;
-			touchStartX = touchEndX;
-		}
-	};
-
-	const toggleTracker = () => {
-		showTracker = !showTracker;
-	};
+	const swipeDetector = new SwipeDetector({
+		threshold: 50,
+		onSwipeLeft: () => (showTracker = true),
+		onSwipeRight: () => (showTracker = false)
+	});
 </script>
 
 <div class="relative min-h-31 w-full overflow-x-clip">
@@ -44,8 +24,8 @@
 	<div
 		class="absolute flex w-full flex-col transition-transform duration-800"
 		style="transform: translateX({showTracker ? '-100%' : '0'});"
-		ontouchstart={handleTouchStart}
-		ontouchmove={handleTouchMove}
+		ontouchstart={swipeDetector.handleTouchStart}
+		ontouchmove={swipeDetector.handleTouchMove}
 	>
 		<div class="flex w-full justify-center space-x-4">
 			<InfoCard
@@ -66,7 +46,7 @@
 			/>
 		</div>
 		<div class="mt-2 flex w-full justify-end px-4">
-			<button class="text-xs font-medium text-stone-600" onclick={toggleTracker}>
+			<button class="text-xs font-medium text-stone-600" onclick={() => (showTracker = true)}>
 				Tracking Success &rarr;
 			</button>
 		</div>
@@ -76,12 +56,12 @@
 	<div
 		class="absolute flex w-full flex-col transition-transform duration-800"
 		style="transform: translateX({showTracker ? '0' : '100%'});"
-		ontouchstart={handleTouchStart}
-		ontouchmove={handleTouchMove}
+		ontouchstart={swipeDetector.handleTouchStart}
+		ontouchmove={swipeDetector.handleTouchMove}
 	>
 		<TwoWeekTracker {twoWeekData} />
 		<div class="mt-2 flex w-full justify-start px-4">
-			<button class="text-xs font-medium text-stone-600" onclick={toggleTracker}>
+			<button class="text-xs font-medium text-stone-600" onclick={() => (showTracker = false)}>
 				&larr; Back to Info
 			</button>
 		</div>

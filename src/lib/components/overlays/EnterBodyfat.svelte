@@ -2,7 +2,7 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
 	import { showSpinner, visibleOverlay, visibleView } from '$lib/stores';
-	import { selectInput, focusElement } from '$lib/utils';
+	import { selectInput, focusElement } from '$lib/utils.svelte';
 
 	import Background from '$overlays/Background.svelte';
 
@@ -32,7 +32,7 @@
 
 <Background>
 	<div
-		class="backdrop-blur-xs absolute bottom-1/4 left-1/2 flex w-[calc(70%)] -translate-x-1/2 -translate-y-1/2 transform flex-col items-center rounded-md bg-slate-200/70 px-5 py-2"
+		class="absolute bottom-1/4 left-1/2 flex w-[calc(70%)] -translate-x-1/2 -translate-y-1/2 transform flex-col items-center rounded-md bg-slate-200/70 px-5 py-2 backdrop-blur-xs"
 	>
 		<span>Body fat measurement</span>
 		<form
@@ -79,7 +79,7 @@
 					/></svg
 				>
 				<div
-					class="flex flex-col py-[6px] pr-2 text-[8px] font-bold leading-none tracking-tight text-zinc-100"
+					class="flex flex-col py-[6px] pr-2 text-[8px] leading-none font-bold tracking-tight text-zinc-100"
 				>
 					<p>Submit</p>
 				</div>

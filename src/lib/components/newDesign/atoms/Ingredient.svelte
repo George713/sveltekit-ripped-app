@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { selectInput } from '$lib/utils';
+	import { selectInput } from '$lib/utils.svelte';
 
 	interface Props {
 		icon: string;

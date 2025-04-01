@@ -2,7 +2,7 @@
 	import { enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
 	import { visibleView } from '$lib/stores';
-	import { selectInput, focusElement } from '$lib/utils';
+	import { selectInput, focusElement } from '$lib/utils.svelte';
 
 	import ModalSkeleton from '$molecules/ModalSkeleton.svelte';
 </script>

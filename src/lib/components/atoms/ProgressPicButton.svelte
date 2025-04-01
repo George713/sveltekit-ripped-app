@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
 	import { showSpinner } from '$lib/stores';
-	import { uploadToS3 } from '$lib/utils';
+	import { uploadToS3 } from '$lib/utils.svelte';
 
 	import ActionButton from './ActionButton.svelte';
 

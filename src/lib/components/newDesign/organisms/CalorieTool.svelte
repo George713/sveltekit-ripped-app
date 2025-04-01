@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { selectInput } from '$lib/utils';
+	import { selectInput } from '$lib/utils.svelte';
 	import { slide } from 'svelte/transition';
 	import GenderSwitch from '../molecules/GenderSwitch.svelte';
 	import { page } from '$app/state';

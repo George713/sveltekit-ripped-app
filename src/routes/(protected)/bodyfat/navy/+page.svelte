@@ -3,7 +3,7 @@
 	import { goto } from '$app/navigation';
 	import { slide } from 'svelte/transition';
 
-	import { selectInput, focusElement } from '$lib/utils';
+	import { selectInput, focusElement } from '$lib/utils.svelte.js';
 	import { animationManager, visibilityManager } from '$lib/stateManagers.svelte';
 
 	import Sigil from '$lib/components/newDesign/atoms/Sigil.svelte';

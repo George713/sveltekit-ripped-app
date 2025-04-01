@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { focusElement, selectInput } from '$lib/utils';
+	import { focusElement, selectInput } from '$lib/utils.svelte';
 
 	interface Props {
 		id: string;

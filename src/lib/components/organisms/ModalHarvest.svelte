@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { invalidateAll } from '$app/navigation';
 	import { eatenKcal, eatenProtein, visibleView } from '$lib/stores';
-	import { calculateBasePoints } from '$lib/utils';
+	import { calculateBasePoints } from '$lib/utils.svelte';
 
 	const basePoints = calculateBasePoints($page.data.user.currentStatus);
 
@@ -47,7 +47,7 @@
 </script>
 
 <div
-	class="absolute left-0 top-0 h-screen w-screen bg-gray-300"
+	class="absolute top-0 left-0 h-screen w-screen bg-gray-300"
 	role="button"
 	tabindex={0}
 	on:click={() => visibleView.update('none')}
@@ -55,7 +55,7 @@
 >
 	<div class="relative m-1 mt-12 flex flex-col bg-slate-100 shadow-xl">
 		<!-- Base Points: Heading -->
-		<div class="ml-8 mt-8">
+		<div class="mt-8 ml-8">
 			<span class="text-lg font-bold text-slate-400 [text-shadow:_1px_1px_2px_rgb(0_0_0_/_20%)]">
 				Base Points
 			</span>
@@ -82,7 +82,7 @@
 			</div>
 		</div>
 		<!-- Multipliers: Heading -->
-		<div class="ml-8 mt-5">
+		<div class="mt-5 ml-8">
 			<span class="text-lg font-bold text-slate-400 [text-shadow:_1px_1px_2px_rgb(0_0_0_/_20%)]">
 				Multipliers
 			</span>
@@ -98,16 +98,16 @@
 			</div>
 		</div>
 		<!-- Summary: Horizontal Bar -->
-		<div class="flex-span ml-[calc(45%)] mr-16 mt-8 h-[2px] rounded-lg bg-gray-500" />
+		<div class="flex-span mt-8 mr-16 ml-[calc(45%)] h-[2px] rounded-lg bg-gray-500" />
 		<!-- Summary: Points -->
 		<div class="relative my-2 flex">
-			<span class="ml-[calc(57%)] mr-1 w-6 text-right text-2xl font-bold text-gray-700"
+			<span class="mr-1 ml-[calc(57%)] w-6 text-right text-2xl font-bold text-gray-700"
 				>{totalPoints}</span
 			>
 			<img src="/gcoins.svg" alt="gcoins" />
 		</div>
 		<button
-			class="mx-auto mb-10 mt-20 w-36 rounded-sm bg-green-400 px-6 py-2 text-xl font-bold text-gray-700"
+			class="mx-auto mt-20 mb-10 w-36 rounded-sm bg-green-400 px-6 py-2 text-xl font-bold text-gray-700"
 			on:click={() => harvest(totalPoints)}>HARVEST</button
 		>
 	</div>

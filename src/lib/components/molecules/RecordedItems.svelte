@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { selectContent, focusElement } from '$lib/utils';
+	import { selectContent, focusElement } from '$lib/utils.svelte';
 
 	export let recordingResult;
 
@@ -48,7 +48,7 @@
 			</p>
 			<div class="flex w-[82px] justify-end px-3 text-sm">
 				<p
-					class="whitespace-nowrap pr-1 focus:outline-hidden"
+					class="pr-1 whitespace-nowrap focus:outline-hidden"
 					contenteditable="true"
 					on:focus={selectContent}
 					use:customFocusElement
@@ -61,14 +61,14 @@
 
 			<div class="flex w-[82px] justify-end pr-3 text-sm">
 				<p
-					class="whitespace-nowrap text-end focus:outline-hidden"
+					class="text-end whitespace-nowrap focus:outline-hidden"
 					contenteditable="true"
 					on:focus={selectContent}
 					on:input={(e) => handleInputChange(index, 'protein', e)}
 				>
 					{item.protein}
 				</p>
-				<p class="whitespace-nowrap text-end">g protein</p>
+				<p class="text-end whitespace-nowrap">g protein</p>
 			</div>
 		</div>
 	{/each}

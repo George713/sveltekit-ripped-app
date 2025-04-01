@@ -1,7 +1,7 @@
 <!-- Camera.svelte -->
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { isMobile } from '$lib/utils';
+	import { isMobile } from '$lib/utils.svelte';
 
 	export let showCamera: boolean;
 	export let handlePhotoTaken: (imageDataUrl: string, imageBlob: Blob) => void;
@@ -71,23 +71,23 @@
 	};
 </script>
 
-<div class="relative w-full h-full rounded-b-lg">
+<div class="relative h-full w-full rounded-b-lg">
 	<!-- svelte-ignore a11y-media-has-caption -->
 	<video
 		bind:this={video}
 		autoplay
 		playsinline
-		class="absolute z-30 w-full h-full rounded-b-lg object-cover"
+		class="absolute z-30 h-full w-full rounded-b-lg object-cover"
 	/>
-	<canvas bind:this={canvas} class="absolute top-0 w-full h-full rounded-b-lg object-cover" />
+	<canvas bind:this={canvas} class="absolute top-0 h-full w-full rounded-b-lg object-cover" />
 	<div
-		class="fixed z-10 top-0 left-0 w-full h-full bg-black/40 flex justify-center items-end backdrop-blur-[1px]"
+		class="fixed top-0 left-0 z-10 flex h-full w-full items-end justify-center bg-black/40 backdrop-blur-[1px]"
 		on:click={() => (showCamera = false)}
 		role="none"
 	>
 		<button
 			on:click={takePhoto}
-			class="mb-20 border-2 rounded-2xl p-3 text-neutral-400 font-semibold border-neutral-400"
+			class="mb-20 rounded-2xl border-2 border-neutral-400 p-3 font-semibold text-neutral-400"
 		>
 			Take Photo
 		</button>

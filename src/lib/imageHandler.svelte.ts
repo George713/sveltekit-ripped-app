@@ -1,5 +1,5 @@
 import { invalidateAll } from '$app/navigation';
-import { uploadToS3 } from "$lib/utils";
+import { uploadToS3 } from "$lib/utils.svelte";
 import { animationManager, visibilityManager } from "$lib/stateManagers.svelte";
 
 export const uploadProgressPic = async (event: Event, type: 'initial' | 'goofy' | 'weekly') => {

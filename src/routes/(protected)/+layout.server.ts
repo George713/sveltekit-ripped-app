@@ -2,7 +2,7 @@ import { redirect } from '@sveltejs/kit'
 import type { LayoutServerLoad } from './$types';
 
 import type { FoodItem } from '$lib/types';
-import { getDateDayBegin } from '$lib/utils';
+import { getDateDayBegin } from '$lib/utils.svelte';
 import { prisma } from '$lib/prismaClient.server';
 
 

@@ -5,7 +5,7 @@
 	import { goto } from '$app/navigation';
 
 	import { animationManager, visibilityManager } from '$lib/stateManagers.svelte';
-	import { focusElement, selectInput } from '$lib/utils';
+	import { focusElement, selectInput } from '$lib/utils.svelte';
 
 	import Arrow from '$lib/components/newDesign/icons/Arrow.svelte';
 	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';

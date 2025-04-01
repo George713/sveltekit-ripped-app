@@ -4,7 +4,7 @@
 	import { invalidateAll } from '$app/navigation';
 
 	import { showSpinner, visibleOverlay } from '$lib/stores';
-	import { isMobile, uploadToS3 } from '$lib/utils';
+	import { isMobile, uploadToS3 } from '$lib/utils.svelte';
 	import Background from '$overlays/Background.svelte';
 
 	let photoTaken = false;
@@ -103,7 +103,7 @@
 
 <Background>
 	<div
-		class="absolute p-4 w-full h-full bg-black/40 flex items-center justify-center"
+		class="absolute flex h-full w-full items-center justify-center bg-black/40 p-4"
 		role="button"
 		tabindex={0}
 		on:click|self={() => visibleOverlay.set('none')}
@@ -114,7 +114,7 @@
 			bind:this={video}
 			autoplay
 			playsinline
-			class="rounded-lg h-full object-cover {!photoTaken ? '' : 'hidden'}"
+			class="h-full rounded-lg object-cover {!photoTaken ? '' : 'hidden'}"
 			role="button"
 			tabindex={0}
 			on:click|self={() => visibleOverlay.set('none')}
@@ -122,11 +122,11 @@
 		/>
 		<div class="relative h-full w-full {photoTaken ? '' : 'hidden'}">
 			<!-- Canvas / Image taken -->
-			<canvas bind:this={canvas} class="rounded-lg h-full w-full" />
+			<canvas bind:this={canvas} class="h-full w-full rounded-lg" />
 			<!-- Redo Button -->
 			<button
 				on:click={() => (photoTaken = false)}
-				class="absolute bottom-1 right-1 w-8 h-8 rounded-lg border-neutral-400 bg-black/50"
+				class="absolute right-1 bottom-1 h-8 w-8 rounded-lg border-neutral-400 bg-black/50"
 			>
 				<svg viewBox="0 0 24 24" class=" fill-none stroke-neutral-400">
 					<path
@@ -139,7 +139,7 @@
 		{#if !photoTaken}
 			<button
 				on:click={takePhoto}
-				class="absolute bottom-20 rounded-2xl p-3 text-neutral-400 font-semibold border-neutral-400 bg-black/60"
+				class="absolute bottom-20 rounded-2xl border-neutral-400 bg-black/60 p-3 font-semibold text-neutral-400"
 			>
 				Take Photo
 			</button>
@@ -147,7 +147,7 @@
 			<!-- Submit Button -->
 			<button
 				on:click={uploadImage}
-				class="absolute bottom-20 rounded-2xl p-3 text-neutral-400 font-semibold border-neutral-400 bg-black/60"
+				class="absolute bottom-20 rounded-2xl border-neutral-400 bg-black/60 p-3 font-semibold text-neutral-400"
 			>
 				Submit Photo
 			</button>

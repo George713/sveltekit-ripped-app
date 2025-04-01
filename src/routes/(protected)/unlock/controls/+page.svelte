@@ -7,7 +7,7 @@
 	import Arrow from '$lib/components/newDesign/icons/Arrow.svelte';
 	import Controller from '$lib/components/newDesign/icons/Controller.svelte';
 	import { calorieManager, visibilityManager } from '$lib/stateManagers.svelte';
-	import { focusElement, selectInput } from '$lib/utils';
+	import { focusElement, selectInput } from '$lib/utils.svelte';
 	import CalorieTool from '$lib/components/newDesign/organisms/CalorieTool.svelte';
 
 	let progressState = $state(0);

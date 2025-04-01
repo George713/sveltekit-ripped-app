@@ -187,3 +187,67 @@ export const getScheduledEvent = (
         remainingDays: remainingDays
     };
 }
+
+/**
+ * Class for detecting horizontal swipe gestures
+ * Usage:
+ * 1. Create an instance with callbacks: const swipeDetector = new SwipeDetector({ 
+ *    threshold: 50,
+ *    onSwipeLeft: () => handleLeftSwipe(),
+ *    onSwipeRight: () => handleRightSwipe()
+ * })
+ * 2. Attach event handlers directly to DOM elements:
+ *    <div 
+ *      ontouchstart={swipeDetector.handleTouchStart}
+ *      ontouchmove={swipeDetector.handleTouchMove}
+ *    >
+ *    </div>
+ * 3. When a swipe gesture is detected, the appropriate callback will be executed
+ */
+export class SwipeDetector {
+    private touchStartX = $state(0);
+    private threshold = $state(0);
+    private onSwipeLeft: () => void;
+    private onSwipeRight: () => void;
+
+    constructor(
+        { threshold = 50, onSwipeLeft = () => { }, onSwipeRight = () => { } }:
+            { threshold?: number, onSwipeLeft?: () => void, onSwipeRight?: () => void }
+    ) {
+        this.threshold = threshold;
+        this.onSwipeLeft = onSwipeLeft;
+        this.onSwipeRight = onSwipeRight;
+    }
+
+    /**
+     * Event handler for touchstart events
+     * Attach to elements using ontouchstart={swipeDetector.handleTouchStart}
+     * @param e - The TouchEvent from the browser
+     */
+    handleTouchStart = (e: TouchEvent) => {
+        this.touchStartX = e.touches[0].clientX;
+    };
+
+    /**
+     * Event handler for touchmove events
+     * Attach to elements using ontouchmove={swipeDetector.handleTouchMove}
+     * Detects horizontal swipes and calls the appropriate callback
+     * @param e - The TouchEvent from the browser
+     */
+    handleTouchMove = (e: TouchEvent) => {
+        const touchEndX = e.touches[0].clientX;
+        const diffX = touchEndX - this.touchStartX;
+
+        // If swiping left, trigger the left swipe callback
+        if (diffX < -this.threshold && this.onSwipeLeft) {
+            this.onSwipeLeft();
+            this.touchStartX = touchEndX; // Reset to prevent multiple triggers
+        }
+
+        // If swiping right, trigger the right swipe callback
+        if (diffX > this.threshold && this.onSwipeRight) {
+            this.onSwipeRight();
+            this.touchStartX = touchEndX; // Reset to prevent multiple triggers
+        }
+    };
+}

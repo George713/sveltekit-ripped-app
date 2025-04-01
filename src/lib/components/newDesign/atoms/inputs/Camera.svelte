@@ -1,7 +1,7 @@
 <!-- Camera.svelte -->
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { isMobile } from '$lib/utils';
+	import { isMobile } from '$lib/utils.svelte';
 
 	interface Props {
 		image: string;

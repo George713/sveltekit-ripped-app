@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { invalidateAll } from '$app/navigation';
 	import { showSpinner, visibleOverlay, visibleView } from '$lib/stores';
-	import { selectInput, focusElement } from '$lib/utils.ts';
+	import { selectInput, focusElement } from '$lib/utils.svelte';
 
 	import Background from '$overlays/Background.svelte';
 
@@ -34,12 +34,12 @@
 
 <Background>
 	<div
-		class="absolute bottom-1/4 left-1/2 flex w-[calc(70%)] -translate-x-1/2 -translate-y-1/2 transform flex-col items-center rounded-md bg-slate-200/70 backdrop-blur-xs px-5 py-2"
+		class="absolute bottom-1/4 left-1/2 flex w-[calc(70%)] -translate-x-1/2 -translate-y-1/2 transform flex-col items-center rounded-md bg-slate-200/70 px-5 py-2 backdrop-blur-xs"
 	>
 		<span>New Calorie Target</span>
 		<form method="post" autocomplete="off" on:submit|preventDefault={handleSubmit} class="">
 			<!-- Row Calories -->
-			<div class="ml-1 my-4 flex justify-end">
+			<div class="my-4 ml-1 flex justify-end">
 				<span>Calories</span>
 				<input
 					type="number"

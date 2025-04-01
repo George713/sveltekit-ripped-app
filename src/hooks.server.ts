@@ -11,7 +11,7 @@ import {
 	getCurrentCrestLevel,
 	actionIsOlderThanXdays,
 	getScheduledEvent,
-} from '$lib/utils'
+} from '$lib/utils.svelte'
 
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
 import { JWT_SECRET } from '$env/static/private';
