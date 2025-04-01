@@ -263,6 +263,7 @@ export class PlannedItemManager {
     itemsEaten = $derived(this.items.filter(item => item.eaten))
 
     eatItem = (id: number, kcal: number) => {
+        const initialCaloriesInRange = calorieManager.inRange;
         const initialProteinPct = proteinManager.eatenPct;
         let foodItem;
         this.items = this.items.map(item => {
@@ -278,8 +279,8 @@ export class PlannedItemManager {
         } else {
             xpManager.addXP(BASE_XP * (kcal / calorieManager.target) / 4);
         }
-        animationManager.eatPowerline = true;
-        animationManager.caloriePowerline = calorieManager.inRange;
+        animationManager.eatPowerline = initialCaloriesInRange ? animationManager.eatPowerline : calorieManager.underTarget;
+        animationManager.caloriePowerline = initialCaloriesInRange ? animationManager.caloriePowerline : calorieManager.inRange;
         animationManager.proteinPowerline = initialProteinPct < 1 ? proteinManager.eatenPct >= 1 : animationManager.proteinPowerline;
     }
 
@@ -310,6 +311,7 @@ class EstimatedItemManager {
     }
 
     eatItem = (id: number, kcal: number) => {
+        const initialCaloriesInRange = calorieManager.inRange;
         const initialProteinPct = proteinManager.eatenPct;
         let estimatedItem;
         this.items = this.items.map(item => {
@@ -325,8 +327,8 @@ class EstimatedItemManager {
         } else {
             xpManager.addXP(BASE_XP * (kcal / calorieManager.target) / 8);
         }
-        animationManager.eatPowerline = true;
-        animationManager.caloriePowerline = calorieManager.inRange;
+        animationManager.eatPowerline = initialCaloriesInRange ? animationManager.eatPowerline : calorieManager.underTarget;
+        animationManager.caloriePowerline = initialCaloriesInRange ? animationManager.caloriePowerline : calorieManager.inRange;
         animationManager.proteinPowerline = initialProteinPct < 1 ? proteinManager.eatenPct >= 1 : animationManager.proteinPowerline;
     }
 }
