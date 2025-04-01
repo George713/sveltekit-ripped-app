@@ -159,7 +159,7 @@ Alternatively, use filter on other elements via style attribute.
 		</filter>
 		<!-- Yellow glow -->
 		<filter
-			id="yellow-glow-powerline-100"
+			id="yellow-glow-powerline"
 			x="0.25"
 			y="0"
 			width="1000"
