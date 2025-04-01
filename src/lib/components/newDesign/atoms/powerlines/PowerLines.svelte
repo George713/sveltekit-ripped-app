@@ -82,7 +82,7 @@
 	<!-- Calories -->
 	<Base
 		svgInfo={calories}
-		glowStrength={calorieManager.inRange ? 1 : 0}
+		glowStrength={page.data.dailyProgress.vaultOpened || calorieManager.inRange ? 1 : 0}
 		animate={animationManager.caloriePowerline}
 		translate={[9, 34]}
 	/>
