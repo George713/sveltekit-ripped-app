@@ -10,7 +10,7 @@
 <div class="absolute flex items-center space-x-3" style="transform: translate(115%, 134%)">
 	<!-- Bodyfat -->
 	<ActionButton
-		glow={false}
+		glowStrength={page.data.dailyProgress.bodyfat ? 1 : 0}
 		size="small"
 		icon="insignia"
 		disabled={!page.data.user.enterBodyfatToday}
@@ -20,7 +20,7 @@
 	<div class="flex flex-col space-y-4">
 		<!-- Review -->
 		<ActionButton
-			glow={page.data.dailyProgress.review}
+			glowStrength={page.data.dailyProgress.review ? 1 : 0}
 			size="small"
 			icon="chart"
 			disabled={page.data.dailyProgress.review}
@@ -29,7 +29,7 @@
 		/>
 		<!-- Photo -->
 		<ActionButton
-			glow={page.data.dailyProgress.progressPic}
+			glowStrength={page.data.dailyProgress.progressPic ? 1 : 0}
 			size="small"
 			icon="camera"
 			disabled={page.data.dailyProgress.progressPic}

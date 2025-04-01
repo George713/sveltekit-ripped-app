@@ -15,8 +15,7 @@
 
 	interface Props {
 		svgInfo: SvgInfo;
-		glow: boolean;
-		glowStrength?: '20' | '40' | '60' | '80' | '100';
+		glowStrength: number;
 		vflip?: boolean;
 		hflip?: boolean;
 		translate?: [number, number];
@@ -27,8 +26,7 @@
 
 	let {
 		svgInfo,
-		glow,
-		glowStrength = '100',
+		glowStrength = 0,
 		vflip = false,
 		hflip = false,
 		translate = [0, 0],
@@ -44,7 +42,7 @@
 	viewBox="0 0 {svgInfo.width} {svgInfo.height}"
 	fill="none"
 	class={{
-		absolute: true,
+		'absolute ': true,
 		[`opacity-${svgInfo.opacity}`]: svgInfo.opacity !== undefined,
 		hidden: hidden
 	}}
@@ -55,8 +53,8 @@
 	<!-- Not-Glowing Path -->
 	<path d={svgInfo.path} stroke="#44403c" stroke-opacity="1" stroke-width={svgInfo.strokeWidth} />
 	<!-- Glowing Path -->
-	{#if glow}
-		<Glow color={svgInfo.glowColor} {glowStrength}>
+	<g class="transition-opacity duration-2500" style={`opacity: ${glowStrength};`}>
+		<Glow color={svgInfo.glowColor}>
 			<path
 				d={svgInfo.path}
 				stroke={svgInfo.glowLineColor ? svgInfo.glowLineColor : 'white'}
@@ -65,5 +63,5 @@
 				transition:draw={{ duration: 2500, easing: cubicInOut }}
 			/>
 		</Glow>
-	{/if}
+	</g>
 </svg>

@@ -197,23 +197,6 @@ class CalorieManager {
     underTarget = $derived(this.eaten <= this.target + 25);
     // inRange is only relevant for calories
     inRange = $derived((this.target - 25 <= this.eaten) && (this.eaten <= this.target + 25) ? true : false)
-    // Calculate glow strength for eating button and powerline
-    glowStrength = $derived.by((): '20' | '40' | '60' | '80' | '100' => {
-        const threshold = Math.max(
-            ...[20, 40, 60, 80, 100].filter((t) => t <= calorieManager.eatenPct * 100),
-            0
-        );
-        return threshold === 20
-            ? '20'
-            : threshold === 40
-                ? '40'
-                : threshold === 60
-                    ? '60'
-                    : threshold === 80
-                        ? '80'
-                        : '100';
-    });
-
 }
 
 // Export singleton instance for calorieManager

@@ -10,14 +10,14 @@
 	<ActionButton
 		size="big"
 		icon="scale"
-		glow={page.data.dailyProgress.weighIn}
+		glowStrength={page.data.dailyProgress.weighIn ? 1 : 0}
 		disabled={page.data.dailyProgress.weighIn}
 		onclick={visibilityManager.toggleWeightOverlay}
 	/>
 	<ActionButton
 		size="big"
 		icon="book"
-		glow={page.data.dailyProgress.planned}
+		glowStrength={page.data.dailyProgress.planned ? 1 : 0}
 		disabled={page.data.dailyProgress.planned}
 		onclick={() => goto('/planner')}
 	/>
@@ -25,8 +25,7 @@
 	<ActionButton
 		size="big"
 		icon="cutlery"
-		glow={calorieManager.underTarget}
-		glowStrength={calorieManager.glowStrength}
+		glowStrength={calorieManager.eatenPct}
 		disabled={page.data.dailyProgress.vaultOpened}
 		onclick={() => goto('/log')}
 	/>
