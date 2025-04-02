@@ -193,10 +193,10 @@ class CalorieManager {
         // Return the total calories
         return plannedCalories + estimatedCalories;
     });
-    eatenPct = $derived(this.eaten / this.target);
+    eatenPct = $derived(this.target > 0 ? this.eaten / this.target : 0);
     underTarget = $derived(this.eaten <= this.target + 25);
     // inRange is only relevant for calories
-    inRange = $derived((this.target - 25 <= this.eaten) && (this.eaten <= this.target + 25) ? true : false)
+    inRange = $derived(this.target > 0 && (this.target - 25 <= this.eaten) && (this.eaten <= this.target + 25))
 }
 
 // Export singleton instance for calorieManager
@@ -221,10 +221,10 @@ class ProteinManager {
             return sum + item.protein;
         }, 0);
 
-        // Return the total calories
+        // Return the total protein
         return plannedProtein + estimatedProtein;
     });
-    eatenPct = $derived(this.eaten / this.target);
+    eatenPct = $derived(this.target > 0 ? this.eaten / this.target : 0);
 }
 
 // Export singleton instance for proteinManager
