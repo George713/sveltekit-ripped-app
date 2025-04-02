@@ -140,6 +140,18 @@ model FoodItem {
 
   PlannedItems   PlannedItem[]
   foodItemInSets FoodItemInSet[]
+  ingredients    Ingredient[]
+}
+
+model Ingredient {
+  id      Int    @id @default(autoincrement())
+  icon    String
+  name    String
+  kcal    Int
+  protein Float
+
+  foodItem FoodItem @relation(fields: [foodId], references: [id])
+  foodId   Int
 }
 
 model FoodSet {
