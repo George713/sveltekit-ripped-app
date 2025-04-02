@@ -43,10 +43,10 @@
 	in:fly={{ x: -20, duration: 750 }}
 	out:fly={{ x: 20, duration: 750 }}
 >
-	<label for={'name_' + name} class="size-5">{icon}</label>
+	<label for={'name_' + id} class="size-5">{icon}</label>
 	<input
 		type="text"
-		id={'name_' + name}
+		id={'name_' + id}
 		name="name"
 		class="grow focus-visible:outline-none"
 		spellcheck="false"
@@ -57,7 +57,7 @@
 	/>
 	<input
 		type="number"
-		id={'kcal_' + name}
+		id={'kcal_' + id}
 		name="kcal"
 		step="0.1"
 		class="w-9 text-right focus-visible:outline-none"
@@ -66,10 +66,10 @@
 		onfocus={selectInput}
 		bind:value={kcal}
 	/>
-	<label for={'kcal_' + name}>kcal</label>
+	<label for={'kcal_' + id}>kcal</label>
 	<input
 		type="number"
-		id={'protein_' + name}
+		id={'protein_' + id}
 		name="protein"
 		step="0.1"
 		class="w-7 text-right focus-visible:outline-none"
@@ -78,5 +78,5 @@
 		onfocus={selectInput}
 		bind:value={protein}
 	/>
-	<label for={'protein_' + name} class="pr-4">g</label>
+	<label for={'protein_' + id} class="pr-4">g</label>
 </div>
