@@ -7,7 +7,8 @@ import { supabase } from '$lib/supabaseClient.server';
 export const actions = {
     newItem: async ({ locals, request }) => {
         const formData = await request.formData();
-        const { name, kcal, protein } = Object.fromEntries(formData.entries());
+        const { name, kcal, protein, ingredients } = Object.fromEntries(formData.entries());
+        const ingredientsArray = JSON.parse(ingredients as string);
 
         // Create entry in db
         const newItem = await prisma.foodItem.create({
@@ -25,6 +26,15 @@ export const actions = {
                         id: locals.user.id
                     },
                 },
+                // Create connected ingredients using the ingredients array
+                ingredients: {
+                    create: ingredientsArray.map((ingredient: any) => ({
+                        icon: ingredient.icon,
+                        name: ingredient.name,
+                        kcal: parseInt(ingredient.kcal),
+                        protein: parseFloat(ingredient.protein)
+                    }))
+                }
             }
         });
 

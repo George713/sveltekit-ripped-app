@@ -46,6 +46,7 @@
 		formData.append('name', itemName);
 		formData.append('kcal', ingredientManager.totalKcal.toFixed(0));
 		formData.append('protein', ingredientManager.totalProtein.toFixed(1));
+		formData.append('ingredients', JSON.stringify(ingredientManager.toJSON()));
 
 		const response = await fetch('?/newItem', {
 			method: 'POST',

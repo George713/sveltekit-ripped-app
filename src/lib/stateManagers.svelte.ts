@@ -478,6 +478,16 @@ class IngredientManager {
     clear = () => {
         this.items = [];
     }
+
+    // Get serializable representation of items
+    toJSON = () => {
+        return this.items.map(item => ({
+            icon: item.icon,
+            name: item.name,
+            kcal: item.kcal.toFixed(0),
+            protein: item.protein.toFixed(1)
+        }));
+    }
 }
 export const ingredientManager = new IngredientManager()
 
