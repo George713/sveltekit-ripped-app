@@ -261,7 +261,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			initPhotos: user.progressPictures.some(pic => pic.type === 'initial') && user.progressPictures.some(pic => pic.type === 'goofy'),
 			initCalories: user.calorieTargets.length > 0, // whether init calorie target was entered
 			progressPicToday: new Date().toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() === user.progressPicOn ? true : false,
-			reviewToday: new Date().toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() === user.reviewOn ? true : false,
+			reviewToday: dateDayBegin.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() === user.reviewOn ? true : false,
 			enterBodyfatToday: user.bodyfats.length > 0 ? actionIsOlderThanXdays(user.timeZoneOffset, user.bodyfats[0].createdAt, 28) : false,
 			collection: collection,
 		};
