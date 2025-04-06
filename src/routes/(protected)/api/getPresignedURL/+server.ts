@@ -8,12 +8,10 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 	const formData = await request.formData()
 	const type = formData.get('type') as 'initial' | 'goofy' | 'weekly';
 
-	// Declare user, as the if-clause is in another scope as the next statement needing user
-	let user
-
-	// Create picture reference
-	if (type === 'initial' || type === 'goofy') {
-		user = await prisma.user.update({
+	// Use transaction to combine both operations
+	const { id } = await prisma.$transaction(async (tx) => {
+		// Create picture reference
+		const updatedUser = await tx.user.update({
 			where: {
 				id: locals.user.id
 			},
@@ -21,26 +19,27 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 				progressPictures: {
 					create: [{ type }]
 				},
+			},
+			include: {
+				progressPictures: {
+					orderBy: { createdAt: 'desc' },
+					take: 1
+				}
 			}
 		});
-	} else {
-		user = await prisma.user.update({
+		// Update daily progress
+		await tx.dailyProgress.update({
 			where: {
-				id: locals.user.id
+				userId_createdAt: {
+					userId: locals.user.id,
+					createdAt: locals.dailyProgress.createdAt
+				}
 			},
 			data: {
-				progressPictures: {
-					create: [{ type }]
-				},
-				lastWeeklyPicOn: new Date,
+				progressPic: true
 			}
 		});
-	}
-	// Get id of reference (for usage in filename)
-	// @ts-ignore
-	const { id } = await prisma.progressPicture.findFirst({
-		where: { user },
-		orderBy: { createdAt: 'desc' }
+		return updatedUser.progressPictures[0];
 	});
 
 	// Make filename = username + datetime
