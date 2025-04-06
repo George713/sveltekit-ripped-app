@@ -44,7 +44,7 @@
 	<!-- Non-glowing button -->
 	<button
 		class={{
-			'absolute flex items-center justify-center rounded-[3px] border-3 border-stone-700 transition-opacity duration-2500': true,
+			'absolute flex items-center justify-center rounded-[3px] border-3 border-stone-700': true,
 			'size-16': size === 'big',
 			'size-11': size === 'small'
 		}}
@@ -56,7 +56,7 @@
 	<!-- Glowing button -->
 	<button
 		class={{
-			'flex items-center justify-center rounded-[3px] border-3 border-white/90 transition-opacity duration-2500': true,
+			'flex items-center justify-center rounded-[3px] border-3 border-white/90': true,
 			'size-16': size === 'big',
 			'size-11': size === 'small'
 		}}

@@ -71,7 +71,7 @@
 	<!-- Not-Glowing Path -->
 	<path d={svgInfo.path} stroke="#44403c" stroke-opacity="1" stroke-width={svgInfo.strokeWidth} />
 	<!-- Glowing Path -->
-	<g class="transition-opacity duration-2500" style={`opacity: ${glowStrength};`}>
+	<g style={`opacity: ${glowStrength};`}>
 		<Glow color={svgInfo.glowColor}>
 			<path
 				d={svgInfo.path}
