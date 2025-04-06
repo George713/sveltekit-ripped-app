@@ -60,7 +60,7 @@
 	viewBox="0 0 {svgInfo.width} {svgInfo.height}"
 	fill="none"
 	class={{
-		'absolute ': true,
+		'absolute overflow-visible': true,
 		[`opacity-${svgInfo.opacity}`]: svgInfo.opacity !== undefined,
 		hidden: hidden
 	}}

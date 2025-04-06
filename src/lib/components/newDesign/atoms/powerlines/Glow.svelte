@@ -21,10 +21,10 @@ Alternatively, use filter on other elements via style attribute.
 		<!-- Blue glow -->
 		<filter
 			id="blue-glow-powerline"
-			x="-50%"
-			y="-50%"
-			width="200%"
-			height="200%"
+			x="-100%"
+			y="-100%"
+			width="300%"
+			height="300%"
 			filterUnits="userSpaceOnUse"
 			color-interpolation-filters="sRGB"
 		>
