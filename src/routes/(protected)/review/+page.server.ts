@@ -84,16 +84,32 @@ export const actions: Actions = {
             calories = parseFloat(calories);
         }
 
-        await prisma.user.update({
-            where: {
-                id: locals.user.id
-            },
-            data: {
-                calorieTargets: {
-                    create: [{ calories }]
+        // Use transaction to combine both operations
+        await prisma.$transaction(async (tx) => {
+            // Create items
+            await tx.user.update({
+                where: {
+                    id: locals.user.id
                 },
-                lastReviewOn: new Date()
-            }
+                data: {
+                    calorieTargets: {
+                        create: [{ calories }]
+                    }
+                }
+            })
+
+            // Update daily progress
+            await tx.dailyProgress.update({
+                where: {
+                    userId_createdAt: {
+                        userId: locals.user.id,
+                        createdAt: locals.dailyProgress.createdAt
+                    }
+                },
+                data: {
+                    review: true
+                }
+            });
         });
     }
 }
