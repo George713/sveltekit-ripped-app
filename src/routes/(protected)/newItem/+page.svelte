@@ -1,6 +1,8 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { onDestroy } from 'svelte';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/state';
+	import { deserialize } from '$app/forms';
 
 	import {
 		foodItemManager,
@@ -14,7 +16,6 @@
 	import NutrientSum from '$lib/components/newDesign/atoms/NutrientSum.svelte';
 	import PhotoFrame from '$lib/components/newDesign/atoms/PhotoFrame.svelte';
 	import IngredientInput from '$lib/components/newDesign/molecules/IngredientInput.svelte';
-	import { deserialize } from '$app/forms';
 	import type { FoodItem } from '$lib/types';
 
 	const origin = page.url.searchParams.get('origin') || '/';
@@ -22,10 +23,18 @@
 		? Number(page.url.searchParams.get('foodId'))
 		: null;
 
-	let itemName = $state('');
+	let itemName = $state(foodId ? foodItemManager.getById(foodId)!.itemName : '');
 	let imageBlob = $state<Blob | null>(null);
-
-	const origin = $state(page.url.searchParams.get('origin') || '/');
+	if (foodId) {
+		foodItemManager.getById(foodId)!.ingredients.forEach((ingredient) => {
+			ingredientManager.add({
+				icon: ingredient.icon,
+				name: ingredient.name,
+				kcal: ingredient.kcal,
+				protein: ingredient.protein
+			});
+		});
+	}
 
 	onDestroy(() => {
 		ingredientManager.clear();
@@ -35,7 +44,7 @@
 		if (!itemName) {
 			return;
 		}
-		if (!imageBlob) {
+		if (!foodId && !imageBlob) {
 			toastManager.addToast({
 				type: 'error',
 				message: 'An image is required for new items.',
@@ -51,8 +60,9 @@
 		formData.append('kcal', ingredientManager.totalKcal.toFixed(0));
 		formData.append('protein', ingredientManager.totalProtein.toFixed(1));
 		formData.append('ingredients', JSON.stringify(ingredientManager.toJSON()));
+		formData.append('foodId', foodId ? foodId.toString() : '');
 
-		const response = await fetch('?/newItem', {
+		const response = await fetch('?/upsertItem', {
 			method: 'POST',
 			body: formData
 		});
@@ -60,15 +70,20 @@
 		const result = deserialize(await response.text());
 
 		if (result.type === 'success' && result.data) {
-			// Upload image to s3 using presignURL
-			// @ts-ignore
-			await fetch(result.data.presignedURL, {
-				method: 'PUT',
-				body: imageBlob
-			});
+			const foodItem = result.data.foodItem as FoodItem;
+			foodItemManager.items = [
+				...foodItemManager.items.filter((item) => item.id !== foodId),
+				foodItem
+			];
 
-			const newItem = result.data.newItem as FoodItem;
-			foodItemManager.items = [...foodItemManager.items, newItem];
+			if (imageBlob) {
+				// Upload image to s3 using presignURL
+				// @ts-ignore
+				await fetch(result.data.presignedURL, {
+					method: 'PUT',
+					body: imageBlob
+				});
+			}
 		}
 
 		goto(origin);
@@ -82,7 +97,7 @@
 		<Minimizer onclick={() => goto(origin)} direction="left" />
 	</div>
 	<div class="mt-2 mb-1">
-		<PhotoFrame bind:imageBlob />
+		<PhotoFrame bind:imageBlob {foodId} />
 	</div>
 	<input
 		placeholder="Item Name..."
@@ -101,7 +116,7 @@
 	</div>
 	<div class="my-6">
 		<Button
-			text="Create Item"
+			text={foodId ? 'Update Item' : 'Create Item'}
 			onclick={handleSubmit}
 			disabled={ingredientManager.items.length === 0}
 			classAddons="px-4"
