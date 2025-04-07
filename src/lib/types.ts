@@ -30,9 +30,20 @@ export interface FoodItem {
     unitAmount: number;
     kcal: number;
     protein: number;
-    defaultPtnSizeInGram: number;
-    kcalPer100: number;
-    proteinPer100: number;
+    defaultPtnSizeInGram: number | null;
+    kcalPer100: number | null;
+    proteinPer100: number | null;
+    PlannedItems: PlannedItem[];
+    ingredients: Ingredient[]
+}
+
+export interface Ingredient {
+    id: number;
+    icon: string;
+    name: string;
+    kcal: number;
+    protein: number;
+    foodId: number;
 }
 
 export interface PlannedItem {
@@ -119,7 +130,7 @@ export interface RecordedItem {
     kcal: number;
     protein: number;
     icon: string;
-    shouldFocus: boolean;
+    shouldFocus?: boolean;
 }
 
 export interface RecordingResult {
