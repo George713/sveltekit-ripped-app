@@ -58,7 +58,7 @@
 				src={`https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${foodId}`}
 				alt="imgUrl"
 				style="width:100%;height:100%;"
-				class="rounded-b-lg object-cover"
+				class="rounded-[10px] object-cover"
 			/>
 		{:else if image}
 			<img class="h-full w-full rounded-[10px]" src={image} alt="uploadedImage" />
