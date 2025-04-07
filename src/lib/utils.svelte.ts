@@ -251,3 +251,32 @@ export class SwipeDetector {
         }
     };
 }
+
+/**
+ * Handles touch interactions to detect long press events on elements
+ * Use this to implement long-press functionality in touch interfaces
+ */
+export class PressHandler {
+    longPress: (id: string | number) => void;
+    pressDuration: number;
+    private pressTimer: number | null = null;
+
+    constructor({ longPress, pressDuration = 2000 }: { longPress: (elementId: string | number) => void; pressDuration?: number }) {
+        this.longPress = longPress;
+        this.pressDuration = pressDuration;
+    }
+
+    handleTouchDown = (elementId: string | number) => {
+        this.pressTimer = window.setTimeout(() => {
+            this.longPress(elementId);
+            this.pressTimer = null;
+        }, this.pressDuration);
+    };
+
+    handleTouchUp = () => {
+        if (this.pressTimer) {
+            clearTimeout(this.pressTimer);
+            this.pressTimer = null;
+        }
+    };
+}

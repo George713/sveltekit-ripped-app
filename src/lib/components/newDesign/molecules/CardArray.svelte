@@ -11,6 +11,7 @@
 		visibilityManager
 	} from '$lib/stateManagers.svelte';
 	import type { DailySelectionItem, FoodItem, FoodSet, PlannedItem } from '$lib/types';
+	import { PressHandler } from '$lib/utils.svelte';
 	import Card from '../atoms/Card.svelte';
 
 	interface Props {
@@ -32,6 +33,11 @@
 	const currentPath = $state(page.url.pathname);
 	let itemManagerType = $derived(itemManager.classname);
 	let selectionManagerType = $derived(selectionManager?.classname);
+
+	const pressHandler = new PressHandler({
+		longPress: () => goto(`/newItem?origin=${currentPath}`),
+		pressDuration: 2000
+	});
 </script>
 
 <div
@@ -60,6 +66,7 @@
 				{theme}
 				type="item"
 				onclick={async () => {
+					// Only trigger click if not triggered by long press
 					if (selectionManagerType === 'SelectionManager') {
 						(selectionManager as SelectionManager).addFoodItem(item.id);
 					} else if (selectionManager && selectionManagerType === 'PlannedItemManager') {
@@ -93,6 +100,8 @@
 						goto('/log');
 					}
 				}}
+				ontouchstart={() => pressHandler.handleTouchDown(item.id)}
+				ontouchend={pressHandler.handleTouchUp}
 			/>
 		{/each}
 	{/if}

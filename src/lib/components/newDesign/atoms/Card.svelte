@@ -10,9 +10,22 @@
 		theme: 'light' | 'dark';
 		type: 'item' | 'newElement';
 		onclick?: () => void;
+		ontouchstart?: () => void;
+		ontouchend?: () => void;
 	}
 
-	let { imgSrc, name, kcal, protein, eaten = false, theme, type, onclick }: Props = $props();
+	let {
+		imgSrc,
+		name,
+		kcal,
+		protein,
+		eaten = false,
+		theme,
+		type,
+		onclick,
+		ontouchstart,
+		ontouchend
+	}: Props = $props();
 </script>
 
 {#snippet newElement(name: string)}
@@ -95,6 +108,8 @@
 <button
 	type="button"
 	{onclick}
+	{ontouchstart}
+	{ontouchend}
 	class={{
 		'flex h-[105px] w-[90px] flex-col items-center overflow-visible rounded p-[1px] drop-shadow-[2px_2px_2px_rgba(0,0,0,0.3)]': true,
 		'bg-stone-400': theme === 'light',
