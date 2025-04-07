@@ -2,7 +2,7 @@
 	import Camera from './inputs/Camera.svelte';
 
 	interface Props {
-		foodId?: number;
+		foodId: number | null;
 		imageBlob: Blob | null;
 	}
 

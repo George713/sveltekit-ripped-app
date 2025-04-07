@@ -16,7 +16,11 @@
 	import IngredientInput from '$lib/components/newDesign/molecules/IngredientInput.svelte';
 	import { deserialize } from '$app/forms';
 	import type { FoodItem } from '$lib/types';
-	import { page } from '$app/state';
+
+	const origin = page.url.searchParams.get('origin') || '/';
+	const foodId = page.url.searchParams.get('foodId')
+		? Number(page.url.searchParams.get('foodId'))
+		: null;
 
 	let itemName = $state('');
 	let imageBlob = $state<Blob | null>(null);
