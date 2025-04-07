@@ -15,6 +15,8 @@ export const load: LayoutServerLoad = async ({ locals, depends }) => {
 	}
 
 	const dateDayBegin = getDateDayBegin(locals.user.timeZoneOffset)
+	const twoWeeksAgo = new Date();
+	twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
 
 	// Get items of that user
 	// prisma.js issue: https://github.com/prisma/prisma/issues/22631
@@ -38,28 +40,20 @@ export const load: LayoutServerLoad = async ({ locals, depends }) => {
 	// 		}
 	// 	}
 	// });
-	const twoWeeksAgo = new Date();
-	twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
 
-	const foodItems: [FoodItem] = await prisma.$queryRaw`
-		SELECT "fi".*
-		FROM "FoodItem" "fi"
-		LEFT JOIN "PlannedItem" "pi" ON "fi"."id" = "pi"."foodId" AND "pi"."createdAt" >= ${twoWeeksAgo}
-		WHERE "fi"."userId" = ${locals.user.id}
-		GROUP BY "fi"."id"
-		ORDER BY COUNT("pi"."id") DESC
-	`;
-
-	// Get planned items for the current day
-	const plannedItems = await prisma.plannedItem.findMany({
-		where: {
-			foodId: { in: foodItems.map(item => item.id) },
-			createdAt: { gte: dateDayBegin }
-		},
-		orderBy: {
-			createdAt: 'asc'
+	const foodItems = await prisma.foodItem.findMany({
+		where: { userId: locals.user.id },
+		include: {
+			PlannedItems: {
+				where: {
+					createdAt: { gte: twoWeeksAgo }
+				}
+			},
+			ingredients: true
 		}
 	});
+
+
 
 	// Get eating estimate for the current day
 	const estimatedItems = (await prisma.eatEstimate.findMany({
@@ -93,7 +87,6 @@ export const load: LayoutServerLoad = async ({ locals, depends }) => {
 		schedule: locals.schedule,
 		session: await locals.getSession(),
 		foodItems,
-		plannedItems,
 		estimatedItems,
 		foodSets,
 	};

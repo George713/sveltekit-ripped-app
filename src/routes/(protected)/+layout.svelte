@@ -13,13 +13,25 @@
 	} from '$lib/stateManagers.svelte.js';
 	import PotentialToasts from '$lib/components/newDesign/molecules/PotentialToasts.svelte';
 	import SpinnerOverlay from '$lib/components/newDesign/atoms/SpinnerOverlay.svelte';
+	import { getDateDayBegin } from '$lib/utils.svelte.js';
 
 	let { data, children } = $props();
 
+	const dateDayBegin = getDateDayBegin(page.data.user.timeZoneOffset);
+
 	// Using Svelte 5 $effect rune for reactivity when data changes, e.g. through invalidation
 	$effect.pre(() => {
-		foodItemManager.items = data.foodItems;
-		plannedItemManager.items = data.plannedItems;
+		// This sorting shows the most used items first when viewed in foodLibrary
+		foodItemManager.items = data.foodItems.sort(
+			(a, b) => b.PlannedItems.length - a.PlannedItems.length
+		);
+
+		plannedItemManager.items = data.foodItems
+			.filter((item) => item.PlannedItems.length > 0)
+			.flatMap((item) => item.PlannedItems)
+			.filter((item) => item.createdAt >= dateDayBegin)
+			.sort((a, b) => a.id - b.id); // Uses id to sort by order items were created in db
+
 		estimatedItemManager.items = data.estimatedItems;
 		foodSetManager.items = data.foodSets;
 	});
