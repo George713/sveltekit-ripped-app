@@ -23,10 +23,10 @@
 		? Number(page.url.searchParams.get('foodId'))
 		: null;
 
-	let itemName = $state(foodId ? foodItemManager.getById(foodId)!.itemName : '');
+	let itemName = $state(foodId ? foodItemManager.getById(foodId)?.itemName : '');
 	let imageBlob = $state<Blob | null>(null);
 	if (foodId) {
-		foodItemManager.getById(foodId)!.ingredients.forEach((ingredient) => {
+		foodItemManager.getById(foodId)?.ingredients.forEach((ingredient) => {
 			ingredientManager.add({
 				icon: ingredient.icon,
 				name: ingredient.name,

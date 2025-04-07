@@ -35,7 +35,7 @@
 	let selectionManagerType = $derived(selectionManager?.classname);
 
 	const pressHandler = new PressHandler({
-		longPress: (id: string | number) => goto(`/upsertItem?origin=${currentPath}&foodId=${id}`),
+		longPress: (id: string | number) => goto(`/item?origin=${currentPath}&foodId=${id}`),
 		pressDuration: 1000
 	});
 </script>
@@ -53,9 +53,7 @@
 			{theme}
 			type="newElement"
 			onclick={() =>
-				goto(
-					itemManagerType === 'FoodSetManager' ? '/newSet' : `/upsertItem?origin=${currentPath}`
-				)}
+				goto(itemManagerType === 'FoodSetManager' ? '/newSet' : `/item?origin=${currentPath}`)}
 		/>
 	{/if}
 	{#if itemManagerType === 'FoodItemManager'}
