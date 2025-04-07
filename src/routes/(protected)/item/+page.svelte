@@ -90,12 +90,38 @@
 
 		visibilityManager.toggleSpinnerOverlay();
 	};
+
+	const handleDelete = async (foodId: number) => {
+		visibilityManager.toggleSpinnerOverlay();
+
+		const formData = new FormData();
+		formData.append('foodId', foodId.toString());
+
+		const response = await fetch('?/deleteItem', {
+			method: 'POST',
+			body: formData
+		});
+
+		if (response.ok) {
+			foodItemManager.items = foodItemManager.items.filter((item) => item.id !== foodId);
+			goto(origin);
+		}
+
+		visibilityManager.toggleSpinnerOverlay();
+	};
 </script>
 
-<form class="flex h-screen w-screen flex-col items-center px-6">
-	<div class="justify-left mt-2 flex w-full translate-x-[-18px]">
+<div class="relative mt-3 flex w-full items-center justify-center">
+	<div class="absolute left-2">
 		<Minimizer onclick={() => goto(origin)} direction="left" />
 	</div>
+	{#if foodId}
+		<button class="rounded px-3 py-1 text-xs text-stone-600" onclick={() => handleDelete(foodId)}>
+			Delete Item
+		</button>
+	{/if}
+</div>
+<form class="flex h-screen w-screen flex-col items-center px-6">
 	<div class="mt-2 mb-1">
 		<PhotoFrame bind:imageBlob {foodId} />
 	</div>

@@ -70,5 +70,25 @@ export const actions = {
 
         // return URL to user for upload
         return { presignedURL: data.signedUrl, foodItem }
+    },
+    deleteItem: async ({ locals, request }) => {
+        const formData = await request.formData();
+        const { foodId } = Object.fromEntries(formData.entries());
+
+        // Delete entry from db
+        await prisma.foodItem.delete({
+            where: { id: Number(foodId) }
+        });
+
+        // Delete file from storage
+        const { data, error } = await supabase.storage
+            .from('foodItems')
+            .remove(['foodItem_' + foodId]);
+
+        if (error) {
+            throw new Error('File could not be deleted');
+        }
+
+        return { success: true };
     }
 } satisfies Actions;
