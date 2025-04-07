@@ -53,6 +53,8 @@
 			</svg>
 			<!-- Text -->
 			<p class="text-stone-500">Take Photo</p>
+		{:else if image}
+			<img class="h-full w-full rounded-[10px]" src={image} alt="uploadedImage" />
 		{:else if foodId}
 			<img
 				src={`https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${foodId}`}
@@ -60,8 +62,6 @@
 				style="width:100%;height:100%;"
 				class="rounded-[10px] object-cover"
 			/>
-		{:else if image}
-			<img class="h-full w-full rounded-[10px]" src={image} alt="uploadedImage" />
 		{/if}
 	{/if}
 </button>
