@@ -40,7 +40,7 @@
 		ingredientManager.clear();
 	});
 
-	const handleSubmit = async () => {
+	const handleUpsert = async () => {
 		if (!itemName) {
 			return;
 		}
@@ -117,7 +117,7 @@
 	<div class="my-6">
 		<Button
 			text={foodId ? 'Update Item' : 'Create Item'}
-			onclick={handleSubmit}
+			onclick={handleUpsert}
 			disabled={ingredientManager.items.length === 0}
 			classAddons="px-4"
 		/>
