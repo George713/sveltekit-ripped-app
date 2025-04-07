@@ -449,13 +449,13 @@ class Ingredient {
     protein = $state(0)
     shouldFocus = $state(false)
 
-    constructor(icon: string, name: string, kcal: number, protein: number, shouldFocus: boolean = false) {
+    constructor(icon: string, name: string, kcal: number, protein: number, shouldFocus?: boolean) {
         this.id = Ingredient.nextId++;
         this.icon = icon
         this.name = name
         this.kcal = kcal
         this.protein = protein
-        this.shouldFocus = shouldFocus
+        this.shouldFocus = shouldFocus ?? false
     }
 }
 
