@@ -35,8 +35,8 @@
 	let selectionManagerType = $derived(selectionManager?.classname);
 
 	const pressHandler = new PressHandler({
-		longPress: () => goto(`/newItem?origin=${currentPath}`),
-		pressDuration: 2000
+		longPress: (id: string | number) => goto(`/newItem?origin=${currentPath}&foodId=${id}`),
+		pressDuration: 1000
 	});
 </script>
 
