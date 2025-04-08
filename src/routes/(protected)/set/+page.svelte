@@ -1,17 +1,29 @@
 <script lang="ts">
+	import { onDestroy } from 'svelte';
 	import { deserialize } from '$app/forms';
 	import { goto } from '$app/navigation';
-	import Button from '$lib/components/newDesign/atoms/Button.svelte';
-	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
-	import FoodLibrary from '$lib/components/newDesign/organisms/FoodLibrary.svelte';
-	import FoodSelection from '$lib/components/newDesign/organisms/FoodSelection.svelte';
+	import { page } from '$app/state';
+
 	import {
 		setSelectionManager,
 		visibilityManager,
 		foodSetManager
 	} from '$lib/stateManagers.svelte';
+
+	import Button from '$lib/components/newDesign/atoms/Button.svelte';
+	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
+	import FoodLibrary from '$lib/components/newDesign/organisms/FoodLibrary.svelte';
+	import FoodSelection from '$lib/components/newDesign/organisms/FoodSelection.svelte';
 	import type { FoodSet } from '$lib/types';
-	import { onDestroy } from 'svelte';
+
+	const setId = page.url.searchParams.get('setId')
+		? Number(page.url.searchParams.get('setId'))
+		: null;
+
+	if (setId) {
+		setSelectionManager.addFoodSet(foodSetManager.getById(setId) as FoodSet);
+		setSelectionManager.name = foodSetManager.getById(setId)?.name || '';
+	}
 
 	onDestroy(() => {
 		setSelectionManager.clear();
@@ -63,7 +75,7 @@
 	<div class="mb-1 flex h-screen w-screen flex-col-reverse items-center p-1">
 		<div class="my-6">
 			<Button
-				text="Create Set"
+				text={setId ? 'Update Set' : 'Create Set'}
 				onclick={handleSubmit}
 				disabled={!newSetIsReady}
 				classAddons="px-4"
