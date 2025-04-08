@@ -25,11 +25,18 @@
     ],
     "screenshots": [
         {
+            "src": "screenshots/desktop-1.png",
+            "sizes": "1280x800",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Desktop app view"
+        },
+        {
             "src": "screenshots/mobile-1.png",
             "sizes": "720x1480",
             "type": "image/png",
             "form_factor": "narrow",
-            "label": "Mobile app dashboard"
+            "label": "Mobile app view"
         }
     ]
 }
