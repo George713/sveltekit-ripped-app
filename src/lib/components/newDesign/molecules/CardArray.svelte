@@ -34,8 +34,13 @@
 	let itemManagerType = $derived(itemManager.classname);
 	let selectionManagerType = $derived(selectionManager?.classname);
 
-	const pressHandler = new PressHandler({
+	const pressHandlerItem = new PressHandler({
 		longPress: (id: string | number) => goto(`/item?origin=${currentPath}&foodId=${id}`),
+		pressDuration: 1000
+	});
+
+	const pressHandlerSet = new PressHandler({
+		longPress: (id: string | number) => goto(`/newSet?origin=${currentPath}&foodId=${id}`),
 		pressDuration: 1000
 	});
 </script>
@@ -100,8 +105,8 @@
 						goto('/log');
 					}
 				}}
-				ontouchstart={() => pressHandler.handleTouchDown(item.id)}
-				ontouchend={pressHandler.handleTouchUp}
+				ontouchstart={() => pressHandlerItem.handleTouchDown(item.id)}
+				ontouchend={pressHandlerItem.handleTouchUp}
 			/>
 		{/each}
 	{/if}
@@ -128,6 +133,8 @@
 				{theme}
 				type="item"
 				onclick={() => (selectionManager as SelectionManager)?.addFoodSet(item as FoodSet)}
+				ontouchstart={() => pressHandlerSet.handleTouchDown(item.id)}
+				ontouchend={pressHandlerSet.handleTouchUp}
 			/>
 		{/each}
 	{/if}
