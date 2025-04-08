@@ -433,8 +433,12 @@ export class FoodSetManager {
         }
     }
 
-    addSet(newSet: FoodSet) {
+    addSet = (newSet: FoodSet) => {
         this.items = [...this.items, newSet];
+    }
+
+    getById = (id: number) => {
+        return this.items.find(set => set.id === id);
     }
 }
 export const foodSetManager = new FoodSetManager()
