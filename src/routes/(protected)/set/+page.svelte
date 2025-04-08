@@ -67,27 +67,48 @@
 
 		visibilityManager.toggleSpinnerOverlay();
 	};
+
+	const handleDelete = async (setId: number) => {
+		visibilityManager.toggleSpinnerOverlay();
+
+		const formData = new FormData();
+		formData.append('setId', setId.toString());
+
+		const response = await fetch('?/deleteSet', {
+			method: 'POST',
+			body: formData
+		});
+
+		if (response.ok) {
+			foodSetManager.items = foodSetManager.items.filter((set) => set.id !== setId);
+			goto('/planner?showSets=true');
+		}
+
+		visibilityManager.toggleSpinnerOverlay();
+	};
 </script>
 
-<form class="flex h-screen w-screen flex-col items-center px-6">
-	<div class="justify-left mt-2 flex w-full translate-x-[-18px]">
+<div class="relative mt-3 flex w-full items-center justify-center">
+	<div class="absolute left-2">
 		<Minimizer onclick={() => goto('/planner?showSets=true')} direction="left" />
 	</div>
-	<div class="mb-1 flex h-screen w-screen flex-col-reverse items-center p-1">
-		<div class="my-6">
-			<Button
-				text={setId ? 'Update Set' : 'Create Set'}
-				onclick={handleUpsert}
-				disabled={!setIsReady}
-				classAddons="px-4"
-			/>
-		</div>
-		<FoodLibrary
-			showNewElementCard={false}
-			showSubtleBtn={false}
-			selectionManager={setSelectionManager}
-		/>
-		<div class="h-8"></div>
-		<FoodSelection selectionManager={setSelectionManager} headerAsInput={true} />
-	</div>
+	{#if setId}
+		<button class="rounded px-3 py-1 text-xs text-stone-600" onclick={() => handleDelete(setId)}>
+			Delete Set
+		</button>
+	{/if}
+</div>
+<form class="mt-4 flex h-full w-screen flex-col items-center space-y-7 p-1">
+	<FoodSelection selectionManager={setSelectionManager} headerAsInput={true} />
+	<FoodLibrary
+		showNewElementCard={false}
+		showSubtleBtn={false}
+		selectionManager={setSelectionManager}
+	/>
+	<Button
+		text={setId ? 'Update Set' : 'Create Set'}
+		onclick={handleUpsert}
+		disabled={!setIsReady}
+		classAddons="px-4"
+	/>
 </form>

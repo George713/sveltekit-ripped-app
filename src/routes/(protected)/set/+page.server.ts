@@ -40,5 +40,13 @@ export const actions = {
         });
 
         return { success: true, setId: foodSet.id };
+    },
+    deleteSet: async ({ request }) => {
+        const formData = await request.formData();
+        const { setId } = Object.fromEntries(formData.entries());
+        await prisma.foodSet.delete({
+            where: { id: Number(setId) },
+        });
+        return { success: true };
     }
 } satisfies Actions;
