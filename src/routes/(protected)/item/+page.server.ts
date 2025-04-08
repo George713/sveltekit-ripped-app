@@ -8,11 +8,17 @@ export const actions = {
     upsertItem: async ({ locals, request }) => {
         const formData = await request.formData();
         const { name, kcal, protein, ingredients, foodId } = Object.fromEntries(formData.entries());
-        const ingredientsArray = JSON.parse(ingredients as string);
+        const ingredientsParsed = JSON.parse(ingredients as string);
+        const ingredientsArray = ingredientsParsed.map((ingredient: any) => ({
+            icon: ingredient.icon,
+            name: ingredient.name,
+            kcal: parseInt(ingredient.kcal),
+            protein: parseFloat(ingredient.protein)
+        }))
 
         // Create or update entry in db
         const foodItem = await prisma.foodItem.upsert({
-            where: { id: foodId ? Number(foodId) : -1 },
+            where: { id: foodId ? Number(foodId) : -1 }, // -1 is a placeholder for non-existent ID
             update: {
                 itemName: (name as string),
                 kcal: parseInt(kcal as string),
@@ -21,12 +27,7 @@ export const actions = {
                     // Delete all existing ingredients
                     deleteMany: {},
                     // Create new ingredients
-                    create: ingredientsArray.map((ingredient: any) => ({
-                        icon: ingredient.icon,
-                        name: ingredient.name,
-                        kcal: parseInt(ingredient.kcal),
-                        protein: parseFloat(ingredient.protein)
-                    }))
+                    create: ingredientsArray
                 }
             },
             create: {
@@ -44,14 +45,7 @@ export const actions = {
                     },
                 },
                 // Create connected ingredients using the ingredients array
-                ingredients: {
-                    create: ingredientsArray.map((ingredient: any) => ({
-                        icon: ingredient.icon,
-                        name: ingredient.name,
-                        kcal: parseInt(ingredient.kcal),
-                        protein: parseFloat(ingredient.protein)
-                    }))
-                }
+                ingredients: ingredientsArray
             }
         });
 
