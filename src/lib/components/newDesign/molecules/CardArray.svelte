@@ -40,7 +40,7 @@
 	});
 
 	const pressHandlerSet = new PressHandler({
-		longPress: (id: string | number) => goto(`/set?origin=${currentPath}&setId=${id}`),
+		longPress: (id: string | number) => goto(`/set?setId=${id}`),
 		pressDuration: 1000
 	});
 </script>
