@@ -36,7 +36,21 @@
             "sizes": "720x1480",
             "type": "image/png",
             "form_factor": "narrow",
-            "label": "Mobile app view"
+            "label": "Main view"
+        },
+        {
+            "src": "screenshots/mobile-2.png",
+            "sizes": "720x1480",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Planning mode"
+        },
+        {
+            "src": "screenshots/mobile-3.png",
+            "sizes": "720x1480",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Weekly Review"
         }
     ]
 }
