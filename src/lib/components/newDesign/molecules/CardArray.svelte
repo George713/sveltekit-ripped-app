@@ -40,7 +40,7 @@
 	});
 
 	const pressHandlerSet = new PressHandler({
-		longPress: (id: string | number) => goto(`/newSet?origin=${currentPath}&foodId=${id}`),
+		longPress: (id: string | number) => goto(`/set?origin=${currentPath}&foodId=${id}`),
 		pressDuration: 1000
 	});
 </script>
@@ -58,7 +58,7 @@
 			{theme}
 			type="newElement"
 			onclick={() =>
-				goto(itemManagerType === 'FoodSetManager' ? '/newSet' : `/item?origin=${currentPath}`)}
+				goto(itemManagerType === 'FoodSetManager' ? '/set' : `/item?origin=${currentPath}`)}
 		/>
 	{/if}
 	{#if itemManagerType === 'FoodItemManager'}

@@ -30,7 +30,7 @@
 		formData.append('name', setSelectionManager.name);
 		formData.append('items', JSON.stringify(setSelectionManager.prepareForSubmission()));
 
-		const response = await fetch('?/newSet', {
+		const response = await fetch('?/set', {
 			method: 'POST',
 			body: formData
 		});
