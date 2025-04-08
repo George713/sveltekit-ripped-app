@@ -4,31 +4,41 @@ import type { Actions } from '@sveltejs/kit';
 import { prisma } from '$lib/prismaClient.server';
 
 export const actions = {
-    newSet: async ({ locals, request }) => {
+    upsertSet: async ({ locals, request }) => {
         const formData = await request.formData();
-        const { name, items } = Object.fromEntries(formData.entries());
+        const { name, items, setId } = Object.fromEntries(formData.entries());
+        const itemsParsed = JSON.parse(items.toString());
+        const itemsArray = itemsParsed.map((item: { foodId: string; unitIsPtn: string; unitAmount: string }) => ({
+            unitIsPtn: item.unitIsPtn === 'true',
+            unitAmount: parseFloat(item.unitAmount),
+            foodId: parseInt(item.foodId),
+        }))
 
-        // Create the FoodSet
-        const newSet = await prisma.foodSet.create({
-            data: {
+        // Create or update entry in db
+        const foodSet = await prisma.foodSet.upsert({
+            where: { id: setId ? Number(setId) : -1 }, // -1 is a placeholder for non-existent ID
+            update: {
+                name: name.toString(),
+                foodItemsInSet: {
+                    // Delete all existing items in set
+                    deleteMany: {},
+                    // Create new items
+                    create: itemsArray
+                },
+            },
+            create: {
                 name: name.toString(),
                 user: {
-                    connect: { id: locals.user.id }
-                }
+                    connect: {
+                        id: locals.user.id
+                    }
+                },
+                foodItemsInSet: {
+                    create: itemsArray
+                },
             }
         });
 
-        // Parse items and create FoodItemInSet entries
-        const itemsArray = JSON.parse(items.toString());
-        await prisma.foodItemInSet.createMany({
-            data: itemsArray.map((item: { foodId: string; unitIsPtn: string; unitAmount: string }) => ({
-                unitIsPtn: item.unitIsPtn === 'true',
-                unitAmount: parseFloat(item.unitAmount),
-                setId: newSet.id,
-                foodId: parseInt(item.foodId),
-            })),
-        });
-
-        return { success: true, setId: newSet.id };
+        return { success: true, setId: foodSet.id };
     }
 } satisfies Actions;

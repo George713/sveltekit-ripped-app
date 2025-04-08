@@ -29,10 +29,10 @@
 		setSelectionManager.clear();
 	});
 
-	let newSetIsReady = $derived(setSelectionManager.name && setSelectionManager.items.length > 1);
+	let setIsReady = $derived(setSelectionManager.name && setSelectionManager.items.length > 1);
 
-	const handleSubmit = async () => {
-		if (!newSetIsReady) {
+	const handleUpsert = async () => {
+		if (!setIsReady) {
 			return;
 		}
 
@@ -41,8 +41,9 @@
 		const formData = new FormData();
 		formData.append('name', setSelectionManager.name);
 		formData.append('items', JSON.stringify(setSelectionManager.prepareForSubmission()));
+		formData.append('setId', setId ? setId.toString() : '');
 
-		const response = await fetch('?/set', {
+		const response = await fetch('?/upsertSet', {
 			method: 'POST',
 			body: formData
 		});
@@ -50,7 +51,7 @@
 		const result = deserialize(await response.text());
 
 		if (result.type === 'success' && result.data) {
-			const newSet = {
+			const set = {
 				id: result.data.setId,
 				name: setSelectionManager.name,
 				foodItemsInSet: setSelectionManager.items.map((item) => ({
@@ -58,8 +59,8 @@
 					unitIsPtn: true,
 					unitAmount: 1
 				}))
-			};
-			foodSetManager.addSet(newSet as FoodSet);
+			} as FoodSet;
+			foodSetManager.items = [...foodSetManager.items.filter((set) => set.id !== setId), set];
 		}
 
 		goto('/planner?showSets=true');
@@ -76,8 +77,8 @@
 		<div class="my-6">
 			<Button
 				text={setId ? 'Update Set' : 'Create Set'}
-				onclick={handleSubmit}
-				disabled={!newSetIsReady}
+				onclick={handleUpsert}
+				disabled={!setIsReady}
 				classAddons="px-4"
 			/>
 		</div>
