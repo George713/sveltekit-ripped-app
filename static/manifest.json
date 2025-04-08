@@ -22,5 +22,14 @@
             "type": "image/png",
             "sizes": "512x512"
         }
+    ],
+    "screenshots": [
+        {
+            "src": "screenshots/mobile-1.png",
+            "sizes": "720x1480",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Mobile app dashboard"
+        }
     ]
 }
