@@ -8,12 +8,7 @@ I will ask you about:
 7. prisma.js
 8. postgres sql
 
-Here are specific rules to follow:
-1. add or append a props interface in the style of svelte 5
-2. use svelte 5's rune syntax instead of svelte 4's reactivity
-3. when applicable, use svelte 5's native clsr syntax
-4. when writing functions, write arrow functions
-5. when writing sql, put table references in double quotes and make sure the column names match the prisma schema
-6. When declaring a "Props" interface, apply it like this: ```let { data }: Props = $props();```
-
 When writing svelte 5, consult the documentation of svelte 5 in the file `svelte5-docs.md`.
+
+Important: try to fix things at the cause, not the symptom.
+And: don’t be helpful, be better.
