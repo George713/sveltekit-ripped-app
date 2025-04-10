@@ -43,7 +43,16 @@
 
 	// Set up check when component mounts
 	onMount(() => {
+		// Check immediately
 		checkForInstallPrompt();
+		
+		// Create a periodic check every 3 seconds
+		const checkInterval = setInterval(checkForInstallPrompt, 3000);
+		
+		// Clean up the interval when the component is unmounted
+		return () => {
+			clearInterval(checkInterval);
+		};
 	});
 </script>
 
