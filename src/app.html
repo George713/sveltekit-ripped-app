@@ -7,6 +7,11 @@
 	<link rel="manifest" href="%sveltekit.assets%/manifest.json">
 	<meta name="viewport" content="width=device-width" />
 	%sveltekit.head%
+	<script nonce="%sveltekit.nonce%">
+		window.addEventListener('beforeinstallprompt', event => {
+			window.deferredInstallPrompt = event;
+		});
+	</script>
 </head>
 
 <body data-sveltekit-preload-data="hover" oncontextmenu="return false;">
