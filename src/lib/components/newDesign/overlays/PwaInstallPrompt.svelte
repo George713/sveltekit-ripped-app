@@ -95,7 +95,7 @@
 		</div>
 		<button
 			onclick={installApp}
-			class="_bg-amber-500 mt-3 w-full rounded bg-indigo-600 py-2 font-medium text-white transition-colors hover:bg-amber-600"
+			class="mt-3 w-full rounded bg-indigo-600 py-2 font-medium text-white transition-colors hover:bg-amber-600"
 		>
 			Install Now
 		</button>

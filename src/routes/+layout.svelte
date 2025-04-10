@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../app.css';
 	import { page } from '$app/stores';
-	import PwaInstallPrompt from '$lib/components/PwaInstallPrompt.svelte';
+	import PwaInstallPrompt from '$lib/components/newDesign/overlays/PwaInstallPrompt.svelte';
 
 	let { children } = $props();
 
