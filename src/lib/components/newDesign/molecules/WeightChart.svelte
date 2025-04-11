@@ -46,8 +46,18 @@
 		const meanWeight =
 			scaleWeightSelected.reduce((sum, [_, weight]) => sum + weight, 0) /
 			scaleWeightSelected.length;
-		const min = Math.round(meanWeight - 2);
-		const max = Math.round(meanWeight + 2);
+
+		// Calculate the minimum value from each data set
+		const minScaleWeight = Math.min(...scaleWeightSelected.map(([_, weight]) => weight)) - 0.2;
+		const minTrendWeight = Math.min(...trendWeightSelected.map(([_, weight]) => weight)) - 0.2;
+
+		// Calculate the maximum value from each data set
+		const maxScaleWeight = Math.max(...scaleWeightSelected.map(([_, weight]) => weight)) + 0.2;
+		const maxTrendWeight = Math.max(...trendWeightSelected.map(([_, weight]) => weight)) + 0.2;
+
+		// Use the minimum of the three values
+		const min = Math.floor(Math.min(meanWeight - 2, minScaleWeight, minTrendWeight));
+		const max = Math.ceil(Math.max(meanWeight + 2, maxScaleWeight, maxTrendWeight));
 
 		const option = {
 			grid: {
