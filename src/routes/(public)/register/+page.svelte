@@ -11,7 +11,7 @@
 	<SubtleLink href="/login" text="Login" />
 {/if}
 <Logo />
-<div class="mb-1 flex grow flex-col justify-end space-y-20">
+<div class="flex grow flex-col justify-end pb-20">
 	<RegisterForm {form} />
-	<LogoFooter />
 </div>
+<LogoFooter />
