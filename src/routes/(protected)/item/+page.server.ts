@@ -45,7 +45,9 @@ export const actions = {
                     },
                 },
                 // Create connected ingredients using the ingredients array
-                ingredients: ingredientsArray
+                ingredients: {
+                    create: ingredientsArray
+                }
             }
         });
 
