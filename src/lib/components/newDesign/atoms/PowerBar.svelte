@@ -5,13 +5,15 @@
 	import Eggs from '../icons/Eggs.svelte';
 </script>
 
-{#snippet bar(color: 'yellow' | 'blue', fillPct: number)}
+{#snippet bar(color: 'yellow' | 'blue' | 'red', fillPct: number)}
 	<div class="flex space-x-1">
 		<div class="flex w-6 items-center justify-center">
 			{#if color === 'yellow'}
-				<Bolt size="small" />
+				<Bolt size="small" color="yellow" />
 			{:else if color === 'blue'}
 				<Eggs />
+			{:else if color === 'red'}
+				<Bolt size="small" color="red" />
 			{/if}
 		</div>
 
@@ -20,7 +22,8 @@
 				class={{
 					'mx-1.5 h-[calc(100%-12px)] rounded-[3px] transition-all duration-2000': true,
 					'yellow-gradient yellow-glow': color === 'yellow',
-					'blue-gradient blue-glow': color === 'blue'
+					'blue-gradient blue-glow': color === 'blue',
+					'red-gradient red-glow animate-pulse-70': color === 'red'
 				}}
 				style={`width: calc(${fillPct * 100}% - 8px)`}
 			></div>
@@ -28,10 +31,10 @@
 	</div>
 {/snippet}
 
-<flex class="flex flex-col space-y-2">
-	{@render bar('yellow', calorieManager.eatenPct)}
+<div class="flex flex-col space-y-2">
+	{@render bar(calorieManager.underTarget ? 'yellow' : 'red', calorieManager.eatenPct)}
 	{@render bar('blue', proteinManager.eatenPct)}
-</flex>
+</div>
 
 <style>
 	.inner-shadows {
@@ -78,5 +81,37 @@
 			0 0 2px #26c6da,
 			0 0 4px #26c6da,
 			0 0 8px #26c6da;
+	}
+	.red-gradient {
+		/* red-100: #fee2e2, red-300: #fca5a5 */
+		background: linear-gradient(
+			to right,
+			#fca5a5 0%,
+			#fee2e2 25%,
+			#fca5a5 50%,
+			#fee2e2 75%,
+			#fca5a5 100%
+		);
+	}
+	.red-glow {
+		/* glow via several shadows with different blur values, using red-400 #f87171 */
+		box-shadow:
+			0 0 0.2px #f87171,
+			0 0 0.5px #f87171,
+			0 0 1px #f87171,
+			0 0 2px #f87171,
+			0 0 4px #f87171,
+			0 0 8px #f87171;
+	}
+
+	/* Custom pulse animation with opacity 0.7 instead of 0.5 */
+	@keyframes pulse-70 {
+		50% {
+			opacity: 0.7;
+		}
+	}
+
+	.animate-pulse-70 {
+		animation: pulse-70 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 	}
 </style>

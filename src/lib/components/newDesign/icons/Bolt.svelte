@@ -1,8 +1,14 @@
 <script lang="ts">
 	interface Props {
 		size: 'small' | 'big';
+		color: 'yellow' | 'red';
 	}
-	let { size }: Props = $props();
+	let { size, color }: Props = $props();
+
+	const glowMatrixValues = {
+		yellow: '0 0 0 0 0.984314 0 0 0 0 0.74902 0 0 0 0 0.141176 0 0 0 1 0',
+		red: '0 0 0 0 0.745098 0 0 0 0 0.070588 0 0 0 0 0.235294 0 0 0 1 0'
+	};
 </script>
 
 {#if size === 'small'}
@@ -10,7 +16,10 @@
 		<g filter="url(#filter0_d_1619_3924)">
 			<path
 				d="M10.1937 9.42386H14.6363L5.58658 18.5588L7.23199 11.9152H3.94116L6.40928 4.44116H12.1682L11.181 6.93251"
-				stroke="#FBBF24"
+				class={{
+					'stroke-yellow-400': color === 'yellow',
+					'animate-pulse-70 stroke-rose-500': color === 'red'
+				}}
 				stroke-width="1.2"
 				stroke-linecap="round"
 				stroke-linejoin="round"
@@ -35,10 +44,7 @@
 				/>
 				<feOffset />
 				<feGaussianBlur stdDeviation="1.5" />
-				<feColorMatrix
-					type="matrix"
-					values="0 0 0 0 0.984314 0 0 0 0 0.74902 0 0 0 0 0.141176 0 0 0 1 0"
-				/>
+				<feColorMatrix type="matrix" values={glowMatrixValues[color]} />
 				<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1619_3924" />
 				<feBlend
 					mode="normal"
@@ -54,7 +60,7 @@
 		<g filter="url(#filter0_d_1389_1826)">
 			<path
 				d="M15.958 13.5294H24.4545L7.14685 31L10.2937 18.2941H4L8.72028 4H19.7343L17.8462 8.76471"
-				stroke="#FBBF24"
+				class={{ 'stroke-yellow-400': color === 'yellow', 'stroke-rose-500': color === 'red' }}
 				stroke-width="1.68"
 				stroke-linecap="round"
 				stroke-linejoin="round"
@@ -79,10 +85,7 @@
 				/>
 				<feOffset />
 				<feGaussianBlur stdDeviation="1.5" />
-				<feColorMatrix
-					type="matrix"
-					values="0 0 0 0 0.984314 0 0 0 0 0.74902 0 0 0 0 0.141176 0 0 0 1 0"
-				/>
+				<feColorMatrix type="matrix" values={glowMatrixValues[color]} />
 				<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1389_1826" />
 				<feBlend
 					mode="normal"
@@ -94,3 +97,16 @@
 		</defs>
 	</svg>
 {/if}
+
+<style>
+	/* Custom pulse animation with opacity 0.7 instead of 0.5 */
+	@keyframes pulse-70 {
+		50% {
+			opacity: 0.7;
+		}
+	}
+
+	.animate-pulse-70 {
+		animation: pulse-70 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+	}
+</style>
