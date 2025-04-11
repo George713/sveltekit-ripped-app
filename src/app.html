@@ -11,6 +11,9 @@
 		window.addEventListener('beforeinstallprompt', event => {
 			window.deferredInstallPrompt = event;
 		});
+		window.addEventListener("appinstalled", () => {
+			window.appInstalled = true;
+		});
 	</script>
 </head>
 

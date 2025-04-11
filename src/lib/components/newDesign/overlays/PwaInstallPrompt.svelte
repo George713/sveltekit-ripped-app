@@ -1,12 +1,6 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
-
-	// Component for PWA install prompt using Svelte 5 runes
-
-	interface PWAInstallEvent extends Event {
-		prompt: () => Promise<void>;
-		userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
-	}
 
 	// Using $state for reactivity in Svelte 5
 	let showInstallPrompt = $state(false);
@@ -20,6 +14,13 @@
 		}
 	};
 
+	// Check for successful installation
+	const checkForInstallComplete = () => {
+		if (typeof window !== 'undefined' && (window as any).appInstalled) {
+			goto('/successful-install');
+		}
+	};
+
 	// Handle install button click
 	const installApp = async () => {
 		if (!window.deferredInstallPrompt) return;
@@ -27,9 +28,6 @@
 		try {
 			// Show the install prompt
 			await window.deferredInstallPrompt.prompt();
-
-			// Wait for the user to respond to the prompt
-			const choiceResult = await window.deferredInstallPrompt.userChoice;
 
 			// Clear the saved prompt
 			window.deferredInstallPrompt = null;
@@ -43,15 +41,19 @@
 
 	// Set up check when component mounts
 	onMount(() => {
-		// Check immediately
+		// Check for install possibility immediately
 		checkForInstallPrompt();
-		
+		// Check for successful installation
+		checkForInstallComplete();
+
 		// Create a periodic check every 3 seconds
-		const checkInterval = setInterval(checkForInstallPrompt, 3000);
-		
+		const checkIntervalPrompt = setInterval(checkForInstallPrompt, 1000);
+		const checkIntervalInstall = setInterval(checkForInstallComplete, 1000);
+
 		// Clean up the interval when the component is unmounted
 		return () => {
-			clearInterval(checkInterval);
+			clearInterval(checkIntervalPrompt);
+			clearInterval(checkIntervalInstall);
 		};
 	});
 </script>
