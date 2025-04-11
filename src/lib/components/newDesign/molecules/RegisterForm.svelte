@@ -9,10 +9,11 @@
 	let { form } = $props();
 </script>
 
+<div class="grow"></div>
 <form
 	action="?/register"
 	method="POST"
-	class="flex flex-col items-center space-y-2"
+	class="mb-15 flex flex-col items-center space-y-2"
 	use:enhance={() => {
 		return async ({ result }) => {
 			if (result.type === 'failure') {
