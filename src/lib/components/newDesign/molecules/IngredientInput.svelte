@@ -36,7 +36,10 @@
 				{#if audioRecorder.isListening}
 					Listening...
 				{:else}
-					{(audioRecorder.recordedText.trim() + ', ' + audioRecorder.tempTranscript.trim()).trim()}
+					{[audioRecorder.recordedText, audioRecorder.tempTranscript]
+						.map((text) => text.trim())
+						.filter((text) => text) // filters empty strings
+						.join(', ')}
 				{/if}
 			</p>
 		{/if}
