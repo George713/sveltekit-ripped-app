@@ -17,7 +17,7 @@ import { PUBLIC_ONMOBILE } from '$env/static/public';
 class AudioRecorder {
     isProcessing = $state(false);
     recognition: any;
-    onMobile = PUBLIC_ONMOBILE;
+    onMobile = PUBLIC_ONMOBILE === 'TRUE' ? true : false;
 
     isRecording = $state(false);
     recordedText = $state('');
