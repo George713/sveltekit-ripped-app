@@ -107,6 +107,7 @@ export const actions: Actions = {
                     }
                 },
                 data: {
+                    targetCalories: calories,
                     review: true
                 }
             });
