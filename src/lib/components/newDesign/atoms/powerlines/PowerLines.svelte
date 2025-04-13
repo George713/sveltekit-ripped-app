@@ -18,8 +18,8 @@
 	let calories: SvgInfo = {
 		width: 111,
 		height: 122,
-		path: 'M93.5 7.5H101C102.105 7.5 103 8.39543 103 9.5V55.5C103 56.6046 102.105 57.5 101 57.5H 44.1658C 43.4453 57.5 42.7805 57.8875 42.4255 58.5144 L9 114',
-		strokeWidth: 1,
+		path: 'M93.5 7.5H101C102.105 7.5 103 8.39543 103 9.5V55.5C103 56.6046 102.105 57.5 101 57.5H 40.1658 C 39.4453 57.5 38.7805 57.8875 38.4255 58.5144 L4 122',
+		strokeWidth: 1.5,
 		glowColor: 'yellow',
 		glowLineColor: '#FFEF62'
 	};
@@ -52,7 +52,7 @@
 	let singleBent: SvgInfo = {
 		width: 116,
 		height: 64,
-		path: 'M96 25L32.5 25L20 44',
+		path: 'M96 25 H32.5782 C31.9052 25 31.2773 25.33851 30.9074 25.90077 L15.999999 52',
 		strokeWidth: 1.5,
 		glowColor: 'blue'
 	};
@@ -60,7 +60,7 @@
 	let doubleBent: SvgInfo = {
 		width: 110,
 		height: 108,
-		path: 'M20 88V71L90 45V24.5',
+		path: 'M19 88.5 V73.3906 C20 72.5547 20.51995 70.8069 21.30363 70.5158 L88.6964 45.4842 C89.48 45.1931 90 44.4453 90 43.6094 V0.5',
 		strokeWidth: 1.5,
 		glowColor: 'blue'
 	};
@@ -68,7 +68,7 @@
 	let plan: SvgInfo = {
 		width: 49.5,
 		height: 148,
-		path: 'M 25,75 V 18',
+		path: 'M 25 74 V 18',
 		strokeWidth: 1.5,
 		glowColor: 'blue'
 	};

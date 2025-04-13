@@ -78,6 +78,7 @@
 				stroke={svgInfo.glowLineColor ? svgInfo.glowLineColor : 'white'}
 				stroke-opacity="1"
 				stroke-width={svgInfo.strokeWidth}
+				stroke-linecap="round"
 				in:triggeredDraw={{ duration: 2500, easing: cubicInOut }}
 			/>
 		</Glow>
