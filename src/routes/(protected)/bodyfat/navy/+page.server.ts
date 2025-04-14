@@ -32,16 +32,32 @@ export const actions: Actions = {
         const hipCm = data.get('hipCm') ? Number(data.get('hipCm')) : null;
         const bodyfat = Number(data.get('bodyfat'));
 
-        await prisma.bodyFat.create({
-            data: {
-                userId: locals.user.id,
-                heightCm,
-                waistCm,
-                neckCm,
-                hipCm,
-                bodyfat,
-                method: 'navy'
-            }
-        });
+        await prisma.$transaction([
+            // Create bodyfat entry
+            prisma.bodyFat.create({
+                data: {
+                    userId: locals.user.id,
+                    heightCm,
+                    waistCm,
+                    neckCm,
+                    hipCm,
+                    bodyfat,
+                    method: 'navy'
+                }
+            }),
+
+            // Update daily progress to mark bodyfat as completed
+            prisma.dailyProgress.update({
+                where: {
+                    userId_createdAt: {
+                        userId: locals.user.id,
+                        createdAt: locals.dailyProgress.createdAt
+                    }
+                },
+                data: {
+                    bodyfat: true
+                }
+            })
+        ]);
     }
 }
