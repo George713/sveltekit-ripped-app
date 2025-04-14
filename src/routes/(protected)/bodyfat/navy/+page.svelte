@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
-	import { slide } from 'svelte/transition';
+	import { fade, slide } from 'svelte/transition';
 
 	import { selectInput, focusElement } from '$lib/utils.svelte.js';
 	import { animationManager, visibilityManager } from '$lib/stateManagers.svelte';
@@ -15,6 +15,8 @@
 
 	// When the user chooses navy method to unlock their sigil
 	const unlockProcess = $derived(page.url.searchParams.get('unlock') === 'true');
+
+	const steps = $derived(page.data.user.isMale ? 2 : 3); // it's actually one more step, but we start counting at 0
 
 	let progressState = $state((data.heightCm || 0) > 0 ? 1 : 0);
 	let height = $state(data.heightCm || 0);
@@ -156,14 +158,16 @@
 </div>
 
 <div class="flex grow flex-col justify-end space-y-4">
-	{@render input(
-		'Step #1:',
-		'Measure your height (in cm):',
-		'height',
-		progressState === 0,
-		height,
-		true
-	)}
+	{#if progressState < 3}
+		{@render input(
+			'Step #1:',
+			'Measure your height (in cm):',
+			'height',
+			progressState === 0,
+			height,
+			true
+		)}
+	{/if}
 	{#if progressState >= 1}
 		{@render input(
 			'Step #2:',
@@ -182,9 +186,18 @@
 			waist
 		)}
 	{/if}
+	{#if progressState >= 3}
+		{@render input(
+			'Step #4:',
+			'Measure the circumference around your hips (in cm).',
+			'hip',
+			progressState === 3,
+			hip
+		)}
+	{/if}
 </div>
 <div class="mb-14 flex flex-col items-center">
-	{#if progressState < 2}
+	{#if progressState < steps}
 		<div class="mt-16" transition:slide={{ duration: 1000 }}>
 			<Arrow disabled={isInputEmpty} onclick={() => progressState++} />
 		</div>
@@ -192,7 +205,7 @@
 		<button
 			class="mt-10 rounded bg-indigo-600 px-4 py-3 font-bold text-stone-200 disabled:bg-stone-600 disabled:text-stone-400"
 			disabled={isInputEmpty}
-			transition:slide={{ duration: 1000 }}
+			transition:fade={{ duration: 1000, delay: 1000 }}
 			onclick={onSubmit}
 		>
 			Calculate BF%
