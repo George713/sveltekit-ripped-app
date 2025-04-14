@@ -6,7 +6,7 @@
 	import Arrow from '$lib/components/newDesign/icons/Arrow.svelte';
 	import Crest from '$lib/components/newDesign/icons/Crest.svelte';
 	import { innerHeight } from 'svelte/reactivity/window';
-	import { fade, slide } from 'svelte/transition';
+	import { slide } from 'svelte/transition';
 
 	let progressState = $state(Number(page.url.searchParams.get('step')) || 0);
 	let sex = $state<'male' | 'female' | undefined>(undefined);
@@ -14,6 +14,14 @@
 
 	const selectSex = (selected: 'male' | 'female') => {
 		sex = selected;
+		page.data.user.isMale = selected === 'male';
+
+		const formData = new FormData();
+		formData.append('isMale', page.data.user.isMale);
+		fetch('?/updateSex', {
+			method: 'POST',
+			body: formData
+		});
 	};
 
 	const selectMethod = (selected: 'navy' | 'bia' | 'comparison' | 'doItLater') => {
