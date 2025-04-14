@@ -106,9 +106,9 @@
 		svgInfo={bodyfat}
 		glowStrength={page.data.dailyProgress.bodyfat ? 1 : 0}
 		animate={animationManager.bodyfatPowerline}
-		translate={[-10, 79]}
-		rotate={90}
-		hidden={!page.data.user.enterBodyfatToday}
+		translate={[77, 79]}
+		rotate={270}
+		hidden={!page.data.user.enterBodyfatToday && !page.data.dailyProgress.bodyfat}
 	/>
 	<!-- Review -->
 	<Base

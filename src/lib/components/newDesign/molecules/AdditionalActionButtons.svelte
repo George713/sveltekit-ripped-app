@@ -13,8 +13,8 @@
 		glowStrength={page.data.dailyProgress.bodyfat ? 1 : 0}
 		size="small"
 		icon="insignia"
-		disabled={!page.data.user.enterBodyfatToday}
-		hidden={!page.data.user.enterBodyfatToday}
+		disabled={page.data.dailyProgress.bodyfat}
+		hidden={!page.data.user.enterBodyfatToday && !page.data.dailyProgress.bodyfat}
 		onclick={() => goto('/bodyfat')}
 	/>
 	<div class="flex flex-col space-y-4">
