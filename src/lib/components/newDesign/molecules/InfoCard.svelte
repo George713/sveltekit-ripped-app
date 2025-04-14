@@ -17,7 +17,7 @@
 
 {#snippet symbol(variant: 'bolt' | 'scale')}
 	{#if variant === 'bolt'}
-		<Bolt size="big" />
+		<Bolt size="big" color="yellow" />
 	{:else if variant === 'scale'}
 		<Scale scale={1} color="fill-indigo-500" />
 	{/if}
