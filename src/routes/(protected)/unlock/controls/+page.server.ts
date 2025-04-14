@@ -5,14 +5,24 @@ export const actions: Actions = {
     addCalorieTarget: async ({ locals, request }) => {
         const formData = await request.formData();
         const calories = Number(formData.get('calories'));
+        const isMale = formData.get('isMale') === 'true'; // Convert string to boolean
 
-        // Add calorie target to database
-        await prisma.calorieTarget.create({
-            data: {
-                userId: locals.user.id,
-                calories
-            }
-        });
+        await prisma.$transaction([
+            prisma.calorieTarget.create({
+                data: {
+                    userId: locals.user.id,
+                    calories
+                }
+            }),
+            prisma.user.update({
+                where: {
+                    id: locals.user.id
+                },
+                data: {
+                    isMale
+                }
+            })
+        ]);
 
         return { success: true };
     }
