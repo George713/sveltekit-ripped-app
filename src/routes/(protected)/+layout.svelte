@@ -37,12 +37,12 @@
 
 		if (page.data.user) {
 			// Compare the user's current timezone to the timezone stored in the database
-			if (timeZoneOffset != page.data.user.activeTimeZone) {
+			if (timeZoneOffset != page.data.user.timeZoneOffset) {
 				const formData = new FormData();
 				formData.append('timeZoneOffset', JSON.stringify(timeZoneOffset)); // Add the user's timezone to the FormData object
 
 				// Send a POST request to the server to update the user's timezone
-				fetch('?/setUserTimeZoneOffset', {
+				fetch('/?/setUserTimeZoneOffset', {
 					method: 'POST',
 					body: formData
 				});
