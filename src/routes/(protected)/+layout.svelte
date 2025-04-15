@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
 	import { page } from '$app/state';
-	import { onMount } from 'svelte';
+	import { onMount, setContext } from 'svelte';
 	import {
 		calorieManager,
 		estimatedItemManager,
@@ -19,6 +19,9 @@
 	let { data, children } = $props();
 
 	const dateDayBegin = getDateDayBegin(page.data.user.timeZoneOffset);
+
+	const audioElement = $state({ element: undefined as HTMLAudioElement | undefined });
+	setContext('audioElement', audioElement);
 
 	/**
 	 * This block of code is executed when the component is first rendered, i.e. after the server-side load function.
@@ -84,3 +87,6 @@
 	<PotentialToasts />
 	{@render children?.()}
 </div>
+
+<!-- AUDIO -->
+<audio src="/audio/successBell.mp3" bind:this={audioElement.element}></audio>

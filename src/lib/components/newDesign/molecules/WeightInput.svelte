@@ -2,6 +2,7 @@
 	import { applyAction, enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
 	import { page } from '$app/state';
+	import { getContext } from 'svelte';
 
 	import { animationManager, toastManager, visibilityManager } from '$lib/stateManagers.svelte';
 
@@ -9,6 +10,9 @@
 	import ColoredHeader from '../atoms/ColoredHeader.svelte';
 	import Input from '../atoms/inputs/Input.svelte';
 	import Scale from '../icons/Scale.svelte';
+
+	type AudioElement = { element: HTMLAudioElement | undefined };
+	const audioWeighIn = getContext<AudioElement>('audioElement');
 </script>
 
 <div
@@ -38,6 +42,7 @@
 					await applyAction(result);
 					animationManager.weighInPowerline = true;
 					visibilityManager.toggleWeightOverlay();
+					audioWeighIn.element?.play();
 					invalidateAll();
 				}
 			};
