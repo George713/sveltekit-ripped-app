@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { invalidateAll } from '$app/navigation';
 	import { page } from '$app/state';
 	import { onMount } from 'svelte';
 	import {
@@ -18,6 +19,36 @@
 	let { data, children } = $props();
 
 	const dateDayBegin = getDateDayBegin(page.data.user.timeZoneOffset);
+
+	/**
+	 * This block of code is executed when the component is first rendered, i.e. after the server-side load function.
+	 * It gets the user's current timezone and compares it to the timezone stored in the user's database.
+	 * If the two timezones are different, it sends a request to the server to update the user's timezone.
+	 * This is required to handle data loading in accordance with the user's timezone, in particular
+	 * plannedItems and eatEstimates.
+	 */
+	const updateTimeZone = () => {
+		// Get the user's current timezone
+		const now = new Date();
+		const timeZoneOffset = now.getTimezoneOffset() / -60;
+
+		if (page.data.user) {
+			// Compare the user's current timezone to the timezone stored in the database
+			if (timeZoneOffset != page.data.user.activeTimeZone) {
+				const formData = new FormData();
+				formData.append('timeZoneOffset', JSON.stringify(timeZoneOffset)); // Add the user's timezone to the FormData object
+
+				// Send a POST request to the server to update the user's timezone
+				fetch('?/setUserTimeZoneOffset', {
+					method: 'POST',
+					body: formData
+				});
+
+				// Reload page data to ensure that the correct timezone is used
+				invalidateAll();
+			}
+		}
+	};
 
 	// Using Svelte 5 $effect rune for reactivity when data changes, e.g. through invalidation
 	$effect.pre(() => {
@@ -41,6 +72,8 @@
 		xpManager.vaultXP = page.data.dailyProgress.vaultXP;
 		calorieManager.target = page.data.dailyProgress.targetCalories;
 		proteinManager.target = page.data.dailyProgress.targetProtein;
+
+		updateTimeZone();
 	});
 </script>
 

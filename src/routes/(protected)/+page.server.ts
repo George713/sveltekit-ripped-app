@@ -93,9 +93,20 @@ const unlockAddons: Action = async ({ locals }) => {
     })
 }
 
+const setUserTimeZoneOffset: Action = async ({ locals, request }) => {
+    const formData = await request.formData()
+    const timeZoneOffset = formData.get('timeZoneOffset');
+
+    await prisma.user.update({
+        where: { id: locals.user.id },
+        data: { timeZoneOffset: JSON.parse(timeZoneOffset as string) }
+    })
+}
+
 export const actions: Actions = {
     logWeight,
     unlockRank,
     unlockControls,
-    unlockAddons
+    unlockAddons,
+    setUserTimeZoneOffset
 };
