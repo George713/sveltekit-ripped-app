@@ -141,7 +141,7 @@
 	</div>
 {/snippet}
 
-<div class="relative mt-10 mb-5 flex h-[213px] w-full items-center justify-center">
+<div class="relative mt-5 mb-5 flex h-[213px] w-full items-center justify-center">
 	<div
 		class="absolute inset-0 flex items-center justify-center transition-opacity delay-500 duration-3000"
 		class:opacity-100={showPreviousRank}

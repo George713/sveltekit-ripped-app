@@ -58,7 +58,7 @@
 	</div>
 {/snippet}
 
-<div class="my-auto flex flex-col items-center justify-center space-y-5">
+<div class="flex grow flex-col items-center justify-center space-y-5">
 	<GenderSwitch bind:isMale />
 	<div
 		class={{
@@ -82,7 +82,7 @@
 	{/if}
 
 	{#if calculatedCalories}
-		<div class="mt-4 flex w-full flex-col space-y-4 px-14" in:slide={{ duration: 1000 }}>
+		<div class="flex w-full flex-col space-y-4 px-14" in:slide={{ duration: 1000 }}>
 			<p class="font-bold text-stone-200">Daily target calories:</p>
 
 			<div class="flex w-full justify-center">
@@ -102,7 +102,7 @@
 				</div>
 			</div>
 
-			<div class="mt-5 flex w-full justify-center">
+			<div class="flex w-full justify-center">
 				<button
 					class="rounded bg-indigo-600 px-5 py-2 font-bold text-stone-200 disabled:bg-stone-600 disabled:text-stone-400"
 					onclick={onSubmit}
