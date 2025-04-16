@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { page } from '$app/state';
 	import Button from '../atoms/Button.svelte';
 
 	interface Props {
@@ -7,13 +8,15 @@
 	}
 
 	let { showAddOverlay = $bindable() }: Props = $props();
+
+	const currentPath = $state(page.url.pathname);
 </script>
 
 <div class="flex justify-center space-x-1 px-4">
 	<Button
 		text="FoodLib"
 		icon="book"
-		onclick={() => goto('/foodLib')}
+		onclick={() => goto(`/foodLib?origin=${currentPath}`)}
 		variant="secondary"
 		classAddons="flex-1"
 	/>

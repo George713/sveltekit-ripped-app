@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { page } from '$app/state';
 	import CardArrayBackground from '$lib/components/newDesign/atoms/CardArrayBackground.svelte';
 	import DigitalCounter from '$lib/components/newDesign/atoms/DigitalCounter.svelte';
 	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
@@ -11,6 +12,8 @@
 		plannedItemManager,
 		proteinManager
 	} from '$lib/stateManagers.svelte';
+
+	const origin = page.url.searchParams.get('origin') || '/';
 </script>
 
 <div class="flex h-full w-full flex-col items-center space-y-4 p-1">
@@ -36,6 +39,6 @@
 	/>
 
 	<div class="mb-0.5 flex w-full justify-center">
-		<Minimizer onclick={() => goto('/')} direction="down" />
+		<Minimizer onclick={() => goto(origin)} direction="down" />
 	</div>
 </div>
