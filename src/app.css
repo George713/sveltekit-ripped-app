@@ -14,7 +14,11 @@ body {
 
 body,
 html {
-  @apply bg-linear-to-br/oklch from-stone-900 to-stone-800 h-dvh w-screen;
+  /*
+  Flat background color is required, as the gradient does not always cover
+  the bottom edge.
+  */
+  @apply bg-stone-800 bg-linear-to-br/oklch from-stone-900 to-stone-800 h-dvh w-screen;
 }
 
 /*
