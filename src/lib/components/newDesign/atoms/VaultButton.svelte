@@ -53,6 +53,7 @@
 		} else if (calorieManager.inRange && !alreadyUsed) {
 			xpGained = (await xpManager.openVault()) || 0;
 			if (xpGained > 0) runAnimationSequence({ flash: 'openVault' });
+			page.data.dailyProgress.vaultOpened = true; // setting this manually until page is invalidated
 		}
 	};
 </script>
