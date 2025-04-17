@@ -10,10 +10,7 @@
 	let isRootPath = $derived($page.url.pathname === '/');
 </script>
 
-<div class="flex h-dvh w-screen flex-col bg-linear-to-br/oklch from-stone-900 to-stone-800">
-	{@render children?.()}
-
-	{#if isRootPath && PUBLIC_ONMOBILE === 'TRUE'}
-		<PwaInstallPrompt />
-	{/if}
-</div>
+{@render children?.()}
+{#if isRootPath && PUBLIC_ONMOBILE === 'TRUE'}
+	<PwaInstallPrompt />
+{/if}
