@@ -11,7 +11,7 @@
 
 <div class="flex h-full w-full items-center justify-center">
 	<div class="flex h-full max-h-[932px] flex-col justify-between">
-		{#if isMobile()}
+		{#if true}
 			{#if !form?.success}
 				<SubtleLink href="/login" text="Login" />
 			{/if}
