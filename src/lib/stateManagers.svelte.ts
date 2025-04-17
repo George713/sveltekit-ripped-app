@@ -161,11 +161,12 @@ class XPManager {
             });
         } else {
             this.vaultXP = 0;
-            this.totalXP += gainedDirectXP;
+            setTimeout(() => {
+                this.totalXP += gainedDirectXP;
+            }, 3000);
             return gainedDirectXP;
         }
     }
-
 }
 
 // Export a singleton instance of XPManager
