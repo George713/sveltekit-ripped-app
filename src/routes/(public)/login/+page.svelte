@@ -5,11 +5,18 @@
 	import SubtleLink from '$lib/components/newDesign/atoms/SubtleLink.svelte';
 	import LoginForm from '$lib/components/newDesign/molecules/LoginForm.svelte';
 	import { isMobile } from '$lib/utils.svelte';
+	import { onMount } from 'svelte';
+
+	let userIsOnMobile = $state(false);
+
+	onMount(() => {
+		userIsOnMobile = isMobile();
+	});
 </script>
 
 <div class="flex h-full w-full items-center justify-center">
 	<div class="flex h-full max-h-[932px] flex-col justify-between">
-		{#if true}
+		{#if userIsOnMobile}
 			<SubtleLink href="/register" text="Register" />
 			<Logo />
 			<LoginForm />
