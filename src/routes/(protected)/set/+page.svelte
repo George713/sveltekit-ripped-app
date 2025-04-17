@@ -88,27 +88,32 @@
 	};
 </script>
 
-<div class="relative mt-3 flex w-full items-center justify-center">
-	<div class="absolute left-2">
-		<Minimizer onclick={() => goto('/planner?showSets=true')} direction="left" />
+<form class="flex h-full w-screen flex-col items-center justify-end space-y-5 px-1 pb-4">
+	<div class="relative flex w-full">
+		<FoodSelection selectionManager={setSelectionManager} headerAsInput={true} />
+		{#if setId}
+			<button
+				class="absolute right-1 rounded px-3 py-2 text-xs text-stone-600"
+				onclick={() => handleDelete(setId)}
+			>
+				Delete Set
+			</button>
+		{/if}
 	</div>
-	{#if setId}
-		<button class="rounded px-3 py-1 text-xs text-stone-600" onclick={() => handleDelete(setId)}>
-			Delete Set
-		</button>
-	{/if}
-</div>
-<form class="mt-4 flex h-full w-screen flex-col items-center space-y-7 p-1">
-	<FoodSelection selectionManager={setSelectionManager} headerAsInput={true} />
 	<FoodLibrary
 		showNewElementCard={false}
 		showSubtleBtn={false}
 		selectionManager={setSelectionManager}
 	/>
-	<Button
-		text={setId ? 'Update Set' : 'Create Set'}
-		onclick={handleUpsert}
-		disabled={!setIsReady}
-		classAddons="px-4"
-	/>
+	<div class="relative flex w-full items-center justify-center">
+		<div class="absolute left-3">
+			<Minimizer onclick={() => goto('/planner?showSets=true')} direction="left" />
+		</div>
+		<Button
+			text={setId ? 'Update Set' : 'Create Set'}
+			onclick={handleUpsert}
+			disabled={!setIsReady}
+			classAddons="px-4"
+		/>
+	</div>
 </form>
