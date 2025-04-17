@@ -1,6 +1,6 @@
 <script lang="ts">
 	import PowerUps from '../atoms/PowerUps.svelte';
-	import ConquerorButton from '../atoms/ConquerorButton.svelte';
+	import VaultButton from '../atoms/VaultButton.svelte';
 	import PowerLines from '../atoms/powerlines/PowerLines.svelte';
 	import ActionButtons from '../molecules/ActionButtons.svelte';
 	import AdditionalActionButtons from '../molecules/AdditionalActionButtons.svelte';
@@ -11,7 +11,7 @@
 	<TrackingWidget />
 	<PowerLines />
 	<PowerUps />
-	<ConquerorButton />
+	<VaultButton />
 	<AdditionalActionButtons />
 	<ActionButtons />
 </div>

@@ -5,7 +5,7 @@
 	import NumberFlow, { continuous } from '@number-flow/svelte';
 
 	afterNavigate(() => {
-		// Timeout is set so that the vault animation (in ConquerorButton) finishes first
+		// Timeout is set so that the vault animation (in VaultButton) finishes first
 		setTimeout(() => {
 			const xpGained = xpManager.extractCachedDirectXP();
 		}, 3000);

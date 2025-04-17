@@ -60,7 +60,7 @@
 		<Minimizer direction="left" onclick={() => goto('/')} />
 	</div>
 	<div class="mt-7 ml-3.5 flex justify-center">
-		<!-- Big Harvest Button -->
+		<!-- Big Vault Button -->
 		<svg
 			width={89 * 2.3}
 			height={101 * 2.3}
