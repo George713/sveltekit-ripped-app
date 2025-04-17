@@ -111,7 +111,7 @@
 	};
 </script>
 
-<div class="relative mt-3 flex w-full items-center justify-center">
+<div class="relative mt-3 flex min-h-6 w-full items-center justify-center">
 	<div class="absolute left-2">
 		<Minimizer onclick={() => goto(origin)} direction="left" />
 	</div>
