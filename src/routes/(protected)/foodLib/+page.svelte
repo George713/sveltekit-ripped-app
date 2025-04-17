@@ -16,12 +16,12 @@
 	const origin = page.url.searchParams.get('origin') || '/';
 </script>
 
-<div class="flex h-full w-full flex-col items-center space-y-4 p-1">
-	<div class="mt-4 flex w-full grow flex-col overflow-hidden">
+<div class="flex h-full w-full flex-col items-center">
+	<div class="mb-1 flex w-full grow flex-col overflow-hidden p-2">
 		<div class="flex w-full items-end justify-between px-2 pb-[1px]">
 			<SelectionHeader icon="book" text="Food Library" />
 		</div>
-		<CardArrayBackground color="light" classAddons="py-2 flex-col w-full h-full">
+		<CardArrayBackground color="light" classAddons="py-2 flex-col">
 			<CardArray
 				itemManager={foodItemManager}
 				selectionManager={plannedItemManager}
@@ -38,7 +38,7 @@
 		proteinTarget={proteinManager.target}
 	/>
 
-	<div class="mb-0.5 flex w-full justify-center">
+	<div class="mt-3 mb-1 flex w-full justify-center">
 		<Minimizer onclick={() => goto(origin)} direction="down" />
 	</div>
 </div>
