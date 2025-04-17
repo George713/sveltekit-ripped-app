@@ -16,7 +16,7 @@
 	});
 </script>
 
-<div class="flex min-h-full w-full items-center justify-center overflow-y-auto">
+<div class="flex h-full w-full items-center justify-center overflow-y-auto">
 	<div class="flex h-full max-h-[932px] flex-col justify-between">
 		{#if userIsOnMobile}
 			{#if !form?.success}
