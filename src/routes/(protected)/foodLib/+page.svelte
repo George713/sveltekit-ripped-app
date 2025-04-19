@@ -40,10 +40,10 @@
 		kcalTarget={calorieManager.target}
 		proteinCurrent={proteinManager.eaten}
 		proteinTarget={proteinManager.target}
-		classAddons="mt-1 mb-4"
+		classAddons="mt-1 mb-3"
 	/>
 
-	<div class="">
+	<div class="mb-1">
 		<Minimizer onclick={() => goto(origin)} direction="down" />
 	</div>
 </div>
