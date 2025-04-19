@@ -11,7 +11,7 @@
 	aria-label="Return to Main Screen"
 	ontouchstart={onclick}
 	type="button"
-	class="flex size-8 items-center justify-center"
+	class="flex size-10 items-center justify-center"
 >
 	<svg
 		width="31"
