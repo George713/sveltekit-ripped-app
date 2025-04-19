@@ -4,12 +4,19 @@
 		kcalTarget: number;
 		proteinCurrent: number;
 		proteinTarget: number;
+		classAddons?: string;
 	}
 
-	const { kcalCurrent, kcalTarget, proteinCurrent, proteinTarget }: Props = $props();
+	const {
+		kcalCurrent,
+		kcalTarget,
+		proteinCurrent,
+		proteinTarget,
+		classAddons = ''
+	}: Props = $props();
 </script>
 
-<div class="ml-5 flex items-center">
+<div class="ml-5 flex items-center {classAddons}">
 	<!-- Calories -->
 	<div class="flex flex-col items-center">
 		<!-- Icon with Label -->
@@ -27,7 +34,7 @@
 		</p>
 	</div>
 	<!-- Separator -->
-	<div class="mx-2 h-6 w-0.5 rounded-full bg-stone-700"></div>
+	<div class="mr-2.5 ml-2 h-6 w-0.5 rounded-full bg-stone-700"></div>
 	<!-- Protein -->
 	<div class="flex flex-col items-center">
 		<!-- Icon with Label -->
