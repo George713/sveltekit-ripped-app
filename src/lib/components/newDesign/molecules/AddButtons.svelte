@@ -12,7 +12,7 @@
 	const currentPath = $state(page.url.pathname);
 </script>
 
-<div class="flex justify-center space-x-1 px-4">
+<div class="flex justify-center space-x-1">
 	<Button
 		text="FoodLib"
 		icon="book"
