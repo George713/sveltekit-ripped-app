@@ -6,7 +6,6 @@
 	import FoodSelection from '$lib/components/newDesign/organisms/FoodSelection.svelte';
 	import {
 		animationManager,
-		calorieManager,
 		dailySelectionManager,
 		toastManager,
 		visibilityManager
