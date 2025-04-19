@@ -40,7 +40,7 @@
 {#snippet image(imgSrc: string, theme: 'light' | 'dark')}
 	<div
 		class={{
-			'relative h-[62px] overflow-hidden rounded': true,
+			'relative h-[62px] overflow-hidden rounded ': true,
 			'w-[88px]': theme === 'light',
 			'w-[86px]': theme === 'dark'
 		}}

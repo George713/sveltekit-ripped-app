@@ -17,7 +17,7 @@
 		width="31"
 		height="18"
 		class={{
-			' fill-none stroke-stone-700': true,
+			'fill-none stroke-stone-700': true,
 			'rotate-0': direction == 'down',
 			'scale-x-55 rotate-90': direction == 'left',
 			'rotate-180': direction == 'up',
