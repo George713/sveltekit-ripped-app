@@ -1,11 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
-	import CardArrayBackground from '$lib/components/newDesign/atoms/CardArrayBackground.svelte';
-	import DigitalCounter from '$lib/components/newDesign/atoms/DigitalCounter.svelte';
-	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
-	import SelectionHeader from '$lib/components/newDesign/atoms/SelectionHeader.svelte';
-	import CardArray from '$lib/components/newDesign/molecules/CardArray.svelte';
+
 	import {
 		calorieManager,
 		foodItemManager,
@@ -13,32 +9,41 @@
 		proteinManager
 	} from '$lib/stateManagers.svelte';
 
+	import { Array } from '$lib/components/newDesign/atoms/array';
+	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
+	import DigitalCounter from '$lib/components/newDesign/atoms/DigitalCounter.svelte';
+	import SelectionHeader from '$lib/components/newDesign/atoms/SelectionHeader.svelte';
+
 	const origin = page.url.searchParams.get('origin') || '/';
 </script>
 
-<div class="flex h-full w-full flex-col items-center">
-	<div class="mb-1 flex w-full grow flex-col overflow-hidden p-2">
-		<div class="flex w-full items-end justify-between px-2 pb-[1px]">
-			<SelectionHeader icon="book" text="Food Library" />
-		</div>
-		<CardArrayBackground color="light" classAddons="py-2 flex-col">
-			<CardArray
+<!-- Page -->
+<div
+	class={{
+		'flex h-full w-full flex-col items-center': true
+	}}
+>
+	<!-- Food Library -->
+	<Array.Wrapper>
+		<SelectionHeader icon="book" text="Food Library" />
+		<Array.Background color="light">
+			<Array.ArrayComponent
 				itemManager={foodItemManager}
 				selectionManager={plannedItemManager}
-				theme="light"
 				showNewElementCard={true}
-				verticalScroll={true}
+				theme="light"
 			/>
-		</CardArrayBackground>
-	</div>
+		</Array.Background>
+	</Array.Wrapper>
 	<DigitalCounter
 		kcalCurrent={calorieManager.eaten}
 		kcalTarget={calorieManager.target}
 		proteinCurrent={proteinManager.eaten}
 		proteinTarget={proteinManager.target}
+		classAddons="mt-1 mb-4"
 	/>
 
-	<div class="mt-3 mb-1 flex w-full justify-center">
+	<div class="">
 		<Minimizer onclick={() => goto(origin)} direction="down" />
 	</div>
 </div>
