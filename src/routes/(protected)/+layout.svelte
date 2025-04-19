@@ -80,7 +80,8 @@
 	});
 </script>
 
-<div class="flex h-screen w-screen flex-col bg-linear-to-br/oklch from-stone-900 to-stone-800">
+<!-- TODO: Remove the wrapper class once all pages can live without it. -->
+<div class="flex h-screen w-screen flex-col">
 	{#if visibilityManager.spinnerOverlay}
 		<SpinnerOverlay />
 	{/if}
