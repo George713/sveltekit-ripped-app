@@ -25,7 +25,7 @@
 			icon="chart"
 			disabled={page.data.dailyProgress.review}
 			hidden={!page.data.user.reviewToday}
-			onclick={() => goto('/review')}
+			onclick={() => goto('/review?allowUpdate=true')}
 		/>
 		<!-- Photo -->
 		<ActionButton

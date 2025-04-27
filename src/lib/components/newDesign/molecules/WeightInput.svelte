@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { applyAction, enhance } from '$app/forms';
-	import { invalidateAll } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
 	import { page } from '$app/state';
 	import { getContext } from 'svelte';
 
@@ -43,7 +43,8 @@
 					animationManager.weighInPowerline = true;
 					visibilityManager.toggleWeightOverlay();
 					audioWeighIn.element?.play();
-					invalidateAll();
+					// invalidateAll();
+					goto('/review');
 				}
 			};
 		}}

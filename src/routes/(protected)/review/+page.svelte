@@ -14,6 +14,8 @@
 
 	let { data } = $props();
 
+	const allowUpdate = $derived(page.url.searchParams.get('allowUpdate') === 'true');
+
 	const weights = $derived.by((): [Date, number][] => {
 		return data.weights.map((weight) => [weight.createdAt as Date, weight.weight as number]);
 	});
@@ -187,18 +189,20 @@
 <div class="mt-5 flex h-full w-full flex-col items-center space-y-3.5 px-2">
 	<WeightChart scaleWeight={weights} {trendWeight} periodInDays={30} />
 	<ReviewInfo {trend14days} twoWeekData={data.twoWeekData} />
-	<div class="my-auto flex flex-col space-y-4">
-		<p class="px-10 text-center font-medium text-stone-200">{reviewText}</p>
-		<div class="flex w-full justify-center space-x-2">
-			{#if adjustBtnIsPrimary}
-				{@render buttonSecondary('Keep Target', keepTarget)}
-				{@render buttonPrimary('Adjust Target', visibilityManager.toggleCalorieOverlay)}
-			{:else}
-				{@render buttonSecondary('Adjust Target', visibilityManager.toggleCalorieOverlay)}
-				{@render buttonPrimary('Keep Target', keepTarget)}
-			{/if}
+	{#if allowUpdate}
+		<div class="my-auto flex flex-col space-y-4">
+			<p class="px-10 text-center font-medium text-stone-200">{reviewText}</p>
+			<div class="flex w-full justify-center space-x-2">
+				{#if adjustBtnIsPrimary}
+					{@render buttonSecondary('Keep Target', keepTarget)}
+					{@render buttonPrimary('Adjust Target', visibilityManager.toggleCalorieOverlay)}
+				{:else}
+					{@render buttonSecondary('Adjust Target', visibilityManager.toggleCalorieOverlay)}
+					{@render buttonPrimary('Keep Target', keepTarget)}
+				{/if}
+			</div>
 		</div>
-	</div>
+	{/if}
 </div>
 <div class="mb-1.5 flex w-full justify-center">
 	<Minimizer onclick={() => goto('/')} direction="down" />
