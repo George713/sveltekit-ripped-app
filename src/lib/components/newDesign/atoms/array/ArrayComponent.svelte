@@ -47,7 +47,7 @@
 
 <div
 	class={{
-		'scrollbar-hide flex grow flex-wrap justify-center gap-1.5 overflow-y-auto': true
+		'scrollbar-hide flex grow flex-wrap content-start justify-center gap-1.5 overflow-y-auto': true
 		// 'mx-2 mb-3 grow content-start justify-center overflow-y-auto': verticalScroll,
 		// 'mr-[3px] ml-2 h-58 flex-col overflow-x-auto pr-2': !verticalScroll
 	}}
