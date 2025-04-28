@@ -102,21 +102,25 @@
 							: 'tooFast';
 	});
 	const reviewText = $derived.by(() => {
-		if (measurements14days < 3) {
-			return "We don't have enough data to make a recommendation yet. Keep tracking your weight a little bit more often.";
+		if (!allowUpdate) {
+			return `Next adjustment option for calorie&nbsp;target on Sunday.`; // Using &nbsp; between words prevents linebreak.
 		} else {
-			if (category === 'gain') {
-				return "If you stuck to your diet, it's time to tinker with your intake.";
-			} else if (category === 'tooSlow') {
-				return 'Your weightloss has become very slow. Consider lowering your calories.';
-			} else if (category === 'slow') {
-				return 'Your weightloss is still going (nice!), although it could be faster.';
-			} else if (category === 'good') {
-				return 'You are losing weight primarily from fat. Keep going like this!';
-			} else if (category === 'fast') {
-				return 'You are losing weight quite quickly. If there are still big rolls, keep at it. Otherwise consider slowing down.';
-			} else if (category === 'tooFast') {
-				return 'You are shedding pounds! Only continue at this pace if you are obese. Otherwise: Slow down!';
+			if (measurements14days < 3) {
+				return "We don't have enough data to make a recommendation yet. Keep tracking your weight a little bit more often.";
+			} else {
+				if (category === 'gain') {
+					return "If you stuck to your diet, it's time to tinker with your intake.";
+				} else if (category === 'tooSlow') {
+					return 'Your weightloss has become very slow. Consider lowering your calories.';
+				} else if (category === 'slow') {
+					return 'Your weightloss is still going (nice!), although it could be faster.';
+				} else if (category === 'good') {
+					return 'You are losing weight primarily from fat. Keep going like this!';
+				} else if (category === 'fast') {
+					return 'You are losing weight quite quickly. If there are still big rolls, keep at it. Otherwise consider slowing down.';
+				} else if (category === 'tooFast') {
+					return 'You are shedding pounds! Only continue at this pace if you are obese. Otherwise: Slow down!';
+				}
 			}
 		}
 	});
@@ -189,9 +193,9 @@
 <div class="mt-5 flex h-full w-full flex-col items-center space-y-3.5 px-2">
 	<WeightChart scaleWeight={weights} {trendWeight} periodInDays={30} />
 	<ReviewInfo {trend14days} twoWeekData={data.twoWeekData} />
-	{#if allowUpdate}
-		<div class="my-auto flex flex-col space-y-4">
-			<p class="px-10 text-center font-medium text-stone-200">{reviewText}</p>
+	<div class="my-auto flex flex-col space-y-4">
+		<p class="px-10 text-center font-medium text-stone-200">{@html reviewText}</p>
+		{#if allowUpdate}
 			<div class="flex w-full justify-center space-x-2">
 				{#if adjustBtnIsPrimary}
 					{@render buttonSecondary('Keep Target', keepTarget)}
@@ -201,8 +205,8 @@
 					{@render buttonPrimary('Keep Target', keepTarget)}
 				{/if}
 			</div>
-		</div>
-	{/if}
+		{/if}
+	</div>
 </div>
 <div class="mb-1.5 flex w-full justify-center">
 	<Minimizer onclick={() => goto('/')} direction="down" />
