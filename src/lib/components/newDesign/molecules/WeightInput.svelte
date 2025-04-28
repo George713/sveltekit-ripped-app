@@ -42,7 +42,11 @@
 					await applyAction(result);
 					visibilityManager.toggleWeightOverlay();
 					audioWeighIn.element?.play();
-					goto('/review');
+					if (page.data.user.reviewToday) {
+						goto('/review?allowUpdate=true');
+					} else {
+						goto('/review');
+					}
 					page.data.user.streakMeter += 1;
 					page.data.dailyProgress.weighIn = true;
 					animationManager.weighInPowerline = true;
