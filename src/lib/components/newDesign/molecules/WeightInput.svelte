@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { applyAction, enhance } from '$app/forms';
-	import { goto, invalidateAll } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 	import { getContext } from 'svelte';
 
@@ -40,11 +40,12 @@
 				} else {
 					// Otherwise redirect as planned
 					await applyAction(result);
-					animationManager.weighInPowerline = true;
 					visibilityManager.toggleWeightOverlay();
 					audioWeighIn.element?.play();
-					// invalidateAll();
 					goto('/review');
+					page.data.user.streakMeter += 1;
+					page.data.dailyProgress.weighIn = true;
+					animationManager.weighInPowerline = true;
 				}
 			};
 		}}
