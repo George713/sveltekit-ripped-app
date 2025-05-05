@@ -64,12 +64,15 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 export const actions: Actions = {
     keepTarget: async ({ locals }) => {
-        await prisma.user.update({
+        await prisma.dailyProgress.update({
             where: {
-                id: locals.user.id
+                userId_createdAt: {
+                    userId: locals.user.id,
+                    createdAt: locals.dailyProgress.createdAt
+                }
             },
             data: {
-                lastReviewOn: new Date()
+                review: true
             }
         });
     },
