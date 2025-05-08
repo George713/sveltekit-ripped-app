@@ -165,9 +165,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 					take: 1
 				},
 				// Recurring activity progress
-				lastPlannedOn: true,
-				lastFinishedEatingOn: true,
-				lastHarvestOn: true,
 				lastReviewOn: true,
 				// Appointments
 				progressPicOn: true,
@@ -203,9 +200,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 					},
 					dailyProgress: { take: 0 },
 					// Recurring activity progress
-					lastPlannedOn: true,
-					lastFinishedEatingOn: true,
-					lastHarvestOn: true,
 					lastReviewOn: true,
 					// Appointments
 					progressPicOn: true,

@@ -16,10 +16,7 @@ model User {
   isMale Boolean @default(true)
 
   // Recurring activity progress
-  lastPlannedOn        DateTime @default(dbgenerated("to_date('1970-01-01', 'YYYY-MM-DD')"))
-  lastFinishedEatingOn DateTime @default(dbgenerated("to_date('1970-01-01', 'YYYY-MM-DD')"))
-  lastHarvestOn        DateTime @default(dbgenerated("to_date('1970-01-01', 'YYYY-MM-DD')"))
-  lastReviewOn         DateTime @default(dbgenerated("to_date('1970-01-01', 'YYYY-MM-DD')"))
+  lastReviewOn DateTime @default(dbgenerated("to_date('1970-01-01', 'YYYY-MM-DD')"))
 
   // Appointments
   progressPicOn String @default("SUN")
