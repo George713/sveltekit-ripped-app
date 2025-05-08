@@ -14,7 +14,7 @@ declare global {
 				id: string,
 				isMale: boolean;
 				timeZoneOffset: number;
-				pointBalance: number;
+				totalXP: number;
 				streakMeter: number;
 				currentBF: number;
 				currentStatus: string;

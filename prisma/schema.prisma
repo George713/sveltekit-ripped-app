@@ -27,7 +27,7 @@ model User {
   reviewOn      String @default("SUN")
 
   // Progress Player Journey
-  pointBalance     Int     @default(0)
+  totalXP          Int     @default(0)
   unlockedRank     Boolean @default(false)
   unlockedControls Boolean @default(false)
   unlockedAddons   Boolean @default(false)

@@ -13,7 +13,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
                 id: locals.user.id
             },
             data: {
-                pointBalance: {
+                totalXP: {
                     increment: gainedDirectXP
                 }
             }

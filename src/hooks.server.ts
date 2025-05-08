@@ -104,7 +104,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 				id: true,
 				isMale: true,
 				timeZoneOffset: true,
-				pointBalance: true,
+				totalXP: true,
 				// current calorie target
 				calorieTargets: {
 					orderBy: {
@@ -185,7 +185,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 					id: true,
 					isMale: true,
 					timeZoneOffset: true,
-					pointBalance: true,
+					totalXP: true,
 					calorieTargets: { take: 0 },
 					bodyfats: { take: 0 },
 					weights: { take: 0 },
@@ -246,7 +246,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			id: user.id,
 			isMale: user.isMale,
 			timeZoneOffset: user.timeZoneOffset,
-			pointBalance: user.pointBalance,
+			totalXP: user.totalXP,
 			streakMeter: user.weights.length,
 			currentBF: user.bodyfats.length > 0 ? user.bodyfats[0].bodyfat : 999,
 			currentStatus: 'tbd',
