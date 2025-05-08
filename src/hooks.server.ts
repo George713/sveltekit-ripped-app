@@ -174,8 +174,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 				// Appointments
 				progressPicOn: true,
 				reviewOn: true,
-				// Progess Player Journey
-				initPhoto: true
 			}
 		});
 
@@ -216,8 +214,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 					// Appointments
 					progressPicOn: true,
 					reviewOn: true,
-					// Progess Player Journey
-					initPhoto: true
 				}
 			});
 		}
