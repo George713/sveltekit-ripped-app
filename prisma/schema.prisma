@@ -28,7 +28,6 @@ model User {
 
   // Progress Player Journey
   pointBalance     Int     @default(0)
-  vaultXP          Int     @default(0)
   unlockedRank     Boolean @default(false)
   unlockedControls Boolean @default(false)
   unlockedAddons   Boolean @default(false)

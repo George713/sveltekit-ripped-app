@@ -105,7 +105,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 				isMale: true,
 				timeZoneOffset: true,
 				pointBalance: true,
-				vaultXP: true,
 				// current calorie target
 				calorieTargets: {
 					orderBy: {
@@ -187,7 +186,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 					isMale: true,
 					timeZoneOffset: true,
 					pointBalance: true,
-					vaultXP: true,
 					calorieTargets: { take: 0 },
 					bodyfats: { take: 0 },
 					weights: { take: 0 },
