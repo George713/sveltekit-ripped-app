@@ -168,7 +168,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 				lastPlannedOn: true,
 				lastFinishedEatingOn: true,
 				lastHarvestOn: true,
-				lastWeeklyPicOn: true,
 				lastReviewOn: true,
 				// Appointments
 				progressPicOn: true,
@@ -207,7 +206,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 					lastPlannedOn: true,
 					lastFinishedEatingOn: true,
 					lastHarvestOn: true,
-					lastWeeklyPicOn: true,
 					lastReviewOn: true,
 					// Appointments
 					progressPicOn: true,
