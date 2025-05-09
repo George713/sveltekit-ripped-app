@@ -164,8 +164,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 					},
 					take: 1
 				},
-				// Recurring activity progress
-				lastReviewOn: true,
 				// Appointments
 				progressPicOn: true,
 				reviewOn: true,
@@ -199,8 +197,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 						}
 					},
 					dailyProgress: { take: 0 },
-					// Recurring activity progress
-					lastReviewOn: true,
 					// Appointments
 					progressPicOn: true,
 					reviewOn: true,
@@ -268,7 +264,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 				'weekly', /* type */
 				'Weekly Review', /* name */
 				user.timeZoneOffset, /* timeZoneOffset */
-				user.lastReviewOn, /* lastDate */
+				event.locals.dailyProgress.review ? dateDayBegin : undefined, /* lastDate */
 				user.reviewOn /* fixedWeekDay */
 			),
 			nextBodyfatMeasurement: getScheduledEvent(

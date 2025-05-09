@@ -15,9 +15,6 @@ model User {
   id     String  @id @default(uuid())
   isMale Boolean @default(true)
 
-  // Recurring activity progress
-  lastReviewOn DateTime @default(dbgenerated("to_date('1970-01-01', 'YYYY-MM-DD')"))
-
   // Appointments
   progressPicOn String @default("SUN")
   reviewOn      String @default("SUN")
