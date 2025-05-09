@@ -119,15 +119,10 @@ model CalorieTarget {
 }
 
 model FoodItem {
-  id                   Int     @id @default(autoincrement())
-  itemName             String
-  unitIsPtn            Boolean
-  unitAmount           Float
-  kcal                 Int
-  protein              Float
-  defaultPtnSizeInGram Float?
-  kcalPer100           Int?
-  proteinPer100        Float?
+  id       Int    @id @default(autoincrement())
+  itemName String
+  kcal     Int
+  protein  Float
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
@@ -159,9 +154,7 @@ model FoodSet {
 }
 
 model FoodItemInSet {
-  id         Int     @id @default(autoincrement())
-  unitIsPtn  Boolean
-  unitAmount Float
+  id Int @id @default(autoincrement())
 
   foodSet FoodSet @relation(fields: [setId], references: [id], onDelete: Cascade)
   setId   Int
@@ -171,11 +164,9 @@ model FoodItemInSet {
 }
 
 model PlannedItem {
-  id         Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now())
-  eaten      Boolean  @default(false)
-  unitIsPtn  Boolean
-  unitAmount Float
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  eaten     Boolean  @default(false)
 
   foodItem FoodItem @relation(fields: [foodId], references: [id], onDelete: Cascade)
   foodId   Int

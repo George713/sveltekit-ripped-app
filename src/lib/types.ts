@@ -26,13 +26,8 @@ export type SupabaseJwt = {
 export interface FoodItem {
     id: number;
     itemName: string;
-    unitIsPtn: boolean;
-    unitAmount: number;
     kcal: number;
     protein: number;
-    defaultPtnSizeInGram: number | null;
-    kcalPer100: number | null;
-    proteinPer100: number | null;
     PlannedItems: PlannedItem[];
     ingredients: Ingredient[]
 }
@@ -51,8 +46,6 @@ export interface PlannedItem {
     eaten: boolean;
     createdAt: Date;
     foodId: number;
-    unitIsPtn: boolean;
-    unitAmount: number;
 }
 
 export interface EstimatedItem {
@@ -80,8 +73,6 @@ export interface FoodSet {
 
 interface FoodItemInSet {
     foodId: number;
-    unitIsPtn: boolean;
-    unitAmount: number
 }
 
 export interface WeightData {

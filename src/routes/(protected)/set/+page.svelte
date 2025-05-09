@@ -55,9 +55,7 @@
 				id: result.data.setId,
 				name: setSelectionManager.name,
 				foodItemsInSet: setSelectionManager.items.map((item) => ({
-					foodId: item.foodId,
-					unitIsPtn: true,
-					unitAmount: 1
+					foodId: item.foodId
 				}))
 			} as FoodSet;
 			foodSetManager.items = [...foodSetManager.items.filter((set) => set.id !== setId), set];

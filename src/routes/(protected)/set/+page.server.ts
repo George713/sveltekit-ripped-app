@@ -8,9 +8,7 @@ export const actions = {
         const formData = await request.formData();
         const { name, items, setId } = Object.fromEntries(formData.entries());
         const itemsParsed = JSON.parse(items.toString());
-        const itemsArray = itemsParsed.map((item: { foodId: string; unitIsPtn: string; unitAmount: string }) => ({
-            unitIsPtn: item.unitIsPtn === 'true',
-            unitAmount: parseFloat(item.unitAmount),
+        const itemsArray = itemsParsed.map((item: { foodId: string; }) => ({
             foodId: parseInt(item.foodId),
         }))
 

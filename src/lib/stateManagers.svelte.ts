@@ -388,8 +388,6 @@ export class SelectionManager {
     prepareForSubmission = () => {
         return this.items.map(item => ({
             foodId: item.foodId,
-            unitIsPtn: true,
-            unitAmount: 1
         }))
     }
 

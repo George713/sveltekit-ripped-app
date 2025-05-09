@@ -32,13 +32,8 @@ export const actions = {
             },
             create: {
                 itemName: (name as string),
-                unitAmount: 1,
-                unitIsPtn: true,
                 kcal: parseInt(kcal as string),
                 protein: parseFloat(protein as string),
-                defaultPtnSizeInGram: null,
-                kcalPer100: null,
-                proteinPer100: null,
                 user: {
                     connect: {
                         id: locals.user.id
@@ -67,7 +62,7 @@ export const actions = {
         // return URL to user for upload
         return { presignedURL: data.signedUrl, foodItem }
     },
-    deleteItem: async ({ locals, request }) => {
+    deleteItem: async ({ request }) => {
         const formData = await request.formData();
         const { foodId } = Object.fromEntries(formData.entries());
 

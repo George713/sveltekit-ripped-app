@@ -73,8 +73,6 @@ export const load: LayoutServerLoad = async ({ locals, depends }) => {
 			name: true,
 			foodItemsInSet: {
 				select: {
-					unitIsPtn: true,
-					unitAmount: true,
 					foodId: true
 				}
 			}

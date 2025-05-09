@@ -81,9 +81,7 @@
 						formData.append(
 							'item',
 							JSON.stringify({
-								foodId: item.id,
-								unitIsPtn: true,
-								unitAmount: (item as FoodItem).unitAmount
+								foodId: item.id
 							})
 						);
 
