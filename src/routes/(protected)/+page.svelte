@@ -7,6 +7,7 @@
 	import ActionPanel from '$lib/components/newDesign/organisms/ActionPanel.svelte';
 	import WeightOverlay from '$lib/components/newDesign/organisms/WeightOverlay.svelte';
 	import LockCover from '$lib/components/newDesign/organisms/LockCover.svelte';
+	import { goto } from '$app/navigation';
 
 	const { data } = $props();
 </script>
@@ -21,3 +22,9 @@
 {#if data.unlockProgress && (!data.unlockProgress.unlockedRank || !data.unlockProgress.unlockedControls || !data.unlockProgress.unlockedAddons)}
 	<LockCover unlockProgress={data.unlockProgress} />
 {/if}
+
+<div class="absolute top-0 flex w-full justify-center">
+	<button class="rounded-lg border px-3 py-1 text-white" onclick={() => goto('/new3')}>
+		Test
+	</button>
+</div>
