@@ -12,7 +12,7 @@
 		constructor() {
 			this.recognition = new (window as any).webkitSpeechRecognition();
 			this.recognition.continuous = true;
-			// this.recognition.interimResults = true;
+			this.recognition.interimResults = true;
 			this.recognition.lang = 'de-DE';
 
 			this.recognition.onresult = (event: any) => {
