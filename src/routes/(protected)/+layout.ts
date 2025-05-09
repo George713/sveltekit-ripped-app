@@ -29,7 +29,6 @@ export const load = async ({ fetch, data, depends }) => {
         schedule: data.schedule,
         supabase,
         foodItems: data.foodItems,
-        plannedItems: data.plannedItems,
         estimatedItems: data.estimatedItems,
         foodSets: data.foodSets
     }
