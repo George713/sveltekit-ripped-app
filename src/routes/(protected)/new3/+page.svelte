@@ -8,6 +8,7 @@
 		recognition: any;
 		isRecording = $state(false);
 		tempTranscript = $state('');
+		errors = $state<string[]>([]);
 
 		constructor() {
 			this.recognition = new (window as any).webkitSpeechRecognition();
@@ -21,6 +22,10 @@
 					''
 				);
 				// console.log(event.results);
+			};
+
+			this.recognition.onerror = (event: any) => {
+				this.errors.push(event.error);
 			};
 		}
 
@@ -52,8 +57,12 @@
 		<Minimizer onclick={() => goto('/')} direction="left" />
 	</div>
 
-	<div class="my-5 flex flex-1 items-end">
-		<p class="text-white">{audioRecorder?.tempTranscript}</p>
+	<div class="my-5 flex flex-1 items-end px-3">
+		<p class="text-white">Errors: {audioRecorder?.errors.join(', ')}</p>
+	</div>
+
+	<div class="my-5 flex flex-1 items-end px-3">
+		<p class="text-white">Transcript: {audioRecorder?.tempTranscript}</p>
 	</div>
 
 	<Button
