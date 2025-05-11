@@ -2,7 +2,7 @@
 // for information about these interfaces
 
 import { SupabaseClient, Session } from '@supabase/supabase-js'
-import type { Collectible, ScheduledEvent } from '$lib/types';
+import type { ScheduledEvent } from '$lib/types';
 
 declare global {
 	namespace App {
@@ -25,7 +25,6 @@ declare global {
 				progressPicToday: boolean;
 				reviewToday: boolean;
 				enterBodyfatToday: boolean;
-				collection: Collectible[];
 			};
 			dailyProgress: {
 				createdAt: Date;

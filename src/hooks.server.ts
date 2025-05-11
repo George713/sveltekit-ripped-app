@@ -15,9 +15,7 @@ import {
 
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
 import { JWT_SECRET } from '$env/static/private';
-import type { Collectible, SupabaseJwt } from '$lib/types.js'
-
-import { collectibles } from '$lib/collectibles'
+import type { SupabaseJwt } from '$lib/types.js'
 
 
 export const handle: Handle = async ({ event, resolve }) => {
@@ -220,15 +218,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 		// Filter out old weight information
 		user.weights = user.weights.filter(weight => weight.createdAt >= getDateDayBegin(user!.timeZoneOffset, 4));
 
-		// Add collection counts to collectibles variable
-		const collection = user.collectedItems.map(item => {
-			const collectible = collectibles.find(c => c.name === item.collectible.name);
-			return {
-				...collectible,
-				count: item.count
-			} as Collectible;
-		});
-
 		// User properties
 		event.locals.user = {
 			id: user.id,
@@ -245,7 +234,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 			progressPicToday: new Date().toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() === user.progressPicOn ? true : false,
 			reviewToday: dateDayBegin.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() === user.reviewOn ? true : false,
 			enterBodyfatToday: user.bodyfats.length > 0 ? actionIsOlderThanXdays(user.timeZoneOffset, user.bodyfats[0].createdAt, 28) : false,
-			collection: collection,
 		};
 		// Derived value for user
 		event.locals.user.currentStatus = getCurrentCrestLevel(event.locals.user.currentBF, user.isMale)
@@ -274,7 +262,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 				user.bodyfats.length > 0 ? user.bodyfats[0].createdAt : undefined /* lastDate */
 			),
 		}
-		// Collection
 	}
 
 	return resolve(event, {
