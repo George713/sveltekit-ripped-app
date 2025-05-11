@@ -2,11 +2,12 @@
 	import { page } from '$app/state';
 	import { visibilityManager } from '$lib/stateManagers.svelte';
 
-	import XPHud from '$lib/components/newDesign/atoms/XPHud.svelte';
-	import Sigil from '$lib/components/newDesign/atoms/Sigil.svelte';
-	import ActionPanel from '$lib/components/newDesign/organisms/ActionPanel.svelte';
-	import WeightOverlay from '$lib/components/newDesign/organisms/WeightOverlay.svelte';
-	import LockCover from '$lib/components/newDesign/organisms/LockCover.svelte';
+	import XPHud from '$atoms/XPHud.svelte';
+	import Sigil from '$atoms/Sigil.svelte';
+
+	import ActionPanel from '$organisms/ActionPanel.svelte';
+	import WeightOverlay from '$organisms/WeightOverlay.svelte';
+	import LockCover from '$organisms/LockCover.svelte';
 
 	const { data } = $props();
 </script>

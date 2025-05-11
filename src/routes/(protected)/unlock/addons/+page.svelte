@@ -4,9 +4,9 @@
 
 	import { uploadProgressPic } from '$lib/imageHandler.svelte';
 
-	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
-	import Arrow from '$lib/components/newDesign/icons/Arrow.svelte';
-	import PuzzlePiece from '$lib/components/newDesign/icons/PuzzlePiece.svelte';
+	import Minimizer from '$atoms/Minimizer.svelte';
+	import Arrow from '$icons/Arrow.svelte';
+	import PuzzlePiece from '$icons/PuzzlePiece.svelte';
 
 	let progressState = $state(0);
 	let inputElementJourneyStart: HTMLInputElement;

@@ -11,11 +11,12 @@
 		visibilityManager
 	} from '$lib/stateManagers.svelte';
 
-	import Button from '$lib/components/newDesign/atoms/Button.svelte';
-	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
-	import NutrientSum from '$lib/components/newDesign/atoms/NutrientSum.svelte';
-	import PhotoFrame from '$lib/components/newDesign/atoms/PhotoFrame.svelte';
-	import IngredientInput from '$lib/components/newDesign/molecules/IngredientInput.svelte';
+	import Button from '$atoms/Button.svelte';
+	import Minimizer from '$atoms/Minimizer.svelte';
+	import NutrientSum from '$atoms/NutrientSum.svelte';
+	import PhotoFrame from '$atoms/PhotoFrame.svelte';
+
+	import IngredientInput from '$molecules/IngredientInput.svelte';
 	import type { FoodItem } from '$lib/types';
 
 	const origin = page.url.searchParams.get('origin') || '/';

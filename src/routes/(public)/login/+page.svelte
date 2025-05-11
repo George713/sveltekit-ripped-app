@@ -1,11 +1,15 @@
 <script lang="ts">
-	import Logo from '$lib/components/newDesign/atoms/BGLogoBig.svelte';
-	import LogoFooter from '$lib/components/newDesign/atoms/LogoFooter.svelte';
-	import MobilePrompt from '$lib/components/newDesign/atoms/MobilePrompt.svelte';
-	import SubtleLink from '$lib/components/newDesign/atoms/SubtleLink.svelte';
-	import LoginForm from '$lib/components/newDesign/molecules/LoginForm.svelte';
-	import { isMobile } from '$lib/utils.svelte';
+	// Svelte & SvelteKit
 	import { onMount } from 'svelte';
+	// Logic
+	import { isMobile } from '$lib/utils.svelte';
+	// Atoms
+	import Logo from '$atoms/BGLogoBig.svelte';
+	import LogoFooter from '$atoms/LogoFooter.svelte';
+	import MobilePrompt from '$atoms/MobilePrompt.svelte';
+	import SubtleLink from '$atoms/SubtleLink.svelte';
+	// Molecules
+	import LoginForm from '$molecules/LoginForm.svelte';
 
 	let userIsOnMobile = $state(false);
 

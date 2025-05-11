@@ -6,10 +6,10 @@
 	import { selectInput, focusElement } from '$lib/utils.svelte.js';
 	import { animationManager, visibilityManager } from '$lib/stateManagers.svelte';
 
-	import Sigil from '$lib/components/newDesign/atoms/Sigil.svelte';
-	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
-	import Crest from '$lib/components/newDesign/icons/Crest.svelte';
-	import Arrow from '$lib/components/newDesign/icons/Arrow.svelte';
+	import Sigil from '$atoms/Sigil.svelte';
+	import Minimizer from '$atoms/Minimizer.svelte';
+	import Crest from '$icons/Crest.svelte';
+	import Arrow from '$icons/Arrow.svelte';
 
 	let { data } = $props();
 

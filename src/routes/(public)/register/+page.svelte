@@ -1,11 +1,15 @@
 <script lang="ts">
-	import Logo from '$lib/components/newDesign/atoms/BGLogoBig.svelte';
-	import LogoFooter from '$lib/components/newDesign/atoms/LogoFooter.svelte';
-	import MobilePrompt from '$lib/components/newDesign/atoms/MobilePrompt.svelte';
-	import SubtleLink from '$lib/components/newDesign/atoms/SubtleLink.svelte';
-	import RegisterForm from '$lib/components/newDesign/molecules/RegisterForm.svelte';
-	import { isMobile } from '$lib/utils.svelte.js';
+	// Svelte & SvelteKit
 	import { onMount } from 'svelte';
+	// Logic
+	import { isMobile } from '$lib/utils.svelte.js';
+	// Atoms
+	import Logo from '$atoms/BGLogoBig.svelte';
+	import LogoFooter from '$atoms/LogoFooter.svelte';
+	import MobilePrompt from '$atoms/MobilePrompt.svelte';
+	import SubtleLink from '$atoms/SubtleLink.svelte';
+	// Molecules
+	import RegisterForm from '$molecules/RegisterForm.svelte';
 
 	let { form } = $props();
 

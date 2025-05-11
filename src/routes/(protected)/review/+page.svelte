@@ -1,16 +1,21 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
-	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
-	import WeightChart from '$lib/components/newDesign/molecules/WeightChart.svelte';
-	import CalorieOverlay from '$lib/components/newDesign/organisms/CalorieOverlay.svelte';
-	import ReviewInfo from '$lib/components/newDesign/organisms/ReviewInfo.svelte';
+
 	import {
 		animationManager,
 		calorieManager,
 		toastManager,
 		visibilityManager
 	} from '$lib/stateManagers.svelte.js';
+
+	// Atoms
+	import Minimizer from '$atoms/Minimizer.svelte';
+	// Molecules
+	import WeightChart from '$molecules/WeightChart.svelte';
+	// Organisms
+	import CalorieOverlay from '$organisms/CalorieOverlay.svelte';
+	import ReviewInfo from '$organisms/ReviewInfo.svelte';
 
 	let { data } = $props();
 

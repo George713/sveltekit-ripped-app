@@ -6,9 +6,9 @@
 	import NumberFlow, { continuous } from '@number-flow/svelte';
 	import { Fireworks } from '@fireworks-js/svelte';
 
-	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
-	import Sigil from '$lib/components/newDesign/atoms/Sigil.svelte';
-	import Envelope from '$lib/components/newDesign/icons/Envelope.svelte';
+	import Minimizer from '$atoms/Minimizer.svelte';
+	import Sigil from '$atoms/Sigil.svelte';
+	import Envelope from '$icons/Envelope.svelte';
 	import { toastManager } from '$lib/stateManagers.svelte';
 
 	type RankType = 'tbd' | 'wood' | 'bronze' | 'silver' | 'gold' | 'platinum';

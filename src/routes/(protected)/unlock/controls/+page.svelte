@@ -3,12 +3,12 @@
 	import { page } from '$app/state';
 	import { slide } from 'svelte/transition';
 
-	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
-	import Arrow from '$lib/components/newDesign/icons/Arrow.svelte';
-	import Controller from '$lib/components/newDesign/icons/Controller.svelte';
+	import Minimizer from '$atoms/Minimizer.svelte';
+	import Arrow from '$icons/Arrow.svelte';
+	import Controller from '$icons/Controller.svelte';
+	import CalorieTool from '$organisms/CalorieTool.svelte';
 	import { calorieManager, visibilityManager } from '$lib/stateManagers.svelte';
 	import { focusElement, selectInput } from '$lib/utils.svelte';
-	import CalorieTool from '$lib/components/newDesign/organisms/CalorieTool.svelte';
 
 	let progressState = $state(0);
 	let method = $state<string | undefined>(undefined);

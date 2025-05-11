@@ -9,10 +9,10 @@
 		proteinManager
 	} from '$lib/stateManagers.svelte';
 
-	import { Array } from '$lib/components/newDesign/atoms/array';
-	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
-	import DigitalCounter from '$lib/components/newDesign/atoms/DigitalCounter.svelte';
-	import SelectionHeader from '$lib/components/newDesign/atoms/SelectionHeader.svelte';
+	import { Array } from '$atoms/array';
+	import Minimizer from '$atoms/Minimizer.svelte';
+	import DigitalCounter from '$atoms/DigitalCounter.svelte';
+	import SelectionHeader from '$atoms/SelectionHeader.svelte';
 
 	const origin = page.url.searchParams.get('origin') || '/';
 </script>

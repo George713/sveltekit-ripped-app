@@ -7,10 +7,10 @@
 	import { animationManager, visibilityManager } from '$lib/stateManagers.svelte';
 	import { focusElement, selectInput } from '$lib/utils.svelte';
 
-	import Arrow from '$lib/components/newDesign/icons/Arrow.svelte';
-	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
-	import Sigil from '$lib/components/newDesign/atoms/Sigil.svelte';
-	import Crest from '$lib/components/newDesign/icons/Crest.svelte';
+	import Minimizer from '$atoms/Minimizer.svelte';
+	import Sigil from '$atoms/Sigil.svelte';
+	import Arrow from '$icons/Arrow.svelte';
+	import Crest from '$icons/Crest.svelte';
 
 	interface Props {
 		data: {

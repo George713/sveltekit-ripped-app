@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Logo from '$lib/components/newDesign/atoms/BGLogoBig.svelte';
-	import LogoFooter from '$lib/components/newDesign/atoms/LogoFooter.svelte';
+	import Logo from '$atoms/BGLogoBig.svelte';
+	import LogoFooter from '$atoms/LogoFooter.svelte';
 </script>
 
 <Logo />

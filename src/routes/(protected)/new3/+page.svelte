@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import Button from '$lib/components/newDesign/atoms/Button.svelte';
-	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
 	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
+
+	import Button from '$atoms/Button.svelte';
+	import Minimizer from '$atoms/Minimizer.svelte';
 
 	class AudioRecorder {
 		recognition: any;

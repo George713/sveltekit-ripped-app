@@ -10,10 +10,13 @@
 		foodSetManager
 	} from '$lib/stateManagers.svelte';
 
-	import Button from '$lib/components/newDesign/atoms/Button.svelte';
-	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
-	import FoodLibrary from '$lib/components/newDesign/organisms/FoodLibrary.svelte';
-	import FoodSelection from '$lib/components/newDesign/organisms/FoodSelection.svelte';
+	// Atoms
+	import Button from '$atoms/Button.svelte';
+	import Minimizer from '$atoms/Minimizer.svelte';
+	// Organisms
+	import FoodLibrary from '$organisms/FoodLibrary.svelte';
+	import FoodSelection from '$organisms/FoodSelection.svelte';
+	// Types
 	import type { FoodSet } from '$lib/types';
 
 	const setId = page.url.searchParams.get('setId')

@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import Sigil from '$lib/components/newDesign/atoms/Sigil.svelte';
-	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
-	import Crest from '$lib/components/newDesign/icons/Crest.svelte';
+	import Sigil from '$atoms/Sigil.svelte';
+	import Minimizer from '$atoms/Minimizer.svelte';
+	import Crest from '$icons/Crest.svelte';
 </script>
 
 {#snippet btn(text: string, onclick: () => void)}

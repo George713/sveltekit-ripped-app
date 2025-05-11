@@ -5,11 +5,12 @@
 	import { sineInOut } from 'svelte/easing';
 	import { slide } from 'svelte/transition';
 
-	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
-	import Sigil from '$lib/components/newDesign/atoms/Sigil.svelte';
-	import Arrow from '$lib/components/newDesign/icons/Arrow.svelte';
-	import Crest from '$lib/components/newDesign/icons/Crest.svelte';
-	import { Carousel, CarouselItem } from '$lib/components/newDesign/molecules/carousel';
+	import Minimizer from '$atoms/Minimizer.svelte';
+	import Sigil from '$atoms/Sigil.svelte';
+	import Arrow from '$icons/Arrow.svelte';
+	import Crest from '$icons/Crest.svelte';
+	import { Carousel, CarouselItem } from '$molecules/carousel';
+
 	import { animationManager, visibilityManager } from '$lib/stateManagers.svelte';
 
 	// Image item type

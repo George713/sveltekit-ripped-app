@@ -2,6 +2,7 @@
 	import { invalidateAll } from '$app/navigation';
 	import { page } from '$app/state';
 	import { onMount, setContext } from 'svelte';
+
 	import {
 		calorieManager,
 		estimatedItemManager,
@@ -12,9 +13,10 @@
 		visibilityManager,
 		xpManager
 	} from '$lib/stateManagers.svelte.js';
-	import PotentialToasts from '$lib/components/newDesign/molecules/PotentialToasts.svelte';
-	import SpinnerOverlay from '$lib/components/newDesign/atoms/SpinnerOverlay.svelte';
 	import { getDateDayBegin } from '$lib/utils.svelte.js';
+
+	import SpinnerOverlay from '$atoms/SpinnerOverlay.svelte';
+	import PotentialToasts from '$molecules/PotentialToasts.svelte';
 
 	let { data, children } = $props();
 

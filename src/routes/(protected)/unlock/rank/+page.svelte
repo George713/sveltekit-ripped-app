@@ -1,12 +1,14 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
-	import Minimizer from '$lib/components/newDesign/atoms/Minimizer.svelte';
-	import Sigil from '$lib/components/newDesign/atoms/Sigil.svelte';
-	import Arrow from '$lib/components/newDesign/icons/Arrow.svelte';
-	import Crest from '$lib/components/newDesign/icons/Crest.svelte';
+
 	import { innerHeight } from 'svelte/reactivity/window';
 	import { slide } from 'svelte/transition';
+
+	import Minimizer from '$atoms/Minimizer.svelte';
+	import Sigil from '$atoms/Sigil.svelte';
+	import Arrow from '$icons/Arrow.svelte';
+	import Crest from '$icons/Crest.svelte';
 
 	let progressState = $state(Number(page.url.searchParams.get('step')) || 0);
 	let sex = $state<'male' | 'female' | undefined>(undefined);
