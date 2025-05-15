@@ -39,7 +39,7 @@
 						'text-amber-400': color === 'amber'
 					}}
 				>
-					{value >= 0 && unit === 'kg' ? '+' : ''}{unit === 'kg'
+					{value >= 0 && unit !== 'kcal' ? '+' : ''}{unit !== 'kcal'
 						? value.toFixed(2)
 						: value.toLocaleString('en-US')}
 				</p>

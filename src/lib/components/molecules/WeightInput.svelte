@@ -6,6 +6,7 @@
 	import { getContext } from 'svelte';
 	// Logic
 	import { animationManager, toastManager, visibilityManager } from '$lib/stateManagers.svelte';
+	import { getDisplayWeight, getWeightUnit } from '$lib/utils/units';
 	// Atoms
 	import Button from '$atoms/Button.svelte';
 	import ColoredHeader from '$atoms/ColoredHeader.svelte';
@@ -62,10 +63,13 @@
 		<Input
 			id="weight"
 			name="weight"
-			placeholder={page.data.user.currentWeight.toFixed(2)}
-			value={page.data.user.currentWeight.toFixed(2)}
+			placeholder={getDisplayWeight(
+				page.data.user.currentWeight,
+				page.data.user.useMetricSystem
+			).toFixed(2)}
+			value={getDisplayWeight(page.data.user.currentWeight, page.data.user.useMetricSystem)}
 			type="number"
-			unit="kg"
+			unit={getWeightUnit(page.data.user.useMetricSystem)}
 		/>
 		<!-- Button -->
 		<Button text="Submit" type="submit" wide={true} />

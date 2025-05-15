@@ -16,9 +16,11 @@
 	 */ -->
 <script lang="ts">
 	// Svelte & Sveltekit
+	import { page } from '$app/state';
 	import { onMount } from 'svelte';
 	// Logic
 	import { echarts } from '$lib/echarts';
+	import { getWeightUnit, getDisplayWeight } from '$lib/utils/units';
 	// Atoms
 	import CardArrayBackground from '$atoms/CardArrayBackground.svelte';
 	// Icons
@@ -35,13 +37,23 @@
 	const scaleWeightSelected = $derived.by(() => {
 		const thirtyDaysAgo = new Date();
 		thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - periodInDays);
-		return scaleWeight.filter((weight) => weight[0] >= thirtyDaysAgo);
+		return scaleWeight
+			.filter(([date, _]) => date >= thirtyDaysAgo)
+			.map(
+				([date, weightKg]) =>
+					[date, getDisplayWeight(weightKg, page.data.user.useMetricSystem)!] as [Date, number]
+			);
 	});
 
 	const trendWeightSelected = $derived.by(() => {
 		const thirtyDaysAgo = new Date();
 		thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - periodInDays);
-		return trendWeight.filter((weight) => weight[0] >= thirtyDaysAgo);
+		return trendWeight
+			.filter(([date, _]) => date >= thirtyDaysAgo)
+			.map(
+				([date, weightKg]) =>
+					[date, getDisplayWeight(weightKg, page.data.user.useMetricSystem)!] as [Date, number]
+			);
 	});
 
 	let chartContainer: HTMLElement;
@@ -51,17 +63,24 @@
 			scaleWeightSelected.reduce((sum, [_, weight]) => sum + weight, 0) /
 			scaleWeightSelected.length;
 
+		const extremaAdjustment = getDisplayWeight(0.2, page.data.user.useMetricSystem);
+		const meanAdjustment = getDisplayWeight(2, page.data.user.useMetricSystem);
+
 		// Calculate the minimum value from each data set
-		const minScaleWeight = Math.min(...scaleWeightSelected.map(([_, weight]) => weight)) - 0.2;
-		const minTrendWeight = Math.min(...trendWeightSelected.map(([_, weight]) => weight)) - 0.2;
+		const minScaleWeight =
+			Math.min(...scaleWeightSelected.map(([_, weight]) => weight)) - extremaAdjustment;
+		const minTrendWeight =
+			Math.min(...trendWeightSelected.map(([_, weight]) => weight)) - extremaAdjustment;
 
 		// Calculate the maximum value from each data set
-		const maxScaleWeight = Math.max(...scaleWeightSelected.map(([_, weight]) => weight)) + 0.2;
-		const maxTrendWeight = Math.max(...trendWeightSelected.map(([_, weight]) => weight)) + 0.2;
+		const maxScaleWeight =
+			Math.max(...scaleWeightSelected.map(([_, weight]) => weight)) + extremaAdjustment;
+		const maxTrendWeight =
+			Math.max(...trendWeightSelected.map(([_, weight]) => weight)) + extremaAdjustment;
 
 		// Use the minimum of the three values
-		const min = Math.floor(Math.min(meanWeight - 2, minScaleWeight, minTrendWeight));
-		const max = Math.ceil(Math.max(meanWeight + 2, maxScaleWeight, maxTrendWeight));
+		const min = Math.floor(Math.min(meanWeight - meanAdjustment, minScaleWeight, minTrendWeight));
+		const max = Math.ceil(Math.max(meanWeight + meanAdjustment, maxScaleWeight, maxTrendWeight));
 
 		const option = {
 			grid: {
@@ -84,7 +103,7 @@
 			},
 			yAxis: {
 				type: 'value',
-				name: 'Weight (kg)',
+				name: `Weight (${getWeightUnit(page.data.user.useMetricSystem)})`,
 				nameGap: 18,
 				nameTextStyle: {
 					fontWeight: 600,
@@ -95,7 +114,7 @@
 				},
 				min,
 				max,
-				interval: 0.5,
+				interval: page.data.user.useMetricSystem ? 0.5 : 1,
 				axisLabel: {
 					formatter: (value: number, index: number) => (index % 2 === 0 ? value : ''),
 					color: 'rgba(168, 162, 158, .5)'

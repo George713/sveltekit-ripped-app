@@ -3,6 +3,7 @@
 	import { page } from '$app/state';
 	// Logic
 	import { SwipeDetector } from '$lib/utils.svelte';
+	import { getDisplayWeight, getWeightUnit } from '$lib/utils/units';
 	// Molecules
 	import InfoCard from '$molecules/InfoCard.svelte';
 	import TwoWeekTracker from '$molecules/TwoWeekTracker.svelte';
@@ -44,8 +45,8 @@
 				color="indigo"
 				mainText="Weight Trend"
 				subText="past 14 days"
-				value={trend14days}
-				unit="kg"
+				value={getDisplayWeight(trend14days, page.data.user.useMetricSystem)}
+				unit={getWeightUnit(page.data.user.useMetricSystem)}
 			/>
 		</div>
 		<div class="mt-2 flex w-full justify-end px-4">

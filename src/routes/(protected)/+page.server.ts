@@ -2,6 +2,7 @@ import { prisma } from "$lib/prismaClient.server";
 import type { Action, Actions } from "@sveltejs/kit";
 import type { PageServerLoad } from './$types';
 import { fail } from "@sveltejs/kit";
+import { convertInputToKg } from "$lib/utils/units";
 
 export const load: PageServerLoad = async ({ locals }) => {
     const unlockProgress = await prisma.user.findUnique({
@@ -23,12 +24,14 @@ export const load: PageServerLoad = async ({ locals }) => {
 const logWeight: Action = async ({ locals, request }) => {
     const data = await request.formData();
     let weight: any = data.get('weight');
+    let weightInKg: number;
 
     // Check if 'weight' is a number
     if (isNaN(weight)) {
         return fail(400);
     } else {
         weight = parseFloat(weight);
+        weightInKg = convertInputToKg(weight, locals.user.useMetricSystem);
     }
 
     // Use transaction to combine both operations
@@ -43,7 +46,7 @@ const logWeight: Action = async ({ locals, request }) => {
             },
             data: {
                 weights: {
-                    create: [{ weight }]
+                    create: [{ weight: weightInKg }]
                 }
             }
         });

@@ -4,6 +4,7 @@
 	import { page } from '$app/state';
 	// Logic
 	import { selectInput } from '$lib/utils.svelte';
+	import { getWeightUnit, getDisplayWeight, convertInputToKg } from '$lib/utils/units';
 	// Molecules
 	import GenderSwitch from '$molecules/GenderSwitch.svelte';
 
@@ -15,7 +16,7 @@
 	let { calculatedCalories = $bindable(), onSubmit }: Props = $props();
 
 	let isMale = $state(page.data.user.isMale);
-	let weight = $state<number | undefined>(undefined);
+	let weight = $state<number | undefined>(undefined); // is always in kg
 	let height = $state<number | undefined>(undefined);
 	let age = $state<number | undefined>(undefined);
 
@@ -69,7 +70,13 @@
 			'opacity-50': calculatedCalories
 		}}
 	>
-		{@render input('weight', 'Current Weight:', 'kg', weight, (val) => (weight = val))}
+		{@render input(
+			'weight',
+			'Current Weight:',
+			getWeightUnit(page.data.user.useMetricSystem),
+			getDisplayWeight(weight!, page.data.user.useMetricSystem),
+			(val) => (weight = convertInputToKg(val, page.data.user.useMetricSystem))
+		)}
 		{@render input('height', 'Height:', 'cm', height, (val) => (height = val))}
 		{@render input('age', 'Age:', 'years', age, (val) => (age = val))}
 	</div>
