@@ -103,6 +103,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 				isMale: true,
 				timeZoneOffset: true,
 				totalXP: true,
+				didSetup: true,
+				useMetricSystem: true,
+				voiceLanguage: true,
 				// current calorie target
 				calorieTargets: {
 					orderBy: {
@@ -178,6 +181,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 					isMale: true,
 					timeZoneOffset: true,
 					totalXP: true,
+					didSetup: true,
+					useMetricSystem: true,
+					voiceLanguage: true,
 					calorieTargets: { take: 0 },
 					bodyfats: { take: 0 },
 					weights: { take: 0 },
@@ -222,6 +228,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 		event.locals.user = {
 			id: user.id,
 			isMale: user.isMale,
+			didSetup: user.didSetup,
+			useMetricSystem: user.useMetricSystem,
+			voiceLanguage: user.voiceLanguage,
 			timeZoneOffset: user.timeZoneOffset,
 			totalXP: user.totalXP,
 			streakMeter: user.weights.length,

@@ -13,6 +13,9 @@ declare global {
 			user: {
 				id: string,
 				isMale: boolean;
+				didSetup: boolean;
+				useMetricSystem: boolean;
+				voiceLanguage: string;
 				timeZoneOffset: number;
 				totalXP: number;
 				streakMeter: number;

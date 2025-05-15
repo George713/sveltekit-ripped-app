@@ -6,12 +6,18 @@ import { getDateDayBegin } from '$lib/utils.svelte';
 import { prisma } from '$lib/prismaClient.server';
 
 
-export const load: LayoutServerLoad = async ({ locals, depends }) => {
+export const load: LayoutServerLoad = async ({ url, locals, depends }) => {
 	// Register dependencies for invalidation
 	depends('layoutLoad');
 
+	// If user is not logged in, redirect to login
 	if (!locals.user) {
 		throw redirect(302, '/login')
+	}
+
+	// If user has not completed setup, redirect to setup page, unless already on setup page
+	if (!locals.user.didSetup && url.pathname !== '/setup') {
+		throw redirect(303, '/setup');
 	}
 
 	const dateDayBegin = getDateDayBegin(locals.user.timeZoneOffset)
