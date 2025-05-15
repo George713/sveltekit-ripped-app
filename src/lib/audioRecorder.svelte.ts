@@ -10,6 +10,7 @@
 // `recordedText` + `tempTranscript` = full transcription
 // `recordingResult` = json formatted LLM response containing the estimated calories and proteins
 
+import { page } from "$app/state";
 import { ingredientManager } from "./stateManagers.svelte";
 import type { RecordingResult } from "./types";
 import { PUBLIC_ONMOBILE } from '$env/static/public';
@@ -53,7 +54,7 @@ class AudioRecorder {
         this.recognition = new (window as any).webkitSpeechRecognition();
         this.recognition.continuous = true;
         this.recognition.interimResults = true;
-        this.recognition.lang = 'de-DE';
+        this.recognition.lang = page.data.user.voiceLanguage;
 
         this.recognition.onresult = (event: any) => {
             if (this.onMobile) {
