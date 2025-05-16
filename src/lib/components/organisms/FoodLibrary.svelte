@@ -1,38 +1,36 @@
 <script lang="ts">
-	import { showSpinner } from '$lib/stores';
-
+	// Svelte & SvelteKit
+	import { page } from '$app/state';
+	// Logic
+	import { foodItemManager, foodSetManager, SelectionManager } from '$lib/stateManagers.svelte';
 	// Atoms
-	import Title from '$atoms/Title.svelte';
-	import SwitchItemsDays from '$atoms/SwitchItemsDays.svelte';
-	import PlannerCardTitle from '$atoms/planner/PlannerCardTitle.svelte';
-	import MinimizeBtn from '$atoms/MinimizeBtn.svelte';
+	import CardArrayBackground from '$atoms/CardArrayBackground.svelte';
+	import SelectionHeader from '$atoms/SelectionHeader.svelte';
+	import SubtleButton from '$atoms/SubtleButton.svelte';
 	// Molecules
 	import CardArray from '$molecules/CardArray.svelte';
-	import FoodLibBottomRow from '$molecules/FoodLibBottomRow.svelte';
-	// Overlays
-	import Spinner from '$overlays/Spinner.svelte';
-	import Background from '$overlays/Background.svelte';
-	import BackgroundPlanel from '$atoms/BackgroundPlanel.svelte';
 
-	let showDays = false;
+	interface Props {
+		showNewElementCard: boolean;
+		showSubtleBtn: boolean;
+		selectionManager: SelectionManager;
+	}
+
+	let { showNewElementCard, showSubtleBtn, selectionManager }: Props = $props();
+
+	let showSets = $state(page.url.searchParams.get('showSets') === 'true');
+	let subtleBtnText = $derived(showSets ? 'Items' : 'Sets');
+	let itemManager = $derived(showSets ? foodSetManager : foodItemManager);
 </script>
 
-<Background>
-	<BackgroundPlanel>
-		<Title title="Food Library" />
-		<!-- Food Library -->
-		<div
-			class=" flex w-[calc(100%-8px)] grow flex-col rounded-sm bg-neutral-600 shadow-[0_1px_1px_rgba(0,0,0,0.25)]"
-		>
-			<div class="m-1 flex h-6 items-center justify-between">
-				<PlannerCardTitle title="Food Library" color="neutral-300" />
-				<SwitchItemsDays bind:isChecked={showDays} />
-			</div>
-			<CardArray items={['food']} verticalScroll={true} />
-			<FoodLibBottomRow />
-		</div>
-		<MinimizeBtn viewTarget="eat" />
-	</BackgroundPlanel>
-</Background>
-
-<Spinner showSpinner={$showSpinner} />
+<div class="flex w-full flex-col px-0.5">
+	<div class="flex w-full items-end justify-between px-2 pb-[1px]">
+		<SelectionHeader icon="book" text="Food Library" />
+		{#if showSubtleBtn}
+			<SubtleButton text={subtleBtnText} onclick={() => (showSets = !showSets)} />
+		{/if}
+	</div>
+	<CardArrayBackground color="light" classAddons="w-full">
+		<CardArray {itemManager} {selectionManager} theme="light" {showNewElementCard} />
+	</CardArrayBackground>
+</div>

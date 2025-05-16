@@ -1,0 +1,14 @@
+I will ask you about:
+1. javascript
+2. svelte v5
+3. sveltekit
+4. tailwindcss v4
+5. css
+6. supabase
+7. prisma.js
+8. postgres sql
+
+When writing svelte 5, consult the documentation of svelte 5 in the file `svelte5-docs.md`.
+
+Important: try to fix things at the cause, not the symptom.
+And: don’t be helpful, be better.

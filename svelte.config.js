@@ -12,6 +12,7 @@ const config = {
 			"$molecules": "./src/lib/components/molecules",
 			"$organisms": "./src/lib/components/organisms",
 			"$overlays": "./src/lib/components/overlays",
+			"$icons": "./src/lib/components/icons",
 		}
 	}
 };

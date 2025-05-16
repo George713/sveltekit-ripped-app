@@ -11,13 +11,11 @@ import {
 	getCurrentCrestLevel,
 	actionIsOlderThanXdays,
 	getScheduledEvent,
-} from '$lib/utils'
+} from '$lib/utils.svelte'
 
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
 import { JWT_SECRET } from '$env/static/private';
-import type { Collectible, SupabaseJwt } from '$lib/types.js'
-
-import { collectibles } from '$lib/collectibles'
+import type { SupabaseJwt } from '$lib/types.js'
 
 
 export const handle: Handle = async ({ event, resolve }) => {
@@ -89,20 +87,11 @@ export const handle: Handle = async ({ event, resolve }) => {
 		}
 	}
 
-	const session = await event.locals.getSession()
-
-	/**
-	 * Only authenticated users can access these paths and their sub-paths.
-	 * 
-	 * If you'd rather do this in your routes, see (authenticated)/app/+page.server.ts
-	 * for an example.
-	 */
-	// const auth_protected_paths = new Set(['']) //new Set(['app', 'self'])
-	// if (!session && auth_protected_paths.has(event.url.pathname.split('/')[1]))
-	// 	redirect(307, '/login')
+	// Is this needed?
+	// const session = await event.locals.getSession()
 
 	// Get user data
-	const { data, error } = await event.locals.supabase.auth.getUser()
+	const { data } = await event.locals.supabase.auth.getUser()
 
 	if (data.user) {
 		let user = await prisma.user.findUnique({
@@ -113,7 +102,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 				id: true,
 				isMale: true,
 				timeZoneOffset: true,
-				pointBalance: true,
+				totalXP: true,
+				didSetup: true,
+				useMetricSystem: true,
+				voiceLanguage: true,
 				// current calorie target
 				calorieTargets: {
 					orderBy: {
@@ -146,6 +138,16 @@ export const handle: Handle = async ({ event, resolve }) => {
 					},
 					take: 5
 				},
+				// Progress Pictures
+				progressPictures: {
+					orderBy: {
+						createdAt: 'desc'
+					},
+					select: {
+						type: true,
+						createdAt: true
+					}
+				},
 				// Collectibles
 				collectedItems: {
 					select: {
@@ -157,17 +159,15 @@ export const handle: Handle = async ({ event, resolve }) => {
 						}
 					}
 				},
-				// Recurring activity progress
-				lastPlannedOn: true,
-				lastFinishedEatingOn: true,
-				lastHarvestOn: true,
-				lastWeeklyPicOn: true,
-				lastReviewOn: true,
+				dailyProgress: {
+					orderBy: {
+						createdAt: 'desc'
+					},
+					take: 1
+				},
 				// Appointments
 				progressPicOn: true,
 				reviewOn: true,
-				// Progess Player Journey
-				initPhoto: true
 			}
 		});
 
@@ -180,10 +180,16 @@ export const handle: Handle = async ({ event, resolve }) => {
 					id: true,
 					isMale: true,
 					timeZoneOffset: true,
-					pointBalance: true,
+					totalXP: true,
+					didSetup: true,
+					useMetricSystem: true,
+					voiceLanguage: true,
 					calorieTargets: { take: 0 },
 					bodyfats: { take: 0 },
 					weights: { take: 0 },
+					// Progress Pictures
+					progressPictures: { take: 0 },
+					// Collectibles
 					collectedItems: {
 						select: {
 							count: true,
@@ -194,73 +200,77 @@ export const handle: Handle = async ({ event, resolve }) => {
 							}
 						}
 					},
-					// Recurring activity progress
-					lastPlannedOn: true,
-					lastFinishedEatingOn: true,
-					lastHarvestOn: true,
-					lastWeeklyPicOn: true,
-					lastReviewOn: true,
+					dailyProgress: { take: 0 },
 					// Appointments
 					progressPicOn: true,
 					reviewOn: true,
-					// Progess Player Journey
-					initPhoto: true
 				}
 			});
 		}
+		const dateDayBegin = getDateDayBegin(user.timeZoneOffset)
+
+		// Create new daily progress if none exists for current day
+		if (user.dailyProgress.length === 0 || user.dailyProgress[0].createdAt < dateDayBegin) {
+			const newDailyProgress = await prisma.dailyProgress.create({
+				data: {
+					userId: user.id,
+					targetCalories: user.calorieTargets[0].calories,
+					targetProtein: Math.round(user.weights[0].weight * 1.6)
+				}
+			});
+			user.dailyProgress.push(newDailyProgress);
+		}
 
 		// Filter out old weight information
-		user.weights = user.weights.filter(weight => weight.createdAt >= getDateDayBegin(user.timeZoneOffset, 4));
-
-		// Add collection counts to collectibles variable
-		const collection = user.collectedItems.map(item => {
-			const collectible = collectibles.find(c => c.name === item.collectible.name);
-			return {
-				...collectible,
-				count: item.count
-			} as Collectible;
-		});
+		user.weights = user.weights.filter(weight => weight.createdAt >= getDateDayBegin(user!.timeZoneOffset, 4));
 
 		// User properties
 		event.locals.user = {
 			id: user.id,
 			isMale: user.isMale,
+			didSetup: user.didSetup,
+			useMetricSystem: user.useMetricSystem,
+			voiceLanguage: user.voiceLanguage,
 			timeZoneOffset: user.timeZoneOffset,
-			pointBalance: user.pointBalance,
+			totalXP: user.totalXP,
 			streakMeter: user.weights.length,
-			currentCalorieTarget: user.calorieTargets.length > 0 ? user.calorieTargets[0].calories : 9999,
 			currentBF: user.bodyfats.length > 0 ? user.bodyfats[0].bodyfat : 999,
-			currentStatus: 'empty',
+			currentStatus: 'tbd',
 			currentWeight: user.weights.length > 0 ? user.weights[0].weight : 100, // userWeight ? userWeight.weight : 100,
 			initBF: user.bodyfats.length > 0, // whether init body fat measurement was taken
-			initPhoto: user.initPhoto,
+			initPhotos: user.progressPictures.some(pic => pic.type === 'initial') && user.progressPictures.some(pic => pic.type === 'goofy'),
 			initCalories: user.calorieTargets.length > 0, // whether init calorie target was entered
 			progressPicToday: new Date().toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() === user.progressPicOn ? true : false,
-			reviewToday: new Date().toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() === user.reviewOn ? true : false,
+			reviewToday: dateDayBegin.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() === user.reviewOn ? true : false,
 			enterBodyfatToday: user.bodyfats.length > 0 ? actionIsOlderThanXdays(user.timeZoneOffset, user.bodyfats[0].createdAt, 28) : false,
-			collection: collection,
 		};
 		// Derived value for user
 		event.locals.user.currentStatus = getCurrentCrestLevel(event.locals.user.currentBF, user.isMale)
-		// Daily Progress
-		const dateDayBegin = getDateDayBegin(user.timeZoneOffset)
-		event.locals.dailyProgress = {
-			weighIn: user.weights[0] ? user.weights[0].createdAt > dateDayBegin : false, // condition required for when user is new
-			targetProtein: Math.round(event.locals.user.currentWeight * 1.6),
-			planned: user.lastPlannedOn > dateDayBegin,
-			eaten: user.lastFinishedEatingOn > dateDayBegin,
-			harvest: user.lastHarvestOn > dateDayBegin,
-			weeklyPic: user.lastWeeklyPicOn > dateDayBegin,
-			weeklyReview: user.lastReviewOn > dateDayBegin,
-		}
+		// Daily Progress - take the last entry from the array
+		event.locals.dailyProgress = user.dailyProgress[user.dailyProgress.length - 1]
 		// Upcoming Events
 		event.locals.schedule = {
-			nextProgressPic: getScheduledEvent('weekly', 'Progress Picture', user.timeZoneOffset, user.lastWeeklyPicOn, user.progressPicOn),
-			nextReview: getScheduledEvent('weekly', 'Weekly Review', user.timeZoneOffset, user.lastReviewOn, user.reviewOn),
-			nextBodyfatMeasurement: getScheduledEvent('fourWeekly', 'Bodyfat Measurement', user.timeZoneOffset, user.bodyfats.length > 0 ? user.bodyfats[0].createdAt : undefined),
+			nextProgressPic: getScheduledEvent(
+				'weekly', /* type */
+				'Progress Picture', /* name */
+				user.timeZoneOffset, /* timeZoneOffset */
+				user.progressPictures.find(pic => pic.type === 'weekly')?.createdAt, /* lastDate */
+				user.progressPicOn /* fixedWeekDay */
+			),
+			nextReview: getScheduledEvent(
+				'weekly', /* type */
+				'Weekly Review', /* name */
+				user.timeZoneOffset, /* timeZoneOffset */
+				event.locals.dailyProgress.review ? dateDayBegin : undefined, /* lastDate */
+				user.reviewOn /* fixedWeekDay */
+			),
+			nextBodyfatMeasurement: getScheduledEvent(
+				'fourWeekly', /* type */
+				'Bodyfat Measurement', /* name */
+				user.timeZoneOffset, /* timeZoneOffset */
+				user.bodyfats.length > 0 ? user.bodyfats[0].createdAt : undefined /* lastDate */
+			),
 		}
-		// Collection
-
 	}
 
 	return resolve(event, {

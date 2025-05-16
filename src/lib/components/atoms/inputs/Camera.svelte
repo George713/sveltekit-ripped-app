@@ -1,10 +1,16 @@
-<!-- Camera.svelte -->
 <script lang="ts">
+	// Svelte & Sveltekit
 	import { onMount } from 'svelte';
-	import { isMobile } from '$lib/utils';
+	// Logic
+	import { isMobile } from '$lib/utils.svelte';
 
-	export let showCamera: boolean;
-	export let handlePhotoTaken: (imageDataUrl: string, imageBlob: Blob) => void;
+	interface Props {
+		image: string;
+		imageBlob: Blob | null;
+		showCamera: boolean;
+	}
+
+	let { image = $bindable(), imageBlob = $bindable(), showCamera = $bindable() }: Props = $props();
 
 	let video: HTMLVideoElement;
 	let canvas: HTMLCanvasElement;
@@ -12,7 +18,7 @@
 
 	onMount(() => {
 		const constraints = isMobile()
-			? { video: { facingMode: { exact: 'environment' } } }
+			? { video: { facingMode: { ideal: 'environment' } } }
 			: { video: true };
 		navigator.mediaDevices.getUserMedia(constraints).then(handleStream).catch(handleError);
 	});
@@ -25,6 +31,12 @@
 
 	const handleError = (error: any) => {
 		console.error('Error accessing camera:', error);
+	};
+
+	const handlePhotoTaken = (imageDataUrl: string, blob: Blob) => {
+		image = imageDataUrl;
+		imageBlob = blob;
+		showCamera = false;
 	};
 
 	const takePhoto = () => {
@@ -71,23 +83,25 @@
 	};
 </script>
 
-<div class="relative w-full h-full rounded-b-lg">
-	<!-- svelte-ignore a11y-media-has-caption -->
+<div class="relative h-full w-full rounded-b-lg">
+	<!-- svelte-ignore a11y_media_has_caption -->
 	<video
 		bind:this={video}
 		autoplay
 		playsinline
-		class="absolute z-30 w-full h-full rounded-b-lg object-cover"
-	/>
-	<canvas bind:this={canvas} class="absolute top-0 w-full h-full rounded-b-lg object-cover" />
+		class="absolute z-30 h-full w-full rounded-[10px] object-cover"
+	></video>
+	<canvas bind:this={canvas} class="absolute top-0 h-full w-full rounded-[10px] object-cover"
+	></canvas>
 	<div
-		class="fixed z-10 top-0 left-0 w-full h-full bg-black/40 flex justify-center items-end backdrop-blur-[1px]"
-		on:click={() => (showCamera = false)}
+		class="fixed top-0 left-0 z-10 flex h-full w-full items-end justify-center bg-black/40 backdrop-blur-[4px]"
+		onclick={() => (showCamera = false)}
 		role="none"
 	>
 		<button
-			on:click={takePhoto}
-			class="mb-20 border-2 rounded-2xl p-3 text-neutral-400 font-semibold border-neutral-400"
+			onclick={takePhoto}
+			type="button"
+			class="mb-20 rounded-2xl border-2 border-neutral-400 p-3 font-semibold text-neutral-400"
 		>
 			Take Photo
 		</button>

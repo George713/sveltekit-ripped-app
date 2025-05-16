@@ -1,11 +1,11 @@
 {
     "name": "Have Your Cookie",
-    "short_name": "HYC pwa",
+    "short_name": "HYC",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#17191c",
     "theme_color": "#ff3f20",
-    "description": "Nutrition tracker for long-term habit adoption",
+    "description": "The Nutrition tracker for long-term habit adoption. Install for the best user experience.",
     "icons": [
         {
             "src": "pwa-64x64.png",
@@ -21,6 +21,36 @@
             "src": "pwa-512x512.png",
             "type": "image/png",
             "sizes": "512x512"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "screenshots/desktop-1.png",
+            "sizes": "1280x800",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Desktop app view"
+        },
+        {
+            "src": "screenshots/mobile-1.png",
+            "sizes": "720x1480",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Main view"
+        },
+        {
+            "src": "screenshots/mobile-2.png",
+            "sizes": "720x1480",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Planning mode"
+        },
+        {
+            "src": "screenshots/mobile-3.png",
+            "sizes": "720x1480",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Weekly Review"
         }
     ]
 }

@@ -15,26 +15,26 @@ model User {
   id     String  @id @default(uuid())
   isMale Boolean @default(true)
 
-  // Recurring activity progress
-  lastPlannedOn        DateTime @default(dbgenerated("to_date('1970-01-01', 'YYYY-MM-DD')"))
-  lastFinishedEatingOn DateTime @default(dbgenerated("to_date('1970-01-01', 'YYYY-MM-DD')"))
-  lastHarvestOn        DateTime @default(dbgenerated("to_date('1970-01-01', 'YYYY-MM-DD')"))
-  lastWeeklyPicOn      DateTime @default(dbgenerated("to_date('1970-01-01', 'YYYY-MM-DD')"))
-  lastReviewOn         DateTime @default(dbgenerated("to_date('1970-01-01', 'YYYY-MM-DD')"))
-
   // Appointments
   progressPicOn String @default("SUN")
   reviewOn      String @default("SUN")
 
   // Progress Player Journey
-  pointBalance Int     @default(0)
-  initPhoto    Boolean @default(false)
+  didSetup         Boolean @default(false)
+  totalXP          Int     @default(0)
+  unlockedRank     Boolean @default(false)
+  unlockedControls Boolean @default(false)
+  unlockedAddons   Boolean @default(false)
 
   // Auxiliary
-  timeZoneOffset Int @default(0)
+  timeZoneOffset  Int     @default(0)
+  useMetricSystem Boolean @default(true)
+  voiceLanguage   String  @default("en")
 
   // RELATED TABLES 
   // ================================
+  // Daily Progress
+  dailyProgress    DailyProgress[]
   // Targets
   calorieTargets   CalorieTarget[]
   // Planning & Tracking
@@ -49,29 +49,63 @@ model User {
   collectedItems   CollectedItem[]
 }
 
+model DailyProgress {
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  createdAt DateTime @default(now())
+
+  targetCalories   Int @default(0)
+  targetProtein    Int @default(0)
+  consumedCalories Int @default(0)
+  consumedProtein  Int @default(0)
+  xpGained         Int @default(0)
+  vaultXP          Int @default(0)
+
+  weighIn     Boolean @default(false)
+  planned     Boolean @default(false)
+  vaultOpened Boolean @default(false)
+  progressPic Boolean @default(false)
+  review      Boolean @default(false)
+  bodyfat     Boolean @default(false)
+
+  @@unique([userId, createdAt])
+}
+
 model Weight {
   id        Int      @id @default(autoincrement())
   weight    Float
   createdAt DateTime @default(now())
 
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 }
 
 model BodyFat {
   id        Int      @id @default(autoincrement())
   bodyfat   Float
+  heightCm  Float?
+  neckCm    Float?
+  waistCm   Float?
+  hipCm     Float?
+  method    String?
   createdAt DateTime @default(now())
 
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 }
 
-model ProgressPicture {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
+enum ProgressPictureType {
+  initial
+  goofy
+  weekly
+}
 
-  user   User   @relation(fields: [userId], references: [id])
+model ProgressPicture {
+  id        Int                 @id @default(autoincrement())
+  createdAt DateTime            @default(now())
+  type      ProgressPictureType @default(weekly)
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 }
 
@@ -80,58 +114,61 @@ model CalorieTarget {
   calories  Int
   createdAt DateTime @default(now())
 
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 }
 
 model FoodItem {
-  id                   Int     @id @default(autoincrement())
-  itemName             String
-  unitIsPtn            Boolean
-  unitAmount           Float
-  kcal                 Int
-  protein              Float
-  defaultPtnSizeInGram Float?
-  kcalPer100           Int?
-  proteinPer100        Float?
+  id       Int    @id @default(autoincrement())
+  itemName String
+  kcal     Int
+  protein  Float
 
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
   PlannedItems   PlannedItem[]
   foodItemInSets FoodItemInSet[]
+  ingredients    Ingredient[]
+}
+
+model Ingredient {
+  id      Int    @id @default(autoincrement())
+  icon    String
+  name    String
+  kcal    Int
+  protein Float
+
+  foodItem FoodItem @relation(fields: [foodId], references: [id], onDelete: Cascade)
+  foodId   Int
 }
 
 model FoodSet {
   id   Int    @id @default(autoincrement())
   name String
 
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
   foodItemsInSet FoodItemInSet[]
 }
 
 model FoodItemInSet {
-  id         Int     @id @default(autoincrement())
-  unitIsPtn  Boolean
-  unitAmount Float
+  id Int @id @default(autoincrement())
 
-  foodSet FoodSet @relation(fields: [setId], references: [id])
+  foodSet FoodSet @relation(fields: [setId], references: [id], onDelete: Cascade)
   setId   Int
 
-  foodItem FoodItem @relation(fields: [foodId], references: [id])
+  foodItem FoodItem @relation(fields: [foodId], references: [id], onDelete: Cascade)
   foodId   Int
 }
 
 model PlannedItem {
-  id         Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now())
-  eaten      Boolean  @default(false)
-  unitIsPtn  Boolean
-  unitAmount Float
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  eaten     Boolean  @default(false)
 
-  foodItem FoodItem @relation(fields: [foodId], references: [id])
+  foodItem FoodItem @relation(fields: [foodId], references: [id], onDelete: Cascade)
   foodId   Int
 }
 
@@ -143,7 +180,7 @@ model EatEstimate {
   kcal      Int
   protein   Float
 
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 }
 
@@ -158,10 +195,10 @@ model CollectedItem {
   id    Int @id @default(autoincrement())
   count Int @default(0)
 
-  collectible   Collectible @relation(fields: [collectibleId], references: [id])
+  collectible   Collectible @relation(fields: [collectibleId], references: [id], onDelete: Cascade)
   collectibleId Int
 
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
   @@unique([userId, collectibleId])

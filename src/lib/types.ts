@@ -26,13 +26,19 @@ export type SupabaseJwt = {
 export interface FoodItem {
     id: number;
     itemName: string;
-    unitIsPtn: boolean;
-    unitAmount: number;
     kcal: number;
     protein: number;
-    defaultPtnSizeInGram: number;
-    kcalPer100: number;
-    proteinPer100: number;
+    PlannedItems: PlannedItem[];
+    ingredients: Ingredient[]
+}
+
+export interface Ingredient {
+    id: number;
+    icon: string;
+    name: string;
+    kcal: number;
+    protein: number;
+    foodId: number;
 }
 
 export interface PlannedItem {
@@ -40,8 +46,23 @@ export interface PlannedItem {
     eaten: boolean;
     createdAt: Date;
     foodId: number;
-    unitIsPtn: boolean;
-    unitAmount: number;
+}
+
+export interface EstimatedItem {
+    id: number;
+    eaten: boolean;
+    createdAt: Date;
+    kcal: number;
+    protein: number;
+    name?: string
+}
+
+export interface DailySelectionItem {
+    id: number;
+    foodId: number;
+    itemName: string;
+    kcal: number;
+    protein: number;
 }
 
 export interface FoodSet {
@@ -52,29 +73,6 @@ export interface FoodSet {
 
 interface FoodItemInSet {
     foodId: number;
-    unitIsPtn: boolean;
-    unitAmount: number
-}
-
-export interface EatEstimate {
-    id: number;
-    eaten: boolean;
-    createdAt: Date;
-    kcal: number;
-    protein: number;
-    name?: string
-}
-
-export interface WeightData {
-    weight: number;
-    createdAt: string;
-};
-
-export interface UpdateDataCalories {
-    calorieTargets: {
-        create: { calories: number }[];
-    };
-    lastReviewOn?: Date;
 }
 
 export interface ScheduledEvent {
@@ -97,4 +95,25 @@ export interface Collectible {
 export interface Rewards {
     powerups: number;
     collectible: Collectible | null;
+}
+
+export interface Toast {
+    type: 'error' | 'attention' | 'note';
+    message: string;
+    timeout?: number;
+    id?: number;
+};
+
+export interface RecordedItem {
+    name: string;
+    kcal: number;
+    protein: number;
+    icon: string;
+    shouldFocus?: boolean;
+}
+
+export interface RecordingResult {
+    items: RecordedItem[];
+    sumKcal: number;
+    sumProtein: number;
 }

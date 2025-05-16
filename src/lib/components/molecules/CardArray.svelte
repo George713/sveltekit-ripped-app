@@ -1,173 +1,198 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	// Svelte & SvelteKit
 	import { deserialize } from '$app/forms';
-
+	import { goto } from '$app/navigation';
+	import { page } from '$app/state';
+	// Logic
 	import {
-		plannedItems,
-		foodLibrary,
-		estimatesLog,
-		showSpinner,
-		visibleView,
-		foodSets,
-		selectedForNewSet
-	} from '$lib/stores';
-	import type { PlannedItem } from '$lib/types';
+		SelectionManager,
+		FoodItemManager,
+		FoodSetManager,
+		PlannedItemManager,
+		estimatedItemManager,
+		visibilityManager
+	} from '$lib/stateManagers.svelte';
+	import { PressHandler } from '$lib/utils.svelte';
+	// Atoms
+	import Card from '$atoms/Card.svelte';
+	// Types
+	import type { DailySelectionItem, FoodItem, FoodSet, PlannedItem } from '$lib/types';
 
-	import ItemCard from '$atoms/ItemCard.svelte';
-	import SetCard from '$atoms/SetCard.svelte';
+	interface Props {
+		itemManager: FoodItemManager | FoodSetManager | SelectionManager | PlannedItemManager;
+		theme: 'light' | 'dark';
+		selectionManager?: SelectionManager | PlannedItemManager;
+		showNewElementCard?: boolean;
+		verticalScroll?: boolean;
+	}
 
-	export let items: String[];
-	export let verticalScroll: boolean;
-	export let setPlanningMode = false;
+	let {
+		itemManager,
+		selectionManager,
+		theme,
+		showNewElementCard = false,
+		verticalScroll = false
+	}: Props = $props();
 
-	let selection = setPlanningMode ? selectedForNewSet : plannedItems;
+	const currentPath = $state(page.url.pathname);
+	let itemManagerType = $derived(itemManager.classname);
+	let selectionManagerType = $derived(selectionManager?.classname);
 
-	// Function for adding item to the list of items currently in planning
-	const addToPlanningProcess = (id: number, unitIsPtn: boolean, unitAmount: number) => {
-		const newPlannedItem: PlannedItem = {
-			id: selection.maxId + 1,
-			eaten: false,
-			createdAt: new Date(),
-			foodId: id,
-			unitIsPtn: unitIsPtn,
-			unitAmount: unitAmount
-		};
-		selection.add(newPlannedItem);
-	};
+	const pressHandlerItem = new PressHandler({
+		longPress: (id: string | number) => goto(`/item?origin=${currentPath}&foodId=${id}`),
+		pressDuration: 1000
+	});
 
-	// Function for adding item to the list of already planned items
-	const addToPlannedItems = async (itemId: number, unitIsPtn: boolean, unitAmount: number) => {
-		// Show spinner
-		$showSpinner = true;
-
-		const newPlannedItem: PlannedItem = {
-			id: plannedItems.maxId + 1,
-			eaten: false,
-			createdAt: new Date(),
-			foodId: itemId,
-			unitIsPtn: unitIsPtn,
-			unitAmount: unitAmount
-		};
-
-		// Submit planned items to server
-		const formData = new FormData();
-		formData.append('plannedItems', JSON.stringify([newPlannedItem]));
-		const response = await fetch('?/finishPlanning', {
-			method: 'POST',
-			body: formData
-		});
-
-		const result = deserialize(await response.text());
-
-		if (result.type === 'success' && result.data) {
-			plannedItems.set(result.data.createdPlannedItems as PlannedItem[]);
-		}
-
-		// Return to eating view
-		visibleView.update('eat');
-
-		// Hide spinner
-		$showSpinner = false;
-	};
-
-	const eatItem = async (id: number, type: string) => {
-		if (type === 'planned') {
-			plannedItems.update((items) => {
-				const index = items.findIndex((item) => item.id === id);
-				if (index !== -1) {
-					items[index].eaten = true;
-				}
-				return items;
-			});
-		} else if (type === 'estimate') {
-			estimatesLog.update((items) => {
-				const index = items.findIndex((item) => item.id === id);
-				if (index !== -1) {
-					items[index].eaten = true;
-				}
-				return items;
-			});
-		}
-
-		// Updaten eaten flag in db
-		const formData = new FormData();
-		formData.append('id', id.toString());
-		formData.append('type', type);
-		const response = await fetch('?/eatItem', {
-			method: 'POST',
-			body: formData
-		});
-	};
+	const pressHandlerSet = new PressHandler({
+		longPress: (id: string | number) => goto(`/set?setId=${id}`),
+		pressDuration: 1000
+	});
 </script>
 
-<!-- h-1 prevents the container from overflowing -->
 <div
-	class="scrollbar-hide mx-1.5 my-0.5 flex flex-wrap gap-1 {verticalScroll
-		? 'h-1 grow content-start justify-center overflow-y-auto'
-		: 'h-52 flex-col overflow-x-auto'}"
+	class={{
+		'scrollbar-hide flex flex-wrap gap-1.5 py-2': true,
+		'mx-2 mb-3 grow content-start justify-center overflow-y-auto': verticalScroll,
+		'mr-[3px] ml-2 h-58 flex-col overflow-x-auto pr-2': !verticalScroll
+	}}
 >
-	{#if items.includes('food')}
-		{#each $foodLibrary as { id, itemName, kcal, protein, unitIsPtn, unitAmount }}
-			<ItemCard
-				type="dark"
-				{id}
-				foodId={id}
-				{itemName}
-				{kcal}
-				{protein}
-				{unitIsPtn}
-				{unitAmount}
-				plusButton={$page.data.dailyProgress.planned && !setPlanningMode
-					? () => addToPlannedItems(id, unitIsPtn, unitAmount)
-					: () => addToPlanningProcess(id, unitIsPtn, unitAmount)}
+	{#if showNewElementCard}
+		<Card
+			name={itemManagerType === 'FoodSetManager' ? 'New Set' : 'New Item'}
+			{theme}
+			type="newElement"
+			onclick={() =>
+				goto(itemManagerType === 'FoodSetManager' ? '/set' : `/item?origin=${currentPath}`)}
+		/>
+	{/if}
+	{#if itemManagerType === 'FoodItemManager'}
+		{#each itemManager.items as item}
+			<Card
+				imgSrc={`https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${item.id}`}
+				name={(item as FoodItem).itemName}
+				kcal={(item as FoodItem).kcal}
+				protein={(item as FoodItem).protein}
+				{theme}
+				type="item"
+				onclick={async () => {
+					// Only trigger click if not triggered by long press
+					if (selectionManagerType === 'SelectionManager') {
+						(selectionManager as SelectionManager).addFoodItem(item.id);
+					} else if (selectionManager && selectionManagerType === 'PlannedItemManager') {
+						visibilityManager.toggleSpinnerOverlay();
+
+						const formData = new FormData();
+						formData.append(
+							'item',
+							JSON.stringify({
+								foodId: item.id
+							})
+						);
+
+						const response = await fetch('?/addToLog', {
+							method: 'POST',
+							body: formData
+						});
+
+						const result = deserialize(await response.text());
+
+						if (result.type === 'success' && result.data) {
+							(selectionManager as PlannedItemManager).items = [
+								...(selectionManager as PlannedItemManager).items,
+								result.data.item as PlannedItem
+							];
+						}
+
+						visibilityManager.toggleSpinnerOverlay();
+						goto('/log');
+					}
+				}}
+				ontouchstart={() => pressHandlerItem.handleTouchDown(item.id)}
+				ontouchend={pressHandlerItem.handleTouchUp}
 			/>
 		{/each}
 	{/if}
-	{#if items.includes('planned')}
-		<!-- 
-		[...$plannedItems].reverse()
-		============================
-		This first creates a shallow copy of $plannedItems,
-		then reverses the order of the items in it.
-		
-		This is required as toggling the `eaten` status would
-		have modified $plannedItems in place again.
-		-->
-		{#each [...$plannedItems].reverse() as { id, foodId, eaten, unitIsPtn, unitAmount }}
-			<ItemCard
-				type="bright"
-				{id}
-				{foodId}
-				itemName={foodLibrary.getItemNameByIndex(foodId)}
-				kcal={foodLibrary.getKcalByIndex(foodId, unitIsPtn, unitAmount)}
-				protein={foodLibrary.getProteinByIndex(foodId, unitIsPtn, unitAmount)}
-				{unitIsPtn}
-				{unitAmount}
-				eatingMenu={true}
-				{eaten}
-				eatItem={() => eatItem(id, 'planned')}
+	{#if itemManagerType === 'SelectionManager'}
+		{#each itemManager.items as item}
+			<Card
+				imgSrc={`https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${(item as DailySelectionItem).foodId}`}
+				name={(item as DailySelectionItem).itemName}
+				kcal={(item as DailySelectionItem).kcal}
+				protein={(item as DailySelectionItem).protein}
+				{theme}
+				type="item"
+				onclick={() => (selectionManager as SelectionManager)?.remove(item.id)}
 			/>
 		{/each}
 	{/if}
-	{#if items.includes('estimates')}
-		{#each $estimatesLog as { id, eaten, kcal, protein, name }}
-			<ItemCard
-				type="bright"
-				{id}
-				itemName={name ? name : 'Estimate'}
-				{kcal}
-				{protein}
-				unitIsPtn={true}
-				unitAmount={1}
-				eatingMenu={true}
-				{eaten}
-				eatItem={() => eatItem(id, 'estimate')}
+	{#if itemManagerType === 'FoodSetManager'}
+		{#each itemManager.items as item}
+			<Card
+				imgSrc={(itemManager as FoodSetManager).getImages(item as FoodSet)}
+				name={(item as FoodSet).name}
+				kcal={(itemManager as FoodSetManager).getKcal(item as FoodSet)}
+				protein={(itemManager as FoodSetManager).getProtein(item as FoodSet)}
+				{theme}
+				type="item"
+				onclick={() => (selectionManager as SelectionManager)?.addFoodSet(item as FoodSet)}
+				ontouchstart={() => pressHandlerSet.handleTouchDown(item.id)}
+				ontouchend={pressHandlerSet.handleTouchUp}
 			/>
 		{/each}
 	{/if}
-	{#if items.includes('days')}
-		{#each $foodSets as { id, name }}
-			<SetCard {id} {name} />
+	<!-- Visible only on log route -->
+	{#if itemManagerType === 'PlannedItemManager'}
+		{#each (itemManager as PlannedItemManager).getEnrichedItems() as item}
+			<Card
+				imgSrc={`https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${item.foodId}`}
+				name={item.name}
+				kcal={item.kcal}
+				protein={item.protein}
+				eaten={item.eaten}
+				{theme}
+				type="item"
+				onclick={async () => {
+					if (item.eaten) {
+						return;
+					}
+
+					(itemManager as PlannedItemManager).eatItem(item.id, item.kcal);
+
+					const formData = new FormData();
+					formData.append('id', item.id.toString());
+					formData.append('type', 'planned');
+					fetch('?/eatItem', {
+						method: 'POST',
+						body: formData
+					});
+				}}
+			/>
+		{/each}
+		<!-- Also display estimates as plannedItems are only shown on the log route -->
+		{#each estimatedItemManager.items as item}
+			<Card
+				name="Estimate"
+				kcal={item.kcal}
+				protein={item.protein}
+				eaten={item.eaten}
+				{theme}
+				type="item"
+				onclick={async () => {
+					if (item.eaten) {
+						return;
+					}
+
+					estimatedItemManager.eatItem(item.id, item.kcal);
+
+					const formData = new FormData();
+					formData.append('id', item.id.toString());
+					formData.append('type', 'estimate');
+					fetch('?/eatItem', {
+						method: 'POST',
+						body: formData
+					});
+				}}
+			/>
 		{/each}
 	{/if}
 </div>

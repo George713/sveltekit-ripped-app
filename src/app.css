@@ -1,32 +1,80 @@
 /* Importing Roboto font */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-
-/* For Webkit-based browsers (Chrome, Safari and Opera) */
-.scrollbar-hide::-webkit-scrollbar {
-	display: none;
+:root {
+  --font-sans: 'Roboto', sans-serif;
 }
 
-/* For IE, Edge and Firefox */
-.scrollbar-hide {
-	-ms-overflow-style: none; /* IE and Edge */
-	scrollbar-width: none; /* Firefox */
+body {
+  @apply font-sans;
 }
 
-/* Hide spinners in Firefox */
-input[type="number"] {
-  -moz-appearance: textfield;
+body,
+html {
+  /*
+  Flat background color is required, as the gradient does not always cover
+  the bottom edge.
+  */
+  @apply bg-stone-800 bg-linear-to-br/oklch from-stone-900 to-stone-800 h-dvh w-screen;
 }
 
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
 @layer base {
-  @font-face {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
+
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
   }
+
+  /* Override Chrome's autofill styles */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+    /* Transparent background */
+    -webkit-text-fill-color: theme('colors.stone.400') !important;
+    /* Text color */
+    transition: background-color 5000s ease-in-out 0s;
+    /* Prevent background color change */
+  }
+}
+
+@layer utilities {
+
+  /* For Webkit-based browsers (Chrome, Safari and Opera) */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* For IE, Edge and Firefox */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
+
+  /* Hide spinners in Firefox */
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+}
+
+/* Custom class for applying Bungee font */
+.font-bungee {
+  font-family: 'Bungee', cursive;
 }

@@ -204,7 +204,7 @@
 				: ``}"
 		>
 			<svg
-				class="h-4 flex-shrink-0 {openQestionId == question.id
+				class="h-4 shrink-0 {openQestionId == question.id
 					? `fill-orange-500`
 					: `fill-stone-200`}"
 				viewBox="0 0 16 16"

@@ -2,7 +2,7 @@
 // for information about these interfaces
 
 import { SupabaseClient, Session } from '@supabase/supabase-js'
-import type { Collectible, ScheduledEvent } from '$lib/types';
+import type { ScheduledEvent } from '$lib/types';
 
 declare global {
 	namespace App {
@@ -13,29 +13,36 @@ declare global {
 			user: {
 				id: string,
 				isMale: boolean;
+				didSetup: boolean;
+				useMetricSystem: boolean;
+				voiceLanguage: string;
 				timeZoneOffset: number;
-				pointBalance: number;
+				totalXP: number;
 				streakMeter: number;
 				currentBF: number;
 				currentStatus: string;
 				currentWeight: number;
-				currentCalorieTarget: number;
 				initBF: boolean;
-				initPhoto: boolean;
+				initPhotos: boolean;
 				initCalories: boolean;
 				progressPicToday: boolean;
 				reviewToday: boolean;
 				enterBodyfatToday: boolean;
-				collection: Collectible[];
 			};
 			dailyProgress: {
-				weighIn: boolean;
+				createdAt: Date;
+				targetCalories: number;
 				targetProtein: number;
+				consumedCalories: number;
+				consumedProtein: number;
+				xpGained: number;
+				vaultXP: number;
+				weighIn: boolean;
 				planned: boolean;
-				eaten: boolean;
-				harvest: boolean;
-				weeklyPic: boolean;
-				weeklyReview: boolean;
+				vaultOpened: boolean;
+				progressPic: boolean;
+				review: boolean;
+				bodyfat: boolean;
 			};
 			schedule: {
 				nextProgressPic: ScheduledEvent;
