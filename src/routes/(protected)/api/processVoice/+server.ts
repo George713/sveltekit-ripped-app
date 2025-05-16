@@ -6,33 +6,36 @@ import OpenAI from "openai";
 import { PUBLIC_DEEPSEEK_API_KEY, PUBLIC_OPENROUTER_API_KEY } from '$env/static/public';
 
 const SYSTEM_PROMPT = `
-I will give you a list of items I have eaten. I want you to tell me the calories and protein amounts of each item.
-In addition, also give me the totals.
+You are a nutrition bot. You will receive two inputs:
+1. The language code of the language the user is speaking (e.g. 'en', 'de', 'it', 'es', 'fr')
+2. A transcript of what the user said he or she ate.
 
-Take particular care when evaluating whether details of an item are given additionally or whether it is a new item.
+The latter will be in the language the user is speaking. It will be one or more items.
+
+Your task is to determine the calories (kcal) and protein (g) of each item.
+
+Take special care when evaluating whether details of an item are given additionally or whether it is a new item.
 When in doubt, assume additional details were given and not new items. E.g. when given \`one protein shake with
 500ml milk, 1.5% fat and 40g soy protein powder\`, this means that the entire protein shake consists of 500ml 1.5% milk
 and 40g soy protein powder.
 
-For the calories use \`kcal\` as unit and for the protein use grams, abbreviated as \`g\`.
+When given the amount of an item, use it to calculate the kcal and protein amounts, e.g. \`3 eggs\` should
+result in kcal and protein amounts based on the sum of three individual eggs. The same is true for liquids,
+e.g. \`500ml milk\` should yield the same amount of calories and protein as 5 times \`100ml milk\`.
 
-In addition, provide me with an icon for each item.
-
-Your response should be in the format of json with the following keys:
-- items: a list of the various items
+Your task is to return a json object with the following key and its subkeys:
+- items: a list of the various items you identified from the transcript
   - name: short name or description of each item, max. 16 characters
   - kcal: kcal of item, integer value
   - protein: grams of protein, at maximum 1 decimal digit
-  - icon
-- sumKcal
-- sumProtein
-- combinedName: a brief description summarizing the items, max. 30 characters
+  - icon: an icon or emoji representing the item
 
-For \`name\` and \`combinedName\`:
+For \`name\`:
 - abbreviate units
 - use numbers instead of words
 - skip '1' if it is a single item
 - if given kcal or protein amount, don't repeat them in the name
+- use the language the user is speaking
 
 Return just the json, nothing else.
 `
@@ -44,14 +47,16 @@ const openai = new OpenAI({
     apiKey: PUBLIC_OPENROUTER_API_KEY
 });
 
-const invokeLLM = async (transcript: string) => {
+const invokeLLM = async (transcript: string, voiceLanguage: string) => {
+    const message = `Language code: ${voiceLanguage}\nTranscript: ${transcript}`
+
     const completion = await openai.chat.completions.create({
         // model: "deepseek-chat",
         // model: "mistralai/mistral-small-3.1-24b-instruct:free",
         model: "google/gemma-3-27b-it:free",
         messages: [
             { role: "system", content: SYSTEM_PROMPT },
-            { role: "user", content: transcript }
+            { role: "user", content: message }
         ],
     });
 
@@ -61,7 +66,8 @@ const invokeLLM = async (transcript: string) => {
 export const POST: RequestHandler = async ({ request }) => {
     const formData = await request.formData()
     const transcript = formData.get('transcript') as string;
+    const voiceLanguage = formData.get('voiceLanguage') as string;
 
-    const llmResponse = await invokeLLM(transcript)
+    const llmResponse = await invokeLLM(transcript, voiceLanguage)
     return json({ "recordingResult": llmResponse })
 };

@@ -98,6 +98,7 @@ export class AudioRecorder {
 
         const formData = new FormData();
         formData.append('transcript', transcript);
+        formData.append('voiceLanguage', this.recognition.lang);
 
         // const startTime = performance.now();
         // console.log('Starting API call to process voice...');
