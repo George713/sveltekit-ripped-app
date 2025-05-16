@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Logic
-	import { audioRecorder } from '$lib/audioRecorder.svelte';
+	import { AudioRecorder } from '$lib/audioRecorder.svelte';
 	import { ingredientManager } from '$lib/stateManagers.svelte';
 	// Atoms
 	import Button from '$atoms/Button.svelte';
@@ -13,6 +13,8 @@
 	}
 
 	const { hidden3rdBtn = false }: Props = $props();
+
+	const audioRecorder = new AudioRecorder();
 </script>
 
 <div class="flex w-full flex-1 flex-col justify-end">

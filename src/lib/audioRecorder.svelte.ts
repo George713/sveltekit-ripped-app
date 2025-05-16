@@ -15,7 +15,7 @@ import { ingredientManager } from "./stateManagers.svelte";
 import type { RecordingResult } from "./types";
 import { PUBLIC_ONMOBILE } from '$env/static/public';
 
-class AudioRecorder {
+export class AudioRecorder {
     isProcessing = $state(false);
     recognition: any;
     onMobile = PUBLIC_ONMOBILE === 'TRUE' ? true : false;
@@ -25,12 +25,6 @@ class AudioRecorder {
     tempTranscript = $state('');
     recordingResult = $state<RecordingResult | undefined>(undefined);
     isListening = $derived(!this.recordingResult && this.isRecording && !this.recordedText && !this.tempTranscript)
-
-    callback: (result: RecordingResult) => void = () => { };
-
-    constructor(callback: (result: RecordingResult) => void) {
-        this.callback = callback;
-    }
 
     record = () => {
         if (!this.recordingResult) {
@@ -121,8 +115,8 @@ class AudioRecorder {
                 this.tempTranscript = ''
                 this.recordedText = ''
 
-                if (this.callback && typeof this.recordingResult === 'object') {
-                    this.callback(this.recordingResult);
+                if (typeof this.recordingResult === 'object') {
+                    ingredientManager.add(this.recordingResult.items)
                 }
             } else {
                 console.error('Failed to send audio to backend');
@@ -148,9 +142,3 @@ class AudioRecorder {
     };
 
 }
-
-const fillState = (recordingResult: RecordingResult) => {
-    ingredientManager.add(recordingResult.items);
-}
-
-export const audioRecorder = new AudioRecorder(fillState);
