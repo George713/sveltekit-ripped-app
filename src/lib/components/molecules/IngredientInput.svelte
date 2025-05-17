@@ -1,4 +1,7 @@
 <script lang="ts">
+	// Svelte & Sveltekit
+	import { page } from '$app/state';
+	import { onMount } from 'svelte';
 	// Logic
 	import { AudioRecorder } from '$lib/audioRecorder.svelte';
 	import { ingredientManager } from '$lib/stateManagers.svelte';
@@ -7,7 +10,6 @@
 	import Ingredient from '$atoms/Ingredient.svelte';
 	// Icons
 	import FastSpinner from '$icons/FastSpinner.svelte';
-	import { onMount } from 'svelte';
 
 	interface Props {
 		hidden3rdBtn?: boolean;
@@ -18,7 +20,7 @@
 	let audioRecorder = $state<AudioRecorder>();
 
 	onMount(() => {
-		audioRecorder = new AudioRecorder();
+		audioRecorder = new AudioRecorder(page.data.user.voiceLanguage);
 	});
 </script>
 
@@ -61,6 +63,7 @@
 			'justify-end': hidden3rdBtn
 		}}
 	>
+		<p class="text-stone-200">{audioRecorder?.lang}</p>
 		<Button
 			text="Add"
 			variant="secondary"

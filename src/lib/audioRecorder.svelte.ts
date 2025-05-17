@@ -10,14 +10,15 @@
 // `recordedText` + `tempTranscript` = full transcription
 // `recordingResult` = json formatted LLM response containing the estimated calories and proteins
 
-import { page } from "$app/state";
-import { ingredientManager } from "./stateManagers.svelte";
-import type { RecordingResult } from "./types";
+import { ingredientManager } from "$lib/stateManagers.svelte";
+import type { RecordingResult } from "$lib/types";
+import type { LanguageCode } from "$lib/lang";
 import { PUBLIC_ONMOBILE } from '$env/static/public';
 
 export class AudioRecorder {
     isProcessing = $state(false);
     recognition: any;
+    lang: LanguageCode
     onMobile = PUBLIC_ONMOBILE === 'TRUE' ? true : false;
 
     isRecording = $state(false);
@@ -25,6 +26,10 @@ export class AudioRecorder {
     tempTranscript = $state('');
     recordingResult = $state<RecordingResult | undefined>(undefined);
     isListening = $derived(!this.recordingResult && this.isRecording && !this.recordedText && !this.tempTranscript)
+
+    constructor(lang: LanguageCode) {
+        this.lang = lang;
+    }
 
     record = () => {
         if (!this.recordingResult) {
@@ -48,7 +53,7 @@ export class AudioRecorder {
         this.recognition = new (window as any).webkitSpeechRecognition();
         this.recognition.continuous = true;
         this.recognition.interimResults = true;
-        this.recognition.lang = page.data.user.voiceLanguage;
+        this.recognition.lang = this.lang;
 
         this.recognition.onresult = (event: any) => {
             if (this.onMobile) {

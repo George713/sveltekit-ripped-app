@@ -3,11 +3,12 @@ import type { RequestHandler } from './$types';
 
 import OpenAI from "openai";
 
+import type { LanguageCode } from '$lib/lang';
 import { PUBLIC_DEEPSEEK_API_KEY, PUBLIC_OPENROUTER_API_KEY } from '$env/static/public';
 
 const SYSTEM_PROMPT = `
 You are a nutrition bot. You will receive two inputs:
-1. The language code of the language the user is speaking (e.g. 'en', 'de', 'it', 'es', 'fr')
+1. The language code of the language the user is speaking (e.g. 'en-GB', 'de-DE', 'it-IT', 'es-ES', 'fr-FR')
 2. A transcript of what the user said he or she ate.
 
 The latter will be in the language the user is speaking. It will be one or more items.
@@ -47,7 +48,7 @@ const openai = new OpenAI({
     apiKey: PUBLIC_OPENROUTER_API_KEY
 });
 
-const invokeLLM = async (transcript: string, voiceLanguage: string) => {
+const invokeLLM = async (transcript: string, voiceLanguage: LanguageCode) => {
     const message = `Language code: ${voiceLanguage}\nTranscript: ${transcript}`
 
     const completion = await openai.chat.completions.create({
@@ -66,7 +67,7 @@ const invokeLLM = async (transcript: string, voiceLanguage: string) => {
 export const POST: RequestHandler = async ({ request }) => {
     const formData = await request.formData()
     const transcript = formData.get('transcript') as string;
-    const voiceLanguage = formData.get('voiceLanguage') as string;
+    const voiceLanguage = formData.get('voiceLanguage') as LanguageCode;
 
     const llmResponse = await invokeLLM(transcript, voiceLanguage)
     return json({ "recordingResult": llmResponse })
