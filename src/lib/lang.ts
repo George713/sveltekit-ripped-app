@@ -1,9 +1,9 @@
 export const langDict = {
-    en: 'English',
-    de: 'Deutsch',
-    es: 'Español',
-    fr: 'Français',
-    it: 'Italiano'
+    'en-GB': 'English',
+    'de-DE': 'Deutsch',
+    'es-ES': 'Español',
+    'fr-FR': 'Français',
+    'it-IT': 'Italiano'
 };
 
 export type LanguageCode = keyof typeof langDict;

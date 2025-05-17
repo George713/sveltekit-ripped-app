@@ -12,7 +12,7 @@
 
 	let progressState = $state(0);
 	let useMetricSystem = $state(true);
-	let language = $state('en' as LanguageCode);
+	let language = $state('en-GB' as LanguageCode);
 	let formElement: HTMLFormElement;
 </script>
 
