@@ -63,7 +63,6 @@
 			'justify-end': hidden3rdBtn
 		}}
 	>
-		<p class="text-stone-200">{audioRecorder?.lang}</p>
 		<Button
 			text="Add"
 			variant="secondary"
