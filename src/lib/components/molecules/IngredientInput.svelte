@@ -37,16 +37,16 @@
 				/>
 			{/each}
 		</div>
-		{#if audioRecorder!.isProcessing}
+		{#if audioRecorder && audioRecorder.isProcessing}
 			<div class="mt-1 flex h-9 items-center justify-center">
 				<FastSpinner />
 			</div>
-		{:else if audioRecorder!.isRecording}
+		{:else if audioRecorder && audioRecorder.isRecording}
 			<p class="mt-1 flex min-h-9 items-center justify-center text-center text-sm text-stone-200">
-				{#if audioRecorder!.isListening}
+				{#if audioRecorder && audioRecorder.isListening}
 					Listening...
 				{:else}
-					{[audioRecorder!.recordedText, audioRecorder!.tempTranscript]
+					{[audioRecorder.recordedText, audioRecorder.tempTranscript]
 						.map((text) => text.trim())
 						.filter((text) => text) // filters empty strings
 						.join(', ')}
@@ -82,8 +82,8 @@
 			type="button"
 			icon="microphone"
 			classAddons={hidden3rdBtn ? 'basis-1/3' : 'grow'}
-			toggle={audioRecorder!.isRecording}
-			onclick={audioRecorder!.record}
+			toggle={audioRecorder && audioRecorder.isRecording}
+			onclick={audioRecorder && audioRecorder.record}
 		/>
 	</div>
 </div>
