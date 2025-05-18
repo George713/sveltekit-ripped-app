@@ -7,7 +7,7 @@ import { supabase } from '$lib/supabaseClient.server';
 export const actions = {
     upsertItem: async ({ locals, request }) => {
         const formData = await request.formData();
-        const { name, kcal, protein, ingredients, foodId } = Object.fromEntries(formData.entries());
+        const { name, kcal, protein, ingredients, foodId, newImage } = Object.fromEntries(formData.entries());
         const ingredientsParsed = JSON.parse(ingredients as string);
         const ingredientsArray = ingredientsParsed.map((ingredient: any) => ({
             icon: ingredient.icon,
@@ -23,6 +23,7 @@ export const actions = {
                 itemName: (name as string),
                 kcal: parseInt(kcal as string),
                 protein: parseFloat(protein as string),
+                imageVersion: newImage ? { increment: 1 } : { increment: 0 },
                 ingredients: {
                     // Delete all existing ingredients
                     deleteMany: {},
@@ -34,6 +35,7 @@ export const actions = {
                 itemName: (name as string),
                 kcal: parseInt(kcal as string),
                 protein: parseFloat(protein as string),
+                imageVersion: 1,
                 user: {
                     connect: {
                         id: locals.user.id
@@ -43,6 +45,9 @@ export const actions = {
                 ingredients: {
                     create: ingredientsArray
                 }
+            },
+            include: {
+                ingredients: true
             }
         });
 

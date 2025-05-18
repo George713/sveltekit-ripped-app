@@ -3,11 +3,12 @@
 	import Camera from '$atoms/inputs/Camera.svelte';
 
 	interface Props {
-		foodId: number | null;
+		foodId: number | undefined;
+		imageVersion: number | undefined;
 		imageBlob: Blob | null;
 	}
 
-	let { foodId, imageBlob = $bindable() }: Props = $props();
+	let { foodId, imageVersion, imageBlob = $bindable() }: Props = $props();
 
 	let image = $state('');
 	let showCamera = $state(false);
@@ -58,7 +59,7 @@
 			<img class="h-full w-full rounded-[10px]" src={image} alt="uploadedImage" />
 		{:else if foodId}
 			<img
-				src={`https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${foodId}`}
+				src={`https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${foodId}?v=${imageVersion}`}
 				alt="imgUrl"
 				style="width:100%;height:100%;"
 				class="rounded-[10px] object-cover"

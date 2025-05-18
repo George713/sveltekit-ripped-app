@@ -68,7 +68,7 @@
 	{#if itemManagerType === 'FoodItemManager'}
 		{#each itemManager.items as item}
 			<Card
-				imgSrc={`https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${item.id}`}
+				imgSrc={`https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${item.id}?v=${(item as FoodItem).imageVersion}`}
 				name={(item as FoodItem).itemName}
 				kcal={(item as FoodItem).kcal}
 				protein={(item as FoodItem).protein}
@@ -115,7 +115,7 @@
 	{#if itemManagerType === 'SelectionManager'}
 		{#each itemManager.items as item}
 			<Card
-				imgSrc={`https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${(item as DailySelectionItem).foodId}`}
+				imgSrc={`https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${(item as DailySelectionItem).foodId}?v=${(item as DailySelectionItem).imageVersion}`}
 				name={(item as DailySelectionItem).itemName}
 				kcal={(item as DailySelectionItem).kcal}
 				protein={(item as DailySelectionItem).protein}
@@ -144,7 +144,7 @@
 	{#if itemManagerType === 'PlannedItemManager'}
 		{#each (itemManager as PlannedItemManager).getEnrichedItems() as item}
 			<Card
-				imgSrc={`https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${item.foodId}`}
+				imgSrc={`https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${item.foodId}?v=${item.imageVersion}`}
 				name={item.name}
 				kcal={item.kcal}
 				protein={item.protein}

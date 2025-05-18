@@ -28,6 +28,7 @@ export interface FoodItem {
     itemName: string;
     kcal: number;
     protein: number;
+    imageVersion: number;
     PlannedItems: PlannedItem[];
     ingredients: Ingredient[]
 }
@@ -63,6 +64,7 @@ export interface DailySelectionItem {
     itemName: string;
     kcal: number;
     protein: number;
+    imageVersion: number;
 }
 
 export interface FoodSet {

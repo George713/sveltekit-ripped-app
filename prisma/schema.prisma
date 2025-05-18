@@ -119,10 +119,11 @@ model CalorieTarget {
 }
 
 model FoodItem {
-  id       Int    @id @default(autoincrement())
-  itemName String
-  kcal     Int
-  protein  Float
+  id           Int    @id @default(autoincrement())
+  itemName     String
+  kcal         Int
+  protein      Float
+  imageVersion Int    @default(0)
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String

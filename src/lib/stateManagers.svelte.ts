@@ -294,6 +294,7 @@ export class PlannedItemManager {
                 name: foodItem?.itemName || '',
                 kcal: foodItem?.kcal || 0,
                 protein: foodItem?.protein || 0,
+                imageVersion: foodItem?.imageVersion || 0,
                 eaten: item.eaten,
             };
         });
@@ -358,7 +359,8 @@ export class SelectionManager {
                 foodId: foodItem.id,
                 itemName: foodItem.itemName,
                 kcal: foodItem.kcal,
-                protein: foodItem.protein
+                protein: foodItem.protein,
+                imageVersion: foodItem.imageVersion
             };
             this.items = [...this.items, dailySelectionItem];
         }
@@ -373,7 +375,8 @@ export class SelectionManager {
                 foodId: item.foodId,
                 itemName: foodItem?.itemName || 'Error',
                 kcal: foodItem?.kcal || 0,
-                protein: foodItem?.protein || 0
+                protein: foodItem?.protein || 0,
+                imageVersion: foodItem?.imageVersion || 0
             };
         });
         this.items = [...this.items, ...dailySelectionItems];
@@ -424,10 +427,12 @@ export class FoodSetManager {
     getImages = (foodSet: FoodSet): string | string[] => {
         const distinctFoodIds = Array.from(new Set(foodSet.foodItemsInSet.map(item => item.foodId)));
         if (distinctFoodIds.length <= 3) {
-            return `https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${distinctFoodIds[0]}`
+            const foodItem = foodItemManager.getById(distinctFoodIds[0]);
+            return `https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${foodItem?.id}?v=${foodItem?.imageVersion}`
         } else {
             return distinctFoodIds.slice(0, 4).map(foodId => {
-                return `https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${foodId}`;
+                const foodItem = foodItemManager.getById(foodId);
+                return `https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${foodItem?.id}?v=${foodItem?.imageVersion}`;
             });
         }
     }

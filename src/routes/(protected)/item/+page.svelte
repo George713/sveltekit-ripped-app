@@ -24,10 +24,11 @@
 		? Number(page.url.searchParams.get('foodId'))
 		: null;
 
-	let itemName = $state(foodId ? foodItemManager.getById(foodId)?.itemName : '');
+	let foodItem = $state(foodId ? foodItemManager.getById(foodId) : null);
+	let itemName = $derived(foodItem?.itemName);
 	let imageBlob = $state<Blob | null>(null);
-	if (foodId) {
-		foodItemManager.getById(foodId)?.ingredients.forEach((ingredient) => {
+	if (foodItem) {
+		foodItem.ingredients.forEach((ingredient) => {
 			ingredientManager.add({
 				icon: ingredient.icon,
 				name: ingredient.name,
@@ -62,6 +63,7 @@
 		formData.append('protein', ingredientManager.totalProtein.toFixed(1));
 		formData.append('ingredients', JSON.stringify(ingredientManager.toJSON()));
 		formData.append('foodId', foodId ? foodId.toString() : '');
+		formData.append('newImage', imageBlob ? '1' : ''); // Value used for incrementing image version
 
 		const response = await fetch('?/upsertItem', {
 			method: 'POST',
@@ -71,10 +73,10 @@
 		const result = deserialize(await response.text());
 
 		if (result.type === 'success' && result.data) {
-			const foodItem = result.data.foodItem as FoodItem;
+			const newFoodItem = result.data.foodItem as FoodItem;
 			foodItemManager.items = [
 				...foodItemManager.items.filter((item) => item.id !== foodId),
-				foodItem
+				newFoodItem
 			];
 
 			if (imageBlob) {
@@ -87,7 +89,7 @@
 
 				// If previous image existed, delete cache entry for it
 				if (foodId && navigator.serviceWorker && navigator.serviceWorker.controller) {
-					const urlToInvalidateInCache = `https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${foodId}`;
+					const urlToInvalidateInCache = `https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${foodId}?v=${foodItem?.imageVersion}`;
 					navigator.serviceWorker.controller.postMessage({
 						type: 'INVALIDATE_CACHE',
 						url: urlToInvalidateInCache
@@ -133,7 +135,7 @@
 </div>
 <form class="flex h-screen w-screen flex-col items-center px-6">
 	<div class="mt-2 mb-1">
-		<PhotoFrame bind:imageBlob {foodId} />
+		<PhotoFrame bind:imageBlob foodId={foodItem?.id} imageVersion={foodItem?.imageVersion} />
 	</div>
 	<input
 		placeholder="Item Name..."
