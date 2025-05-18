@@ -84,6 +84,15 @@
 					method: 'PUT',
 					body: imageBlob
 				});
+
+				// If previous image existed, delete cache entry for it
+				if (foodId && navigator.serviceWorker && navigator.serviceWorker.controller) {
+					const urlToInvalidateInCache = `https://cdswqmabrloxyfswpggl.supabase.co/storage/v1/object/public/foodItems/foodItem_${foodId}`;
+					navigator.serviceWorker.controller.postMessage({
+						type: 'INVALIDATE_CACHE',
+						url: urlToInvalidateInCache
+					});
+				}
 			}
 		}
 
