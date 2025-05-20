@@ -32,6 +32,7 @@
 			type="text"
 			placeholder="First Name"
 			autocomplete="off"
+			spellcheck="false"
 			required
 		/>
 		<input
@@ -40,6 +41,7 @@
 			type="email"
 			placeholder="Email"
 			autocomplete="off"
+			spellcheck="false"
 			required
 		/>
 	</div>
