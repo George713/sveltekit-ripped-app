@@ -76,25 +76,25 @@
 		{
 			question: 'How is <i>Have Your Cookie</i> different from other nutrition apps?',
 			answer:
-				'While other dieting apps are composed of features, <i>Have Your Cookie</i>’s primary objective is to change the user’s behavior. This way long-term fat loss is easily achieved and sustained.',
+				'Other apps treat nutrition like math. We treat it like psychology. <i>Have Your Cookie</i> uses behavioral engineering to automate healthy habits - like meal planning, tracking your progress and adjusting your diet - so you lose fat without feeling deprived. The result? A sustainable, stress-free relationship with food, rooted in the latest research on how humans actually stick to change.',
 			id: 1
 		},
 		{
 			question: 'Why is this not just another gimmick?',
 			answer:
-				'Dieting is tough, both physically and mentally, and tracking what you eat is stressful as well, but most dieting apps still only focus on that. Therefore, a method that makes dieting easier will yield the best results.',
+				'Long-term weight loss has a 95% relapse rate, and behavioral science proves lasting results demand habit redesign - not willpower. But most apps cling to outdated tracking tools that ignore how humans truly change. Therefore, we engineered <i>Have Your Cookie</i> (using game mechanics + proven nudges) to make healthy choices automatic. No gimmicks - just science-based systems that stick.',
 			id: 2
 		},
 		{
 			question: 'How does it work, exactly?',
 			answer:
-				'<i>Have Your Cookie</i> incorporates design elements typically found in the gaming industry. Special focus was put into assembling a `diet experience` that addresses as many different human motivational pathways as possible. Currently the following pathways are covered: <i>our desire for accomplishment, ownership over the journey, creative expression</i> and <i>a hang for novelty</i>.',
+				'Ever get addicted to a game? That’s the magic we harness. <i>Have Your Cookie</i> borrows tactics from the gaming industry (like streaks and unlockable achievements) to keep you hooked on progress. Behavioral science really starts to kick in once you start to strategically adjust the app to your personal lifestyle. The result? A fun, frictionless system that turns healthy habits into a winning streak.',
 			id: 3
 		},
 		{
 			question: 'What is planned for the beta test phase?',
 			answer:
-				'During the beta our testers (I hope you become one, if you haven’t already) experience the app at its current stage. We constantly gather your feedback and update the app accordingly. Every tester is welcome to send feedback via Discord, email or reddit, but that’s ultimately up to you. <br><br>If you are a <b>Beta Tester+</b> (you can tick a box during sign-up to become one), we would love to have a 15min zoom call with you after you got a chance to test the app (this form of feedback is especially valuable to us and will be honored accordingly when the app goes live).',
+				'During the beta our testers (I hope you become one, if you haven’t already) experience the app at its current stage. We constantly gather your feedback and update the app accordingly. Every tester is welcome to send feedback via twitter/X, email or reddit, but that’s ultimately up to you. <br><br>If you are a <b>Beta Tester+</b> (you can tick a box during sign-up to become one), we would love to have a 15min zoom call with you after you got a chance to test the app (this form of feedback is especially valuable to us and will be honored accordingly when the app goes live).',
 			id: 4
 		},
 		{
