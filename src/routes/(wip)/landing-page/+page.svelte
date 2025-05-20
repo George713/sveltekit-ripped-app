@@ -115,8 +115,8 @@
 <!-- Hero -->
 <div class="flex h-screen w-full flex-col justify-center bg-stone-900 lg:flex-row">
 	<!-- Mockup for Mobile/Tablet -->
-	<div class="mb-5 mt-2 flex h-[calc(50%)] justify-center lg:hidden">
-		<img class="" src={Mockup} alt="Mockup Mobile" />
+	<div class="mt-2 mb-5 flex h-[calc(50%)] justify-center lg:hidden">
+		<img class="" src={Mockup} alt="Mockup Mobile" style="transform: scale(1.2);" />
 	</div>
 	<!-- Hero content without Mockup -->
 	<div class="mx-[calc(10%)] flex items-center justify-center lg:justify-start">
@@ -156,7 +156,7 @@
 		{@render benefit(benefit1)}
 		<div class="mx-auto my-8 h-0.5 w-10 rounded-full bg-stone-600 lg:hidden"></div>
 		{@render benefit(benefit2)}
-		<div class="mx-auto -mb-3 mt-8 h-0.5 w-10 rounded-full bg-stone-600 lg:hidden"></div>
+		<div class="mx-auto mt-8 -mb-3 h-0.5 w-10 rounded-full bg-stone-600 lg:hidden"></div>
 		{@render benefit(benefit3)}
 	</div>
 </div>
@@ -164,7 +164,7 @@
 <!-- Reviews / Social Proof -->
 {#snippet review(review: Review)}
 	<div class="flex w-52 flex-col-reverse justify-evenly lg:flex-col lg:items-center">
-		<p class="mt-2 content-center text-sm italic leading-tight lg:mt-0 lg:h-20 lg:text-center">
+		<p class="mt-2 content-center text-sm leading-tight italic lg:mt-0 lg:h-20 lg:text-center">
 			{review.text}
 		</p>
 		<div class="mt-3 flex -translate-x-10 items-center space-x-2 lg:translate-x-0">
@@ -204,9 +204,7 @@
 				: ``}"
 		>
 			<svg
-				class="h-4 shrink-0 {openQestionId == question.id
-					? `fill-orange-500`
-					: `fill-stone-200`}"
+				class="h-4 shrink-0 {openQestionId == question.id ? `fill-orange-500` : `fill-stone-200`}"
 				viewBox="0 0 16 16"
 				fill="none"
 			>
@@ -219,7 +217,7 @@
 			<span class="text-left">{@html question.question}</span>
 		</div>
 		{#if openQestionId == question.id}
-			<p transition:slide class="ml-8 mt-1 text-left text-sm leading-tight">
+			<p transition:slide class="mt-1 ml-8 text-left text-sm leading-tight">
 				{@html question.answer}
 			</p>
 		{/if}
