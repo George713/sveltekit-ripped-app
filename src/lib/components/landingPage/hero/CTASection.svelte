@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { applyAction, enhance } from '$app/forms';
+	import { enhance } from '$app/forms';
+	import { page } from '$app/state';
 
 	interface Props {
 		scrollToQuestionId: (id: number) => void;
@@ -57,6 +58,8 @@
 			</button>
 		</div>
 	</div>
+	<!-- Hidden Input for origin -->
+	<input type="hidden" name="origin" value={page.url.searchParams.get('origin')} />
 </form>
 
 {#if successModalOpen}

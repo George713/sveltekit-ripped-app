@@ -206,8 +206,10 @@ model CollectedItem {
 }
 
 model Waitlist {
-  id        Int     @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   firstName String
   email     String
   betaPlus  Boolean
+  origin    String
+  createdAt DateTime @default(now())
 }
