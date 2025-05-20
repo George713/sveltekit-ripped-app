@@ -27,7 +27,7 @@
 	<!-- Input fields -->
 	<div class="flex space-x-2">
 		<input
-			class="h-9 w-40 grow rounded-sm border border-stone-400 bg-transparent px-3 placeholder-stone-400"
+			class="h-9 w-40 grow appearance-none rounded-sm border border-stone-400 bg-transparent px-3 placeholder-stone-400 focus:border-4 focus:border-double focus:border-indigo-600 focus:outline-hidden"
 			name="firstName"
 			type="text"
 			placeholder="First Name"
@@ -36,7 +36,7 @@
 			required
 		/>
 		<input
-			class="h-9 w-40 grow rounded-sm border border-stone-400 bg-transparent px-3 placeholder-stone-400"
+			class="h-9 w-40 grow appearance-none rounded-sm border border-stone-400 bg-transparent px-3 placeholder-stone-400 focus:border-4 focus:border-double focus:border-indigo-600 focus:outline-hidden"
 			name="email"
 			type="email"
 			placeholder="Email"
