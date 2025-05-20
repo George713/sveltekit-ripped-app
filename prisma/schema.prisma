@@ -204,3 +204,10 @@ model CollectedItem {
 
   @@unique([userId, collectibleId])
 }
+
+model Waitlist {
+  id        Int     @id @default(autoincrement())
+  firstName String
+  email     String
+  betaPlus  Boolean
+}

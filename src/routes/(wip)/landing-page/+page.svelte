@@ -15,6 +15,14 @@
 
 	let openQestionId = $state(0);
 
+	const scrollToQuestionId = (id: number) => {
+		const element = document.getElementById(id.toString());
+		openQestionId = id;
+		if (element) {
+			element.scrollIntoView({ behavior: 'smooth' });
+		}
+	};
+
 	// Benefits
 	interface Benefit {
 		img: string;
@@ -123,7 +131,7 @@
 		<div class="flex flex-col">
 			<Headline classAddons="lg:mb-7 mb-4" />
 			<SubHeadline classAddons=" lg:mb-20 mb-4" />
-			<CTASection classAddons="lg:mb-5 mb-3 w-full" />
+			<CTASection {scrollToQuestionId} classAddons="lg:mb-5 mb-3 w-full" />
 			<SocialProof />
 		</div>
 	</div>
@@ -197,6 +205,7 @@
 			openQestionId = openQestionId == question.id ? 0 : question.id;
 		}}
 		class="my-1 cursor-pointer"
+		id={question.id.toString()}
 	>
 		<div
 			class="flex items-center space-x-4 text-sm font-semibold {openQestionId == question.id
@@ -241,7 +250,7 @@
 	<div class="mx-[calc(10%)] flex items-center justify-center lg:justify-start">
 		<div class="flex flex-col">
 			<DirectCTA classAddons="lg:mb-5 mb-7 mt-10" />
-			<CTASection classAddons="mb-10 mx-auto" />
+			<CTASection {scrollToQuestionId} classAddons="mb-10 mx-auto" />
 		</div>
 	</div>
 </div>
