@@ -57,20 +57,23 @@
 
 	const review1: Review = {
 		img: JaneDow,
-		text: '“The Duolingo equivalent of nutrition apps.”',
-		reviewerName: 'Jane Dow'
+		// text: '“The Duolingo equivalent of nutrition apps.”',
+		text: '“Found out my ‘healthy’ smoothie was 500 calories. This app is the reason I cry in the grocery store. Now I just eat the sadness. And celery.”',
+		reviewerName: 'Jane Dow (Placeholder)'
 	};
 
 	const review2: Review = {
 		img: JaneDow,
-		text: '“This app is already great, but I know it will get even better thanks to the founder.”',
-		reviewerName: 'Jane Dow'
+		// text: '“This app is already great, but I know it will get even better thanks to the founder.”',
+		text: '“Gosh, I write better reviews than this!”',
+		reviewerName: 'Jane Dow (Placeholder)'
 	};
 
 	const review3: Review = {
 		img: JaneDow,
-		text: '“Other dieting apps have always been a chore for me, but this one is so much fun!”',
-		reviewerName: 'Jane Dow'
+		// text: '“Other dieting apps have always been a chore for me, but this one is so much fun!”',
+		text: '“The app gently reminds me to be considered about what I put into my body. Gracias for not being a passive-aggressive owl.”',
+		reviewerName: 'Jane Dow (Placeholder)'
 	};
 
 	// FAQ
@@ -177,7 +180,7 @@
 		</p>
 		<div class="mt-3 flex -translate-x-10 items-center space-x-2 lg:translate-x-0">
 			<img class="w-8 lg:w-10" src={review.img} alt="Review" />
-			<div class="flex flex-col">
+			<div class="flex flex-col items-start">
 				<p class="text-xs font-medium lg:text-sm">{review.reviewerName}</p>
 				<img class="h-2.5 lg:h-3" src={Stars} alt="Stars" />
 			</div>
