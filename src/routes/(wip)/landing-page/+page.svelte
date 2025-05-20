@@ -196,7 +196,7 @@
 		onclick={() => {
 			openQestionId = openQestionId == question.id ? 0 : question.id;
 		}}
-		class="my-1"
+		class="my-1 cursor-pointer"
 	>
 		<div
 			class="flex items-center space-x-4 text-sm font-semibold {openQestionId == question.id

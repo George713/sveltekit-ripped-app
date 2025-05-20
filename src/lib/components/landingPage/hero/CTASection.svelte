@@ -21,7 +21,9 @@
 		/>
 	</div>
 	<!-- CTA button -->
-	<button class="mt-2 h-9 rounded-sm bg-indigo-600 font-medium">Put me on Waitlist for Beta</button>
+	<button class="mt-2 h-9 cursor-pointer rounded-sm bg-indigo-600 font-medium">
+		Put me on Waitlist for Beta
+	</button>
 	<!-- Assurance -->
 	<p class="mt-0.5 text-center text-[9px] text-stone-400">
 		We’ll never share your info with anyone.
