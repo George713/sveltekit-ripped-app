@@ -229,7 +229,7 @@
 	<!-- Section Title -->
 	<h2 class="text-xl font-medium">Frequently Asked Questions</h2>
 	<!-- Questions -->
-	<div class="mt-10 flex w-5/6 flex-col space-y-2.5 bg-red-500/0 lg:w-2/5">
+	<div class="mt-10 flex w-5/6 flex-col space-y-2.5 bg-red-500/0 lg:w-3/10">
 		{#each questions as question}
 			{@render quest(question)}
 		{/each}
