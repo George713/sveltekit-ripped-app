@@ -13,6 +13,6 @@
 		/>
 	</svg>
 	<span>42</span>
-	<span class="ml-6 mr-1 text-[9px]">Featured on</span>
+	<span class="mr-1 ml-6 flex items-center text-[9px]">Featured on</span>
 	<img class="h-5 -translate-y-0.5 lg:translate-y-0" src={Banner} alt="Reddit Banner" />
 </div>
