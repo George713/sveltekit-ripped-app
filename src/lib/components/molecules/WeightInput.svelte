@@ -45,14 +45,18 @@
 					await applyAction(result);
 					visibilityManager.toggleWeightOverlay();
 					audioWeighIn.element?.play();
-					if (page.data.user.reviewToday) {
-						goto('/review?allowUpdate=true');
+					animationManager.weighInPowerline = true;
+					if (page.data.user.streakMeter > 0) {
+						if (page.data.user.reviewToday) {
+							goto('/review?allowUpdate=true');
+						} else {
+							goto('/review');
+						}
 					} else {
-						goto('/review');
+						animationManager.animateNow();
 					}
 					page.data.user.streakMeter += 1;
 					page.data.dailyProgress.weighIn = true;
-					animationManager.weighInPowerline = true;
 				}
 			};
 		}}

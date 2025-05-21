@@ -78,77 +78,79 @@
 	});
 </script>
 
-<div class="absolute">
-	<!-- Calories -->
-	<Base
-		svgInfo={calories}
-		glowStrength={page.data.dailyProgress.vaultOpened || calorieManager.inRange ? 1 : 0}
-		animate={animationManager.caloriePowerline}
-		translate={[9, 34]}
-	/>
-	<!-- Protein -->
-	<Base
-		svgInfo={protein}
-		glowStrength={proteinManager.eatenPct}
-		animate={animationManager.proteinPowerline}
-		translate={[-52, 50]}
-	/>
-	<!-- PowerUps -->
-	<Base
-		svgInfo={powerUps}
-		glowStrength={page.data.user.streakMeter / 5}
-		animate={animationManager.weighInPowerline}
-		translate={[-134, 79]}
-		rotate={90}
-	/>
-	<!-- Bodyfat -->
-	<Base
-		svgInfo={bodyfat}
-		glowStrength={page.data.dailyProgress.bodyfat ? 1 : 0}
-		animate={animationManager.bodyfatPowerline}
-		translate={[77, 79]}
-		rotate={270}
-		hidden={!page.data.user.enterBodyfatToday && !page.data.dailyProgress.bodyfat}
-	/>
-	<!-- Review -->
-	<Base
-		svgInfo={singleBent}
-		glowStrength={page.data.dailyProgress.review ? 1 : 0}
-		animate={animationManager.reviewPowerline}
-		translate={[15, 194]}
-		hidden={!page.data.user.reviewToday}
-	/>
-	<!-- Photo -->
-	<Base
-		svgInfo={singleBent}
-		glowStrength={page.data.dailyProgress.progressPic ? 1 : 0}
-		animate={animationManager.progressPicPowerline}
-		vflip={true}
-		translate={[15, -304]}
-		hidden={page.data.schedule.nextProgressPic.remainingDays > 0}
-	/>
-	<!-- Weigh -->
-	<Base
-		svgInfo={doubleBent}
-		glowStrength={page.data.dailyProgress.weighIn ? 1 : 0}
-		animate={animationManager.weighInPowerline}
-		translate={[-103, 184]}
-		scale={1.04}
-	/>
-	<!-- Plan -->
-	<Base
-		svgInfo={plan}
-		glowStrength={page.data.dailyProgress.planned ? 1 : 0}
-		animate={animationManager.planPowerline}
-		translate={[-52, 145]}
-	/>
-	<!-- Eat -->
-	<Base
-		svgInfo={doubleBent}
-		glowStrength={calorieManager.eatenPct}
-		animate={animationManager.eatPowerline}
-		hflip={true}
-		translate={[-2, 184]}
-		scale={1.04}
-	/>
-</div>
+{#key animationManager.immediateAnimation}
+	<div class="absolute">
+		<!-- Calories -->
+		<Base
+			svgInfo={calories}
+			glowStrength={page.data.dailyProgress.vaultOpened || calorieManager.inRange ? 1 : 0}
+			animate={animationManager.caloriePowerline}
+			translate={[9, 34]}
+		/>
+		<!-- Protein -->
+		<Base
+			svgInfo={protein}
+			glowStrength={proteinManager.eatenPct}
+			animate={animationManager.proteinPowerline}
+			translate={[-52, 50]}
+		/>
+		<!-- PowerUps -->
+		<Base
+			svgInfo={powerUps}
+			glowStrength={page.data.user.streakMeter / 5}
+			animate={animationManager.weighInPowerline}
+			translate={[-134, 79]}
+			rotate={90}
+		/>
+		<!-- Bodyfat -->
+		<Base
+			svgInfo={bodyfat}
+			glowStrength={page.data.dailyProgress.bodyfat ? 1 : 0}
+			animate={animationManager.bodyfatPowerline}
+			translate={[77, 79]}
+			rotate={270}
+			hidden={!page.data.user.enterBodyfatToday && !page.data.dailyProgress.bodyfat}
+		/>
+		<!-- Review -->
+		<Base
+			svgInfo={singleBent}
+			glowStrength={page.data.dailyProgress.review ? 1 : 0}
+			animate={animationManager.reviewPowerline}
+			translate={[15, 194]}
+			hidden={!page.data.user.reviewToday}
+		/>
+		<!-- Photo -->
+		<Base
+			svgInfo={singleBent}
+			glowStrength={page.data.dailyProgress.progressPic ? 1 : 0}
+			animate={animationManager.progressPicPowerline}
+			vflip={true}
+			translate={[15, -304]}
+			hidden={page.data.schedule.nextProgressPic.remainingDays > 0}
+		/>
+		<!-- Weigh -->
+		<Base
+			svgInfo={doubleBent}
+			glowStrength={page.data.dailyProgress.weighIn ? 1 : 0}
+			animate={animationManager.weighInPowerline}
+			translate={[-103, 184]}
+			scale={1.04}
+		/>
+		<!-- Plan -->
+		<Base
+			svgInfo={plan}
+			glowStrength={page.data.dailyProgress.planned ? 1 : 0}
+			animate={animationManager.planPowerline}
+			translate={[-52, 145]}
+		/>
+		<!-- Eat -->
+		<Base
+			svgInfo={doubleBent}
+			glowStrength={calorieManager.eatenPct}
+			animate={animationManager.eatPowerline}
+			hflip={true}
+			translate={[-2, 184]}
+			scale={1.04}
+		/>
+	</div>
+{/key}
