@@ -12,7 +12,6 @@
 		strokeWidth: number;
 		glowColor: 'blue' | 'yellow';
 		glowLineColor?: string;
-		opacity?: number;
 	}
 
 	interface Props {
@@ -63,7 +62,6 @@
 	fill="none"
 	class={{
 		'absolute overflow-visible': true,
-		[`opacity-${svgInfo.opacity}`]: svgInfo.opacity !== undefined,
 		hidden: hidden
 	}}
 	style="transform: {vflip ? `scaleY(-1)` : ``} {hflip

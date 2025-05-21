@@ -14,7 +14,6 @@
 		strokeWidth: number;
 		glowColor: 'blue' | 'yellow';
 		glowLineColor?: string;
-		opacity?: number;
 	}
 
 	let calories: SvgInfo = {
@@ -39,8 +38,7 @@
 		height: 148,
 		path: 'M 25,124 V 70',
 		strokeWidth: 1.5,
-		glowColor: 'blue',
-		opacity: page.data.user.streakMeter * 20
+		glowColor: 'blue'
 	};
 
 	let bodyfat: SvgInfo = {
