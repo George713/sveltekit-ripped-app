@@ -129,22 +129,6 @@ export const getCurrentCrestLevel = (bodyfatPercentage: number, isMale: boolean)
     return "tbd";
 }
 
-export const calculateBasePoints = (currentStatus: string) => {
-    if (currentStatus === 'wood') {
-        return 20;
-    } else if (currentStatus === 'bronze') {
-        return 35;
-    } else if (currentStatus === 'silver') {
-        return 60;
-    } else if (currentStatus === 'gold') {
-        return 100;
-    } else if (currentStatus === 'platinum') {
-        return 200;
-    } else {
-        return 0;
-    }
-};
-
 export const getScheduledEvent = (
     type: string,
     name: string,
