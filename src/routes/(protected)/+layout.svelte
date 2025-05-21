@@ -10,6 +10,7 @@
 		foodSetManager,
 		plannedItemManager,
 		proteinManager,
+		streakManager,
 		visibilityManager,
 		xpManager
 	} from '$lib/stateManagers.svelte.js';
@@ -77,6 +78,7 @@
 		xpManager.vaultXP = page.data.dailyProgress.vaultXP;
 		calorieManager.target = page.data.dailyProgress.targetCalories;
 		proteinManager.target = page.data.dailyProgress.targetProtein;
+		streakManager.streak = page.data.user.streakMeter;
 
 		updateTimeZone();
 	});

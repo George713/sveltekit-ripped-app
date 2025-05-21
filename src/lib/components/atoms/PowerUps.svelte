@@ -1,7 +1,5 @@
 <script lang="ts">
-	import { page } from '$app/state';
-
-	let streakMeter = $derived(page.data.user.streakMeter);
+	import { streakManager } from '$lib/stateManagers.svelte';
 
 	// Path of Hex Icon
 	let path =
@@ -49,9 +47,9 @@
 	xmlns="http://www.w3.org/2000/svg"
 >
 	<!-- Note: Reverse order for correct glow overlap -->
-	{@render hexSymbol(0, -41, streakMeter >= 5)}
-	{@render hexSymbol(-13, -20.5, streakMeter >= 4)}
-	{@render hexSymbol(26, -41, streakMeter >= 3)}
-	{@render hexSymbol(13, -20.5, streakMeter >= 2)}
-	{@render hexSymbol(0, 0, streakMeter >= 1)}
+	{@render hexSymbol(0, -41, streakManager.streak >= 5)}
+	{@render hexSymbol(-13, -20.5, streakManager.streak >= 4)}
+	{@render hexSymbol(26, -41, streakManager.streak >= 3)}
+	{@render hexSymbol(13, -20.5, streakManager.streak >= 2)}
+	{@render hexSymbol(0, 0, streakManager.streak >= 1)}
 </svg>

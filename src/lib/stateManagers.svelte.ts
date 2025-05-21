@@ -506,8 +506,6 @@ class AnimationManager {
     reviewPowerline = $state(false);
     bodyfatPowerline = $state(false);
 
-    immediateAnimation = $state(0) // used with key blocks
-
     reset = () => {
         this.weighInPowerline = false;
         this.planPowerline = false;
@@ -518,12 +516,11 @@ class AnimationManager {
         this.reviewPowerline = false;
         this.bodyfatPowerline = false;
     }
-
-    animateNow = () => {
-        this.immediateAnimation += 1;
-        setTimeout(() => {
-            this.reset();
-        }, 5000);
-    }
 }
 export const animationManager = new AnimationManager();
+
+
+class StreakManager {
+    streak = $state(0);
+}
+export const streakManager = new StreakManager();

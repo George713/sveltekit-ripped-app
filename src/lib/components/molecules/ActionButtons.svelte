@@ -3,7 +3,7 @@
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	// Logic
-	import { visibilityManager, calorieManager } from '$lib/stateManagers.svelte';
+	import { streakManager, visibilityManager, calorieManager } from '$lib/stateManagers.svelte';
 	// Atoms
 	import ActionButton from '$atoms/ActionButton.svelte';
 </script>

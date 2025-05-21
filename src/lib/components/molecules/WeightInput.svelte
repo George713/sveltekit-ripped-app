@@ -5,7 +5,12 @@
 	import { page } from '$app/state';
 	import { getContext } from 'svelte';
 	// Logic
-	import { animationManager, toastManager, visibilityManager } from '$lib/stateManagers.svelte';
+	import {
+		animationManager,
+		streakManager,
+		toastManager,
+		visibilityManager
+	} from '$lib/stateManagers.svelte';
 	import { getDisplayWeight, getWeightUnit } from '$lib/utils/units';
 	// Atoms
 	import Button from '$atoms/Button.svelte';
@@ -45,17 +50,13 @@
 					await applyAction(result);
 					visibilityManager.toggleWeightOverlay();
 					audioWeighIn.element?.play();
-					animationManager.weighInPowerline = true;
-					if (page.data.user.streakMeter > 0) {
-						if (page.data.user.reviewToday) {
-							goto('/review?allowUpdate=true');
-						} else {
-							goto('/review');
-						}
+					if (page.data.user.reviewToday) {
+						await goto('/review?allowUpdate=true');
 					} else {
-						animationManager.animateNow();
+						await goto('/review');
 					}
-					page.data.user.streakMeter += 1;
+					animationManager.weighInPowerline = true;
+					streakManager.streak += 1;
 					page.data.dailyProgress.weighIn = true;
 				}
 			};
