@@ -8,10 +8,10 @@ import jwt from 'jsonwebtoken'
 import { prisma } from '$lib/prismaClient.server'
 import {
 	getDateDayBegin,
-	getCurrentCrestLevel,
 	actionIsOlderThanXdays,
 	getScheduledEvent,
 } from '$lib/utils.svelte'
+import { getCurrentCrestLevel } from '$lib/utils/rankSystem'
 
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
 import { JWT_SECRET } from '$env/static/private';

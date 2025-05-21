@@ -10,16 +10,11 @@
 	import Sigil from '$atoms/Sigil.svelte';
 	import Envelope from '$icons/Envelope.svelte';
 	import { toastManager } from '$lib/stateManagers.svelte';
-	import { RANK_DICT } from '$lib/utils/rankSystem.ts';
+	import { RANK_DICT, type Rank, isValidRank } from '$lib/utils/rankSystem.ts';
 
-	type RankType = 'tbd' | 'wood' | 'bronze' | 'silver' | 'gold' | 'platinum';
-
-	const isValidRank = (rank: string): rank is RankType => {
-		return ['tbd', 'wood', 'bronze', 'silver', 'gold', 'platinum'].includes(rank);
-	};
 	const isEstimation = page.url.searchParams.get('estimation') === 'true';
 	const rawPreviousRank = page.url.searchParams.get('previousRank') || 'wood';
-	const previousRank: RankType = isValidRank(rawPreviousRank) ? rawPreviousRank : 'wood';
+	const previousRank: Rank = isValidRank(rawPreviousRank) ? rawPreviousRank : 'wood';
 	const newRank = page.data.user.currentStatus;
 	const rankChanged = previousRank !== newRank;
 	const rankImproved =
@@ -132,7 +127,7 @@
 	</div>
 {/if}
 
-{#snippet rankInfo(rank: RankType, range: string)}
+{#snippet rankInfo(rank: Rank, range: string)}
 	<div class="flex w-full items-center justify-center px-8">
 		<div class="flex w-1/3 justify-center">
 			<Sigil {rank} size="small" />
@@ -223,7 +218,7 @@
 >
 	{#each Object.entries(RANK_DICT) as [rankName, rankData] (rankName)}
 		{@render rankInfo(
-			rankName as RankType,
+			rankName as Rank,
 			rankData.range[page.data.user.isMale ? 'male' : 'female'].label
 		)}
 	{/each}
