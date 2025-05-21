@@ -14,6 +14,18 @@ export const actions: Actions = {
                     calories
                 }
             }),
+            prisma.dailyProgress.update({
+                where: {
+                    userId_createdAt: {
+                        userId: locals.user.id,
+                        createdAt: locals.dailyProgress.createdAt
+                    }
+                },
+                data: {
+                    targetCalories: calories,
+                    review: true
+                }
+            }),
             prisma.user.update({
                 where: {
                     id: locals.user.id
