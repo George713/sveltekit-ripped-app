@@ -15,5 +15,6 @@
 	{placeholder}
 	{id}
 	{name}
+	spellcheck="false"
 	required
 />
