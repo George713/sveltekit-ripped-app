@@ -10,6 +10,7 @@
 	import Sigil from '$atoms/Sigil.svelte';
 	import Envelope from '$icons/Envelope.svelte';
 	import { toastManager } from '$lib/stateManagers.svelte';
+	import { RANK_DICT } from '$lib/utils/rankSystem.ts';
 
 	type RankType = 'tbd' | 'wood' | 'bronze' | 'silver' | 'gold' | 'platinum';
 
@@ -220,11 +221,12 @@
 <div
 	class="flex grow -translate-x-[2%] flex-col items-center space-y-2 text-xl text-white opacity-70"
 >
-	{@render rankInfo('wood', '>20%')}
-	{@render rankInfo('bronze', '15-20%')}
-	{@render rankInfo('silver', '12-15%')}
-	{@render rankInfo('gold', '10-12%')}
-	{@render rankInfo('platinum', '<10%')}
+	{#each Object.entries(RANK_DICT) as [rankName, rankData] (rankName)}
+		{@render rankInfo(
+			rankName as RankType,
+			rankData.range[page.data.user.isMale ? 'male' : 'female'].label
+		)}
+	{/each}
 </div>
 
 <div class="mb-1.5 flex w-full justify-center">
