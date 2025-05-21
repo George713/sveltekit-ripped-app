@@ -214,8 +214,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 			const newDailyProgress = await prisma.dailyProgress.create({
 				data: {
 					userId: user.id,
-					targetCalories: user.calorieTargets[0].calories,
-					targetProtein: Math.round(user.weights[0].weight * 1.6)
+					targetCalories: user.calorieTargets?.[0]?.calories || 2000,
+					targetProtein: Math.round(user.weights?.[0]?.weight * 1.6) || 100
 				}
 			});
 			user.dailyProgress.push(newDailyProgress);
