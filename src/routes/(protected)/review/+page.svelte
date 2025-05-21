@@ -80,10 +80,18 @@
 		twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
 		return weights.filter((weight) => weight[0] >= twoWeeksAgo).length;
 	});
-	const trend14days = $derived(
-		trendWeight[trendWeight.length - 1][1] - trendWeight[trendWeight.length - 15][1]
-	);
-	const rateOfLoss = $derived(-trend14days / trendWeight[trendWeight.length - 15][1]);
+	const trend14days = $derived.by(() => {
+		if (trendWeight.length < 15) {
+			return trendWeight[trendWeight.length - 1][1] - trendWeight[0][1];
+		}
+		return trendWeight[trendWeight.length - 1][1] - trendWeight[trendWeight.length - 15][1];
+	});
+	const rateOfLoss = $derived.by(() => {
+		if (trendWeight.length < 15) {
+			return -trend14days / trendWeight[0][1];
+		}
+		return -trend14days / trendWeight[trendWeight.length - 15][1];
+	});
 	const category = $derived.by(() => {
 		// rateOfLoss is the change in weight as a percentage of the weight 14 days ago
 		// Category ranges are as follows:
@@ -111,7 +119,7 @@
 			return `Next adjustment option for calorie&nbsp;target on Sunday.`; // Using &nbsp; between words prevents linebreak.
 		} else {
 			if (measurements14days < 3) {
-				return "We don't have enough data to make a recommendation yet. Keep tracking your weight a little bit more often.";
+				return 'Keep tracking your weight. Once enough data points are available, we can make a recommendation.';
 			} else {
 				if (category === 'gain') {
 					return "If you stuck to your diet, it's time to tinker with your intake.";
