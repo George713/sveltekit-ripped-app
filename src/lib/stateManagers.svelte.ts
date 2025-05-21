@@ -1,4 +1,13 @@
-import type { DailySelectionItem, EstimatedItem, FoodItem, FoodSet, PlannedItem, RecordedItem, Toast } from '$lib/types'
+import type {
+    DailySelectionItem,
+    EstimatedItem,
+    FoodItem,
+    FoodSet,
+    PlannedItem,
+    RecordedItem,
+    Toast
+} from '$lib/types'
+import { BASE_XP, MAX_XP, XP_TABLE } from '$lib/utils/levelSystem';
 
 // Visibility states
 class VisibilityManager {
@@ -51,23 +60,6 @@ export const toastManager = new ToastManager();
 
 
 // Manager for XP and level
-// Base XP for eating target kcal of one day
-const BASE_XP = 250;
-// XP levels configuration - define your table here (easy to update)
-const XP_TABLE = [
-    { level: 1, requiredXP: 15, totalXP: 15 },
-    { level: 2, requiredXP: 50, totalXP: 65 },
-    { level: 3, requiredXP: 100, totalXP: 165 },
-    { level: 4, requiredXP: 200, totalXP: 365 },
-    { level: 5, requiredXP: 350, totalXP: 715 },
-    { level: 6, requiredXP: 600, totalXP: 1315 },
-    { level: 7, requiredXP: 950, totalXP: 2265 },
-    { level: 8, requiredXP: 1400, totalXP: 3665 },
-    { level: 9, requiredXP: 2000, totalXP: 5665 },
-    { level: 10, requiredXP: 0, totalXP: 0 }
-];
-const MAX_XP = XP_TABLE[XP_TABLE.length - 2].totalXP;
-
 class XPManager {
     // XP gain explained:
     // Several actions yield XP. A small amount it awared directly, a larger amount is stored in the vault.
