@@ -15,7 +15,6 @@
 
 	let { calculatedCalories = $bindable(), onSubmit }: Props = $props();
 
-	let isMale = $state(page.data.user.isMale);
 	let weight = $state<number | undefined>(undefined); // is always in kg
 	let height = $state<number | undefined>(undefined);
 	let age = $state<number | undefined>(undefined);
@@ -25,7 +24,7 @@
 	const calculateCalories = () => {
 		// Calculate BRM (Base Metabolic Rate) with Mifflin-St Jeor Equation
 		let bmr: number;
-		if (isMale) {
+		if (page.data.user.isMale) {
 			bmr = 10 * weight! + 6.25 * height! - 5 * age! + 5;
 		} else {
 			bmr = 10 * weight! + 6.25 * height! - 5 * age! - 161;
@@ -63,7 +62,7 @@
 {/snippet}
 
 <div class="flex grow flex-col items-center justify-center space-y-5">
-	<GenderSwitch bind:isMale />
+	<GenderSwitch />
 	<div
 		class={{
 			'flex w-full flex-col items-center justify-center space-y-2 transition-opacity': true,
