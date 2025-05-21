@@ -82,6 +82,10 @@
 		const min = Math.floor(Math.min(meanWeight - meanAdjustment, minScaleWeight, minTrendWeight));
 		const max = Math.ceil(Math.max(meanWeight + meanAdjustment, maxScaleWeight, maxTrendWeight));
 
+		const xAxisMaxDate = new Date();
+		const xAxisMinDate = new Date();
+		xAxisMinDate.setDate(xAxisMaxDate.getDate() - periodInDays);
+
 		const option = {
 			grid: {
 				left: 45,
@@ -91,6 +95,8 @@
 			},
 			xAxis: {
 				type: 'time',
+				min: xAxisMinDate.toISOString(),
+				max: xAxisMaxDate.toISOString(),
 				axisLine: {
 					show: false
 				},

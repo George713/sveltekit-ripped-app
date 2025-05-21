@@ -25,6 +25,39 @@
 		return data.weights.map((weight) => [weight.createdAt as Date, weight.weight as number]);
 	});
 
+	// Graph range to display in days. This is based on the first weight and the current date.
+	const periodInDays = $derived.by(() => {
+		if (weights.length === 0) {
+			return 7; // Default period if there are no weights
+		}
+		const firstDate = weights[0][0];
+		const todayDate = new Date();
+		const oneDayMs = 24 * 60 * 60 * 1000;
+		// Ensure dates are at the start of their respective days for accurate day difference
+		const firstDateStartOfDay = new Date(
+			firstDate.getFullYear(),
+			firstDate.getMonth(),
+			firstDate.getDate()
+		);
+		const todayStartOfDay = new Date(
+			todayDate.getFullYear(),
+			todayDate.getMonth(),
+			todayDate.getDate()
+		);
+
+		const daysAgo = Math.round(
+			(todayStartOfDay.getTime() - firstDateStartOfDay.getTime()) / oneDayMs
+		);
+
+		if (daysAgo <= 7) {
+			return 7;
+		} else if (daysAgo <= 14) {
+			return 14;
+		} else {
+			return 30;
+		}
+	});
+
 	const interpolatedWeights = $derived.by(() => {
 		const interpolated: [Date, number][] = [];
 
@@ -204,7 +237,7 @@
 {/snippet}
 
 <div class="mt-5 flex h-full w-full flex-col items-center space-y-3.5 px-2">
-	<WeightChart scaleWeight={weights} {trendWeight} periodInDays={30} />
+	<WeightChart scaleWeight={weights} {trendWeight} {periodInDays} />
 	<ReviewInfo {trend14days} twoWeekData={data.twoWeekData} />
 	<div class="my-auto flex flex-col space-y-4">
 		<p class="px-10 text-center font-medium text-stone-200">{@html reviewText}</p>
