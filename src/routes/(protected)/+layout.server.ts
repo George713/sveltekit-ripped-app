@@ -64,6 +64,7 @@ export const load: LayoutServerLoad = async ({ url, locals, depends }) => {
 	// Get eating estimate for the current day
 	const estimatedItems = (await prisma.eatEstimate.findMany({
 		where: {
+			userId: locals.user.id,
 			createdAt: { gte: dateDayBegin }
 		},
 	})).map(item => ({
