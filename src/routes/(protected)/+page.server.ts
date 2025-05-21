@@ -60,7 +60,8 @@ const logWeight: Action = async ({ locals, request }) => {
                 }
             },
             data: {
-                weighIn: true
+                weighIn: true,
+                targetProtein: Math.round(weightInKg * 1.6)
             }
         });
     });
