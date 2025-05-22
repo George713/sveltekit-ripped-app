@@ -8,6 +8,7 @@ import type {
     Toast
 } from '$lib/types'
 import { BASE_XP, MAX_XP, XP_TABLE } from '$lib/utils/levelSystem';
+import { LocalStorage } from '$lib/utils/storage.svelte.ts';
 
 // Visibility states
 class VisibilityManager {
@@ -516,3 +517,30 @@ class StreakManager {
     streak = $state(0);
 }
 export const streakManager = new StreakManager();
+
+
+// --- Type for persisted last visit data ---
+type PersistedLastVisitData = {
+    timestamp: number | null; // Store as Unix timestamp (milliseconds)
+};
+// --- Manager for Last Visit Timestamp ---
+class LastVisitManager {
+    private static readonly initialData: PersistedLastVisitData = {
+        timestamp: null
+    };
+
+    #persistedData = new LocalStorage<PersistedLastVisitData>(
+        'lastVisitTimestamp', // Unique key for localStorage
+        LastVisitManager.initialData
+    );
+
+    get timestamp(): number | null {
+        return this.#persistedData.current.timestamp;
+    }
+
+    set timestamp(value: number | null) {
+        this.#persistedData.current.timestamp = value;
+    }
+}
+// Export a singleton instance
+export const lastVisitManager = new LastVisitManager();

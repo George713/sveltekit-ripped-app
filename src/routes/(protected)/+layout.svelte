@@ -12,9 +12,10 @@
 		proteinManager,
 		streakManager,
 		visibilityManager,
-		xpManager
-	} from '$lib/stateManagers.svelte.js';
-	import { getDateDayBegin } from '$lib/utils.svelte.js';
+		xpManager,
+		lastVisitManager
+	} from '$lib/stateManagers.svelte.ts';
+	import { getDateBeginning, getDateDayBegin } from '$lib/utils.svelte.ts';
 
 	import SpinnerOverlay from '$atoms/SpinnerOverlay.svelte';
 	import PotentialToasts from '$molecules/PotentialToasts.svelte';
@@ -73,12 +74,37 @@
 		foodSetManager.items = data.foodSets;
 	});
 
+	const handleVisibilityChangeAndInitialCheck = () => {
+		if (document.hidden) {
+			// User is leaving the page (tab switch, minimize, etc.)
+			lastVisitManager.timestamp = Date.now();
+		} else {
+			// Page is visible (either returning or initial load)
+			const storedTimestamp = lastVisitManager.timestamp;
+			if (storedTimestamp) {
+				const storedDate = new Date(storedTimestamp);
+				const storedDateDayBegin = getDateBeginning(page.data.user.timeZoneOffset, storedDate);
+				if (storedDateDayBegin < dateDayBegin) {
+					location.reload();
+				}
+			}
+		}
+	};
+
 	onMount(() => {
-		xpManager.totalXP = page.data.user.totalXP;
-		xpManager.vaultXP = page.data.dailyProgress.vaultXP;
-		calorieManager.target = page.data.dailyProgress.targetCalories;
-		proteinManager.target = page.data.dailyProgress.targetProtein;
-		streakManager.streak = page.data.user.streakMeter;
+		// Perform the check immediately when the component mounts if the page is visible
+		if (!document.hidden) {
+			handleVisibilityChangeAndInitialCheck();
+		}
+		document.onvisibilitychange = () => handleVisibilityChangeAndInitialCheck();
+
+		// It's important this runs *after* the new day check might have triggered a reload.
+		xpManager.totalXP = data.user.totalXP;
+		xpManager.vaultXP = data.dailyProgress.vaultXP;
+
+		calorieManager.target = data.dailyProgress.targetCalories;
+		proteinManager.target = data.dailyProgress.targetProtein;
+		streakManager.streak = data.user.streakMeter;
 
 		updateTimeZone();
 	});
