@@ -85,7 +85,7 @@
 				const storedDate = new Date(storedTimestamp);
 				const storedDateDayBegin = getDateBeginning(page.data.user.timeZoneOffset, storedDate);
 				if (storedDateDayBegin < dateDayBegin) {
-					location.reload();
+					// location.reload();
 				}
 			}
 		}
@@ -111,6 +111,24 @@
 </script>
 
 <!-- TODO: Remove the wrapper class once all pages can live without it. -->
+<div class="fixed top-0 flex w-full justify-between">
+	<p class="text-white">
+		Last Visit: {lastVisitManager.timestamp
+			? new Intl.DateTimeFormat('en-GB', {
+					day: '2-digit',
+					month: '2-digit',
+					year: '2-digit'
+				}).format(new Date(lastVisitManager.timestamp))
+			: 'Never'}
+	</p>
+	<p class="text-white">
+		Current: {new Intl.DateTimeFormat('en-GB', {
+			day: '2-digit',
+			month: '2-digit',
+			year: '2-digit'
+		}).format(new Date(Date.now()))}
+	</p>
+</div>
 <div class="flex h-screen w-screen flex-col">
 	{#if visibilityManager.spinnerOverlay}
 		<SpinnerOverlay />
