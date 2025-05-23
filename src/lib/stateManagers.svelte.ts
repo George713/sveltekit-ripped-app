@@ -97,7 +97,7 @@ class XPManager {
 
     // Private method to update XP in database
     _updateXPInDatabase = async (gainedDirectXP: number, gainedVaultXP: number, openVault: boolean) => {
-        const response = await fetch('/api/updateXP', {
+        const response = await fetch('/app/api/updateXP', {
             method: 'POST',
             body: JSON.stringify({
                 gainedDirectXP,
@@ -239,7 +239,7 @@ export class FoodItemManager {
 export const foodItemManager = new FoodItemManager()
 
 const updateConsumatedInDatabase = async ({ calories, protein }: { calories: number, protein: number }) => {
-    const response = await fetch('/api/updateConsumated', {
+    const response = await fetch('/app/api/updateConsumated', {
         method: 'POST',
         body: JSON.stringify({
             calories,

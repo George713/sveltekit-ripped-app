@@ -18,7 +18,7 @@
 	// Check for successful installation
 	const checkForInstallComplete = () => {
 		if (typeof window !== 'undefined' && (window as any).appInstalled) {
-			goto('/successful-install');
+			goto('/app/successful-install');
 		}
 	};
 

@@ -109,7 +109,7 @@ export class AudioRecorder {
         // console.log('Starting API call to process voice...');
 
         try {
-            const response = await fetch('/api/processVoice', {
+            const response = await fetch('/app/api/processVoice', {
                 method: 'POST',
                 body: formData
             });

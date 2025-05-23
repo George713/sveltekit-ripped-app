@@ -18,7 +18,7 @@
 	<Button
 		text="FoodLib"
 		icon="book"
-		onclick={() => goto(`/foodLib?origin=${currentPath}`)}
+		onclick={() => goto(`/app/foodLib?origin=${currentPath}`)}
 		variant="secondary"
 		classAddons="flex-1"
 	/>

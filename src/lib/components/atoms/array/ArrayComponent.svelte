@@ -39,12 +39,12 @@
 	let selectionManagerType = $derived(selectionManager?.classname);
 
 	const pressHandlerItem = new PressHandler({
-		longPress: (id: string | number) => goto(`/item?origin=${currentPath}&foodId=${id}`),
+		longPress: (id: string | number) => goto(`/app/item?origin=${currentPath}&foodId=${id}`),
 		pressDuration: 1000
 	});
 
 	const pressHandlerSet = new PressHandler({
-		longPress: (id: string | number) => goto(`/set?setId=${id}`),
+		longPress: (id: string | number) => goto(`/app/set?setId=${id}`),
 		pressDuration: 1000
 	});
 </script>
@@ -62,7 +62,7 @@
 			{theme}
 			type="newElement"
 			onclick={() =>
-				goto(itemManagerType === 'FoodSetManager' ? '/set' : `/item?origin=${currentPath}`)}
+				goto(itemManagerType === 'FoodSetManager' ? '/app/set' : `/app/item?origin=${currentPath}`)}
 		/>
 	{/if}
 	{#if itemManagerType === 'FoodItemManager'}
@@ -104,7 +104,7 @@
 						}
 
 						visibilityManager.toggleSpinnerOverlay();
-						goto('/log');
+						goto('/app/log');
 					}
 				}}
 				ontouchstart={() => pressHandlerItem.handleTouchDown(item.id)}

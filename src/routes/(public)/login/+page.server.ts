@@ -3,7 +3,7 @@ import type { Action, Actions, PageServerLoad } from './$types'
 
 export const load: PageServerLoad = async ({ locals }) => {
     if (locals.user) {
-        throw redirect(302, '/')
+        throw redirect(302, '/app')
     }
 }
 
@@ -30,7 +30,7 @@ const login: Action = async ({ request, locals: { supabase } }) => {
         return Fail(error, { email })
 
     /* Login successful, redirect. */
-    redirect(303, '/')
+    redirect(303, '/app')
 }
 
 export const actions: Actions = { login }

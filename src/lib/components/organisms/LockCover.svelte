@@ -147,7 +147,7 @@
 				>
 					<Lock
 						text="Unlock Rank"
-						onclick={() => goto('/unlock/rank')}
+						onclick={() => goto('/app/unlock/rank')}
 						isRotated={startUnlockAnimationRank}
 						isHighlighted={!startUnlockAnimationRank}
 					/>
@@ -174,7 +174,7 @@
 				>
 					<Lock
 						text="Unlock Controls"
-						onclick={() => goto('/unlock/controls')}
+						onclick={() => goto('/app/unlock/controls')}
 						isRotated={startUnlockAnimationControls}
 					/>
 				</div>
@@ -201,7 +201,7 @@
 					<Lock
 						text="Unlock Addons"
 						smallText={true}
-						onclick={() => goto('/unlock/addons')}
+						onclick={() => goto('/app/unlock/addons')}
 						isRotated={startUnlockAnimationAddons}
 					/>
 				</div>

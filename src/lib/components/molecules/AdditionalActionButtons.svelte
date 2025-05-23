@@ -18,7 +18,7 @@
 		icon="insignia"
 		disabled={page.data.dailyProgress.bodyfat}
 		hidden={!page.data.user.enterBodyfatToday && !page.data.dailyProgress.bodyfat}
-		onclick={() => goto('/bodyfat')}
+		onclick={() => goto('/app/bodyfat')}
 	/>
 	<div class="flex flex-col space-y-4">
 		<!-- Review -->
@@ -28,7 +28,7 @@
 			icon="chart"
 			disabled={page.data.dailyProgress.review}
 			hidden={!page.data.user.reviewToday}
-			onclick={() => goto('/review?allowUpdate=true')}
+			onclick={() => goto('/app/review?allowUpdate=true')}
 		/>
 		<!-- Photo -->
 		<ActionButton

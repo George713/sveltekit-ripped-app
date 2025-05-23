@@ -13,7 +13,7 @@ export const uploadProgressPic = async (event: Event, type: 'initial' | 'goofy' 
         formData.append('type', type);
 
         // Get presigned URL
-        const response = await fetch('/api/getPresignedURL', {
+        const response = await fetch('/app/api/getPresignedURL', {
             method: 'POST',
             body: formData
         });

@@ -51,9 +51,9 @@
 					visibilityManager.toggleWeightOverlay();
 					audioWeighIn.element?.play();
 					if (page.data.user.reviewToday) {
-						await goto('/review?allowUpdate=true');
+						await goto('/app/review?allowUpdate=true');
 					} else {
-						await goto('/review');
+						await goto('/app/review');
 					}
 					animationManager.weighInPowerline = true;
 					streakManager.streak += 1;

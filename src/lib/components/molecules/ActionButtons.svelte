@@ -3,7 +3,7 @@
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	// Logic
-	import { streakManager, visibilityManager, calorieManager } from '$lib/stateManagers.svelte';
+	import { visibilityManager, calorieManager } from '$lib/stateManagers.svelte';
 	// Atoms
 	import ActionButton from '$atoms/ActionButton.svelte';
 </script>
@@ -21,7 +21,7 @@
 		icon="book"
 		glowStrength={page.data.dailyProgress.planned ? 1 : 0}
 		disabled={page.data.dailyProgress.planned}
-		onclick={() => goto('/planner')}
+		onclick={() => goto('/app/planner')}
 	/>
 
 	<ActionButton
@@ -29,6 +29,6 @@
 		icon="cutlery"
 		glowStrength={calorieManager.eatenPct}
 		disabled={page.data.dailyProgress.vaultOpened}
-		onclick={() => goto('/log')}
+		onclick={() => goto('/app/log')}
 	/>
 </div>
