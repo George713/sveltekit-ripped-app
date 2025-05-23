@@ -1,7 +1,7 @@
 {
     "name": "Have Your Cookie",
     "short_name": "HYC",
-    "start_url": "/",
+    "start_url": "/app",
     "display": "standalone",
     "background_color": "#17191c",
     "theme_color": "#ff3f20",
