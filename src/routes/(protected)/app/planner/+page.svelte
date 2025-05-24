@@ -47,7 +47,7 @@
 			// TODO: Add xp to xpManager
 
 			// Explicitly invalidate all data dependencies
-			await invalidate('layoutLoad'); // Invalidates the load from `layout.server.ts` specifically
+			await invalidate('app:layoutLoad'); // Invalidates the load from `layout.server.ts` specifically
 
 			// Show powerline animation
 			animationManager.planPowerline = true;

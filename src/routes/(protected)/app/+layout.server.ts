@@ -8,7 +8,7 @@ import { prisma } from '$lib/prismaClient.server';
 
 export const load: LayoutServerLoad = async ({ url, locals, depends }) => {
 	// Register dependencies for invalidation
-	depends('layoutLoad');
+	depends('app:layoutLoad');
 
 	// If user is not logged in, redirect to login
 	if (!locals.user) {
