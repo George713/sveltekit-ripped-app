@@ -124,7 +124,7 @@
 </script>
 
 <!-- Hero -->
-<div class="flex h-dvh w-full flex-col justify-center bg-stone-900 lg:flex-row">
+<div class="flex h-full w-full flex-col justify-center bg-stone-900 lg:flex-row">
 	<!-- Mockup for Mobile/Tablet -->
 	<div class="mt-2 mb-5 flex h-[calc(50%)] justify-center lg:hidden">
 		<img class="" src={Mockup} alt="Mockup Mobile" style="transform: scale(1.2);" />
