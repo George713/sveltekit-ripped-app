@@ -135,7 +135,7 @@
 			day: '2-digit',
 			month: '2-digit',
 			year: '2-digit'
-		}).format(new Date(Date.now()))}
+		}).format(getDateDayBegin(page.data.user.timeZoneOffset))}
 	</p>
 </div>
 <div class="flex h-screen w-screen flex-col">
