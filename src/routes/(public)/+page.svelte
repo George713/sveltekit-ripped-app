@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { slide } from 'svelte/transition';
+	import { onMount, onDestroy } from 'svelte';
 
 	import {
 		CTASection,
@@ -12,8 +13,38 @@
 	import { Benefit1Img, Benefit2Img, Benefit3Img } from '$lib/components/landingPage/benefits';
 	import { JaneDow, Stars } from '$lib/components/landingPage/reviews';
 	import { DirectCTA } from '$lib/components/landingPage/directCTA';
+	import { Banner, CountdownTimer } from '$lib/components/landingPage/beta';
 
 	let openQestionId = $state(0);
+
+	// Countdown logic for +page.svelte
+	const targetDate = new Date(Date.UTC(2025, 5, 2, 18, 0, 0));
+	let showCountdown = $state(new Date().getTime() < targetDate.getTime());
+
+	let intervalIdPage: ReturnType<typeof setInterval> | undefined = undefined;
+
+	function checkCountdownStatus() {
+		if (new Date().getTime() >= targetDate.getTime()) {
+			showCountdown = false;
+			if (intervalIdPage) {
+				clearInterval(intervalIdPage);
+				intervalIdPage = undefined;
+			}
+		}
+	}
+
+	onMount(() => {
+		checkCountdownStatus();
+		if (showCountdown) {
+			intervalIdPage = setInterval(checkCountdownStatus, 1000);
+		}
+	});
+
+	onDestroy(() => {
+		if (intervalIdPage) {
+			clearInterval(intervalIdPage);
+		}
+	});
 
 	const scrollToQuestionId = (id: number) => {
 		const element = document.getElementById(id.toString());
@@ -123,11 +154,18 @@
 	];
 </script>
 
+<Banner text={showCountdown ? 'BETA SOON' : 'BETA LIVE'} />
+
 <!-- Hero -->
-<div class="flex h-full w-full flex-col justify-center bg-stone-900 lg:flex-row">
+<div class="flex h-screen w-full flex-col bg-stone-900 lg:h-full lg:flex-row lg:justify-center">
 	<!-- Mockup for Mobile/Tablet -->
-	<div class="mt-2 mb-5 flex h-[calc(50%)] justify-center lg:hidden">
-		<img class="" src={Mockup} alt="Mockup Mobile" style="transform: scale(1.2);" />
+	<div class="mt-2 mb-5 flex min-h-0 flex-1 justify-center lg:hidden">
+		<img
+			class="max-h-full max-w-full object-contain"
+			src={Mockup}
+			alt="Mockup Mobile"
+			style="transform: scale(1.2);"
+		/>
 	</div>
 	<!-- Hero content without Mockup -->
 	<div class="mx-[calc(10%)] flex items-center justify-center lg:justify-start">
@@ -135,7 +173,11 @@
 			<Headline classAddons="lg:mb-7 mb-4" />
 			<SubHeadline classAddons=" lg:mb-20 mb-4" />
 			<CTASection {scrollToQuestionId} classAddons="lg:mb-5 mb-3 w-full" />
-			<SocialProof />
+			{#if showCountdown}
+				<CountdownTimer classAddons="mb-3 lg:mb-0" />
+			{:else}
+				<SocialProof classAddons="mt-3 lg:mb-0" />
+			{/if}
 		</div>
 	</div>
 	<!-- Mockup Hand for Desktop -->
@@ -254,6 +296,9 @@
 		<div class="flex flex-col">
 			<DirectCTA classAddons="lg:mb-5 mb-7 mt-10" />
 			<CTASection {scrollToQuestionId} classAddons="mb-10 mx-auto" />
+			{#if showCountdown}
+				<CountdownTimer classAddons="-mt-5 mb-3" />
+			{/if}
 		</div>
 	</div>
 </div>
