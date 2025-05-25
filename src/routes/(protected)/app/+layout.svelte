@@ -31,6 +31,7 @@
 	let isRootPath = $derived(page.url.pathname === '/app');
 
 	let dateDayBegin = $state(getDateDayBegin(page.data.user.timeZoneOffset));
+	let storedDateDayBegin = $state(new Date());
 
 	const audioElement = $state({ element: undefined as HTMLAudioElement | undefined });
 	setContext('audioElement', audioElement);
@@ -88,10 +89,9 @@
 			lastVisitManager.timestamp = Date.now();
 		} else {
 			// Page is visible (either returning or initial load)
-			const storedTimestamp = lastVisitManager.timestamp;
-			if (storedTimestamp) {
-				const storedDate = new Date(storedTimestamp);
-				const storedDateDayBegin = getDateBeginning(page.data.user.timeZoneOffset, storedDate);
+			if (lastVisitManager.timestamp) {
+				const storedDate = new Date(lastVisitManager.timestamp);
+				storedDateDayBegin = getDateBeginning(page.data.user.timeZoneOffset, storedDate);
 				dateDayBegin = getDateDayBegin(page.data.user.timeZoneOffset);
 				if (storedDateDayBegin < dateDayBegin) {
 					window.location.reload();
@@ -127,7 +127,7 @@
 					day: '2-digit',
 					month: '2-digit',
 					year: '2-digit'
-				}).format(new Date(lastVisitManager.timestamp))
+				}).format(storedDateDayBegin)
 			: 'Never'}
 	</p>
 	<p class="text-white">
