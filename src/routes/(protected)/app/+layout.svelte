@@ -91,8 +91,8 @@
 			const storedTimestamp = lastVisitManager.timestamp;
 			if (storedTimestamp) {
 				const storedDate = new Date(storedTimestamp);
-				dateDayBegin = getDateDayBegin(page.data.user.timeZoneOffset);
 				const storedDateDayBegin = getDateBeginning(page.data.user.timeZoneOffset, storedDate);
+				dateDayBegin = getDateDayBegin(page.data.user.timeZoneOffset);
 				if (storedDateDayBegin < dateDayBegin) {
 					window.location.reload();
 				}
