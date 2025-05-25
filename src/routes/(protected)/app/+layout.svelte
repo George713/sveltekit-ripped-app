@@ -93,6 +93,7 @@
 				const storedDate = new Date(storedTimestamp);
 				const storedDateDayBegin = getDateBeginning(page.data.user.timeZoneOffset, storedDate);
 				if (storedDateDayBegin < dateDayBegin) {
+					invalidateAll();
 					window.location.reload();
 				}
 			}
