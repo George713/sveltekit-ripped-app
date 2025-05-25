@@ -30,7 +30,7 @@
 	// Check if we're on the root path
 	let isRootPath = $derived(page.url.pathname === '/app');
 
-	const dateDayBegin = getDateDayBegin(page.data.user.timeZoneOffset);
+	let dateDayBegin = $state(getDateDayBegin(page.data.user.timeZoneOffset));
 
 	const audioElement = $state({ element: undefined as HTMLAudioElement | undefined });
 	setContext('audioElement', audioElement);
@@ -91,6 +91,7 @@
 			const storedTimestamp = lastVisitManager.timestamp;
 			if (storedTimestamp) {
 				const storedDate = new Date(storedTimestamp);
+				dateDayBegin = getDateDayBegin(page.data.user.timeZoneOffset);
 				const storedDateDayBegin = getDateBeginning(page.data.user.timeZoneOffset, storedDate);
 				if (storedDateDayBegin < dateDayBegin) {
 					window.location.reload();
