@@ -27,8 +27,6 @@
 
 	let { data, children } = $props();
 
-	let effectRunning = $state(false);
-
 	// Check if we're on the root path
 	let isRootPath = $derived(page.url.pathname === '/app');
 
@@ -91,9 +89,17 @@
 		}
 	};
 
-	// Using Svelte 5 $effect rune for reactivity when data changes, e.g. through invalidation
-	// effect.pre runs before the DOM is updated
-	$effect.pre(() => {
+	onMount(() => {
+		document.addEventListener('visibilitychange', checkNewDay);
+
+		// It's important this runs *after* the new day check might have triggered a reload.
+		xpManager.totalXP = data.user.totalXP;
+		xpManager.vaultXP = data.dailyProgress.vaultXP;
+
+		calorieManager.target = data.dailyProgress.targetCalories;
+		proteinManager.target = data.dailyProgress.targetProtein;
+		streakManager.streak = data.user.streakMeter;
+
 		// This sorting shows the most used items first when viewed in foodLibrary
 		foodItemManager.items = data.foodItems.sort(
 			(a, b) => b.PlannedItems.length - a.PlannedItems.length
@@ -108,23 +114,6 @@
 		estimatedItemManager.items = data.estimatedItems;
 		foodSetManager.items = data.foodSets;
 
-		effectRunning = true;
-		setTimeout(() => {
-			effectRunning = false;
-		}, 5000);
-	});
-
-	onMount(() => {
-		document.addEventListener('visibilitychange', checkNewDay);
-
-		// It's important this runs *after* the new day check might have triggered a reload.
-		xpManager.totalXP = data.user.totalXP;
-		xpManager.vaultXP = data.dailyProgress.vaultXP;
-
-		calorieManager.target = data.dailyProgress.targetCalories;
-		proteinManager.target = data.dailyProgress.targetProtein;
-		streakManager.streak = data.user.streakMeter;
-
 		updateTimeZone();
 
 		return () => {
@@ -132,10 +121,6 @@
 		};
 	});
 </script>
-
-{#if effectRunning}
-	<p class="fixed top-0 w-full animate-pulse text-center text-white">effect.pre running</p>
-{/if}
 
 <!-- TODO: Remove the wrapper class once all pages can live without it. -->
 <div class="flex h-screen w-screen flex-col">
