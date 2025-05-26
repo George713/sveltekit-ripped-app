@@ -157,11 +157,11 @@
 <Banner text={showCountdown ? 'BETA SOON' : 'BETA LIVE'} />
 
 <!-- Hero -->
-<div class="flex h-screen w-full flex-col bg-stone-900 lg:h-full lg:flex-row lg:justify-center">
+<div class="flex w-full flex-col bg-stone-900 lg:h-full lg:flex-row lg:justify-center">
 	<!-- Mockup for Mobile/Tablet -->
 	<div class="mt-2 mb-5 flex min-h-0 flex-1 justify-center lg:hidden">
 		<img
-			class="max-h-full max-w-full object-contain"
+			class="max-h-[430px] object-contain"
 			src={Mockup}
 			alt="Mockup Mobile"
 			style="transform: scale(1.2);"

@@ -53,56 +53,62 @@
 	const pad = (num: number) => num.toString().padStart(2, '0');
 </script>
 
-<div
-	class="flex items-center justify-center space-x-2 md:space-x-3 lg:space-x-4 {classAddons}"
-	role="timer"
-	aria-live="polite"
->
-	<!-- Days -->
+<div class="flex flex-col {classAddons}">
 	<div
-		class="flex min-w-[55px] flex-col items-center justify-center rounded-lg bg-stone-800 p-2.5 shadow-md sm:min-w-[65px] md:min-w-[75px] lg:p-3"
+		class="lg:space-x- flex items-center justify-center space-x-2 md:space-x-3"
+		role="timer"
+		aria-live="polite"
 	>
-		<span class="text-xl font-semibold text-orange-500 tabular-nums sm:text-2xl md:text-3xl"
-			>{days}</span
+		<!-- Days -->
+		<div
+			class="flex min-w-[55px] flex-col items-center justify-center rounded-lg bg-stone-800 p-2.5 shadow-md sm:min-w-[65px] md:min-w-[75px] lg:p-3"
 		>
-		<span class="text-[0.6rem] font-medium tracking-wider text-stone-400 uppercase sm:text-xs"
-			>Days</span
+			<span class="text-xl font-semibold text-orange-500 tabular-nums sm:text-2xl md:text-3xl"
+				>{days}</span
+			>
+			<span class="text-[0.6rem] font-medium tracking-wider text-stone-400 uppercase sm:text-xs"
+				>Days</span
+			>
+		</div>
+
+		<!-- Hours -->
+		<div
+			class="flex min-w-[55px] flex-col items-center justify-center rounded-lg bg-stone-800 p-2.5 shadow-md sm:min-w-[65px] md:min-w-[75px] lg:p-3"
 		>
+			<span class="text-xl font-semibold text-orange-500 tabular-nums sm:text-2xl md:text-3xl"
+				>{hours}</span
+			>
+			<span class="text-[0.6rem] font-medium tracking-wider text-stone-400 uppercase sm:text-xs"
+				>Hours</span
+			>
+		</div>
+
+		<!-- Minutes -->
+		<div
+			class="flex min-w-[55px] flex-col items-center justify-center rounded-lg bg-stone-800 p-2.5 shadow-md sm:min-w-[65px] md:min-w-[75px] lg:p-3"
+		>
+			<span class="text-xl font-semibold text-orange-500 tabular-nums sm:text-2xl md:text-3xl"
+				>{pad(minutes)}</span
+			>
+			<span class="text-[0.6rem] font-medium tracking-wider text-stone-400 uppercase sm:text-xs"
+				>Mins</span
+			>
+		</div>
+
+		<!-- Seconds -->
+		<div
+			class="flex min-w-[55px] flex-col items-center justify-center rounded-lg bg-stone-800 p-2.5 shadow-md sm:min-w-[65px] md:min-w-[75px] lg:p-3"
+		>
+			<span class="text-xl font-semibold text-orange-500 tabular-nums sm:text-2xl md:text-3xl"
+				>{pad(seconds)}</span
+			>
+			<span class="text-[0.6rem] font-medium tracking-wider text-stone-400 uppercase sm:text-xs"
+				>Secs</span
+			>
+		</div>
 	</div>
 
-	<!-- Hours -->
-	<div
-		class="flex min-w-[55px] flex-col items-center justify-center rounded-lg bg-stone-800 p-2.5 shadow-md sm:min-w-[65px] md:min-w-[75px] lg:p-3"
-	>
-		<span class="text-xl font-semibold text-orange-500 tabular-nums sm:text-2xl md:text-3xl"
-			>{hours}</span
-		>
-		<span class="text-[0.6rem] font-medium tracking-wider text-stone-400 uppercase sm:text-xs"
-			>Hours</span
-		>
-	</div>
-
-	<!-- Minutes -->
-	<div
-		class="flex min-w-[55px] flex-col items-center justify-center rounded-lg bg-stone-800 p-2.5 shadow-md sm:min-w-[65px] md:min-w-[75px] lg:p-3"
-	>
-		<span class="text-xl font-semibold text-orange-500 tabular-nums sm:text-2xl md:text-3xl"
-			>{pad(minutes)}</span
-		>
-		<span class="text-[0.6rem] font-medium tracking-wider text-stone-400 uppercase sm:text-xs"
-			>Mins</span
-		>
-	</div>
-
-	<!-- Seconds -->
-	<div
-		class="flex min-w-[55px] flex-col items-center justify-center rounded-lg bg-stone-800 p-2.5 shadow-md sm:min-w-[65px] md:min-w-[75px] lg:p-3"
-	>
-		<span class="text-xl font-semibold text-orange-500 tabular-nums sm:text-2xl md:text-3xl"
-			>{pad(seconds)}</span
-		>
-		<span class="text-[0.6rem] font-medium tracking-wider text-stone-400 uppercase sm:text-xs"
-			>Secs</span
-		>
-	</div>
+	<p class="mt-3 text-center text-xl font-semibold tracking-wider text-orange-500 uppercase">
+		until launch
+	</p>
 </div>
