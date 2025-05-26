@@ -90,6 +90,7 @@
 	};
 
 	// Using Svelte 5 $effect rune for reactivity when data changes, e.g. through invalidation
+	// effect.pre runs before the DOM is updated
 	$effect.pre(() => {
 		// This sorting shows the most used items first when viewed in foodLibrary
 		foodItemManager.items = data.foodItems.sort(
