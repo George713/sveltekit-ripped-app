@@ -27,6 +27,8 @@
 
 	let { data, children } = $props();
 
+	let effectRunning = $state(false);
+
 	// Check if we're on the root path
 	let isRootPath = $derived(page.url.pathname === '/app');
 
@@ -105,6 +107,11 @@
 
 		estimatedItemManager.items = data.estimatedItems;
 		foodSetManager.items = data.foodSets;
+
+		effectRunning = true;
+		setTimeout(() => {
+			effectRunning = false;
+		}, 5000);
 	});
 
 	onMount(() => {
@@ -125,6 +132,10 @@
 		};
 	});
 </script>
+
+{#if effectRunning}
+	<p class="fixed top-0 w-full animate-pulse text-center text-white">effect.pre running</p>
+{/if}
 
 <!-- TODO: Remove the wrapper class once all pages can live without it. -->
 <div class="flex h-screen w-screen flex-col">
