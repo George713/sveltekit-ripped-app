@@ -36,6 +36,29 @@
 	const audioElement = $state({ element: undefined as HTMLAudioElement | undefined });
 	setContext('audioElement', audioElement);
 
+	const checkNewDay = () => {
+		// Checks if a new day has passed since last visit. If yes, it reloads the page.
+
+		if (document.visibilityState === 'visible') {
+			// Page is visible (either returning or initial load)
+			if (lastVisitManager.timestamp) {
+				const storedDate = new Date(lastVisitManager.timestamp);
+				storedDateDayBegin = getDateBeginning(page.data.user.timeZoneOffset, storedDate);
+				dateDayBegin = getDateDayBegin(page.data.user.timeZoneOffset);
+				if (storedDateDayBegin < dateDayBegin) {
+					visibilityManager.spinnerOverlay = true;
+					// During the reload, the visibility state changes to hidden, which would
+					// trigger another checkNewDay call, effectively setting the timestamp to now.
+					// Because of this, no manual setting of the timestamp is required here.
+					window.location.reload();
+				}
+			}
+		} else {
+			// User is leaving the page (tab switch, minimize, reloads, etc.)
+			lastVisitManager.timestamp = Date.now();
+		}
+	};
+
 	/**
 	 * This block of code is executed when the component is first rendered, i.e. after the server-side load function.
 	 * It gets the user's current timezone and compares it to the timezone stored in the user's database.
@@ -83,28 +106,8 @@
 		foodSetManager.items = data.foodSets;
 	});
 
-	const handleVisibilityChangeAndInitialCheck = () => {
-		if (document.visibilityState === 'visible') {
-			// Page is visible (either returning or initial load)
-			if (lastVisitManager.timestamp) {
-				const storedDate = new Date(lastVisitManager.timestamp);
-				storedDateDayBegin = getDateBeginning(page.data.user.timeZoneOffset, storedDate);
-				dateDayBegin = getDateDayBegin(page.data.user.timeZoneOffset);
-				if (storedDateDayBegin < dateDayBegin) {
-					lastVisitManager.timestamp = Date.now();
-					visibilityManager.spinnerOverlay = true;
-					window.location.reload();
-				}
-			}
-		} else {
-			// User is leaving the page (tab switch, minimize, etc.)
-			// lastVisitManager.timestamp = Date.now();
-			lastVisitManager.timestamp = Date.now() - 1000 * 60 * 60 * 24;
-		}
-	};
-
 	onMount(() => {
-		document.addEventListener('visibilitychange', handleVisibilityChangeAndInitialCheck);
+		document.addEventListener('visibilitychange', checkNewDay);
 
 		// It's important this runs *after* the new day check might have triggered a reload.
 		xpManager.totalXP = data.user.totalXP;
@@ -117,7 +120,7 @@
 		updateTimeZone();
 
 		return () => {
-			document.removeEventListener('visibilitychange', handleVisibilityChangeAndInitialCheck);
+			document.removeEventListener('visibilitychange', checkNewDay);
 		};
 	});
 </script>
