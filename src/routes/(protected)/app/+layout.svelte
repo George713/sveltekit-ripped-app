@@ -32,7 +32,6 @@
 
 	let dateDayBegin = $state(getDateDayBegin(page.data.user.timeZoneOffset));
 	let storedDateDayBegin = $state(new Date());
-	let visibilityIndicator = $state(false);
 
 	const audioElement = $state({ element: undefined as HTMLAudioElement | undefined });
 	setContext('audioElement', audioElement);
@@ -100,18 +99,11 @@
 		} else {
 			// User is leaving the page (tab switch, minimize, etc.)
 			// lastVisitManager.timestamp = Date.now();
-			console.log('setting to yesterday');
-			// lastVisitManager.timestamp = Date.now() - 1000 * 60 * 60 * 24;
+			lastVisitManager.timestamp = Date.now() - 1000 * 60 * 60 * 24;
 		}
 	};
 
 	onMount(() => {
-		// Perform the check immediately when the component mounts if the page is visible
-		if (!document.hidden) {
-			handleVisibilityChangeAndInitialCheck();
-		}
-
-		lastVisitManager.timestamp = Date.now() - 1000 * 60 * 60 * 24;
 		document.addEventListener('visibilitychange', handleVisibilityChangeAndInitialCheck);
 
 		// It's important this runs *after* the new day check might have triggered a reload.
