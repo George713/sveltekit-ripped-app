@@ -31,12 +31,14 @@
 			onclick={() => goto('/app/review?allowUpdate=true')}
 		/>
 		<!-- Photo -->
+		<!-- `hidden` state covers cases of initial photos -->
 		<ActionButton
 			glowStrength={page.data.dailyProgress.progressPic ? 1 : 0}
 			size="small"
 			icon="camera"
 			disabled={page.data.dailyProgress.progressPic}
-			hidden={page.data.schedule.nextProgressPic.remainingDays > 0}
+			hidden={page.data.schedule.nextProgressPic.remainingDays > 0 &&
+				!page.data.user.progressPicToday}
 			onclick={() => inputElement.click()}
 		/>
 	</div>
