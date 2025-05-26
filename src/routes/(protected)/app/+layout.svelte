@@ -32,6 +32,7 @@
 
 	let dateDayBegin = $state(getDateDayBegin(page.data.user.timeZoneOffset));
 	let storedDateDayBegin = $state(new Date());
+	let visibilityIndicator = $state(false);
 
 	const audioElement = $state({ element: undefined as HTMLAudioElement | undefined });
 	setContext('audioElement', audioElement);
@@ -84,19 +85,23 @@
 	});
 
 	const handleVisibilityChangeAndInitialCheck = () => {
-		if (document.hidden) {
-			// User is leaving the page (tab switch, minimize, etc.)
-			lastVisitManager.timestamp = Date.now();
-		} else {
+		if (document.visibilityState === 'visible') {
 			// Page is visible (either returning or initial load)
 			if (lastVisitManager.timestamp) {
 				const storedDate = new Date(lastVisitManager.timestamp);
 				storedDateDayBegin = getDateBeginning(page.data.user.timeZoneOffset, storedDate);
 				dateDayBegin = getDateDayBegin(page.data.user.timeZoneOffset);
-				if (storedDateDayBegin < dateDayBegin) {
-					window.location.reload();
+				// if (storedDateDayBegin < dateDayBegin) {
+				if (true) {
+					visibilityIndicator = true;
+					setTimeout(() => {
+						window.location.reload();
+					}, 3000);
 				}
 			}
+		} else {
+			// User is leaving the page (tab switch, minimize, etc.)
+			lastVisitManager.timestamp = Date.now();
 		}
 	};
 
@@ -105,7 +110,7 @@
 		if (!document.hidden) {
 			handleVisibilityChangeAndInitialCheck();
 		}
-		document.onvisibilitychange = () => handleVisibilityChangeAndInitialCheck();
+		document.addEventListener('visibilitychange', handleVisibilityChangeAndInitialCheck);
 
 		// It's important this runs *after* the new day check might have triggered a reload.
 		xpManager.totalXP = data.user.totalXP;
@@ -116,28 +121,19 @@
 		streakManager.streak = data.user.streakMeter;
 
 		updateTimeZone();
+
+		return () => {
+			document.removeEventListener('visibilitychange', handleVisibilityChangeAndInitialCheck);
+		};
 	});
 </script>
 
+{#if visibilityIndicator}
+	<div class="animate-flicker-3s fixed top-0 flex w-full justify-center">
+		<p class="text-white">New day detected! Reloading in 3s...</p>
+	</div>
+{/if}
 <!-- TODO: Remove the wrapper class once all pages can live without it. -->
-<div class="fixed top-0 flex w-full justify-between">
-	<p class="text-white">
-		Last Visit: {lastVisitManager.timestamp
-			? new Intl.DateTimeFormat('en-GB', {
-					day: '2-digit',
-					month: '2-digit',
-					year: '2-digit'
-				}).format(storedDateDayBegin)
-			: 'Never'}
-	</p>
-	<p class="text-white">
-		Current: {new Intl.DateTimeFormat('en-GB', {
-			day: '2-digit',
-			month: '2-digit',
-			year: '2-digit'
-		}).format(getDateDayBegin(page.data.user.timeZoneOffset))}
-	</p>
-</div>
 <div class="flex h-screen w-screen flex-col">
 	{#if visibilityManager.spinnerOverlay}
 		<SpinnerOverlay />
@@ -151,3 +147,24 @@
 
 <!-- AUDIO -->
 <audio src="/audio/successBell.mp3" bind:this={audioElement.element}></audio>
+
+<style>
+	@keyframes flicker-effect {
+		0%,
+		25%,
+		50%,
+		75%,
+		100% {
+			opacity: 1;
+		}
+		12.5%,
+		37.5%,
+		62.5%,
+		87.5% {
+			opacity: 0.3;
+		}
+	}
+	.animate-flicker-3s {
+		animation: flicker-effect 3s linear;
+	}
+</style>
