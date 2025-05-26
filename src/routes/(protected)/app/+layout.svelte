@@ -91,17 +91,17 @@
 				const storedDate = new Date(lastVisitManager.timestamp);
 				storedDateDayBegin = getDateBeginning(page.data.user.timeZoneOffset, storedDate);
 				dateDayBegin = getDateDayBegin(page.data.user.timeZoneOffset);
-				// if (storedDateDayBegin < dateDayBegin) {
-				if (true) {
-					visibilityIndicator = true;
-					setTimeout(() => {
-						window.location.reload();
-					}, 3000);
+				if (storedDateDayBegin < dateDayBegin) {
+					lastVisitManager.timestamp = Date.now();
+					visibilityManager.spinnerOverlay = true;
+					window.location.reload();
 				}
 			}
 		} else {
 			// User is leaving the page (tab switch, minimize, etc.)
-			lastVisitManager.timestamp = Date.now();
+			// lastVisitManager.timestamp = Date.now();
+			console.log('setting to yesterday');
+			// lastVisitManager.timestamp = Date.now() - 1000 * 60 * 60 * 24;
 		}
 	};
 
@@ -110,6 +110,8 @@
 		if (!document.hidden) {
 			handleVisibilityChangeAndInitialCheck();
 		}
+
+		lastVisitManager.timestamp = Date.now() - 1000 * 60 * 60 * 24;
 		document.addEventListener('visibilitychange', handleVisibilityChangeAndInitialCheck);
 
 		// It's important this runs *after* the new day check might have triggered a reload.
@@ -128,11 +130,6 @@
 	});
 </script>
 
-{#if visibilityIndicator}
-	<div class="animate-flicker-3s fixed top-0 flex w-full justify-center">
-		<p class="text-white">New day detected! Reloading in 3s...</p>
-	</div>
-{/if}
 <!-- TODO: Remove the wrapper class once all pages can live without it. -->
 <div class="flex h-screen w-screen flex-col">
 	{#if visibilityManager.spinnerOverlay}
@@ -147,24 +144,3 @@
 
 <!-- AUDIO -->
 <audio src="/audio/successBell.mp3" bind:this={audioElement.element}></audio>
-
-<style>
-	@keyframes flicker-effect {
-		0%,
-		25%,
-		50%,
-		75%,
-		100% {
-			opacity: 1;
-		}
-		12.5%,
-		37.5%,
-		62.5%,
-		87.5% {
-			opacity: 0.3;
-		}
-	}
-	.animate-flicker-3s {
-		animation: flicker-effect 3s linear;
-	}
-</style>
