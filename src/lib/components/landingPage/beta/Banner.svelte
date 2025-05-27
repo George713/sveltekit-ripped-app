@@ -28,7 +28,6 @@
       text-lg
       font-black
       tracking-wider text-white
-      uppercase
       shadow-lg
       md:top-[160px] md:left-[-67px] md:w-[320px] md:py-2.5 md:text-2xl
     "

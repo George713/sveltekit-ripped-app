@@ -154,7 +154,7 @@
 	];
 </script>
 
-<Banner text={showCountdown ? 'BETA SOON' : 'BETA LIVE'} />
+<Banner text={showCountdown ? 'JUNE 2nd' : 'BETA LIVE'} />
 
 <!-- Hero -->
 <div class="flex w-full flex-col bg-stone-900 lg:h-full lg:flex-row lg:justify-center">
