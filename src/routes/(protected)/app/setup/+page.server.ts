@@ -20,6 +20,6 @@ export const actions: Actions = {
 		});
 
 		// Redirect to a main page after successful setup
-		throw redirect(303, '/');
+		throw redirect(303, '/app');
 	}
 };
