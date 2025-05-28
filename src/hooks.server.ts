@@ -100,6 +100,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			},
 			select: {
 				id: true,
+				role: true,
 				isMale: true,
 				timeZoneOffset: true,
 				totalXP: true,
@@ -178,6 +179,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 				},
 				select: {
 					id: true,
+					role: true,
 					isMale: true,
 					timeZoneOffset: true,
 					totalXP: true,
@@ -227,6 +229,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		// User properties
 		event.locals.user = {
 			id: user.id,
+			role: user.role,
 			isMale: user.isMale,
 			didSetup: user.didSetup,
 			useMetricSystem: user.useMetricSystem,

@@ -13,6 +13,7 @@ datasource db {
 
 model User {
   id     String  @id @default(uuid())
+  role   String  @default("user")
   isMale Boolean @default(true)
 
   // Appointments

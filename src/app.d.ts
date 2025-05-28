@@ -12,6 +12,7 @@ declare global {
 			getSession(): Promise<Session | null>
 			user: {
 				id: string,
+				role: string,
 				isMale: boolean;
 				didSetup: boolean;
 				useMetricSystem: boolean;
