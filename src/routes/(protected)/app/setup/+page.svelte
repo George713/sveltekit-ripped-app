@@ -27,12 +27,24 @@
 
 	<div class="flex h-full max-h-[932px] flex-col justify-between">
 		<Logo />
-		<StepIndicator totalSteps={2} currentStep={progressState} />
+		<StepIndicator totalSteps={3} currentStep={progressState} />
 		<div class="mx-12 mt-10 flex flex-col items-center space-y-5">
 			{#if progressState === 0}
+				<div class="flex flex-col">
+					<p class="text-center text-stone-200">Welcome to</p>
+					<div class="mt-5 flex items-center justify-center space-x-2">
+						<img class="size-8" src="/pwa-512x512.png" alt="logoFooter" />
+						<p class="text-xl font-bold text-stone-200">Have Your Cookie</p>
+					</div>
+					<p class="mt-16 text-center text-stone-200">
+						I am super happy to have you on board ☺️ Let's get you started!
+					</p>
+					<p class="mt-2 text-center text-stone-200">(Two quick questions.)</p>
+				</div>
+			{:else if progressState === 1}
 				<p class="text-stone-200">Which unit system do you want to use for body weight?</p>
 				<UnitSwitch bind:useMetricSystem />
-			{:else}
+			{:else if progressState === 2}
 				<p class="text-stone-200">
 					Which language will you be speaking when using the voice feature?
 				</p>
@@ -43,10 +55,10 @@
 		<div class="my-5 flex items-center justify-center">
 			<Arrow
 				onclick={() => {
-					if (progressState === 0) {
-						progressState++;
-					} else if (progressState === 1) {
+					if (progressState === 2) {
 						formElement.requestSubmit();
+					} else {
+						progressState++;
 					}
 				}}
 			/>
