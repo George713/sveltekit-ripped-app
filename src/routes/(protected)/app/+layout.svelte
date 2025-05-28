@@ -78,7 +78,7 @@
 				formData.append('timeZoneOffset', JSON.stringify(timeZoneOffset)); // Add the user's timezone to the FormData object
 
 				// Send a POST request to the server to update the user's timezone
-				fetch('/?/setUserTimeZoneOffset', {
+				fetch('/app?/setUserTimeZoneOffset', {
 					method: 'POST',
 					body: formData
 				});
