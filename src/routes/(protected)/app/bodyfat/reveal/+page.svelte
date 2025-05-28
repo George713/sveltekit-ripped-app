@@ -36,11 +36,11 @@
 		if (!initialUnlock)
 			return `I see you just left the ${previousRank} percentages! Take it from someone who is also fighting the battle against fat: Congratulations! This is truly amazing. Job well done! :-)`;
 		else if (newRank === 'platinum')
-			return `I started off well in the wood percentages, but I am on my way to Bronze right now. Guess I have some catching up to do... ;-)`;
+			return `I started off well in the wood percentages, but I am on my way to Silver right now. Guess I have some catching up to do... ;-)`;
 		else if (newRank === 'gold')
-			return `I started off well in the wood percentages, but I am on my way to Bronze right now. Meet you in Platinum? ;-)`;
+			return `I started off well in the wood percentages, but I am on my way to Silver right now. Meet you in Platinum? ;-)`;
 		else
-			return `I started off well in the wood percentages, but I am on my way to Bronze right now. Meet you in Gold? ;-)`;
+			return `I started off well in the wood percentages, but I am on my way to Silver right now. Meet you in Gold? ;-)`;
 	});
 
 	onMount(() => {
