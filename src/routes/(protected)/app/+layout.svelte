@@ -30,15 +30,21 @@
 	// Check if we're on the root path
 	let isRootPath = $derived(page.url.pathname === '/app');
 
-	let dateDayBegin = $state(getDateDayBegin(page.data.user.timeZoneOffset));
+	/*
+	 * fixedDateDayBegin is set as a constant when the layout is first rendered.
+	 * dateDayBegin is set as a state variable that is updated when the user returns the page.
+	 * This distinction is made, so that returning to the page does not trigger effect.pre()
+	 * to run, as this might update stateManagers with a stale data object.
+	 */
+	const fixedDateDayBegin = getDateDayBegin(page.data.user.timeZoneOffset);
+	let dateDayBegin = $state(fixedDateDayBegin);
 	let storedDateDayBegin = $state(new Date());
 
 	const audioElement = $state({ element: undefined as HTMLAudioElement | undefined });
 	setContext('audioElement', audioElement);
 
+	// Checks if a new day has passed since last visit. If yes, it reloads the page.
 	const checkNewDay = () => {
-		// Checks if a new day has passed since last visit. If yes, it reloads the page.
-
 		if (document.visibilityState === 'visible') {
 			// Page is visible (either returning or initial load)
 			if (lastVisitManager.timestamp) {
@@ -89,6 +95,24 @@
 		}
 	};
 
+	// Using Svelte 5 $effect rune for reactivity when data changes, e.g. through invalidation
+	// effect.pre runs before the DOM is updated
+	$effect.pre(() => {
+		// This sorting shows the most used items first when viewed in foodLibrary
+		foodItemManager.items = data.foodItems.sort(
+			(a, b) => b.PlannedItems.length - a.PlannedItems.length
+		);
+
+		plannedItemManager.items = data.foodItems
+			.filter((item) => item.PlannedItems.length > 0)
+			.flatMap((item) => item.PlannedItems)
+			.filter((item) => item.createdAt >= fixedDateDayBegin)
+			.sort((a, b) => a.id - b.id); // Uses id to sort by order items were created in db
+
+		estimatedItemManager.items = data.estimatedItems;
+		foodSetManager.items = data.foodSets;
+	});
+
 	onMount(() => {
 		document.addEventListener('visibilitychange', checkNewDay);
 
@@ -99,20 +123,6 @@
 		calorieManager.target = data.dailyProgress.targetCalories;
 		proteinManager.target = data.dailyProgress.targetProtein;
 		streakManager.streak = data.user.streakMeter;
-
-		// This sorting shows the most used items first when viewed in foodLibrary
-		foodItemManager.items = data.foodItems.sort(
-			(a, b) => b.PlannedItems.length - a.PlannedItems.length
-		);
-
-		plannedItemManager.items = data.foodItems
-			.filter((item) => item.PlannedItems.length > 0)
-			.flatMap((item) => item.PlannedItems)
-			.filter((item) => item.createdAt >= dateDayBegin)
-			.sort((a, b) => a.id - b.id); // Uses id to sort by order items were created in db
-
-		estimatedItemManager.items = data.estimatedItems;
-		foodSetManager.items = data.foodSets;
 
 		updateTimeZone();
 
