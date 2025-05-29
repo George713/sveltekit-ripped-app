@@ -130,7 +130,7 @@
 		animate={animationManager.progressPicPowerline}
 		vflip={true}
 		translate={[15, -304]}
-		hidden={page.data.schedule.nextProgressPic.remainingDays > 0}
+		hidden={!(page.data.dailyProgress.progressPic || page.data.user.progressPicToday)}
 	/>
 	<!-- Weigh -->
 	<Base
