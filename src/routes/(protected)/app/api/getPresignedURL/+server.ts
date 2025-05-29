@@ -47,7 +47,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 
 	// Make presignedURL
 	const { data, error } = await supabase.storage
-		.from('ripped-images-bucket')
+		.from('ripped-images-bucket/' + locals.user.id)
 		.createSignedUploadUrl(filename)
 
 	if (!data) {
