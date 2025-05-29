@@ -42,12 +42,11 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 		return updatedUser.progressPictures[0];
 	});
 
-	// Make filename = username + datetime
-	const filename = 'progress_picture_' + id;
+	const filename = id.toString();
 
 	// Make presignedURL
 	const { data, error } = await supabase.storage
-		.from('ripped-images-bucket/' + locals.user.id)
+		.from('progress-pictures/' + locals.user.id)
 		.createSignedUploadUrl(filename)
 
 	if (!data) {
